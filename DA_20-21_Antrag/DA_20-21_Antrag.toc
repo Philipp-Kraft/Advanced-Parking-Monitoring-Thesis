@@ -1,0 +1,12 @@
+\babel@toc {ngerman}{}
+\contentsline {section}{\numberline {1}Name der Arbeit}{1}%
+\contentsline {section}{\numberline {2}Abgabetermin}{1}%
+\contentsline {section}{\numberline {3}Schule und Abteilung}{1}%
+\contentsline {section}{\numberline {4}Ausgangslage}{2}%
+\contentsline {section}{\numberline {5}Individuelle Themenstellungen}{2}%
+\contentsline {section}{\numberline {6}Beteiligte Betreuer/innen}{2}%
+\contentsline {section}{\numberline {7}Beteiligte Kooperationspartner/innen}{3}%
+\contentsline {section}{\numberline {8}Rechtliche Regelung}{3}%
+\contentsline {section}{\numberline {9}Zielsetzung}{3}%
+\contentsline {section}{\numberline {10}Kurzfassung/Abstract}{4}%
+\contentsline {section}{\numberline {11}Typ der Arbeit}{4}%
