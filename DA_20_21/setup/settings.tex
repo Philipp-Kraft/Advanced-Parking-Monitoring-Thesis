@@ -8,6 +8,17 @@
 \usepackage{mathtools}
 \usepackage[style=authoryear-ibid,backend=biber]{biblatex}
 \usepackage{csquotes}
+\usepackage{fancyhdr}
+\usepackage{microtype}
 
-\bibliography{bibliography.bib}
 \linespread{1.5}
+\parindent 0ex
+\bibliography{bibliography.bib}
+
+\pagestyle{fancy}
+\fancyhead{}
+\fancyfoot{}
+\fancyhead[L]{\MakeUppercase{}}
+\fancyhead[R]{\MakeUppercase{\leftmark}}
+\fancyfoot[C]{\thepage}
+\setlength{\headheight}{15pt}
