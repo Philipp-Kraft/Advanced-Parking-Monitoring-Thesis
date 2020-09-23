@@ -2,7 +2,6 @@
 \input{setup/settings.tex}
 
 \begin{document}
-
 \input{chapters/1_titlepage.tex}
 
 \pagenumbering{roman}
@@ -38,52 +37,57 @@
 \setcounter{page}{1}
 
 \section{Projektteam}
-\input{chapters/7_einleitung.tex}
+\input{chapters/7_projektteam.tex}
+\pagebreak
+
+\section{Projektbetreuer}
+\pagebreak
+
+\section{Auftragnehmer}
+\pagebreak
+
+\section{Projektplanung}
+\pagebreak
+
+\section{Rechtliches}
 \pagebreak
 
 \section{Einleitung}
-\input{chapters/7_einleitung.tex}
+\input{chapters/8_einleitung.tex}
 \pagebreak
 
 \section{Projektantrag}
-\input{chapters/8_projektantrag.tex}
-\pagebreak
-
-\section{Projektvorstudie}
-\input{chapters/9_projektvorstudie.tex}
+\input{chapters/9_projektantrag.tex}
 \pagebreak
 
 \section{Kennzeichenerkennung}
-\input{chapters/10_hauptteil.tex}
+\input{chapters/10_kennzeichenerkennung.tex}
 \pagebreak
 
-\section{Parkplatzerkennung}
-\input{chapters/10_hauptteil.tex}
+\section{Induktionsmessung}
+\input{chapters/10_induktionsmessung.tex}
 \pagebreak
 
 \section{Webinterface}
-\input{chapters/10_hauptteil.tex}
+\input{chapters/10_webinterface.tex}
 \pagebreak
 
 \section{Zusammenfassung und Ausblick}
 \input{chapters/11_zusammenfassung.tex}
 \pagebreak
 
-\section{Begleitprotokoll}
-\input{chapters/12_begleitprotokoll.tex}
-\pagebreak
+%\section{Begleitprotokoll}
+%subsection{Philipp Kraft}
+%\input{chapters/12_begleitprotokoll_kraft.tex}
+%\pagebreak
 
-\subsection{Philipp Kraft}
-\input{chapters/12_begleitprotokoll.tex}
-\pagebreak
+%\subsection{Dennis Köb}
+%\input{chapters/12_begleitprotokoll_koeb.tex}
+%\pagebreak
 
-\subsection{Dennis Köb}
-\input{chapters/12_begleitprotokoll.tex}
-\pagebreak
-
-\subsection{Samuel Bleiner}
-\input{chapters/12_begleitprotokoll.tex}
-\pagebreak
+%\subsection{Samuel Bleiner}
+%\input{chapters/12_begleitprotokoll_bleiner.tex}
+%\pagebreak
 
 \section{Anhang}
 \input{chapters/13_anhang.tex}
@@ -97,8 +101,10 @@
 \addcontentsline{toc}{section}{Tabellenverzeichnis}
 \pagebreak
 
+% TODO FIX RIGHT SIDE HEADER SECTION NAME
 \section*{Abkürzungsverzeichnis}
 \addcontentsline{toc}{section}{Abkürzungsverzeichnis}
+\input{chapters/14_acronyms.tex}
 \pagebreak
 
 \printbibliography[title=Literaturverzeichnis]
