@@ -1,114 +1,155 @@
 \documentclass[12pt]{article}
-\input{setup/settings.tex}
+
+%% ==================================================================
+%%%% Preamble
+%% ==================================================================
+\input{preamble.tex}
+
 
 \begin{document}
-\input{chapters/1_titlepage.tex}
+
+
+%% ==================================================================
+%%%% Main Content
+%% ==================================================================
+\input{sections/1_titlepage.tex}
+
 
 \pagenumbering{roman}
+
+
 \section*{Eidesstattliche Erklärung}
 \addcontentsline{toc}{section}{Eidesstattliche Erklärung}
-\input{chapters/2_declaration.tex}
+\input{sections/2_declaration.tex}
 \pagebreak
+
 
 \section*{Kurzfassung}
 \addcontentsline{toc}{section}{Kurzfassung}
-\input{chapters/3_kurzfassung.tex}
+\input{sections/3_kurzfassung.tex}
 \pagebreak
+
 
 \section*{Abstract}
 \addcontentsline{toc}{section}{Abstract}
-\input{chapters/4_abstract.tex}
+\input{sections/4_abstract.tex}
 \pagebreak
+
 
 \section*{Vorwort}
 \addcontentsline{toc}{section}{Vorwort}
-\input{chapters/5_vorwort.tex}
+\input{sections/5_vorwort.tex}
 \pagebreak
+
 
 \section*{Danksagung}
 \addcontentsline{toc}{section}{Danksagung}
-\input{chapters/6_danksagung.tex}
+\input{sections/6_danksagung.tex}
 \pagebreak
+
+
 \pagenumbering{arabic}
+
 
 \tableofcontents
 \pagebreak
 
+
 \setcounter{page}{1}
 
+
 \section{Projektteam}
-\input{chapters/7_projektteam.tex}
+\input{sections/7_projektteam.tex}
 \pagebreak
+
 
 \section{Projektbetreuer}
 \pagebreak
 
+
 \section{Auftragnehmer}
 \pagebreak
+
 
 \section{Projektplanung}
 \pagebreak
 
+
 \section{Rechtliches}
 \pagebreak
 
+
 \section{Einleitung}
-\input{chapters/8_einleitung.tex}
+\input{sections/8_einleitung.tex}
 \pagebreak
+
 
 \section{Projektantrag}
-\input{chapters/9_projektantrag.tex}
+\input{sections/9_projektantrag.tex}
 \pagebreak
+
 
 \section{Kennzeichenerkennung}
-\input{chapters/10_kennzeichenerkennung.tex}
+\input{sections/10_kennzeichenerkennung.tex}
 \pagebreak
+
 
 \section{Induktionsmessung}
-\input{chapters/10_induktionsmessung.tex}
+\input{sections/10_induktionsmessung.tex}
 \pagebreak
+
 
 \section{Webinterface}
-\input{chapters/10_webinterface.tex}
+\input{sections/10_webinterface.tex}
 \pagebreak
 
+
 \section{Zusammenfassung und Ausblick}
-\input{chapters/11_zusammenfassung.tex}
+\input{sections/11_zusammenfassung.tex}
 \pagebreak
+
 
 %\section{Begleitprotokoll}
 %subsection{Philipp Kraft}
-%\input{chapters/12_begleitprotokoll_kraft.tex}
+%\input{sections/12_begleitprotokoll_kraft.tex}
 %\pagebreak
+
 
 %\subsection{Dennis Köb}
-%\input{chapters/12_begleitprotokoll_koeb.tex}
+%\input{sections/12_begleitprotokoll_koeb.tex}
 %\pagebreak
+
 
 %\subsection{Samuel Bleiner}
-%\input{chapters/12_begleitprotokoll_bleiner.tex}
+%\input{sections/12_begleitprotokoll_bleiner.tex}
 %\pagebreak
 
+
 \section{Anhang}
-\input{chapters/13_anhang.tex}
+\input{sections/13_anhang.tex}
 \pagebreak
+
 
 \listoffigures
 \addcontentsline{toc}{section}{Abbildungsverzeichnis}
 \pagebreak
 
+
 \listoftables
 \addcontentsline{toc}{section}{Tabellenverzeichnis}
 \pagebreak
 
+
 % TODO FIX RIGHT SIDE HEADER SECTION NAME
 \section*{Abkürzungsverzeichnis}
 \addcontentsline{toc}{section}{Abkürzungsverzeichnis}
-\input{chapters/14_acronyms.tex}
+\input{sections/14_acronyms.tex}
 \pagebreak
+
 
 \printbibliography[title=Literaturverzeichnis]
 \addcontentsline{toc}{section}{Literaturverzeichnis}
 \pagebreak
+
 
 \end{document}

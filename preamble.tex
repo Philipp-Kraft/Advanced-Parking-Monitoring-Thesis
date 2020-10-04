@@ -1,0 +1,83 @@
+%% ==================================================================
+%%%% Packages
+%% ==================================================================
+\usepackage[a4paper]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{newpxtext,newpxmath}
+\usepackage[hidelinks]{hyperref}
+\usepackage{amsmath,amssymb,amstext}
+\usepackage{mathtools}
+\usepackage[style=authoryear-ibid,backend=biber]{biblatex}
+\usepackage{csquotes}
+\usepackage{fancyhdr}
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{minted}
+\usepackage{acronym}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{pgf}
+\usepackage{pgfplots}
+\usepackage{siunitx}
+\usepackage{xcolor,mdframed}
+\usepackage{lipsum}
+
+
+%% ==================================================================
+%%%% General Document Settings
+%% ==================================================================
+\linespread{1.5}
+\parindent 0ex
+
+\bibliography{bibliography.bib}
+
+\graphicspath{ {./images/} }
+
+\setcounter{tocdepth}{5}
+\setcounter{secnumdepth}{5}
+
+\sisetup{locale = DE}
+
+\setminted{mathescape,
+  linenos,
+  numbersep=5pt,
+  gobble=2,
+  frame=lines,
+  framesep=2mm}
+
+
+%% ==================================================================
+%%%% Fancy Header Settings
+%% ==================================================================
+\pagestyle{fancy}
+\fancyhead{}
+\fancyfoot{}
+\fancyhead[L]{\MakeUppercase{}}
+\fancyfoot[C]{\thepage}
+\fancyhead[R]{\MakeUppercase{\leftmark}}
+
+\setlength{\headheight}{15pt}
+
+
+%% ==================================================================
+%%%% Important Info Block
+%% ==================================================================
+\newenvironment{important}[1][]{%
+   \begin{mdframed}[%
+      backgroundcolor={red!15}, hidealllines=true,
+      skipabove=0.7\baselineskip, skipbelow=0.7\baselineskip,
+      splitbottomskip=2pt, splittopskip=4pt, #1]%
+   \makebox[0pt]{% ignore the withd of !
+      \smash{% ignor the height of !
+         \fontsize{32pt}{32pt}\selectfont% make the ! bigger
+         \hspace*{-19pt}% move ! to the left
+         \raisebox{-2pt}{% move ! up a little
+            {\color{red!70!black}\sffamily\bfseries !}% type the bold red !
+         }%
+      }%
+   }%
+}{\end{mdframed}}
+
