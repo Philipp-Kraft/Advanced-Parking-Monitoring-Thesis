@@ -8,15 +8,12 @@
 
 \begin{document}
 
-
 %% ==================================================================
 %%%% Main Content
 %% ==================================================================
 \input{sections/1_titlepage.tex}
 
-
-\pagenumbering{roman}
-
+\frontmatter
 
 \section*{Eidesstattliche Erklärung}
 \addcontentsline{toc}{section}{Eidesstattliche Erklärung}
@@ -48,7 +45,8 @@
 \pagebreak
 
 
-\pagenumbering{arabic}
+\mainmatter
+\setcounter{page}{1}
 
 
 \tableofcontents
@@ -121,9 +119,8 @@
 \pagebreak
 
 
-\section*{Codeverzeichnis}
 \addcontentsline{toc}{section}{Codeverzeichnis}
-% TODO
+\lstlistoflistings
 \pagebreak
 
 

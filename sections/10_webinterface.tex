@@ -105,15 +105,13 @@ Linux Distribution herunterzuladen können. Diese Befehle können über die
 Kommandozeile mit Administrativen Rechten ausgeführt werden.
 
 \paragraph{1. Schritt: WSL Aktivieren}\mbox{}\\
-\begin{lstlisting}[caption={WSL Feature Feature aktivierens}, captionpos=b]
-  dism.exe /online /enable-feature
-  /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+\begin{lstlisting}[caption={WSL Feature Feature aktivierens}]
+  dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
 \end{lstlisting}
 
 \paragraph{2. Schritt: Virtual Machine Aktivieren}\mbox{}\\
-\begin{lstlisting}[caption={Virtual Machine Feature aktivieren}, captionpos=b]
-  dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all
-  /norestart
+\begin{lstlisting}[caption={Virtual Machine Feature aktivieren}]
+  dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
 \end{lstlisting}
 
 Nach diesem Schritt ist ein Neustart des Computers notwendig.
@@ -125,7 +123,7 @@ unter \url{https://aka.ms/wsl2kernel} zu finden.
 \paragraph{4. Schritt: WSL 2}\mbox{}\\
 Nach dem Neustart des Computers sollte es nun möglich sein WSL 2 als Version
 auszuwählen.
-\begin{lstlisting}[caption={WSL 2 auswählen}, captionpos=b]
+\begin{lstlisting}[caption={WSL 2 auswählen}]
   wsl --set-default-version 2
 \end{lstlisting}
 
@@ -187,7 +185,7 @@ für die Software \textbf{L}inux, \textbf{A}pache, \textbf{M}ySQL und \textbf{P}
 Bevor die Software Pakete installiert werden sollte die Linux Software/Update
 Repository geupdatet werden.
 
-\begin{lstlisting}[caption={Respositorys updaten}, captionpos=b]
+\begin{lstlisting}[caption={Respositorys updaten}]
   apt-get update && apt-get upgrade
 \end{lstlisting}
 
@@ -195,7 +193,7 @@ Repository geupdatet werden.
 
 Nun kann der Apache Web Server installiert werden.
 
-\begin{lstlisting}[caption={Apache installieren}, captionpos=b]
+\begin{lstlisting}[caption={Apache installieren}]
   apt install apache2
 \end{lstlisting}
 
@@ -206,14 +204,14 @@ bzw. die dazugehörige Domain öffnet, in diesem Fall:
 \begin{figure}[H]
   \centering
   \includegraphics[width=1\linewidth]{webinterface/apache2_installation.png}
-  \caption{Docker Container Steuerung}
+  \caption{Debian Default Page}
 \end{figure}
 
 Erscheint die Debian Default Page ist Apache korrekt installiert.
 
 \paragraph{PHP}\mbox{}\\
 Neben PHP werden auch einige PHP Extensions benötigt.
-\begin{lstlisting}[caption={PHP installieren}, captionpos=b]
+\begin{lstlisting}[caption={PHP installieren}]
   apt install wget php php-cgi php-mysqli php-pear php-mbstring
   php-gettext libapache2-mod-php php-common php-phpseclib php-mysql
 \end{lstlisting}
@@ -222,13 +220,13 @@ Die Installation kann einfach mit dem Befehl \textbf{php -v} überprüft werden.
 
 \paragraph{MariaDB}\mbox{}\\
 
-\begin{lstlisting}[caption={MariadB installieren}, captionpos=b]
+\begin{lstlisting}[caption={MariadB installieren}]
   apt install mariadb-server
 \end{lstlisting}
 
 Nun muss MariaDB noch konfiguriert werden.
 
-\begin{lstlisting}[caption={MariaDB Secure Installation}, captionpos=b]
+\begin{lstlisting}[caption={MariaDB Secure Installation}]
   mysql_secure_installation
 \end{lstlisting}
 
@@ -237,7 +235,7 @@ und es werden Test Datenbanken gelöscht.
 
 Nun wird ein neuer Benutzer mit root Berechtigungen erstellt.
 
-\begin{lstlisting}[caption={MariaDB Secure Installation}, captionpos=b]
+\begin{lstlisting}[caption={MariaDB Secure Installation}]
   mysql
   GRANT ALL ON *.* TO 'admin'@'localhost' IDENTIFIED 
   BY 'password' WITH GRANT OPTION;
@@ -251,21 +249,21 @@ Die aktuelle Version von phpMyAdmin kann von
 (\url{https://www.phpmyadmin.net/downloads}) bezogen werden und mit dem
 \textbf{wget} Befehl heruntergeladen werden.
 
-\begin{lstlisting}[caption={phpMyAdmin Download}, captionpos=b]
+\begin{lstlisting}[caption={phpMyAdmin Download}]
   wget https://files.phpmyadmin.net/phpMyAdmin/5.0.4
   /phpMyAdmin-5.0.4-all-languages.tar.gz
 \end{lstlisting}
 
 Anschließend muss das Archiv entpackt werden.
 
-\begin{lstlisting}[caption={phpMyAdmin Entpacken}, captionpos=b]
+\begin{lstlisting}[caption={phpMyAdmin Entpacken}]
   tar xvf phpMyAdmin-5.0.4-all-languages.tar.gz
 \end{lstlisting}
 
 Als nächstes muss das entpackte Archiv in einen anderen Pfad verschoben werden
 und zusätzlich müssen einige Rechte und Verzeichnisse angepasst werden.
 
-\begin{lstlisting}[caption={phpMyAdmin Rechte und Verzeichnisse}, captionpos=b]
+\begin{lstlisting}[caption={phpMyAdmin Rechte und Verzeichnisse}]
   mv phpMyAdmin-5.0.4-all-languages /usr/share/phpmyadmin
   mkdir -p /var/lib/phpmyadmin/tmp
   chown -R www-data:www-data /var/lib/phpmyadmin
@@ -275,14 +273,13 @@ und zusätzlich müssen einige Rechte und Verzeichnisse angepasst werden.
 Nun muss eine Konfigurations Datei erstellt werden und dort muss ein Blowfish
 Secret\footnote{32 Zeichen String für Cookie-Authentifizierung} angegeben werden und den Pfad für ein Temporäres Verzeichnis.
 
-\begin{lstlisting}[caption={phpMyAdmin Konfigurationsdatei erstellen}, captionpos=b]
-  cp /usr/share/phpmyadmin/config.sample.inc.php  
-  /usr/share/phpmyadmin/config.inc.php
+\begin{lstlisting}[caption={phpMyAdmin Konfigurationsdatei erstellen}]
+  cp /usr/share/phpmyadmin/config.sample.inc.php /usr/share/phpmyadmin/config.inc.php
 \end{lstlisting}
 
 und am Ende dieser Datei kann die zwei Zeilen eingefügt werden.
 
-\begin{lstlisting}[caption={phpMyAdmin Blowfish Secret und TempDir}, captionpos=b]
+\begin{lstlisting}[caption={phpMyAdmin Blowfish Secret und TempDir}]
   $cfg['blowfish_secret'] = 'H2OxcGXxflSd8JwrwVlh6KW6s2rER63i'; 
   $cfg['TempDir'] = '/var/lib/phpmyadmin/tmp';
 \end{lstlisting}
@@ -295,7 +292,7 @@ ermöglicht es, dass das Webinterface von phpMyAdmin über den Port 9000 (\url{h
 erreichbar ist und nicht wie Standardmäßig vorgesehen über das Verzeichnis
 /phpmyadmin (\url{http://dev.philipp-kraft.com/phpmyadmin}), dies bietet einen Sicherheitsvorteil.
 
-\begin{lstlisting}[caption={phpmyadmin.conf}, captionpos=b]
+\begin{lstlisting}[caption={phpmyadmin.conf}]
   Listen 9000
 
   <VirtualHost *:9000>
@@ -316,7 +313,7 @@ erreichbar ist und nicht wie Standardmäßig vorgesehen über das Verzeichnis
 Nun kann diese Virtual Host Konfigurations Datei aktiviert werden und danach
 muss der Apache Web Server neu gestartet werden.
 
-\begin{lstlisting}[caption={Virtual Host aktivieren}, captionpos=b]
+\begin{lstlisting}[caption={Virtual Host aktivieren}]
   sudo a2ensite phpmyadmin
   sudo systemctl restart apache2
 \end{lstlisting}
