@@ -12,19 +12,19 @@ und deren konfiguration.
 
 \begin{itemize}
   \item \textbf{Laragon} (\url{https://laragon.org}) \\Beinhaltet mehrere
-  Softwarepakete die für die Entwicklung notwendig sind.
-  \begin{itemize}
-    \item Apache HTTP Server
-    \item MySQL
-    \item PHP
-  \end{itemize}
+        Softwarepakete die für die Entwicklung notwendig sind.
+        \begin{itemize}
+          \item Apache HTTP Server
+          \item MySQL
+          \item PHP
+        \end{itemize}
   \item \textbf{phpMyAdmin} (\url{https://www.phpmyadmin.net}) \\ Webinterface
-  für MySQL
+        für MySQL
   \item \textbf{Composer} (\url{https://getcomposer.org}) \\ Paketmanager für
-  PHP
+        PHP
   \item \textbf{Git} (\url{https://git-scm.com}) \\ Versionskontrolle
   \item \textbf{Visual Studio Code} (\url{https://code.visualstudio.com}) \\
-  Quelltext-Editor
+        Quelltext-Editor
 \end{itemize}
 
 \subsubsection{Konfiguration von PHP}
@@ -92,11 +92,11 @@ gesetzt wird.
 
 \begin{itemize}
   \item \textbf{Docker} (\url{https://www.docker.com}) \\ Ermöglicht Isolation
-  von Anwendungen mit Containervirtualisierung
+        von Anwendungen mit Containervirtualisierung
   \item \textbf{WSL} (\url{https://docs.microsoft.com/en-us/windows/wsl}) \\
-  Kompatibilitätsschicht für Linux Anwendungen unter Windows 10
+        Kompatibilitätsschicht für Linux Anwendungen unter Windows 10
   \item \textbf{Visual Studio Code} (\url{https://code.visualstudio.com}) \\
-  Quelltext-Editor
+        Quelltext-Editor
 \end{itemize}
 
 \subsubsection{Installation von WSL}
@@ -175,10 +175,10 @@ für die Software \textbf{L}inux, \textbf{A}pache, \textbf{M}ySQL und \textbf{P}
   \item \textbf{MariaDB} (\url{https://mariadb.org}) \\ Fork von MySQL
   \item \textbf{PHP} (\url{https://mariadb.org}) \\ Fork von MySQL
   \item \textbf{phpMyAdmin} (\url{https://www.phpmyadmin.net}) \\ Webinterface
-  für MySQL
+        für MySQL
   \item \textbf{Composer} (\url{https://getcomposer.org}) \\ Paketmanager für PHP
   \item \textbf{Git} (\url{https://git-scm.com}) \\ Versionskontrolle
-  Quelltext-Editor
+        Quelltext-Editor
 \end{itemize}
 
 \subsubsection{Installation des LAMP Stacks}
@@ -287,10 +287,7 @@ und am Ende dieser Datei kann die zwei Zeilen eingefügt werden.
 Zuletzt muss der Apache Web Server konfiguriert werden.
 
 Im Verzeichnis \textbf{/etc/apache2/sites-available} muss eine neue
-Konfiguration angelegt werden \textbf{phpmyadmin.conf}. Diese Konfiguration
-ermöglicht es, dass das Webinterface von phpMyAdmin über den Port 9000 (\url{http://dev.philipp-kraft.com:9000})
-erreichbar ist und nicht wie Standardmäßig vorgesehen über das Verzeichnis
-/phpmyadmin (\url{http://dev.philipp-kraft.com/phpmyadmin}), dies bietet einen Sicherheitsvorteil.
+Konfiguration angelegt werden \textbf{phpmyadmin.conf}.
 
 \begin{lstlisting}[caption={phpmyadmin.conf}]
   Listen 9000
@@ -314,6 +311,114 @@ Nun kann diese Virtual Host Konfigurations Datei aktiviert werden und danach
 muss der Apache Web Server neu gestartet werden.
 
 \begin{lstlisting}[caption={Virtual Host aktivieren}]
-  sudo a2ensite phpmyadmin
-  sudo systemctl restart apache2
+  a2ensite phpmyadmin
+  systemctl restart apache2
+\end{lstlisting}
+
+Diese Konfiguration
+ermöglicht es, dass das Webinterface von phpMyAdmin über den Port 9000 (\url{http://dev.philipp-kraft.com:9000})
+erreichbar ist und nicht wie Standardmäßig vorgesehen über das Verzeichnis
+/phpmyadmin (\url{http://dev.philipp-kraft.com/phpmyadmin}), dies bietet einen Sicherheitsvorteil.
+
+\subsubsection{Deployment mit Github Actions}
+Unter Deployment versteht man die automatische Installation von Software, in diesem Fall auf einem Linux Server. Erreicht wird das durch zwei Bash Scripts und mit Github Actions (\url{https://github.com/features/actions}).
+
+\paragraph{Deploy Script}\mbox{}\\
+
+Das Deploy-Script wird auf der Lokalen Entwicklermaschine ausgeführt. Das Script wechselt in den Production Branch und merged mit dem Main Branch, dieser Push in den Production Branch löst dann die Github Action aus.
+
+\begin{lstlisting}[language=bash, caption={phpmyadmin.conf}]
+  #!/bin/sh
+  set -e
+  
+  #vendor/bin/phpunit
+  
+  (git push) || true
+  
+  git checkout production
+  git merge main
+  
+  git push origin production
+  
+  git checkout main
+\end{lstlisting}
+
+
+\paragraph{Github Action}\mbox{}\\
+Github Actions ist ein Projekt von Github, welches es ermöglicht automatisierungen in den Bereichen Entwicklung, Testing und Deployment durchzuführen.
+
+Als erstes muss ein Workflow erstellt werden, dieser wird im Root-Verzeichnis des Projekts erstellt \verb|APM\.github\workflows\main.yml|.
+
+\begin{lstlisting}[caption={phpmyadmin.conf}]
+  name: Deploy Laravel app
+
+  on:
+    push:
+      branches: [ production ]
+  
+  jobs:
+    deploy:
+      runs-on: ubuntu-latest
+      steps:
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.PUSH_TOKEN }}
+      - name: Set up Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - run: npm install
+      - run: npm run production
+      - name: Commit built assets
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git checkout -B deploy
+          git add -f public/
+          git commit -m "Build front-end assets"
+          git push -f origin deploy
+      - name: Deploy to production
+        uses: appleboy/ssh-action@master
+        with:
+          username: root
+          host: dev.philipp-kraft.com
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: 'cd /var/apm && ./server_deploy.sh && chown -R www-data.www-data /var/apm && chmod -R 755 /var/apm && chmod -R 777 /var/apm/storage' 
+\end{lstlisting}
+
+Dieser Workflow setzt einen Ubuntu Server in der Cloud auf und baut dort die Assets zusammen, damit die Downtime auf dem Production Server möglichst gering ist. Danach wird eine SSH Verbindung zum Production Server aufgebaut und dort wird das Bash-Script \verb|server_deploy.sh| ausgeführt. Gleichzeitig werden einige Berechtigungen angepasst.
+
+\paragraph{Server Deploy Script}\mbox{}\\
+
+Das Server Deploy Script \verb|server_deploy.sh| versetzt die Laravel Applikation in den Wartungsmodus und lädt sich vom deploy Branch den Code auf den Server herunter. Danach werden einige Befehle ausgeführt.
+
+\begin{lstlisting}[language=bash, caption={phpmyadmin.conf}]
+  #!/bin/sh
+  set -e
+  
+  echo "Deploying application ..."
+  
+  # Enter maintenance mode
+  php artisan down
+      
+      # Update codebase
+      git fetch origin deploy
+      git reset --hard origin/deploy
+  
+      # Install dependencies based on lock file
+      composer install --no-interaction --prefer-dist --optimize-autoloader
+  
+      # Migrate database
+      php artisan migrate:refresh --seed
+  
+      # Clear cache
+      php artisan optimize
+      
+      # Reload PHP to update opcache
+      echo "" | sudo -S service php7.4-fpm reload
+  
+  # Exit maintenance mode
+  php artisan up
+  
+  echo "Application deployed!"
 \end{lstlisting}
