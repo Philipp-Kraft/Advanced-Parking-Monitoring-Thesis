@@ -80,6 +80,7 @@
 %%%% Listings Settings
 %% ==================================================================
 \renewcommand{\lstlistlistingname}{Codeverzeichnis}
+\renewcommand{\lstlistingname}{Code}
 
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
@@ -87,22 +88,22 @@
 \definecolor{backcolour}{gray}{0.95}
 
 \lstdefinestyle{mystyle}{
-    backgroundcolor=\color{backcolour},   
-    commentstyle=\color{codegreen},
-    keywordstyle=\color{magenta},
-    numberstyle=\tiny\color{codegray},
-    stringstyle=\color{codepurple},
-    basicstyle=\ttfamily\footnotesize,
-    breakatwhitespace=true,         
-    breaklines=true,                 
-    captionpos=b,                    
-    keepspaces=true,                 
-    numbers=left,                    
-    numbersep=5pt,                  
-    showspaces=false,                
-    showstringspaces=false,
-    showtabs=false,                  
-    tabsize=2
+  backgroundcolor=\color{backcolour},
+  commentstyle=\color{codegreen},
+  keywordstyle=\color{magenta},
+  numberstyle=\tiny\color{codegray},
+  stringstyle=\color{codepurple},
+  basicstyle=\ttfamily\footnotesize,
+  breakatwhitespace=true,
+  breaklines=true,
+  captionpos=b,
+  keepspaces=true,
+  numbers=left,
+  numbersep=5pt,
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  tabsize=2
 }
 
 \lstset{style=mystyle}
@@ -126,22 +127,25 @@
     }%
     }{\end{mdframed}}
 
+%% ==================================================================
+%%%% Frontmatter, Mainmatter and Backmatter
+%% ==================================================================
 
-    \def\frontmatter{%
-    \pagenumbering{roman}
-    \setcounter{page}{1}
-    \renewcommand{\thesection}{\Roman{section}}
+\def\frontmatter{%
+  \pagenumbering{roman}
+  \setcounter{page}{1}
+  \renewcommand{\thesection}{\Roman{section}}
 }%
 
 \def\mainmatter{%
-    \pagenumbering{arabic}
-    \setcounter{page}{1}
-    \setcounter{section}{0}
-    \renewcommand{\thesection}{\arabic{section}}
+  \pagenumbering{arabic}
+  \setcounter{page}{1}
+  \setcounter{section}{0}
+  \renewcommand{\thesection}{\arabic{section}}
 }%
 
 \def\backmatter{%
-    \setcounter{section}{0}
-    \renewcommand{\thesection}{\Alph{section}}
+  \setcounter{section}{0}
+  \renewcommand{\thesection}{\Alph{section}}
 }%
 
