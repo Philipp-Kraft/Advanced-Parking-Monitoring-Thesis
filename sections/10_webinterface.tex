@@ -31,10 +31,10 @@ und deren konfiguration.
 Um PHP Befehle von der Kommandozeile auszuführen muss die Installation zuerst in
 den Windows Path Variables hinzugefügt werden.
 
-Dies erfolgt durch die \textbf{Advanced System Settings} $\blacktriangleright$
-\textbf{Environment Variables} $\blacktriangleright$ \textbf{System Variables}.
+Dies erfolgt durch die \verb|Advanced System Settings| $\blacktriangleright$
+\verb|Environment Variables| $\blacktriangleright$ \verb|System Variables|.
 Dort kann nun die Path Variable editiert werden und der Pfad hinzugefügt werden
-in welchem die php.exe liegt.
+in welchem die \verb|php.exe| liegt.
 
 \begin{figure}[H]
   \centering
@@ -55,7 +55,7 @@ in welchem die php.exe liegt.
 \end{figure}
 
 Die korrekte konfiguration kann durch die Kommandozeile geprüft werden, dort
-muss das Befehl \textbf{php -v} ausgeführt werden. Dabei ist zu beachten, dass
+muss das Befehl \verb|php -v| ausgeführt werden. Dabei ist zu beachten, dass
 nach dem hinzufügen der Path Variable die gewählte Kommandozeile neu gestartet
 werden muss.
 
@@ -72,7 +72,7 @@ phpMyAdmin ist ein Tool, welches den Umgang mit MySQL Datenbanken mit einem
 Webinterface erleichtert. Die aktuellste Version lässt sich von
 \url{https://www.phpmyadmin.net/downloads} downloaden. Dieses Archiv muss
 entpackt werden und ausgehend vom Laragon Root Verzeichnis in das Verzeichnis
-\textbf{/etc/apps} kopiert werden. Um die Installation zu überprüfen muss der
+\verb|/etc/apps| kopiert werden. Um die Installation zu überprüfen muss der
 Apache HTTP Server und der MySQL Server gestartet werden, nun sollte bei einer
 korrekten Installation das Webinterface von phpMyAdmin unter
 \url{http://localhost/phpmyadmin} erreichbar sein.
@@ -135,8 +135,8 @@ werden, in diesem Fall Debian (\url{https://www.microsoft.com/de-de/p/debian}).
 Die aktuellste Version von Docker Desktop für Windows lässt sich am einfachsten
 über die offizielle Website von Docker herunterladen (\url{https://docker.com}).
 Nach der Installation muss noch die WSL Integration aktiviert werden. Dazu muss
-in den Einstellungen unter \textbf{Resources} $\blacktriangleright$ \textbf{WSL Integration} und
-dort muss der Haken bei \textbf{Enable integration with my default WSL distro} gesetzt
+in den Einstellungen unter \verb|Resources| $\blacktriangleright$ \verb|WSL Integration| und
+dort muss der Haken bei \verb|Enable integration with my default WSL distro| gesetzt
 werden und die installierte Linux Distribution muss unten aktiviert werden.
 
 \begin{figure}[H]
@@ -216,7 +216,7 @@ Neben PHP werden auch einige PHP Extensions benötigt.
   php-gettext libapache2-mod-php php-common php-phpseclib php-mysql
 \end{lstlisting}
 
-Die Installation kann einfach mit dem Befehl \textbf{php -v} überprüft werden.
+Die Installation kann einfach mit dem Befehl \verb|php -v| überprüft werden.
 
 \paragraph{MariaDB}\mbox{}\\
 
@@ -235,7 +235,7 @@ und es werden Test Datenbanken gelöscht.
 
 Nun wird ein neuer Benutzer mit root Berechtigungen erstellt.
 
-\begin{lstlisting}[caption={MariaDB Secure Installation}]
+\begin{lstlisting}[caption={MariaDB konfiguration}]
   mysql
   GRANT ALL ON *.* TO 'admin'@'localhost' IDENTIFIED 
   BY 'password' WITH GRANT OPTION;
@@ -247,7 +247,7 @@ Nun wird ein neuer Benutzer mit root Berechtigungen erstellt.
 
 Die aktuelle Version von phpMyAdmin kann von
 (\url{https://www.phpmyadmin.net/downloads}) bezogen werden und mit dem
-\textbf{wget} Befehl heruntergeladen werden.
+\verb|wget| Befehl heruntergeladen werden.
 
 \begin{lstlisting}[caption={phpMyAdmin Download}]
   wget https://files.phpmyadmin.net/phpMyAdmin/5.0.4
@@ -277,7 +277,7 @@ Secret\footnote{32 Zeichen String für Cookie-Authentifizierung} angegeben werde
   cp /usr/share/phpmyadmin/config.sample.inc.php /usr/share/phpmyadmin/config.inc.php
 \end{lstlisting}
 
-und am Ende dieser Datei kann die zwei Zeilen eingefügt werden.
+und am Ende dieser Datei müssen folgende zwei Zeilen eingefügt werden.
 
 \begin{lstlisting}[caption={phpMyAdmin Blowfish Secret und TempDir}]
   $cfg['blowfish_secret'] = 'H2OxcGXxflSd8JwrwVlh6KW6s2rER63i'; 
@@ -286,8 +286,8 @@ und am Ende dieser Datei kann die zwei Zeilen eingefügt werden.
 
 Zuletzt muss der Apache Web Server konfiguriert werden.
 
-Im Verzeichnis \textbf{/etc/apache2/sites-available} muss eine neue
-Konfiguration angelegt werden \textbf{phpmyadmin.conf}.
+Im Verzeichnis \verb|/etc/apache2/sites-available| muss eine neue
+Konfiguration angelegt werden \verb|phpmyadmin.conf|.
 
 \begin{lstlisting}[caption={phpmyadmin.conf}]
   Listen 9000
@@ -320,8 +320,73 @@ ermöglicht es, dass das Webinterface von phpMyAdmin über den Port 9000 (\url{h
 erreichbar ist und nicht wie Standardmäßig vorgesehen über das Verzeichnis
 /phpmyadmin (\url{http://dev.philipp-kraft.com/phpmyadmin}), dies bietet einen Sicherheitsvorteil.
 
+\paragraph{Webinterface Virtual Host}\mbox{}\\
+
+Nun muss noch eine Virtual Host Konfiguration für das Webinterface selbst erstellt werden.
+
+\begin{lstlisting}[caption={apm.conf}]
+  <VirtualHost *:80>
+	ServerAdmin webmaster@localhost
+	DocumentRoot /var/www/apm/public
+        
+	<Directory />
+		Options FollowSymLinks
+		AllowOverride All
+	</Directory>
+
+	<Directory /var/www/apm>
+		Options Indexes FollowSymLinks MultiViews
+		AllowOverride All
+		Order allow,deny
+		allow from all
+	</Directory>
+
+	ErrorLog ${APACHE_LOG_DIR}/error.log
+	CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+\end{lstlisting}
+
+Diesmal wird auf den Standard HTTP Port 80 gehört und dieser führt in das Verzeichnis \verb|/var/www/apm/public|. Zusätzlich werden noch Directives gesetzt, damit das Standard \verb|.htaccess| File von Laravel richtig funktionieren kann.
+
+\paragraph{Installation von Composer}\mbox{}\\
+
+Die Installation von Composer gestaltet sich relativ einfach.
+
+\begin{lstlisting}[caption={Download Composer Installer}, language=bash]
+  wget -O composer-setup.php https://getcomposer.org/installer
+\end{lstlisting}
+
+Nun muss das Setup ausgeführt werden und damit das \verb|composer| Befehl Global verfügbar ist wird Composer in den Pfad \verb|/usr/local/bin| verschoben.
+
+\begin{lstlisting}[caption={Composer Setup}, language=bash]
+  php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+\end{lstlisting}
+
 \subsubsection{Deployment mit Github Actions}
 Unter Deployment versteht man die automatische Installation von Software, in diesem Fall auf einem Linux Server. Erreicht wird das durch zwei Bash Scripts und mit Github Actions (\url{https://github.com/features/actions}).
+
+\paragraph{Git Setup}\mbox{}\\
+
+Sollte auf dem Server noch kein Git installiert sein, lässt sich das wie folgt
+installieren.
+
+\begin{lstlisting}[language=bash, caption={Git Installation}]
+  apt install git
+\end{lstlisting}
+
+Im Verzeichnis \verb|/var/www/apm| soll sich später das Webinterface befinden,
+deshalb muss in diesem Pfad Git konfiguriert werden. Dazu wird die Remote URL
+konfiguriert.
+
+\begin{lstlisting}[language=bash, caption={Git Remote Origin}]
+  git config remote.origin.url 'https://{TOKEN}@github.com/
+  Philipp-Kraft/Advanced_Parking_Monitoring_Webinterface.git'
+\end{lstlisting}
+
+Da beim Github Account eine Zwei-Faktor-Authentisierung verwendet wird muss die
+Authentifizierung mit einem Personal access token erfolgen. Dieser kann unter
+\url{https://github.com/settings/tokens} erstellt werden, der erstellte Token
+kann dann einfach in der URL eingefügt werden.
 
 \paragraph{Deploy Script}\mbox{}\\
 
@@ -343,13 +408,45 @@ Das Deploy-Script wird auf der Lokalen Entwicklermaschine ausgeführt. Das Scrip
   git checkout main
 \end{lstlisting}
 
+\paragraph{Server Deploy Script}\mbox{}\\
+
+Das Server Deploy Script \verb|server_deploy.sh| versetzt die Laravel Applikation in den Wartungsmodus und lädt sich vom deploy Branch den Code auf den Server herunter, danach werden einige Befehle ausgeführt.
+
+\begin{lstlisting}[language=bash, caption={serverdeploy.sh}]
+  #!/bin/sh
+  set -e
+  
+  echo "Deploying application ..."
+  
+  # Enter maintenance mode
+  php artisan down
+      
+      # Update codebase
+      git fetch origin deploy
+      git reset --hard origin/deploy
+  
+      # Install dependencies based on lock file
+      composer install --no-interaction --prefer-dist --optimize-autoloader
+  
+      # Migrate database
+      php artisan migrate:refresh --seed
+  
+      # Clear cache
+      php artisan optimize
+  
+  # Exit maintenance mode
+  php artisan up
+  
+  echo "Application deployed!"
+\end{lstlisting}
+
 
 \paragraph{Github Action}\mbox{}\\
-Github Actions ist ein Projekt von Github, welches es ermöglicht automatisierungen in den Bereichen Entwicklung, Testing und Deployment durchzuführen.
+Github Actions ist ein Projekt von Github, welches es ermöglicht Automatisierungen in den Bereichen Entwicklung, Testing und Deployment durchzuführen.
 
 Als erstes muss ein Workflow erstellt werden, dieser wird im Root-Verzeichnis des Projekts erstellt \verb|APM\.github\workflows\main.yml|.
 
-\begin{lstlisting}[caption={phpmyadmin.conf}]
+\begin{lstlisting}[caption={main.yml}]
   name: Deploy Laravel app
 
   on:
@@ -386,39 +483,24 @@ Als erstes muss ein Workflow erstellt werden, dieser wird im Root-Verzeichnis de
           script: 'cd /var/apm && ./server_deploy.sh && chown -R www-data.www-data /var/apm && chmod -R 755 /var/apm && chmod -R 777 /var/apm/storage' 
 \end{lstlisting}
 
-Dieser Workflow setzt einen Ubuntu Server in der Cloud auf und baut dort die Assets zusammen, damit die Downtime auf dem Production Server möglichst gering ist. Danach wird eine SSH Verbindung zum Production Server aufgebaut und dort wird das Bash-Script \verb|server_deploy.sh| ausgeführt. Gleichzeitig werden einige Berechtigungen angepasst.
+Dieser Workflow setzt einen Ubuntu Server in der Cloud auf und baut dort die
+Assets zusammen, damit die Downtime auf dem Production Server möglichst gering
+ist. Danach wird eine SSH Verbindung zum Production Server aufgebaut und dort
+wird das Bash-Script \verb|server_deploy.sh| ausgeführt. Gleichzeitig werden
+einige Berechtigungen angepasst.
 
-\paragraph{Server Deploy Script}\mbox{}\\
+In der Repository muss nun noch das SSH-Passwort und der Personal access token
+hinterlegt werden. Dies geschieht über \verb|Settings| $\blacktriangleright$ \verb|Secrets|. Dort
+können nun über \verb|New respository secrets| die Secrets hinterlegt werden.
 
-Das Server Deploy Script \verb|server_deploy.sh| versetzt die Laravel Applikation in den Wartungsmodus und lädt sich vom deploy Branch den Code auf den Server herunter. Danach werden einige Befehle ausgeführt.
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\linewidth]{webinterface/action_secrets.png}
+  \caption{Action Secrets}
+\end{figure}
 
-\begin{lstlisting}[language=bash, caption={phpmyadmin.conf}]
-  #!/bin/sh
-  set -e
-  
-  echo "Deploying application ..."
-  
-  # Enter maintenance mode
-  php artisan down
-      
-      # Update codebase
-      git fetch origin deploy
-      git reset --hard origin/deploy
-  
-      # Install dependencies based on lock file
-      composer install --no-interaction --prefer-dist --optimize-autoloader
-  
-      # Migrate database
-      php artisan migrate:refresh --seed
-  
-      # Clear cache
-      php artisan optimize
-      
-      # Reload PHP to update opcache
-      echo "" | sudo -S service php7.4-fpm reload
-  
-  # Exit maintenance mode
-  php artisan up
-  
-  echo "Application deployed!"
-\end{lstlisting}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\linewidth]{webinterface/github_deploy.png}
+  \caption{Github Action Übersicht}
+\end{figure}
