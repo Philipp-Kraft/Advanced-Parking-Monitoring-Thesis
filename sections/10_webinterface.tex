@@ -113,15 +113,20 @@ Zuerst müssen einige Einstellungen in Windows getroffen werden um später eine
 Linux Distribution herunterzuladen können. Diese Befehle können über die
 Kommandozeile mit Administrativen Rechten ausgeführt werden.
 
-\paragraph{1. Schritt: WSL Aktivieren}\mbox{}\\
-\begin{lstlisting}[caption={WSL Feature Feature aktivierens}]
-  dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
-\end{lstlisting}
+\begin{listing}[H]
+  \begin{minted}{bash}
+    dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+  \end{minted}
+  \caption{WSL Feature Feature aktivierens}
+\end{listing}
 
 \paragraph{2. Schritt: Virtual Machine Aktivieren}\mbox{}\\
-\begin{lstlisting}[caption={Virtual Machine Feature aktivieren}]
-  dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
-\end{lstlisting}
+\begin{listing}[H]
+  \begin{minted}{bash}
+    dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+  \end{minted}
+  \caption{Virtual Machine Feature aktivieren}
+\end{listing}
 
 Nach diesem Schritt ist ein Neustart des Computers notwendig.
 
@@ -132,9 +137,12 @@ unter \url{https://aka.ms/wsl2kernel} zu finden.
 \paragraph{4. Schritt: WSL 2}\mbox{}\\
 Nach dem Neustart des Computers sollte es nun möglich sein WSL 2 als Version
 auszuwählen.
-\begin{lstlisting}[caption={WSL 2 auswählen}]
-  wsl --set-default-version 2
-\end{lstlisting}
+\begin{listing}[H]
+  \begin{minted}{bash}
+    wsl --set-default-version 2
+  \end{minted}
+  \caption{WSL 2 auswählen}
+\end{listing}
 
 \paragraph{5. Schritt: Linux Distribution herunterladen}\mbox{}\\
 Zuletzt kann eine Linux Distribution aus dem Windows Store heruntergeladen
@@ -198,17 +206,23 @@ für die Software \textbf{L}inux, \textbf{A}pache, \textbf{M}ySQL und \textbf{P}
 Bevor die Software Pakete installiert werden sollte die Linux Software/Update
 Repository geupdatet werden.
 
-\begin{lstlisting}[caption={Respositorys updaten}]
-  apt-get update && apt-get upgrade
-\end{lstlisting}
+\begin{listing}[H]
+  \begin{minted}{bash}
+    apt-get update && apt-get upgrade
+  \end{minted}
+  \caption{Respositorys updaten}
+\end{listing}
 
 \paragraph{Apache}\mbox{}\\
 
 Nun kann der Apache Web Server installiert werden.
 
-\begin{lstlisting}[caption={Apache installieren}]
-  apt install apache2
-\end{lstlisting}
+\begin{listing}[H]
+  \begin{minted}{bash}
+    apt install apache2
+  \end{minted}
+  \caption{Apache installieren}
+\end{listing}
 
 Die Installation kann nun leicht überprüft werden indem man im Browser die IP
 bzw. die dazugehörige Domain öffnet, in diesem Fall:
@@ -224,37 +238,49 @@ Erscheint die Debian Default Page ist Apache korrekt installiert.
 
 \paragraph{PHP}\mbox{}\\
 Neben PHP werden auch einige PHP Extensions benötigt.
-\begin{lstlisting}[caption={PHP installieren}]
-  apt install wget php php-cgi php-mysqli php-pear php-mbstring
-  php-gettext libapache2-mod-php php-common php-phpseclib php-mysql
-\end{lstlisting}
+
+\begin{listing}[H]
+  \begin{minted}{bash}
+    apt install wget php php-cgi php-mysqli php-pear php-mbstring php-gettext libapache2-mod-php php-common php-phpseclib php-mysql
+  \end{minted}
+  \caption{PHP installieren}
+\end{listing}
 
 Die Installation kann einfach mit dem Befehl \verb|php -v| überprüft werden.
 
 \paragraph{MariaDB}\mbox{}\\
 
-\begin{lstlisting}[caption={MariadB installieren}]
-  apt install mariadb-server
-\end{lstlisting}
+\begin{listing}[H]
+  \begin{minted}{bash}
+    apt install mariadb-server
+  \end{minted}
+  \caption{MariadB installieren}
+\end{listing}
 
 Nun muss MariaDB noch konfiguriert werden.
 
-\begin{lstlisting}[caption={MariaDB Secure Installation}]
-  mysql_secure_installation
-\end{lstlisting}
+\begin{listing}[H]
+  \begin{minted}{bash}
+    mysql_secure_installation
+  \end{minted}
+  \caption{MariaDB Secure Installation}
+\end{listing}
 
 Dabei wird dem root MySQL User ein Passwort gesetzt, Anonyme Benutzer gelöscht
 und es werden Test Datenbanken gelöscht.
 
 Nun wird ein neuer Benutzer mit root Berechtigungen erstellt.
 
-\begin{lstlisting}[caption={MariaDB konfiguration}]
-  mysql
-  GRANT ALL ON *.* TO 'admin'@'localhost' IDENTIFIED 
-  BY 'password' WITH GRANT OPTION;
-  flush privileges;
-  exit
-\end{lstlisting}
+\begin{listing}[H]
+  \begin{minted}{sql}
+    mysql
+    GRANT ALL ON *.* TO 'admin'@'localhost' IDENTIFIED 
+    BY 'password' WITH GRANT OPTION;
+    flush privileges;
+    exit
+  \end{minted}
+  \caption{MariaDB konfiguration}
+\end{listing}
 
 \paragraph{phpMyAdmin}\mbox{}\\
 
@@ -262,71 +288,93 @@ Die aktuelle Version von phpMyAdmin kann von
 (\url{https://www.phpmyadmin.net/downloads}) bezogen werden und mit dem
 \verb|wget| Befehl heruntergeladen werden.
 
-\begin{lstlisting}[caption={phpMyAdmin Download}]
-  wget https://files.phpmyadmin.net/phpMyAdmin/5.0.4
-  /phpMyAdmin-5.0.4-all-languages.tar.gz
-\end{lstlisting}
+\begin{listing}[H]
+  \begin{minted}{bash}
+    wget https://files.phpmyadmin.net/phpMyAdmin/5.0.4
+    /phpMyAdmin-5.0.4-all-languages.tar.gz
+  \end{minted}
+  \caption{phpMyAdmin Download}
+\end{listing}
 
 Anschließend muss das Archiv entpackt werden.
 
-\begin{lstlisting}[caption={phpMyAdmin Entpacken}]
-  tar xvf phpMyAdmin-5.0.4-all-languages.tar.gz
-\end{lstlisting}
+\begin{listing}[H]
+  \begin{minted}{bash}
+    tar xvf phpMyAdmin-5.0.4-all-languages.tar.gz
+  \end{minted}
+  \caption{phpMyAdmin Entpacken}
+\end{listing}
 
 Als nächstes muss das entpackte Archiv in einen anderen Pfad verschoben werden
 und zusätzlich müssen einige Rechte und Verzeichnisse angepasst werden.
 
-\begin{lstlisting}[caption={phpMyAdmin Rechte und Verzeichnisse}]
-  mv phpMyAdmin-5.0.4-all-languages /usr/share/phpmyadmin
-  mkdir -p /var/lib/phpmyadmin/tmp
-  chown -R www-data:www-data /var/lib/phpmyadmin
-  mkdir /etc/phpmyadmin/
-\end{lstlisting}
+\begin{listing}[H]
+  \begin{minted}{bash}
+    mv phpMyAdmin-5.0.4-all-languages /usr/share/phpmyadmin
+    mkdir -p /var/lib/phpmyadmin/tmp
+    chown -R www-data:www-data /var/lib/phpmyadmin
+    mkdir /etc/phpmyadmin/
+  \end{minted}
+  \caption{phpMyAdmin Rechte und Verzeichnisse}
+\end{listing}
 
 Nun muss eine Konfigurations Datei erstellt werden und dort muss ein Blowfish
 Secret\footnote{32 Zeichen String für Cookie-Authentifizierung} angegeben werden und den Pfad für ein Temporäres Verzeichnis.
 
-\begin{lstlisting}[caption={phpMyAdmin Konfigurationsdatei erstellen}]
-  cp /usr/share/phpmyadmin/config.sample.inc.php /usr/share/phpmyadmin/config.inc.php
-\end{lstlisting}
+\begin{listing}[H]
+  \begin{minted}{bash}
+    cp /usr/share/phpmyadmin/config.sample.inc.php /usr/share/phpmyadmin/config.inc.php
+  \end{minted}
+  \caption{phpMyAdmin Konfigurationsdatei erstellen}
+\end{listing}
 
 und am Ende dieser Datei müssen folgende zwei Zeilen eingefügt werden.
 
-\begin{lstlisting}[caption={phpMyAdmin Blowfish Secret und TempDir}]
-  $cfg['blowfish_secret'] = 'H2OxcGXxflSd8JwrwVlh6KW6s2rER63i'; 
-  $cfg['TempDir'] = '/var/lib/phpmyadmin/tmp';
-\end{lstlisting}
+\begin{listing}[H]
+  \begin{minted}{bash}
+    $cfg['blowfish_secret'] = 'H2OxcGXxflSd8JwrwVlh6KW6s2rER63i'; 
+    $cfg['TempDir'] = '/var/lib/phpmyadmin/tmp';
+  \end{minted}
+  \caption{phpMyAdmin Blowfish Secret und TempDir}
+\end{listing}
+
 
 Zuletzt muss der Apache Web Server konfiguriert werden.
 
 Im Verzeichnis \verb|/etc/apache2/sites-available| muss eine neue
 Konfiguration angelegt werden \verb|phpmyadmin.conf|.
 
-\begin{lstlisting}[caption={phpmyadmin.conf}]
-  Listen 9000
+\begin{listing}[H]
+  \begin{minted}{bash}
+    Listen 9000
 
-  <VirtualHost *:9000>
-          ServerName localhost
-  
-          <Directory /usr/share/phpmyadmin>
-                  AllowOverride None
-                  Require all granted
-          </Directory>
-  
-          DocumentRoot /usr/share/phpmyadmin
-  
-          ErrorLog ${APACHE_LOG_DIR}/phpmyadmin.error.log
-          CustomLog ${APACHE_LOG_DIR}/phpmyadmin.access.log combined
-  </VirtualHost>
-\end{lstlisting}
+    <VirtualHost *:9000>
+            ServerName localhost
+    
+            <Directory /usr/share/phpmyadmin>
+                    AllowOverride None
+                    Require all granted
+            </Directory>
+    
+            DocumentRoot /usr/share/phpmyadmin
+    
+            ErrorLog ${APACHE_LOG_DIR}/phpmyadmin.error.log
+            CustomLog ${APACHE_LOG_DIR}/phpmyadmin.access.log combined
+    </VirtualHost>
+  \end{minted}
+  \caption{phpmyadmin.conf}
+\end{listing}
 
 Nun kann diese Virtual Host Konfigurations Datei aktiviert werden und danach
 muss der Apache Web Server neu gestartet werden.
 
-\begin{lstlisting}[caption={Virtual Host aktivieren}]
-  a2ensite phpmyadmin
-  systemctl restart apache2
-\end{lstlisting}
+\begin{listing}[H]
+  \begin{minted}{bash}
+    a2ensite phpmyadmin
+    systemctl restart apache2
+  \end{minted}
+  \caption{Virtual Host aktivieren}
+\end{listing}
 
 Diese Konfiguration
 ermöglicht es, dass das Webinterface von phpMyAdmin über den Port 9000 (\url{http://dev.philipp-kraft.com:9000})
@@ -337,27 +385,30 @@ erreichbar ist und nicht wie Standardmäßig vorgesehen über das Verzeichnis
 
 Nun muss noch eine Virtual Host Konfiguration für das Webinterface selbst erstellt werden.
 
-\begin{lstlisting}[caption={apm.conf}]
-  <VirtualHost *:80>
-	ServerAdmin webmaster@localhost
-	DocumentRoot /var/www/apm/public
-        
-	<Directory />
-		Options FollowSymLinks
-		AllowOverride All
-	</Directory>
-
-	<Directory /var/www/apm>
-		Options Indexes FollowSymLinks MultiViews
-		AllowOverride All
-		Order allow,deny
-		allow from all
-	</Directory>
-
-	ErrorLog ${APACHE_LOG_DIR}/error.log
-	CustomLog ${APACHE_LOG_DIR}/access.log combined
-</VirtualHost>
-\end{lstlisting}
+\begin{listing}[H]
+  \begin{minted}{bash}
+    <VirtualHost *:80>
+    ServerAdmin webmaster@localhost
+    DocumentRoot /var/www/apm/public
+          
+    <Directory />
+      Options FollowSymLinks
+      AllowOverride All
+    </Directory>
+  
+    <Directory /var/www/apm>
+      Options Indexes FollowSymLinks MultiViews
+      AllowOverride All
+      Order allow,deny
+      allow from all
+    </Directory>
+  
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+  </VirtualHost>
+  \end{minted}
+  \caption{apm.conf}
+\end{listing}
 
 Diesmal wird auf den Standard HTTP Port 80 gehört und dieser führt in das Verzeichnis \verb|/var/www/apm/public|. Zusätzlich werden noch Directives gesetzt, damit das Standard \verb|.htaccess| File von Laravel richtig funktionieren kann.
 
@@ -365,15 +416,21 @@ Diesmal wird auf den Standard HTTP Port 80 gehört und dieser führt in das Verz
 
 Die Installation von Composer gestaltet sich relativ einfach.
 
-\begin{lstlisting}[caption={Download Composer Installer}, language=bash]
-  wget -O composer-setup.php https://getcomposer.org/installer
-\end{lstlisting}
+\begin{listing}[H]
+  \begin{minted}{bash}
+    wget -O composer-setup.php https://getcomposer.org/installer
+  \end{minted}
+  \caption{Download Composer Installer}
+\end{listing}
 
 Nun muss das Setup ausgeführt werden und damit das \verb|composer| Befehl Global verfügbar ist wird Composer in den Pfad \verb|/usr/local/bin| verschoben.
 
-\begin{lstlisting}[caption={Composer Setup}, language=bash]
-  php composer-setup.php --install-dir=/usr/local/bin --filename=composer
-\end{lstlisting}
+\begin{listing}[H]
+  \begin{minted}{bash}
+    php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+  \end{minted}
+  \caption{Composer Setup}
+\end{listing}
 
 
 \subsubsection{Deployment mit Github Actions}
@@ -384,18 +441,24 @@ Unter Deployment versteht man die automatische Installation von Software, in die
 Sollte auf dem Server noch kein Git installiert sein, lässt sich das wie folgt
 installieren.
 
-\begin{lstlisting}[language=bash, caption={Git Installation}]
-  apt install git
-\end{lstlisting}
+\begin{listing}[H]
+  \begin{minted}{bash}
+    apt install git
+  \end{minted}
+  \caption{Git Installation}
+\end{listing}
 
 Im Verzeichnis \verb|/var/www/apm| soll sich später das Webinterface befinden,
 deshalb muss in diesem Pfad Git konfiguriert werden. Dazu wird die Remote URL
 konfiguriert.
 
-\begin{lstlisting}[language=bash, caption={Git Remote Origin}]
-  git config remote.origin.url 'https://{TOKEN}@github.com/
-  Philipp-Kraft/Advanced_Parking_Monitoring_Webinterface.git'
-\end{lstlisting}
+\begin{listing}[H]
+  \begin{minted}{bash}
+    git config remote.origin.url 'https://{TOKEN}@github.com/
+    Philipp-Kraft/Advanced_Parking_Monitoring_Webinterface.git'
+  \end{minted}
+  \caption{Git Remote Origin}
+\end{listing}
 
 Da beim Github Account eine Zwei-Faktor-Authentisierung verwendet wird muss die
 Authentifizierung mit einem Personal access token erfolgen. Dieser kann unter
@@ -406,53 +469,59 @@ kann dann einfach in der URL eingefügt werden.
 
 Das Deploy-Script wird auf der Lokalen Entwicklermaschine ausgeführt. Das Script wechselt in den Production Branch und merged mit dem Main Branch, dieser Push in den Production Branch löst dann die Github Action aus.
 
-\begin{lstlisting}[language=bash, caption={phpmyadmin.conf}]
-  #!/bin/sh
-  set -e
-  
-  #vendor/bin/phpunit
-  
-  (git push) || true
-  
-  git checkout production
-  git merge main
-  
-  git push origin production
-  
-  git checkout main
-\end{lstlisting}
+\begin{listing}[H]
+  \begin{minted}{bash}
+    #!/bin/sh
+    set -e
+    
+    #vendor/bin/phpunit
+    
+    (git push) || true
+    
+    git checkout production
+    git merge main
+    
+    git push origin production
+    
+    git checkout main
+  \end{minted}
+  \caption{phpmyadmin.conf}
+\end{listing}
 
 \paragraph{Server Deploy Script}\mbox{}\\
 
 Das Server Deploy Script \verb|server_deploy.sh| versetzt die Laravel Applikation in den Wartungsmodus und lädt sich vom deploy Branch den Code auf den Server herunter, danach werden einige Befehle ausgeführt.
 
-\begin{lstlisting}[language=bash, caption={serverdeploy.sh}]
-  #!/bin/sh
-  set -e
-  
-  echo "Deploying application ..."
-  
-  # Enter maintenance mode
-  php artisan down
-      
-      # Update codebase
-      git fetch origin deploy
-      git reset --hard origin/deploy
-  
-      # Install dependencies based on lock file
-      composer install --no-interaction --prefer-dist --optimize-autoloader
-  
-      # Migrate database
-      php artisan migrate:refresh --seed
-  
-      # Clear cache
-      php artisan optimize
-  
-  # Exit maintenance mode
-  php artisan up
-  
-  echo "Application deployed!"
-\end{lstlisting}
+\begin{listing}[H]
+  \begin{minted}{bash}
+    #!/bin/sh
+    set -e
+    
+    echo "Deploying application ..."
+    
+    # Enter maintenance mode
+    php artisan down
+        
+        # Update codebase
+        git fetch origin deploy
+        git reset --hard origin/deploy
+    
+        # Install dependencies based on lock file
+        composer install --no-interaction --prefer-dist --optimize-autoloader
+    
+        # Migrate database
+        php artisan migrate:refresh --seed
+    
+        # Clear cache
+        php artisan optimize
+    
+    # Exit maintenance mode
+    php artisan up
+    
+    echo "Application deployed!"
+  \end{minted}
+  \caption{serverdeploy.sh}
+\end{listing}
 
 
 \paragraph{Github Action}\mbox{}\\
@@ -460,42 +529,45 @@ Github Actions ist ein Projekt von Github, welches es ermöglicht Automatisierun
 
 Als erstes muss ein Workflow erstellt werden, dieser wird im Root-Verzeichnis des Projekts erstellt \verb|APM\.github\workflows\main.yml|.
 
-\begin{lstlisting}[caption={main.yml}]
-  name: Deploy Laravel app
+\begin{listing}[H]
+  \begin{minted}{bash}
+    name: Deploy Laravel app
 
-  on:
-    push:
-      branches: [ production ]
-  
-  jobs:
-    deploy:
-      runs-on: ubuntu-latest
-      steps:
-      - uses: actions/checkout@v2
-        with:
-          token: ${{ secrets.PUSH_TOKEN }}
-      - name: Set up Node
-        uses: actions/setup-node@v1
-        with:
-          node-version: '12.x'
-      - run: npm install
-      - run: npm run production
-      - name: Commit built assets
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git checkout -B deploy
-          git add -f public/
-          git commit -m "Build front-end assets"
-          git push -f origin deploy
-      - name: Deploy to production
-        uses: appleboy/ssh-action@master
-        with:
-          username: root
-          host: dev.philipp-kraft.com
-          password: ${{ secrets.SSH_PASSWORD }}
-          script: 'cd /var/apm && ./server_deploy.sh && chown -R www-data.www-data /var/apm && chmod -R 755 /var/apm && chmod -R 777 /var/apm/storage' 
-\end{lstlisting}
+    on:
+      push:
+        branches: [ production ]
+    
+    jobs:
+      deploy:
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v2
+          with:
+            token: ${{ secrets.PUSH_TOKEN }}
+        - name: Set up Node
+          uses: actions/setup-node@v1
+          with:
+            node-version: '12.x'
+        - run: npm install
+        - run: npm run production
+        - name: Commit built assets
+          run: |
+            git config --local user.email "action@github.com"
+            git config --local user.name "GitHub Action"
+            git checkout -B deploy
+            git add -f public/
+            git commit -m "Build front-end assets"
+            git push -f origin deploy
+        - name: Deploy to production
+          uses: appleboy/ssh-action@master
+          with:
+            username: root
+            host: dev.philipp-kraft.com
+            password: ${{ secrets.SSH_PASSWORD }}
+            script: 'cd /var/apm && ./server_deploy.sh && chown -R www-data.www-data /var/apm && chmod -R 755 /var/apm && chmod -R 777 /var/apm/storage' 
+  \end{minted}
+  \caption{main.yml}
+\end{listing} 
 
 Dieser Workflow setzt einen Ubuntu Server in der Cloud auf und baut dort die
 Assets zusammen, damit die Downtime auf dem Production Server möglichst gering
@@ -551,11 +623,15 @@ assoziiert werden, es wird einfach im Pfad
 angelegt und darin ein Blade File mit dem Namen \verb|primary.blade.php|. Dort
 kann nun der gewünschte HTML Code platziert werden.
 
-\begin{lstlisting}[caption={primary.blade.php}, label={lst:primary.blade.php}]
-  <button type="submit" class="inline-flex items-center px-4 py-2 bg-apm-blue...">
-    {{ $slot }}
-  </button>
-\end{lstlisting}
+\begin{listing}[H]
+  \begin{minted}{html}
+    <button type="submit" class="inline-flex items-center px-4 py-2 bg-apm-blue...">
+      {{ $slot }}
+    </button>
+  \end{minted}
+  \caption{primary.blade.php}
+  \label{lst:primary.blade.php}
+\end{listing}
 
 
 Im Code~\ref{lst:primary.blade.php} ist eine Variable mit dem Namen \verb|slot|
@@ -572,9 +648,12 @@ angeführt werden muss. Da sich der vorhin erstellte Component in einem Ordner b
 angegeben werden, dabei wird kein Slash wie üblich um einen Pfad anzugeben
 verwendet sondern ein Punkt, es muss auch keine Extensions angegeben werden.
 
-\begin{lstlisting}[caption={Verwendung eines Button Components}]
-  <x-buttons.primary>Press me!</x-buttons.primary>
-\end{lstlisting}
+\begin{listing}[H]
+  \begin{minted}{html}
+    <x-buttons.primary>Press me!</x-buttons.primary>
+  \end{minted}
+  \caption{Verwendung eines Button Components}
+\end{listing}
 
 
 \paragraph{Attribute übergeben}\mbox{}\\
@@ -586,11 +665,15 @@ wird das mit der \verb|attributes| Variable im Blade File des Components, da
 aber oft schon Attribute definiert sind ist es möglich mit der \verb|merge|
 Methode die Attribute zusammenzuführen.
 
-\begin{lstlisting}[caption={Modularer Button Component}]
+
+\begin{listing}[H]
+  \begin{minted}{php}
   <button {{ $attributes->merge(['type' => 'submit], 'class' => 'inline-flex items-center px-4 py-2 bg-apm-blue...') }}>
     {{ $slot }}
   </button>
-\end{lstlisting}
+  \end{minted}
+  \caption{Modularer Button Component}
+\end{listing}
 
 Somit ist dieser Button Component nun vollständig Modular.
 

@@ -15,7 +15,7 @@
 \usepackage{microtype}
 \usepackage{graphicx}
 \usepackage{float}
-%\usepackage{minted}
+\usepackage{minted}
 \usepackage{acronym}
 \usepackage{booktabs}
 \usepackage{multirow}
@@ -50,13 +50,6 @@
 
 \renewcommand{\familydefault}{\sfdefault} % Arial ähnliche Schriftart
 
-%\setminted{mathescape,
-%  linenos,
-%  numbersep=5pt,
-%  gobble=2,
-%  frame=lines,
-%  framesep=2mm}
-
 \def \sectionauthors {Philipp Kraft, Dennis Köb und Samuel Bleiner}
 
 
@@ -81,34 +74,23 @@
 %% ==================================================================
 %%%% Listings Settings
 %% ==================================================================
-\renewcommand{\lstlistlistingname}{Codeverzeichnis}
-\renewcommand{\lstlistingname}{Code}
+\renewcommand{\listingscaption}{Code}
+\renewcommand{\listoflistingscaption}{Codeverzeichnis}
 
-\definecolor{codegreen}{rgb}{0,0.6,0}
-\definecolor{codegray}{rgb}{0.5,0.5,0.5}
-\definecolor{codepurple}{rgb}{0.58,0,0.82}
 \definecolor{backcolour}{gray}{0.95}
 
-\lstdefinestyle{mystyle}{
-  backgroundcolor=\color{backcolour},
-  commentstyle=\color{codegreen},
-  keywordstyle=\color{magenta},
-  numberstyle=\tiny\color{codegray},
-  stringstyle=\color{codepurple},
-  basicstyle=\ttfamily\footnotesize,
-  breakatwhitespace=true,
-  breaklines=true,
-  captionpos=b,
-  keepspaces=true,
-  numbers=left,
-  numbersep=5pt,
-  showspaces=false,
-  showstringspaces=false,
-  showtabs=false,
-  tabsize=2
+\setminted
+{
+  mathescape,
+  bgcolor = backcolour,
+  linenos = true,
+  numbersep = 5pt,
+  gobble = 2,
+  framesep = 2mm,
+  numberblanklines = true,
+  breaklines = true,
+  numberblanklines = true
 }
-
-\lstset{style=mystyle}
 
 %% ==================================================================
 %%%% Important Info Block
