@@ -1,12 +1,16 @@
+\def \sectionauthors {Philipp Kraft}
+
 \subsection{Anforderungen}
 Das Webinterface hat auf der einen Seite die Aufgabe die Kommunikation mit der
 Kennzeichenerkennung und der Induktionmessung sicherzustellen und auf der
 anderen Seite die Verwaltung und Darstellung der gewonnen Daten.
 
+
 \subsection{Lokale Entwicklungsumgebung mit Laragon}
 Für die Programmierung des Webinterfaces müssen zuerst einige Vorkehrungen
 getroffen werden, dazu zählt zu einem die Installation von benötigter Software
 und deren konfiguration.
+
 
 \subsubsection{Benötigte Software}
 
@@ -26,6 +30,7 @@ und deren konfiguration.
   \item \textbf{Visual Studio Code} (\url{https://code.visualstudio.com}) \\
         Quelltext-Editor
 \end{itemize}
+
 
 \subsubsection{Konfiguration von PHP}
 Um PHP Befehle von der Kommandozeile auszuführen muss die Installation zuerst in
@@ -67,6 +72,7 @@ werden muss.
 
 Somit ist PHP korrekt konfiguriert.
 
+
 \subsubsection{Installation von phpMyAdmin}
 phpMyAdmin ist ein Tool, welches den Umgang mit MySQL Datenbanken mit einem
 Webinterface erleichtert. Die aktuellste Version lässt sich von
@@ -86,7 +92,9 @@ korrekten Installation das Webinterface von phpMyAdmin unter
 Es ist nicht notwendig ein Passwort einzugeben, da Standardmäßig kein Passwort
 gesetzt wird.
 
+
 \subsection{Lokale Entwicklungsumgebung mit WSL und Docker}
+
 
 \subsubsection{Benötigte Software}
 
@@ -98,6 +106,7 @@ gesetzt wird.
   \item \textbf{Visual Studio Code} (\url{https://code.visualstudio.com}) \\
         Quelltext-Editor
 \end{itemize}
+
 
 \subsubsection{Installation von WSL}
 Zuerst müssen einige Einstellungen in Windows getroffen werden um später eine
@@ -131,6 +140,7 @@ auszuwählen.
 Zuletzt kann eine Linux Distribution aus dem Windows Store heruntergeladen
 werden, in diesem Fall Debian (\url{https://www.microsoft.com/de-de/p/debian}).
 
+
 \subsubsection{Installation von Docker}
 Die aktuellste Version von Docker Desktop für Windows lässt sich am einfachsten
 über die offizielle Website von Docker herunterladen (\url{https://docker.com}).
@@ -158,12 +168,14 @@ Container installiert.
 Es ist somit möglich die Services welche im Container in der Linux Distribution
 laufen über die Docker Desktop Anwendung zu steuern.
 
+
 \subsection{Production Server}
 Der Production Server bzw. der Live Server ist der Server wo sich die Webanwendung
 befindet und die Endbenutzer zugreifen, dieser Server wird auch einfach mit
 Production abgekürzt. Der Production Server ist in diesem Fall ein Virtual
 Private Server mit dem Betriebsystem Debian 10, welcher bei einem
 Internet-Hosting Unternehmen mit Sitz in Deutschland gehostet wird.
+
 
 \subsubsection{Benötigte Software}
 
@@ -180,6 +192,7 @@ für die Software \textbf{L}inux, \textbf{A}pache, \textbf{M}ySQL und \textbf{P}
   \item \textbf{Git} (\url{https://git-scm.com}) \\ Versionskontrolle
         Quelltext-Editor
 \end{itemize}
+
 
 \subsubsection{Installation des LAMP Stacks}
 Bevor die Software Pakete installiert werden sollte die Linux Software/Update
@@ -362,6 +375,7 @@ Nun muss das Setup ausgeführt werden und damit das \verb|composer| Befehl Globa
   php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 \end{lstlisting}
 
+
 \subsubsection{Deployment mit Github Actions}
 Unter Deployment versteht man die automatische Installation von Software, in diesem Fall auf einem Linux Server. Erreicht wird das durch zwei Bash Scripts und mit Github Actions (\url{https://github.com/features/actions}).
 
@@ -504,3 +518,117 @@ können nun über \verb|New respository secrets| die Secrets hinterlegt werden.
   \includegraphics[width=1\linewidth]{webinterface/github_deploy.png}
   \caption{Github Action Übersicht}
 \end{figure}
+
+
+\subsection{Grundlegender Aufbau}
+
+Da das Ziel ist, dass das Frontend\footnote{Präsentationsebene in Form der
+grafischen Benutzeroberfläche} des Webinterfaces möglichst Modular aufgebaut ist
+und so wenig Code wie möglich wiederholt wird. Ermöglicht wird dies durch das aufbauen
+der Seite mithilfe von Components.
+
+
+\subsubsection{Components}
+
+Components sind praktisch kleine Bausteine aus denen die komplette Seite
+aufgebaut ist. Components sind kein natives Feature von HTML/CSS oder PHP, diese
+Funktion wird von der Template Engine Blade bereitgestellt, deshalb werden diese
+auch oft Blade Components genannt. 
+
+\paragraph{Anonymous Components}\mbox{}\\
+
+Es gibt viele verschiedene Möglichkeiten
+Components zu erstellen und verschiedene Konventionen am, einfachsten sind aber
+die \verb|Anonymous Components|, diese haben den Vorteil, dass diese in einer Datei
+verwaltet werden können und somit sehr einfach zu handhaben sind.
+
+\paragraph{Components erstellen}\mbox{}\\
+
+Das Erstellen von einem Component wird nun anhand eines Buttons gezeigt. Da
+dieser als Anonymous Component angelegt wird muss dieser mit keiner Klasse
+assoziiert werden, es wird einfach im Pfad
+\verb|resources\views\components| ein Ordner mit dem Namen \verb|buttons|
+angelegt und darin ein Blade File mit dem Namen \verb|primary.blade.php|. Dort
+kann nun der gewünschte HTML Code platziert werden.
+
+\begin{lstlisting}[caption={primary.blade.php}, label={lst:primary.blade.php}]
+  <button type="submit" class="inline-flex items-center px-4 py-2 bg-apm-blue...">
+    {{ $slot }}
+  </button>
+\end{lstlisting}
+
+
+Im Code~\ref{lst:primary.blade.php} ist eine Variable mit dem Namen \verb|slot|
+verwendet worden. Diese Variable wird später beim verwenden automatisch mit dem
+Inhalt zwischen dem HTML Element ersetzt.
+
+
+\paragraph{Components verwenden}\mbox{}\\
+
+Es stellt sich nun die Frage wie man dieses erstelle Component nun verwendet.
+Die Blade Components verwenden den gleichen Syntax wie ein normales HTML
+Element, mit dem Unterschied dass ein \verb|x-| vor dem Namen des Components
+angeführt werden muss. Da sich der vorhin erstellte Component in einem Ordner befindet muss das auch
+angegeben werden, dabei wird kein Slash wie üblich um einen Pfad anzugeben
+verwendet sondern ein Punkt, es muss auch keine Extensions angegeben werden.
+
+\begin{lstlisting}[caption={Verwendung eines Button Components}]
+  <x-buttons.primary>Press me!</x-buttons.primary>
+\end{lstlisting}
+
+
+\paragraph{Attribute übergeben}\mbox{}\\
+
+Auch wenn viele Components ohne Problem überall ohne Veränderung verwendet
+werden können, jedoch ist es gewünscht bei manchen Components beispielweise eine
+zusätzliche Klasse anzugeben um die Größe des Elements zu verändern. Erreicht
+wird das mit der \verb|attributes| Variable im Blade File des Components, da
+aber oft schon Attribute definiert sind ist es möglich mit der \verb|merge|
+Methode die Attribute zusammenzuführen.
+
+\begin{lstlisting}[caption={Modularer Button Component}]
+  <button {{ $attributes->merge(['type' => 'submit], 'class' => 'inline-flex items-center px-4 py-2 bg-apm-blue...') }}>
+    {{ $slot }}
+  </button>
+\end{lstlisting}
+
+Somit ist dieser Button Component nun vollständig Modular.
+
+
+\subsubsection{Layouts}
+
+Da auf den meisten Seiten des Webinterfaces fast das gleiche Layout beibehaltet ist es sinnvoll diesen Inhalt in ein Component umzuwandeln. Auch Layouts
+sind Components.
+
+Es gibt im Webinterface folgende Layouts:
+
+\begin{itemize}
+  \item \textbf{admin.blade.php}\\
+  Layout für die Administrativen Seiten mit einer Sidebar und Page Header
+  \item \textbf{app.blade.php}\\
+  Layout für sonstige Seiten ohne Sidebar
+  \item \textbf{display.blade.php}\\
+  Besonderes Layout für die Display Seiten
+\end{itemize}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\linewidth]{webinterface/admin_layout.pdf}
+  \caption{Admin Layout}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\linewidth]{webinterface/app_layout.pdf}
+  \caption{App Layout}
+\end{figure}
+
+
+\subsubsection{Navbar}
+
+
+\subsubsection{Sidebar}
+
+
+\subsubsection{Footer}
+
