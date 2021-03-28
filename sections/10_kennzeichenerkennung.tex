@@ -3,3 +3,88 @@
 \lipsum[1-5]
 \subsection{Vorstudie}
 \lipsum[1-5]
+
+\subsection{Bildverarbeitung}
+
+\subsubsection{Einleitung}
+Die Bildverarbeitung ist ein zentrales Thema in dieser Applikation für Kennzeichenerkennung. 
+Sie wird für die Zeichensegmentierung verwendet, sowie für die Vorbereitung von Bildern für 
+andere Algorithmen. Im Folgenden werden die verwendeten Bildverarbeitungsfunktionen aufgelistet 
+und deren Funktionsweise erläutert.
+
+\subsubsection{Bilaterale Filterung}
+Bilaterale Filterung ist eine Methode für eine kantenerhaltende Weichzeichnung eines Bildes.\\
+
+Bei der Berechnung für den Farbwert des Ausgabepixels werden die benachbarten Pixel nicht nur 
+mit ihrer Entfernung gewichtet, sondern auch mit ihrem eigenen Farbwert. Dadurch können einzelne 
+farbliche Ausreißer herausgefiltert werden. Dies ist vor allem in der Bildverarbeitung wichtig, 
+da dadurch die wichtigen Eigenschaften eines Bildes, wie zum Beispiel Kanten, erhalten bleiben 
+und verarbeitet werden können, aber einzelne abweichende Pixel herausgefiltert werden wodurch 
+unnötige Informationen entfernt werden.\\ 
+
+In Abbildung 1 kann man ein Bild von verschieden Lebensmitteln sehen. Wenn man genau hinsieht 
+erkennt man vor allem bei den Blättern im Hintergrund und beim Brot viele detailreiche Texturen. 
+Diese Texturen haben keine wichtige Texturen und sind deswegen unnötig. Um die Bildverarbeitung zu 
+vereinfachen wendet man deswegen die bilaterale Filterung auf dieses Bild an, um diese detailreichen 
+Texturen zu vereinfachen. In Abbildung 2 sieht man das Bild nach der bilateralen Filterung. 
+Wenn man hier dann wieder genauer auf die Blätter und das Brot sieht, erkennt man, dass die 
+detailreichen Texturen weichgezeichnet wurden, aber die Kanten sind genauso gut erkennbar wie vor der Filterung.
+
+\subsubsection{Thresholding}
+Das Thresholding oder auch Schwellenwertverfahren wird in der Bildverarbeitung verwendet, um Bilder zu segmentieren. 
+Aus einem Graubild kann dadurch ein Binäres Bild erzeugt werden. \\
+
+Bei diesem Verfahren wird ein bestimmter Schwellwert (En.: Threshold) definiert, welcher mit den Grauwerten der einzelnen 
+Pixel des Bildes verglichen wird. Wenn der Grauwert den Schwellwert überschreitet, wird dieser durch einen weißen Pixel 
+ersetzt und wenn der Grauwert kleiner als der Schwellwert ist, wird dieser durch einen schwarzen Pixel ersetzt. 
+Dadurch erhält man ein Bild welches nur noch zwei Farben hat, Schwarz und Weiß. Dies wird deswegen eingesetzt, 
+da dadurch viele Bildverarbeitungsalgorithmen schneller arbeiten und die Effizienz gesteigert wird.\\
+
+In Abbildung 3 sieht man ein solches Graubild welches nur verschieden Graustufen aufweist. In Abbildung 4 sieht man das 
+Bild nach dem Thresholding. Hier kann man nur noch das Boot mit den Menschen erkennen. Dies ist nicht nur für schnellere 
+Bildverarbeitungsalgorithmen wichtig, sondern wird auch zur Objekterkennung in Bildern verwendet.\\
+
+Um den Schwellwert zu bestimmen kann man diesen entweder variieren bis das gewünschte Ergebnis erscheint oder man 
+verwendet Methoden, welche den Schwellwert automatisch bestimmen. Eine der bekanntesten Methoden zur Schwellwertbestimmung 
+ist die Methode von Otsu, welche mit dem Schwellenwert die Pixel in Vordergrund und Hintergrund unterteilt.
+
+\subsubsection{Erosion}
+Erosion ist eine Funktion der Bildverarbeitung und ist in die morphologische Bildverarbeitung einzuordnen. Diese beschäftigt 
+sich primär mit der Verarbeitung von binären Bildern, welche man nach Thresholding erhält.\\
+
+Erosion benötigt zwei Eingaben, das binäre Bild und einen Kernel. Der Kernel ist dabei die Angabe, nach welcher die Erosion 
+durchgeführt wird. Der Kernel ist auch eine binäre Struktur, welche über jeden einzelnen Pixel des binären Bildes geschoben 
+wird. Wenn der Kernel komplett mit dem binären Bild übereinstimmt, behält dieser Pixel seinen Wert und ansonsten wird er 
+invertiert. Dabei muss jedoch darauf geachtet werden, dass die Polarität des binären Bildes und des Kernels übereinstimmt, 
+da sonst die Erosion nicht richtig funktioniert. Als Resultat erhält man danach ein deutlicheres Bild bei welchem einzelne 
+Pixelfehler herausgefiltert wurden und die Konturen besser erkennbar sind.\\
+
+In Abbildung 5 und 6 sieht man die Anwendung der Erosion. Die Konturen der einzelnen Zeichen im Kennzeichen sind in Abbildung 
+6 nach der Erosion deutlicher erkennbar als davor.
+
+\subsubsection{Farbraum}
+Der Farbraum eines Bildes enthält alle möglichen Farben eines Farbmodells. Das Farbmodell beschreibt dabei die Parameter, aus 
+welchen die einzelnen Farben gebildet werden. Dies ist in der Bildverarbeitung relevant, da verschiedene Funktionen der 
+Bildverarbeitung, unterschiedliche Farbräume verwenden und dieser deswegen korrekt eingestellt werden muss.\\
+
+In dieser spezifischen Applikation werden die folgenden Farbräume verwendet:
+
+\paragraph{RGB}\mbox{}\\
+RGB ist einer der häufigsten und bekanntesten Farbräume. Er basiert auf den drei Grundfarben Rot, Grün und Blau und wird vor 
+allem bei Bildschirmen und in der Fotografie genutzt. Die Farben setzen sich in diesem Modell aus dem jeweiligen Rot-, Grün- 
+und Blauanteil der einzelnen Pixel zusammen.
+
+\paragraph{Graustufen}\mbox{}\\
+Bei einem Graustufen-Bild, zu sehen in Abbildung 3, hat jeder Pixel einen Wert von 0 bis 255. Diese Werte erstrecken sich also 
+von Schwarz bis Weiß und dazwischen liegen verschiedene Grautöne. Dieser Farbraum wird in der Bildverarbeitung häufig verwendet, 
+da Konturen einfacher erkennbar sind und es nur einen Parameter gibt, welcher verarbeitet werden muss, wodurch die Effizienz 
+diverser Algorithmen gesteigert werden kann. Zudem wird dieser Farbraum auch oft in Verbindung mit Thresholding verwendet.
+
+\paragraph{BGR}\mbox{}\\
+Der BGR ist ein relativ unbekannter und wenig verwendeter Farbraum, da er sehr ähnlich zum RGB-Farbraum ist. Der einzige 
+Unterschied zwischen diesen beiden liegt in der Anordnung der Parameter. Bei BGR sind die Parameter spiegelverkehrt zu RGB, 
+das heißt es kommt zuerst der Blauanteil, dann der Grünanteil und zum Schluss der Rotanteil. Insgesamt ergibt dies für die 
+einzelnen Pixel zwar die gleichen Farben, aber die Funktionen der Bildverarbeitung müssen trotzdem das Bild im passenden 
+Farbraum erhalten. So verwendet zum Beispiel die Funktion „imread“ von OpenCV den BGR-Farbraum und die Funktion „im Show“ 
+von Matplotlib verwendet den RGB-Farbraum. Wenn man diese Funktionen also nacheinander anwendet, muss dazwischen der Farbraum 
+umgewandelt werden.
