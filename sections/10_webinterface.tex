@@ -1,9 +1,223 @@
 \def \sectionauthors {Philipp Kraft}
 
+\subsection{Einleitung}
+
 \subsection{Anforderungen}
 Das Webinterface hat auf der einen Seite die Aufgabe die Kommunikation mit der
-Kennzeichenerkennung und der Induktionmessung sicherzustellen und auf der
+Kennzeichenerkennung und der Fahrzeugerkennung sicherzustellen und auf der
 anderen Seite die Verwaltung und Darstellung der gewonnen Daten.
+
+\subsection{Verwendete Technologien}
+\subsubsection{HTML}
+\acs*{HTML} steht hierbei für \acl*{HTML} und ist eine Auszeichnungssprache
+welche vom \ac*{W3C}\footnote{\url{https://www.w3.org} } entwickelt wird. \ac*{HTML} ist
+De-Facto-Standard um Inhalte in Browsern darzustellen. \acs*{HTML} ist dabei aber
+nicht für die visuelle Darstellung verantwortlich sondern nur für die
+semantische Struktur. Der Sinn dahinter ist, dass der Inhalt und die Vorgaben an
+die Darstellung möglichst gut getrennt ist. Für die Formatierung kommt die Stylesheet-Sprache \ac*{CSS} zum Einsatz,
+welche ebenfalls vom \acl*{W3C} entwickelt wird. Die aktuellste Version der
+\acs*{HTML} Spezifikation ist
+HTML5\footnote{\url{https://www.w3.org/2014/10/html5-rec.html.en}} und wurde am
+28. Oktober 2014 vom \acs*{W3C} vorgelegt.
+
+\paragraph{Beispielhafte HTML Seite}\mbox{}\\
+Eine \acs*{HTML} Seite setzt sich aus einer Vielzahl von sogenannten Elementen
+zusammen. Ein Element besteht aus einem Start Tag und aus einem End Tag, der
+Inhalt wird zwischen diese Tags geschrieben. Nun folgt eine einfache HTML Seite,
+welche die Grundlegenden Funktionen von HTML und CSS darlegen soll.
+
+\begin{listing}[H]
+  \begin{minted}{html}
+    <!DOCTYPE html>
+    <html>
+    <head>
+    <title>Titel</title>ü
+    </head>
+    <body>
+
+    <h1>Überschrift</h1>
+    <p>Paragraph</p>
+
+    </body>
+    </html>
+  \end{minted}
+  \caption{index.html}
+  \label{lst:simple_html_site}
+\end{listing}
+
+Das Element \verb|<!DOCTYPE html>| deklariert, dass die folgende Seite den HTML5
+Standard verwendet. Danach folgt mit \verb|<html>| das Wurzelelement, dass alle
+anderen Elemente beinhaltet. Das \verb|<head>| Element beinhaltet verschiedene
+Metadaten d.h. Daten die nicht angezeigt werden. Im oben gezeigten Beispiel
+Code~\ref{lst:simple_html_site} wird nur der Title des Dokuments gesetzt, dieser
+wird im Browser Tab angezeigt. Es können aber auch noch andere Daten gesetzt
+bzw. eingebunden werden:
+
+\begin{itemize}
+  \item Character Set
+  \item Styles
+  \item Scripts
+  \item Viewport
+  \item Sonstige Metainformationen (Author, Keywords)
+\end{itemize}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\linewidth]{webinterface/simple_html_site.png}
+  \caption{Einfache HTML Seite}
+\end{figure}
+
+\subsubsection{CSS}
+Wie bereits angesprochen ist \ac*{CSS} für die Formatierung bzw. die visuelle
+Darstellung der einzelnen HTML-Elemente verantwortlich. Der Standard wird wie
+bei HTML vom \acs*{W3C} spezifiziert und die aktuellste Version ist CSS3 was so
+viel bedeutet wie \acs*{CSS} Level 3, wobei nur einzelne Teile als Empfehlung
+durch das \acs*{W3C} vorgelegt wurden, beispielweise das CSS Color Module Level
+3\footnote{\url{https://www.w3.org/TR/css-color-3}}. Um die Funktion
+darzustellen wird die vorherige HTML Seite nun mit CSS ergänzt.
+
+\begin{listing}[H]
+  \begin{minted}{css}
+    body {
+      background-color: deepskyblue;
+    }
+
+    h1 {
+      color: white;
+      text-align: center;
+      font-family: verdana;
+    }
+
+    p {
+      color: wheat;
+      font-family: verdana;
+      font-size: 20px;
+    }
+  \end{minted}
+  \caption{style.css}
+\end{listing}
+
+Nun muss dieses Stylesheet nur noch im \verb|<head>| Tag mit\\
+\mintinline{css}{  <link rel="stylesheet" href="mystyle.css">} eingebunden
+werden.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\linewidth]{webinterface/simple_html_site_with_css.png}
+  \caption{Einfache HTML Seite mit CSS}
+\end{figure}
+
+Es lässt sich nun deutlich erkennen, dass sich die Webseite stark verändert hat
+von den Farben bis zu der Schriftart. HTML und CSS bieten noch viel mehr
+Funktionen, eine Vielzahl der Funktionen sind auf der Website
+w3schools\footnote{\url{https://www.w3schools.com/html} und
+\url{https://www.w3schools.com/css}} zu finden.
+
+\subsubsection{JavaScript}
+Es folgt nun eine weitere sehr wichtige Technologie und die meist verwendete
+Programmiersprache überhaupt laut der Stack Overflow Developer Survey
+2020\footnote{\url{https://insights.stackoverflow.com/survey/2020}}. \ac*{JS}
+ermöglicht es dynamische Webseiten zu erstellen, dabei wird der Code direkt
+lokal im Browser ausgeführt. Jedoch ist JavaScript nicht mehr nur auf das
+Frontend\footnote{Grafische Benutzeroberfläche mit der der Benutzer interagiert}
+mehr beschränkt, es möglich mit Frameworks wie Node.js auch
+Backend\footnote{Verarbeitung von Daten auf beispielsweise einem Server}
+Applikationen zu schreiben und somit ist es möglich Full-Stack\footnote{Front-
+und Backend}-Anwendungen vollständig mit
+\acl*{JS} zu entwickeln. Eine der wichtigsten Anwendungsgebiete ist die
+Manipulation von Elementen über das \ac*{DOM}. Der Standards wird unter dem
+Namen ECMA Script von der Organisation Ecma
+International\footnote{\url{https://www.ecma-international.org}}
+veröffentlicht und die aktuellste Version ist
+\textbf{ECMA-262}.
+
+\subsubsection{PHP}
+\ac*{PHP} ist eine Skriptsprache um dynamische Webseiten zu realisieren, jedoch
+wird nicht wie bei \acl*{JS} der Code auf dem Client ausgeführt sondern auf dem
+Server, dort wird die HTML-Ausgabe generiert und dem Client zugesendet.
+Somit ist es nicht möglich den Code als Benutzer zu betrachten. Grundsätzlich
+ist PHP als synchrone Sprache geplant worden, es ist jedoch auch möglich
+asynchron zu Programmieren um die Performance zu steigern. Die aktuellste
+Version ist \acs*{PHP} 8\footnote{\url{https://www.php.net/docs.php}}.
+
+
+\subsubsection{TailwindCSS}
+Es gibt eine Vielzahl von CSS-Frameworks, das Ziel ist ein einfacheres und
+schnelleres erstellen von Webseiten, dazu gehören neben TailwindCSS folgende
+relevanten Frameworks.
+
+\begin{itemize}
+  \item Bootstrap (\url{https://getbootstrap.com})
+  \item Foundation (\url{https://get.foundation})
+  \item Materialize (\url{https://materializecss.com})
+\end{itemize}
+
+Viele von diesen CSS Frameworks verwenden vorgefertigte Components welche direkt
+verwendet werden können, dies führt dazu, dass die Entwicklung sehr rasch ist.
+Dort unterscheidet sich TailwindCSS von den anderen CSS Frameworks, dort
+existieren sogenannte Utility-Classes, diese können direkt im \acs*{HTML} auf die
+einzelnen Elemente angewendet werden.
+
+%\subsubsection{Vue}
+
+\subsubsection{Laravel}
+Laravel\footnote{\url{https://laravel.com/}} ist ein Open-Source PHP-Framework, es erleichtert die Entwicklung und
+erhöht die Sicherheit und auch durch die zahlreichen First-Party-Packages bietet
+Laravel ein sehr hochwertiges Ecosystem. Da Laravel ein sehr wichtiger Bestandteil des
+Webinterfaces ist wird später noch genauer auf die einzelne Funktionen des
+Frameworks eingegangen. Laravel wird seit Juni 2011 entwickelt und erhält
+jährlich eine neue Version, aktuell ist Laravel 8 die neuste Version.\\
+
+Das Framework folgt dem sogenannten \ac*{MVC} Muster das bedeutet, dass die
+Programmierlogik in drei verschiedene Teile unterteilt wird. Der Sinn dahinter
+ist, dass die Anwendung dadurch sehr flexibel ist und später leichter erweitert
+werden kann oder einzelne Teile wiederverwendet werden können.
+
+\begin{itemize}
+  \item \textbf{Model} \\
+  Hier befindet sich die Datenstruktur der Anwendung. In Laravel kann dies
+  beispielsweise das Model \verb|User| sein.
+  \item \textbf{View} \\
+  In der View befindet sich die Präsentationsebene, im Fall von Laravel sind das
+  Components und Layouts.
+  \item \textbf{Controller} \\
+  In den Controllern der Anwendung befindet sich die Logik um beispielsweise
+  durch das Absenden eines Formulares einen Eintrag in der Datenbank zu erstellen. 
+\end{itemize}
+
+Laravel besitzt eine sehr ausführliche Dokumentation welche unter
+(\url{https://laravel.com/docs/8.x}) zu erreichen ist.
+
+\paragraph{Routing}\mbox{}\\
+In Laravel erfolgt durch ein Routefile unter \verb|routes/web.php|. API Requests
+erhalten ein eigenes Routefile unter \verb|routes/api.php| und erhalten einen
+\verb|/api| Prefix. Diese Dateien werden dann automatisch durch einen Provider
+geladen.\\
+
+Der Laravel Router erlaubt folgende HTTP-Anfragemethoden:
+\begin{itemize}
+  \item \textbf{GET} (Fordert Ressource an)\\
+  \mintinline{php}{  Route::get($uri, $callback);}
+  \item \textbf{POST} (Neue Ressource erstellen)\\
+  \mintinline{php}{  Route::post($uri, $callback););}
+  \item \textbf{PUT} (Ressource ersetzen oder erstellen)\\
+  \mintinline{php}{  Route::put($uri, $callback);}
+  \item \textbf{PATCH} (Ressource ändern)\\
+  \mintinline{php}{  Route::patch($uri, $callback);}
+  \item \textbf{DELETE} (Löscht Ressource)\\
+  \mintinline{php}{  Route::delete($uri, $callback);}
+  \item \textbf{OPTIONS} (Liste von unterstützen Methoden des Servers)\\
+  \mintinline{php}{  Route::options($uri, $callback);}
+\end{itemize}
+\paragraph{Blade Templates}
+\paragraph{Sessions}
+\paragraph{Controllers}
+\paragraph{Artisan}
+\paragraph{Migrations}
+\paragraph{Middleware}
+\paragraph{Eloquent ORM}
+\paragraph{Laravel Mix}
+\paragraph{Laravel Sanctum}
 
 
 \subsection{Lokale Entwicklungsumgebung mit Laragon}
@@ -198,7 +412,6 @@ für die Software \textbf{L}inux, \textbf{A}pache, \textbf{M}ySQL und \textbf{P}
         für MySQL
   \item \textbf{Composer} (\url{https://getcomposer.org}) \\ Paketmanager für PHP
   \item \textbf{Git} (\url{https://git-scm.com}) \\ Versionskontrolle
-        Quelltext-Editor
 \end{itemize}
 
 
@@ -492,7 +705,7 @@ Das Deploy-Script wird auf der Lokalen Entwicklermaschine ausgeführt. Das Scrip
 
 Das Server Deploy Script \verb|server_deploy.sh| versetzt die Laravel Applikation in den Wartungsmodus und lädt sich vom deploy Branch den Code auf den Server herunter, danach werden einige Befehle ausgeführt.
 
-\begin{listing}[H]
+\begin{longlisting}
   \begin{minted}{bash}
     #!/bin/sh
     set -e
@@ -521,7 +734,7 @@ Das Server Deploy Script \verb|server_deploy.sh| versetzt die Laravel Applikatio
     echo "Application deployed!"
   \end{minted}
   \caption{serverdeploy.sh}
-\end{listing}
+\end{longlisting}
 
 
 \paragraph{Github Action}\mbox{}\\
@@ -529,7 +742,7 @@ Github Actions ist ein Projekt von Github, welches es ermöglicht Automatisierun
 
 Als erstes muss ein Workflow erstellt werden, dieser wird im Root-Verzeichnis des Projekts erstellt \verb|APM\.github\workflows\main.yml|.
 
-\begin{listing}[H]
+\begin{longlisting}
   \begin{minted}{bash}
     name: Deploy Laravel app
 
@@ -567,7 +780,7 @@ Als erstes muss ein Workflow erstellt werden, dieser wird im Root-Verzeichnis de
             script: 'cd /var/apm && ./server_deploy.sh && chown -R www-data.www-data /var/apm && chmod -R 755 /var/apm && chmod -R 777 /var/apm/storage' 
   \end{minted}
   \caption{main.yml}
-\end{listing} 
+\end{longlisting}
 
 Dieser Workflow setzt einen Ubuntu Server in der Cloud auf und baut dort die
 Assets zusammen, damit die Downtime auf dem Production Server möglichst gering
@@ -659,7 +872,7 @@ verwendet sondern ein Punkt, es muss auch keine Extensions angegeben werden.
 \paragraph{Attribute übergeben}\mbox{}\\
 
 Auch wenn viele Components ohne Problem überall ohne Veränderung verwendet
-werden können, jedoch ist es gewünscht bei manchen Components beispielweise eine
+werden können, ist es gewünscht bei manchen Components beispielweise eine
 zusätzliche Klasse anzugeben um die Größe des Elements zu verändern. Erreicht
 wird das mit der \verb|attributes| Variable im Blade File des Components, da
 aber oft schon Attribute definiert sind ist es möglich mit der \verb|merge|
@@ -715,3 +928,26 @@ Es gibt im Webinterface folgende Layouts:
 
 \subsubsection{Footer}
 
+\subsection{Funktionen}
+\subsubsection{Dashboard}
+\subsubsection{Login- und Registersystem}
+\subsubsection{News}
+\subsubsection{Benutzerverwaltung}
+\subsubsection{Rechte- und Rollenverwaltung}
+\subsubsection{Parkplatzverwaltung}
+\subsubsection{Kennzeichenverwaltung}
+\subsubsection{Erkennungsverlauf}
+\subsubsection{Seiten Einstellungen}
+\subsubsection{API Schlüssel}
+\subsubsection{Displays}
+\subsubsection{Notifications}
+\subsubsection{Profil}
+\subsubsection{Lokalisierung}
+
+\subsection{Performance und Sicherheit}
+\subsubsection{Form Validation}
+\subsubsection{Authentifizierung}
+\subsubsection{Authentisierung}
+\subsubsection{SQL Injection}
+\subsubsection{Cross-Site-Scripting}
+\subsubsection{Lighthouse}
