@@ -190,9 +190,9 @@ Laravel besitzt eine sehr ausführliche Dokumentation welche unter
 
 \paragraph{Routing}\mbox{}\\
 In Laravel erfolgt durch ein Routefile unter \verb|routes/web.php|. API Requests
-erhalten ein eigenes Routefile unter \verb|routes/api.php| und erhalten einen
-\verb|/api| Prefix. Diese Dateien werden dann automatisch durch einen Provider
-geladen.\\
+haben ein eigenes Routefile unter \verb|routes/api.php| und erhalten einen
+\verb|/api| Prefix. Diese Dateien werden dann automatisch durch einen Service
+Provider von Laravel geladen.\\
 
 Der Laravel Router erlaubt folgende HTTP-Anfragemethoden:
 \begin{itemize}
@@ -209,6 +209,23 @@ Der Laravel Router erlaubt folgende HTTP-Anfragemethoden:
   \item \textbf{OPTIONS} (Liste von unterstützen Methoden des Servers)\\
   \mintinline{php}{  Route::options($uri, $callback);}
 \end{itemize}
+
+\begin{listing}[H]
+  \begin{minted}{php}
+    Route::group(['middleware' => 'verified', 'prefix' => 'admin'], function () {
+      Route::get('users', [UserController::class, 'index'])->name('users.index');
+      Route::get('users/create', [UserController::class, 'create'])->name('users.create');
+      Route::post('users', [UserController::class, 'store'])->name('users.store');
+      Route::get('users/{user}', [UserController::class, 'show'])->name('users.show');
+      Route::get('users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+      Route::patch('users/{user}', [UserController::class, 'update'])->name('users.update');
+      Route::delete('users/{user}', [UserController::class,
+      'destroy'])->name('users.destroy');
+    });
+  \end{minted}
+  \caption{web.php}
+\end{listing}
+
 \paragraph{Blade Templates}
 \paragraph{Sessions}
 \paragraph{Controllers}
@@ -407,7 +424,7 @@ für die Software \textbf{L}inux, \textbf{A}pache, \textbf{M}ySQL und \textbf{P}
 \begin{itemize}
   \item \textbf{Apache Web Server} (\url{https://httpd.apache.org}) \\ HTTP Server
   \item \textbf{MariaDB} (\url{https://mariadb.org}) \\ Fork von MySQL
-  \item \textbf{PHP} (\url{https://mariadb.org}) \\ Fork von MySQL
+  \item \textbf{PHP} (\url{https://www.php.net}) \\ \ac*{PHP}
   \item \textbf{phpMyAdmin} (\url{https://www.phpmyadmin.net}) \\ Webinterface
         für MySQL
   \item \textbf{Composer} (\url{https://getcomposer.org}) \\ Paketmanager für PHP
@@ -698,7 +715,7 @@ Das Deploy-Script wird auf der Lokalen Entwicklermaschine ausgeführt. Das Scrip
     
     git checkout main
   \end{minted}
-  \caption{phpmyadmin.conf}
+  \caption{deploy.sh}
 \end{listing}
 
 \paragraph{Server Deploy Script}\mbox{}\\
