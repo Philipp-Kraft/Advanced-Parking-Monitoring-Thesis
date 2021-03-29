@@ -1,5 +1,52 @@
 \def \sectionauthors {Dennis Köb}
 \subsection{Anforderungen}
-\lipsum[1-5]
+Das Ziel der Fahrzeugerkennung ist es Fahrzeuge auf mehrere Parklücken eines Parkplatzes zu erkennen. Die daraus 
+gewonnen Zustände sollen an das Webinterface übermittelt und an den jeweilige Parklücken über LEDs ausgegeben werden. 
 \subsection{Vorstudie}
-\lipsum[1-5]
+
+\subsection{Erkennung von Metallen über Spulen}
+\subsubsection{Messung der Induktivität}
+\paragraph{RL-Oszillator mit Timer Baustein}
+\paragraph{Puls-Ladung mit Mikrokontroller}
+\subsubsection{Messung der Induktion}
+\paragraph{Messung eines Wechselstromes}
+\paragraph{Messung der Resonanzfrequenz eines Oszillastors}
+
+\subsection{RS485 Bussystem}
+\subsubsection{Überblick}
+\subsubsection{Elektrische Spezifikation}
+\subsubsection{Implementation eines eigenen Protokolls}
+
+\subsection{Mikrokontroller Slave-Geräte}
+\subsubsection{Überblick}
+\subsubsection{Atmega328PB}
+\subsubsection{Peripherie des Mikrokontrollers}
+\paragraph{Spannungswandler}
+\paragraph{RS485 Pegelwandler}
+\paragraph{Digitale Ein- und Ausgänge}
+\subsubsection{Layout des Slave-Gerätes}
+\subsubsection{Gehäuse}
+
+
+\subsection{USB-Master}
+\subsubsection{USB-Bussadapter Gerät}
+\paragraph{Überblick}
+\paragraph{FT232RL}
+\paragraph{Spannungsversorgung}
+\paragraph{USB-C Anschluss}
+\paragraph{Layout des Master-Geräts}
+\paragraph{Gehäuse}
+
+\subsubsection{Master Programm}
+\paragraph{Benötigte Software}
+\paragraph{Adressvergabe}
+\paragraph{Frequenzauslesung}
+\paragraph{Auswertung}
+\paragraph{API-Post}
+
+\subsubsection{RaspberryPi als Mastergerät}
+\paragraph{SSH Remote Zugriff}
+\paragraph{Code Deployment}
+\paragraph{Unittest}
+
+
