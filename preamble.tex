@@ -29,6 +29,7 @@
 \usepackage{listingsutf8} 					% ermöglicht das Einbinden von Codesegmenten
 \usepackage{url}
 \usepackage{subfigure}
+\usepackage{caption}
 
 
 %% ==================================================================
@@ -75,6 +76,7 @@
 %% ==================================================================
 %%%% Listings Settings
 %% ==================================================================
+\newenvironment{longlisting}{\captionsetup{type=listing}}{}
 \renewcommand{\listingscaption}{Code}
 \renewcommand{\listoflistingscaption}{Codeverzeichnis}
 
