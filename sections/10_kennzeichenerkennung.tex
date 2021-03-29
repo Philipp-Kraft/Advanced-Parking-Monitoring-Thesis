@@ -46,7 +46,7 @@ Bildverarbeitungsalgorithmen wichtig, sondern wird auch zur Objekterkennung in B
 
 Um den Schwellwert zu bestimmen kann man diesen entweder variieren bis das gewünschte Ergebnis erscheint oder man 
 verwendet Methoden, welche den Schwellwert automatisch bestimmen. Eine der bekanntesten Methoden zur Schwellwertbestimmung 
-ist die Methode von Otsu, welche mit dem Schwellenwert die Pixel in Vordergrund und Hintergrund unterteilt.
+ist die Methode von Otsu\footnote{Benannt nach Nobuyuki Otsu}, welche mit dem Schwellenwert die Pixel in Vordergrund und Hintergrund unterteilt.
 
 \subsubsection{Erosion}
 Erosion ist eine Funktion der Bildverarbeitung und ist in die morphologische Bildverarbeitung einzuordnen. Diese beschäftigt 
@@ -99,7 +99,8 @@ zutrifft muss der zu prüfende Pixel zu einer Kontur gehören. Wenn dies auf meh
 das, dass diese zusammen eine Kontur bilden.\\
 
 Die Funktion „findcontours“ von OpenCV, welche in dieser Applikation verwendet wird, ist eine Funktion für Konturerkennung 
-und kann weiße Objekte auf einem schwarzen Hintergrund erkennen. Sie basiert auf dem Algorithmus von Suzuki von 1985 und 
+und kann weiße Objekte auf einem schwarzen Hintergrund erkennen. Sie basiert auf dem Algorithmus von Suzuki von 
+1985\footnote{Topological structural analysis of digitized binary images by border following} und 
 liefert eine Liste mit allen Konturen. Die Konturen werden in der Liste als ein Array von Koordinaten abgespeichert.
 
 \subsection{Kennzeichenerkennungsprogramm}
@@ -132,7 +133,7 @@ durch mehrere Bilder verhindert.
 
 \paragraph{Kennzeichenerfassung}\mbox{}\\
 Die Kennzeichenerfassung hat die Aufgabe, das Kennzeichen im Eingabebild zu lokalisieren. Dies geschieht mittels Machine Learning 
-mit dem Modul WPOD-NET von Sérgio Montazolli Silva und Cláudio Rosita Jung. Dieses verwendet zuerst das Modul YOLOv2 welches zur 
+mit dem Modul WPOD-NET von Sérgio Montazolli Silva und Cláudio Rosita Jung\footnote{License Plate Detection and Recognition in Unconstrained Scenarios}. Dieses verwendet zuerst das Modul YOLOv2 welches zur 
 Echtzeitobjekterkennung verwendet werden kann und in dieser Anwendung zur Erkennung von Fahrzeugen verwendet wird. Danach werden 
 die Koordinaten des Kennzeichens ermittelt und dieses aus dem Bild ausgeschnitten und abgespeichert.
 
@@ -144,7 +145,7 @@ besser erkennbar gemacht. Danach werden im verarbeiteten Bild die Konturen gesuc
 
 \paragraph{Zeichenerkennung}\mbox{}\\
 Die letzte Stufe der Kennzeichenerkennung ist die Zeichenerkennung. In dieser werden die einzelnen Zeichen erkannt und als Text 
-abgespeichert. Dies funktioniert über eine eigenes Neuronales Netz basierend auf MobileNetV2, welches mit einem Datensatz von 
+abgespeichert. Dies funktioniert über eine eigenes Neuronales Netz basierend auf MobileNetV2\footnote{Neuronales Netz für Computer Vision}, welches mit einem Datensatz von 
 über 35 000 Bildern auf die Erkennung von Zeichen aus Bildern trainiert wurde.
 
 \paragraph{Anbindung an Datenbank}\mbox{}\\
@@ -152,7 +153,7 @@ Nachdem das Kennzeichen als Text abgespeichert wurde, muss diese Information in 
 eigene API angewandt, welcher man diese Informationen übergeben muss und als Rückgabe die Information bekommt, ob sich das 
 Fahrzeug nun innerhalb oder außerhalb des Parkplatzes befindet.
 
-\paragraph{Ablauf}\mbox{}\\
+\subsubsection{Ablauf}
 
 \begin{figure}[H]
     \centering
@@ -161,11 +162,373 @@ Fahrzeug nun innerhalb oder außerhalb des Parkplatzes befindet.
 \end{figure}
 
 Im oberen Diagramm ist der Ablauf des Programms angegeben. Zuerst wird mit einem Button der Auslöser betätigt und damit das 
-Foto aufgenommen. Dann wird das erste Machine Learning Modell für die Kennzeichenerkennung „WPOD-NET“ geladen. Bevor das 
+Foto aufgenommen. Dann wird das erste Machine Learning Modell für die Kennzeichenerkennung „WPOD-NET“\footnote{Machine Learning Modell für Kennzeichenerfassung} geladen. Bevor das 
 Bild diesem Modell übergeben werden kann, muss es noch angepasst werden damit das Modell damit arbeiten kann. Danach kann 
 damit das Kennzeichen im Bild lokalisiert werden. Im Anschluss wird dieses Kennzeichenbild mit mehreren Bildverarbeitungsalgorithmen 
 verarbeitet, um dann die einzelnen Zeichen zu segmentieren. Danach kann dann das Modell für die Zeichenerkennung geladen 
 werden und dieses dann auch angewendet werden, um das Ergebnis zu erhalten. Dieses Ergebnis wird dann noch mit einer API an die Datenbank übergeben.
+
+\subsubsection{Verwendete Librarys}
+
+\paragraph{Versionsübersicht der verwendeten Librarys}\mbox{}\\
+Im Folgenden werden die verwendeten Versionen der benötigten Librarys aufgelistet, um das Programm zu starten. Dies wird noch einmal 
+unterteilt in die Versionen, welche auf Windows 10 benötigt werden und jene auf Raspbian\footnote{Raspbian ist ein Unix-basiertes Betriebssystem für den Raspberry Pi}, da auf Raspbian manche Versionen noch 
+nicht verfügbar sind, neuere und verbesserte Versionen verfügbar sind oder manche Versionen nur auf komplizierten Umwegen installierbar sind.
+
+Windows:
+
+\begin{itemize}
+    \item h5py = 2.10.0
+    \item imutils = 0.5.3
+    \item Keras = 2.4.3
+    \item matplotlib = 3.3.2
+    \item notebook = 6.1.5
+    \item numpy = 1.18.5
+    \item opencv-python = 4.4.0.44
+    \item scikit-learn = 0.23.2
+    \item tensorflow = 2.3.1
+    \item requests = 2.24.0
+\end{itemize}
+
+Raspbian:
+
+\begin{itemize}
+    \item h5py = 2.10.0
+    \item imutils = 0.5.3
+    \item Keras = 2.4.3
+    \item matplotlib = 3.3.3
+    \item notebook = 6.1.5
+    \item numpy = 1.19.4
+    \item opencv-python = 4.4.0.46
+    \item scikit-learn = 0.24.0
+    \item tensorflow = 2.4.0
+    \item requests = 2.21.0
+\end{itemize}
+
+\paragraph{Jupyter Notebook}\mbox{}\\
+Jupyter Notebook ist eine nützliche Erweiterung für Python, wenn es um den Bereich der Daten-Visualisierung und Machine Learning geht. 
+Sie ist eine Unteranwendung des Open-Source Projektes „Project Jupyter“, welches von großen Partnern wie Microsoft und Google unterstützt 
+und verwendet wird. Mit Jupyter Notebook ist es möglich in einer Web-Anwendung ein Live-Script abzuarbeiten und in Kombination mit Matplotlib 
+die Daten visuell darzustellen, abzuspeichern und zu überwachen. Im Gegensatz zur direkten Darstellung in der Entwicklungsumgebung, wird 
+der letzte Durchgang des Scripts, inklusive aller Bilder und Grafiken gespeichert. Zudem ist es auch hervorragend für das Training und 
+die dazugehörende Überwachung von Machine Learning Modulen geeignet. Außerdem bietet Jupyter Notebook noch die Möglichkeit mehrere Scripts 
+parallel abzuarbeiten und diese individuell zu überwachen. In dieser Applikation wird es für ein solches Training und für die anschauliche 
+Visualisierung von Daten genutzt.\\
+
+Die Installation von Jupyter Notebook ist simpel, da man es einfach über pip\footnote{Paketverwaltungsprogramm für Python} mit dem folgenden Befehl installieren kann:
+
+\begin{listing}[H]
+    \begin{minted}{bash}
+        pip install notebook
+    \end{minted}
+    \caption{PIP Installation von Jupyter Notebook}
+\end{listing}
+
+Um das Jupyter Notebook aufzurufen muss im Terminal „jupyter notebook“ eingegeben werden und dann öffnet sich automatisch die Web-Applikation. 
+Danach hat man Zugriff auf komplette Dateistruktur des eigenen Projektes und kann die einzelnen Python-Scripts starten. Dabei ist zu beachten, 
+dass man keine gewöhnliche .py-Datei benötigt, sondern eine .ipynb-Datei benötigt, wozu man einfach eine Kopie des normalen Scripts erstellt und die Dateiendung ändert.
+
+\paragraph{Numpy}\mbox{}\\
+Numpy ist eine weit verbreitete Library für Python, welche sich mit der Berechnung und Verarbeitung von mehrdimensionalen Arrays beschäftigt. 
+Damit können komplexe Berechnungen und Algorithmen oft effizienter verarbeitet werden, wobei aber beachtet werden muss, dass der Code an die 
+mehrdimensionalen Arrays angepasst werden muss. Numpy selbst ist auch eine Voraussetzung für OpenCV, welches Numpy-Arrays verwendet, um Bilder zu verarbeiten. 
+Dazu werden 3-dimensionale Arrays verwendet, wodurch die Verarbeitung dieser Bilder und die Bildverarbeitungsalgorithmen schneller sind. In dieser 
+Applikation wird Numpy in Zusammenarbeit mit OpenCV verwendet und auch für die weitere Verarbeitung der Daten von OpenCV, um zum Beispiel die 
+Koordinaten des Kennzeichens zu speichern.\\
+
+Um Numpy zu installieren muss folgender Befehl in der Konsole eingegeben werden:
+
+\begin{listing}[H]
+    \begin{minted}{bash}
+        pip install numpy
+    \end{minted}
+    \caption{PIP Installation von Numpy}
+\end{listing}
+
+\paragraph{OpenCV}\mbox{}\\
+OpenCV ist die wichtigste und mächtigste Library die in dieser Applikation verwendet wird. Sie wurde ursprünglich in C++ geschrieben, 
+aber es gibt auch eine Version in Python, welche in dieser Applikation verwendet wird. OpenCV ist eine freie Library für Bildverarbeitung, 
+Computer Vision\footnote{Die Computergestütze Auswertung und Verarbeitung von Kamerabildern} und Machine Learning, welche von Intel gestartet wurde und mittlerweile die wichtigste und am weitesten verbreitete 
+Library in diesem Bereich ist. Sie verwendet Numpy-Arrays, um für eine effiziente Verarbeitung von Bildern zu sorgen. Einige der wichtigsten 
+Funktionen stellen die klassischen Bildverarbeitungsalgorithmen wie zum Beispiel Filterung und Farbraumanpassungen, die Verarbeitung und 
+Auswertung von Kamerabildern und auch die Kompatibilität mit Deep-Learning\footnote{Machine Learning Methode welche Neuronale Netze nutzt} dar. In dieser Applikation wird OpenCV für diverse 
+Bildverarbeitungsalgorithmen, die Zusammenarbeit mit Machine Learning Modulen, die Verarbeitung eines Kamerabildes und das allgemeine Arbeiten mit Bildern verwendet.\\
+
+Die Installation von OpenCV ist dabei etwas komplizierter als bei anderen Librarys.\\
+
+Windows:\\
+
+Unter Windows ist die Installation vergleichbar mit anderen Librarys, es muss einfach der folgende Befehl in der Konsole eingegeben werden:
+
+\begin{listing}[H]
+    \begin{minted}{bash}
+        pip install opencv-python
+    \end{minted}
+    \caption{PIP Installation von OpenCV}
+\end{listing}
+
+Raspbian:\\
+
+Auf dem Raspberry Pi gestaltet sich die Installation von OpenCV um einiges schwieriger, da die Installation nicht über pip gemacht werden kann, 
+sondern es manuell kompiliert werden muss.\\
+
+Als erstes werden alle Tools und Bibliotheken installiert, welche für OpenCV benötigt werden. Dazu verwendet man folgenden Befehl im Terminal:
+
+\begin{listing}[H]
+    \begin{minted}{bash}
+        $ sudo apt-get install build-essential git cmake pkg-config libjpeg8-dev libtiff4-dev libjasper-dev libpng12-dev libavcodec-dev libavformat-dev libswscale-dev libv4l-dev libgtk2.0-dev libatlas-base-dev gfortran
+    \end{minted}
+    \caption{Installation benötigter Tools und Bibliotheken für OpenCV}
+\end{listing}
+
+Danach kann man mit dem nächsten Befehl OpenCV von einem GitHub-Repository klonen:
+
+\begin{listing}[H]
+    \begin{minted}{bash}
+        $ sudo apt-get install build-essential git cmake pkg-config libjpeg8-dev libtiff4-dev libjasper-dev libpng12-dev libavcodec-dev libavformat-dev libswscale-dev libv4l-dev libgtk2.0-dev libatlas-base-dev gfortran
+    \end{minted}
+    \caption{Klonen von OpenCV von GitHub}
+\end{listing}
+
+Im nächsten Schritt wird OpenCV mit den folgenden Befehlen kompiliert:
+
+\begin{listing}[H]
+    \begin{minted}{bash}
+        cd ~/opencv && mkdir build && cd build
+
+        cmake -D CMAKE_BUILD_TYPE=RELEASE \
+        -D CMAKE_INSTALL_PREFIX=/usr/local \
+        -D INSTALL_PYTHON_EXAMPLES=ON \
+        -D INSTALL_C_EXAMPLES=ON \
+        -D OPENCV_EXTRA_MODULES_PATH=~/opencv_contrib/modules \
+         -D BUILD_EXAMPLES=ON ..
+        make -j4
+    \end{minted}
+    \caption{Kompilieren von OpenCV}
+\end{listing}
+
+Wenn das Kompilieren erfolgreich beendet wurde, kann OpenCV abschließend installiert werden.
+
+\begin{listing}[H]
+    \begin{minted}{bash}
+        $ sudo make install && sudo ldconfig
+    \end{minted}
+    \caption{Abschließende Installation von OpenCV}
+\end{listing}
+
+Danach sollte OpenCV fertig installiert und eingerichtet sein und es kann in einem Python Projekt verwendet werden.
+
+\paragraph{Matplotlib}\mbox{}\\
+Matplotlib ist eine Python-Library mit welcher Daten und Berechnungen visuell dargestellt werden können. Damit können 
+statische, animierte und interaktive Diagramme erstellt werden, was die Datenauswertung um einiges erleichtert. 
+Die Syntax ähnelt sehr stark jener von MATLAB, wodurch die Bedienung sehr einfach ist, wenn man schon Erfahrung mit 
+MATLAB hat. Wie auch in MATLAB kann man die Diagramme beliebig anordnen und dadurch das Layout der Darstellung selbst 
+festlegen. Es funktioniert auch hervorragend in Zusammenarbeit mit Jupyter Notebook, wodurch man die Daten in einer 
+Web-Applikation visualisieren kann. Die visuelle Darstellung von Daten ist vor allem in der Entwicklung und beim 
+Arbeiten mit visuellen Ergebnissen wie Bildern von Vorteil. In dieser Applikation wird Matplotlib für die Darstellung 
+der Ergebnisse von Bildverarbeitungsalgorithmen, die Ausgabe von Daten und Resultaten und auch für Test- und 
+Entwicklungszwecke verwendet. Im unteren Bild kann man ein Beispiel sehen bei welchem Matplotlib verwendet wird, 
+um einige Bilder mit einem Titel anzuzeigen.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{kennzeichenerkennung/matplotlibbsp.png}
+    \caption{Beispiel einer Anwendung von Matplotlib}
+\end{figure}
+
+Um Matplotlib zu installieren muss das Folgende in der Konsole eingegeben werden:
+
+\begin{listing}[H]
+    \begin{minted}{bash}
+        pip install matplotlib
+    \end{minted}
+    \caption{PIP Installation von Matplotlib}
+\end{listing}
+
+\paragraph{Keras}\mbox{}\\
+Keras ist eine Deep-Learning Schnittstelle für diverse Machine Learning Frameworks wie zum Beispiel Tensorflow oder Theanos. 
+Damit wird die Bedienung und Anwendung dieser Frameworks vereinfacht und es bietet auch diverse Funktionen, um Inputs mit 
+den Machine Learning Modellen kompatibel zu machen. Keras ist ein Teil von Tensorflow, wird aber eigenständig weiterentwickelt, 
+um die Kompatibilität mit anderen Machine Learning Frameworks aufrechtzuerhalten. In dieser Applikation wird es in 
+Zusammenarbeit mit Tensorflow verwendet, um mit den verwendeten Machine Learning Modellen zu arbeiten.\\
+
+Um Keras zu installieren führt man folgenden Befehl in der Konsole aus:
+
+\begin{listing}[H]
+    \begin{minted}{bash}
+        pip install keras
+    \end{minted}
+    \caption{PIP Installation von Keras}
+\end{listing}
+
+\paragraph{Tensorflow}\mbox{}\\
+Tensorflow ist eines der weltweit beliebtesten Frameworks für Machine Learning und wird von weltweit erfolgreichen Firmen wie 
+zum Beispiel Google, AMD oder auch Intel verwendet. Es bietet eine umfassende Plattformen für jegliche Machine Learning Anwendungen 
+und ist in Zusammenarbeit mit APIs wie zum Beispiel Keras leicht zu verwenden. In dieser Applikation wird damit ein neuronales 
+Netz trainiert und mehrere Machine Learning Modelle verwaltet und verwendet.\\
+
+Bei der Installation von Tensorflow muss beachtet werden, dass sich diese von Windows zu Raspbian stark unterscheidet. 
+Raspbian unterstützt offiziell die benötigte Version von Tensorflow noch nicht und deswegen muss dieses über ein paar Umwege installiert werden.\\
+
+Windows:\\
+
+Die Installation von Tensorflow unter Windows ist einfach, da man es wie andere Librarys einfach über pip installieren kann.
+
+\begin{listing}[H]
+    \begin{minted}{bash}
+        pip install tensorflow
+    \end{minted}
+    \caption{PIP Installation von Tensorflow}
+\end{listing}
+
+Raspbian:\\
+
+Bei Raspbian muss Tensorflow manuell kompiliert werden, da die aktuelle Version noch nicht offiziell unterstützt wird. Diese funktioniert 
+aber trotz dieses Umweges einwandfrei und wird mit den folgenden Befehlen in der Konsole installiert.\\
+
+Mit dem ersten Befehl werden die benötigten Tools installiert:
+
+\begin{listing}[H]
+    \begin{minted}{bash}
+        $ sudo apt-get install cmake curl
+    \end{minted}
+    \caption{Benötigte Tools für Tensorflow}
+\end{listing}
+
+Danach kann man die neuste Tensorflow Version von GitHub herunterladen:
+
+\begin{listing}[H]
+    \begin{minted}{bash}
+        $ wget -O tensorflow.zip https://github.com/tensorflow/tensorflow/archive/v2.4.0.zip
+    \end{minted}
+    \caption{Tensorflow von GitHub herunterladen}
+\end{listing}
+
+Anschließend muss Tensorflow entpackt werden:
+
+\begin{listing}[H]
+    \begin{minted}{bash}
+        $ unzip tensorflow.zip
+        $ mv tensorflow-2.4.0 tensorflow
+        $ cd tensorflow
+    \end{minted}
+    \caption{Entpacken von Tensorflow}
+\end{listing}
+
+Im nächsten Schritt müssen noch zusätzlich erforderliche Librarys installiert werden:
+
+\begin{listing}[H]
+    \begin{minted}{bash}
+        $ ./tensorflow/lite/tools/make/download_dependencies.sh
+    \end{minted}
+    \caption{Zusätzlich erforderliche Librarys}
+\end{listing}
+
+Danach kann die Installation kompiliert werden:
+
+\begin{listing}[H]
+    \begin{minted}{bash}
+        $ ./tensorflow/lite/tools/make/build_aarch32_lib.sh
+    \end{minted}
+    \caption{Kompilieren von Tensorflow}
+\end{listing}
+
+Danach muss man die Installation mit den folgenden Befehlen abschließen:
+
+\begin{listing}[H]
+    \begin{minted}{bash}
+        $ cd ~/tensorflow/tensorflow/lite/tools/make/downloads/flatbuffers
+        $ mkdir build
+        $ cd build
+        $ cmake ..
+        $ make -j4
+        $ sudo make install
+        $ sudo ldconfig
+    \end{minted}
+    \caption{Abschließen der Installation von Tensorflow}
+\end{listing}
+
+Nach diesem Schritt sollte Tensorflow Installation funktionieren und man kann es wie jede andere Library in Python einbinden.
+
+\paragraph{localutils}\mbox{}\\
+localutils ist ein einfaches Python-Script, welches die Arbeit mit WPOD-NET im Bereich der Kennzeichenerkennung vereinfacht 
+und in dieser Applikation für die einfachere Nutzung von WPOD-NET verwendet wird. Es beinhaltet die Funktion „detectlp“ mit 
+welcher ein Bild des Kennzeichens und die Koordinaten des Kennzeichens ermittelt werden können. Dieses Script kann über den 
+folgenden Link von GitHub heruntergeladen werden: \url{https://github.com/quangnhat185/Plate_detect_and_recognize/blob/master/local_utils.py} 
+
+\paragraph{Scikit-learn}\mbox{}\\
+Scikit-learn ist eine freie Library für Machine Learning und basiert auf Numpy und Matplotlib. Es wird vor allem verwendet, 
+um mit großen visuellen Datensätzen neuronale Netze zu trainieren.  Es bietet Funktionen, um Modelle anzupassen, Daten vorzubereiten, 
+Modelle zu trainieren und ähnliches. In dieser Applikation wird es für die Normalisierung von Labels verwendet, um diese für Machine 
+Learning Modelle anzupassen und für das zufällige Aufteilen von Arrays in Test und Trainingsteile, welche für das Training eines Neuronalen Netzes benötigt werden.\\
+
+Für die Installation von Scikit-learn muss die folgende Zeile in der Konsole ausgeführt werden:
+
+\begin{listing}[H]
+    \begin{minted}{bash}
+        pip install scikit-learn
+    \end{minted}
+    \caption{PIP Installation von Scikit-learn}
+\end{listing}
+
+\paragraph{Requests}\mbox{}\\
+Requests ist eine Library mit welcher HTTP-Anfragen in Python vereinfacht werden. Sie wird häufig verwendet, um mit APIs zu kommunizieren 
+und ist eine der beliebtesten Python Librarys, da sie für API-Anwendungen so gut wie notwendig ist. In dieser Applikation wird sie für die 
+Kommunikation zu einer eigenen API für den Datenbankzugriff verwendet. Dadurch ist es ohne größere Schwierigkeiten möglich, das Bild des Kennzeichens, 
+die ID für den jeweiligen Parkplatz und das Resultat des Kennzeichens an die eigene Datenbank zu senden und auch eine Antwort zu erhalten, ob der 
+Zugriff erfolgreich war. Um die Daten mit dieser Library zu übertragen müssen diese einfach nur in einem Dictionary eingetragen werden und dann mit 
+dem korrekten Schlüsselwort über die API gesendet werden.\\
+
+Die Installation von Requests erfolgt mit folgendem Befehl in der Konsole:
+
+\begin{listing}[H]
+    \begin{minted}{bash}
+        pip install requests
+    \end{minted}
+    \caption{PIP Installation von Requests}
+\end{listing}
+
+\paragraph{Gpiozero}\mbox{}\\
+Gpiozero ist eine Python-Library für den Raspberry Pi. Mit ihr ist es möglich auf die GPIO-Pins des Raspberry zuzugreifen, Signale von diesen 
+auszulesen und Signale an diesen auszugeben. Dies wird oft verwendet, um Sensoren auszuwerten oder um Aktoren zu steuern, da diese Pins frei 
+programmierbar sind, wodurch man jede beliebige Anwendung realisieren kann. Der Raspberry Pi kann zwar nur Aktoren in seiner Leistungskategorie ansteuern, 
+dies kann aber zum Beispiel mit einem Relais umgangen werden, wodurch der Raspberry Pi zu einem mächtigen Werkzeug für die Sensorik und Aktorik wird. 
+Ein Beispiel für die möglichen Anwendungen ist ein Button oder eine Lampe. In dieser Applikation wird mit dieser Library ein gedrückter Button detektiert, 
+welcher als Auslöser für die Kamera fungiert.\\
+
+In der folgenden Abbildung sieht man ein Bild der GPIO-Pins des Raspberry Pi, welche mit dieser Library angesteuert werden können:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{kennzeichenerkennung/GPIO-Pinout-Diagram-2.png}
+    \caption{GPIO-Pins des Raspberry Pi}
+\end{figure}
+
+Diese Library kann nur auf dem Raspberry Pi installiert werden. Um die Library Gpiozero zu installieren kann pip verwendet werden:
+
+\begin{listing}[H]
+    \begin{minted}{bash}
+        pip install gpiozero
+    \end{minted}
+    \caption{PIP Installation von Gpiozero}
+\end{listing}
+
+\paragraph{Picamera}\mbox{}\\
+Die Library picamera wird verwendet, um auf das Kameramodul des Raspberry Pi zuzugreifen. Die Library bietet etliche Funktionen an, 
+mit welchen die Kamera gesteuert werden kann, wie zum Beispiel Fotos aufzunehmen, Videoaufnahmen zu starten und zu beenden, Fotoeinstellungen 
+zu ändern und ähnliches. Die Library ist notwendig, wenn man über Python das Kameramodul bedienen will. In dieser Applikation wird sie verwendet, 
+um ein Vorschaubild des aufgenommenen Bildes auf dem Bildschirm darzustellen, falls ein Bildschirm angeschlossen wird und um im 
+Anschluss das Bild aufzunehmen und korrekt zu skalieren.\\
+
+Die Installation von picamera ist nur auf dem Raspberry Pi möglich, da nur dieser damit arbeiten kann. 
+Für die Installation von picamera muss folgender Befehl in der Konsole eingegeben werden:
+
+\begin{listing}[H]
+    \begin{minted}{bash}
+        pip install picamera
+    \end{minted}
+    \caption{PIP Installation von Picamera}
+\end{listing}
 
 \subsection{Raspberry Pi}
 
