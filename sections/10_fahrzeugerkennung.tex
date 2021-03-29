@@ -47,14 +47,15 @@ Fluss $\phi$ anhand der Gleichung \ref{eq:phi} und \ref{eq:Rm} proportional zur 
 Der Fluss $\phi$ hängt somit auch von den Materialien ab durch die er fließt. In der nächsten Abbildung kann man erkennen,
 wie ein Fahrzeug über eine im Boden installierte Spule den magnetischen Fluss $\phi$ und somit die magnetische Flussdichte $B$
 beeinflussen kann. 
+
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{fahrzeugerkennung/Spuleninstallation.png}
+    \includegraphics[width=1\linewidth]{fahrzeugerkennung/Spuleninstallation.pdf}
     \caption{Installation der Spule}
   \end{figure}
 Um diese Größen auslesbar zu machen, müssen diese magnetischen bei einer direkten Messung in elektrische Größen umgewandelt
 werden.
-Hierfür geltzen folgende Zusammenhänge:
+Hierfür gelten folgende Zusammenhänge:
 
 \begin{equation} \label{eq:L_phi}
     L = \frac{N \cdot \phi}{I} = \frac{\psi}{I} 
@@ -180,13 +181,31 @@ nämlich bei $L2 = 100 \mu H$ und bei $L = 1mH$
 
 Eine Verzehnfachung der Induktivität führt zu einer Reduktion der Oszillatorfrequenz um den Faktor 10.
 
-\begin{equation} \label{iq:f_NE55}
+\begin{equation} \label{iq:f_NE555}
     f \propto L
 \end{equation} 
 
-
-\paragraph{Puls-Ladung mit Mikrokontroller}
+\pagebreak
 \subsubsection{Messung paramagnetischer Metalle}
+Da nicht alle Metalle ferromagnetische Eigenschaften haben werden viele Stoffe wie Aluminium. Kupfer oder diverse Legierungen
+von einer niederfrequenten Messung der Induktivität nicht wahrgenommen. Ein Effekt, welcher bei elektrischen Leitern abhilfe schaffen kann, sind 
+die Eddy Currents. Wenn in einem Leiter ein magnetischen Feld einwirkt erzeugt dieses im Objekt Ströme, die wiederum ihr eigenes magnetische Feld erzeugen.
+Die fließenden Ströme erzeugen im Objekt Ohmsche Verluste, welche normalerweise unerwünscht sind. Sie wirken auch einer Änderung der magnetischen Feldes entgegen,
+da sie selbst Energie brauchen um ihre Richtung zu ändern. Je größer die Frequenz der eingespeisten Felddichte $B$ desto stärker wirkt die 
+Flussdichte $B_{eddy}$ senkend auf die Gesamtflussdichte und so auf den magnetischen Fluss $\phi$. 
+Nach der Gleichung \ref{eq:L_phi} reduziert sich danach die Induktivität mit zunehmender Frequenz.
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{fahrzeugerkennung/Eddy_Currents.pdf}
+    \caption{Eddy Currents in einem Leiter}
+\end{figure}
+
+Bei sehr hohen Frequenzen ist jedoch zu beachten, dass der Skin-Effekt die Querschnittsfläche, durch die der Wechselstrom fließen kann,
+reduziert. Somit nimmt der Effekt der Eddy-Currents ab. Diese Phänomene werden jedoch nicht in dieser Arbeit behandelt, da sie außerhalb des Rahmens der 
+Fahrzeugerkennung liegen. 
+
 \paragraph{Messung eines Wechselstromes}
 \paragraph{Messung der Resonanzfrequenz eines Oszillastors}
 
