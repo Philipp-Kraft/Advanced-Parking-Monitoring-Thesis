@@ -47,14 +47,15 @@ Fluss $\phi$ anhand der Gleichung \ref{eq:phi} und \ref{eq:Rm} proportional zur 
 Der Fluss $\phi$ hängt somit auch von den Materialien ab durch die er fließt. In der nächsten Abbildung kann man erkennen,
 wie ein Fahrzeug über eine im Boden installierte Spule den magnetischen Fluss $\phi$ und somit die magnetische Flussdichte $B$
 beeinflussen kann. 
+
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{fahrzeugerkennung/Spuleninstallation.png}
+    \includegraphics[width=1\linewidth]{fahrzeugerkennung/Spuleninstallation.pdf}
     \caption{Installation der Spule}
   \end{figure}
 Um diese Größen auslesbar zu machen, müssen diese magnetischen bei einer direkten Messung in elektrische Größen umgewandelt
 werden.
-Hierfür geltzen folgende Zusammenhänge:
+Hierfür gelten folgende Zusammenhänge:
 
 \begin{equation} \label{eq:L_phi}
     L = \frac{N \cdot \phi}{I} = \frac{\psi}{I} 
@@ -67,14 +68,14 @@ $\psi$ = Verkettete Fluss
 
 \pagebreak
 \begin{equation} \label{eq:L_i}
-    u(t) = L * \frac{di(t)}{dt}
+    u(t) = L \cdot \frac{di(t)}{dt}
 \end{equation}
 
 Wobei \\
 $L$ = Induktivität der Spule \\
 $i(t)$ = Strom der durch die Spule fließt zum Zeitpunkt t \\
 $u(t)$ = Spannung die an der Spule anliegt zum Zeitpunkt t \\
-
+$t$ = Zeit in s \\
 So lässt sich bei Bekanntheit von Strom und Spannung auf die Induktivität und mit der Gleichung \ref{eq:L_phi} 
 und mit den Zusammenhang \ref{iq:phi} auf die magnetischen Eigenschaften des Materials rückschließen. 
 Diese Art der Detektion bietet viele praktische Vorteile.
@@ -92,11 +93,119 @@ Diese Art der Detektion bietet viele praktische Vorteile.
     visuelle Sensoren stören können, die Detektion nicht behindern.
     
 \end{itemize}
-\subsubsection{Messung der ferromagnetischer Metalle}
-Bei ferromagnetischen Metalle ist die Permeabilitätszahl  $\mu_{r}$ sehr viel größer 1. Dies bedeutet, dass eine 
-\paragraph{RL-Oszillator mit Timer Baustein}
-\paragraph{Puls-Ladung mit Mikrokontroller}
+\subsubsection{Messung ferromagnetischer Metalle}
+Um diese Dtektionsverfahren zu verstehen muss zuerst der Zusammenhang zwischen Induktivität und relativer Permeabilität verstanden werden.
+Aus den Gleichungen \ref{eq:Rm}, \ref{eq:phi} und \ref{eq:L_phi} kann die folgende Proportionalität ermittelt werden:
+\begin{equation} \label{iq:L_mu}
+    L \propto \mu_{r}
+\end{equation}
+Bei ferromagnetischen Stoffen wie Eisen ist die relative Permeabilität sehr viel größer als 1. Wenn nun ein Auto oder 
+eine anderes Vehikel sehr viel Eisen beinhaltet wirkt sich die dies steigernd auf die Induktivität der Spule aus. Die folgenden
+Verfahren nutzen dieses Prinzip um die Belegung einer Parklücke zu bestimmen.
+
+\paragraph{RL-Oszillator mit Timer Baustein}\mbox{}\\
+Bei diesem Messverfahren wird die Änderung der Induktivität $L$ über die Änderung einer Stromladekurve über einen Widerstand
+$R$ ermittelt. Eine Simulation in LTSPice mit folgendem Schaltbild kann die Auswirkung auf eine Ladekurve bei gleicher Spannung
+und gleichem Widerstand gut darstellen.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{fahrzeugerkennung/Ladekurven.png}
+    \caption{LTSPice Blockbild zweier RL-Glieder}
+\end{figure}
+\pagebreak
+Die daraus Resultierende Simulation im Zeitbereich ergibt folgendes Ergebnis:
+hmm
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{fahrzeugerkennung/Ladekurven_ZB.png}
+    \caption{Stromkurven zweier RL-Glieder}
+\end{figure}
+
+Es ist aus der letzten Abbildung erkennbar, dass sich eine größere Induktivität verlangsamend auf die Zunahme des Stromes auswirkt. Für Einschaltvorgänge kann diese Stromkurve
+für RL-Glieder folgendermaßen beschrieben werden.
+
+\begin{equation} \label{eq:i_L}
+    i(t) = \frac{U_{0}}{R} \cdot (1 - e^{-\frac{t}{\tau}})
+\end{equation}
+
+\begin{equation} \label{eq:tau_RL}
+    \tau = \frac{L}{R}
+\end{equation} 
+
+
+$i(t)$ = Strom der durch die Spule fließt zum Zeitpunkt t \\
+$L$ = Induktivität der Spule in H\\
+$R$ = Widerstand in $\Omega$ \\
+$U_0$ = Spannung die nach dem einschalten anliegt in V\\
+$t$ = Zeit in s \\
+$\tau$ = Zeitkonstante in $\frac{1}{s}$\\
+
+Timer Bausteine wie der NE555 nutzen diese solche Verlaufskurven wenn sie als astabile Kippstufe konfiguriert sind.
+Es gibt einen Eingang dieses Baustein meist CV für Control Voltage der die Spannung überwacht. Überschreitet diese Spannung zweit drittel
+der Betriebsspannung schaltet er einen weiteren Pin, meist DIS für Discharge, auf 0V beziehungsweise auf Masse. Unterschreitet jedoch 
+die Spannung am CV Pin ein drittel der Betriebsspannung so wird der DIS Pin auf Betriebsspannung geschalten. Diese beiden Pins 
+sind über RC- oder RL- Glieder verbunden. Es entsteht somit ein Oszillator, welcher die Spannung am DIS Pin anhebt und absenkt.
+Der NE555 kann dieses Signal über einen internen Komparator in ein Rechtecksignal umwandeln, welches besser von Mikrokontrollern ausgelesen
+werden kann. Der Mikrokontroller kann so die Anzahl der ein einkommenden Takte über einen gewissen Zeitraum zählen und daraus eine Oszillatorfrequenz errechnen.
+Die Zeitsignale lassen sich in LTSPice mit dem NE555 als Timer-Baustein simulieren.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{fahrzeugerkennung/RL_Oszillator.png}
+    \caption{RL-Oszillator mit NE555}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{fahrzeugerkennung/RL_Oszillator_ZB.png}
+    \caption{RL-Oszillator mit NE555 Zeitsignale}
+\end{figure}
+
+Im oberen Diagramm ist der Verlauf des Stromes durch die Spule zu erkennen der wie erwartet zu- und abnimmt. Im unteren Diagramm ist in 
+schwarz die Betriebsspannung als Referenz in rot der CV Pin und in blau der DIS Pin des NE555. Das rote Signal wechselt zwischen zwei drittel der Betriebsspannung 
+und einem drittel der Betriebsspannung mit einer Frequenz von $f = 438kHz$ bei einer Induktivität von $L = 300 \mu H$, einem Widerstand $R4 = 100\Omega$ und einem
+Widerstand $R5 = 300\Omega$. Die Simulation entspricht hier der Theorie, jedoch bricht das blaue Signal am PIN DIS in der Einschaltphase ein.
+Der grund dafür ist der interne Widerstand des NE555, der ab einem gewissen Stromverbrauch für einen Spannungsabfall sorgt. Da es meist besser ist mit
+niedrigen Frequenzen zu arbeiten ist es nach den Gleichungen \ref{eq:i_L} und \ref{eq:tau_RL} entweder nötig die Induktivität zu erhöhen oder die Widerstände zu verkleinern.
+Die Induktivität lässt sich aber entweder durch erhöhen der Windungen oder durch Vergrößerung der Spule erreichen, was in vielen Fällen nicht möglich ist oder zunehmends kostspielig ist.
+Die Reduktion der Widerstände führt zu einer Zunahme des Stromes und der Verlustleistung, was auch unerwünscht ist.
+Aus diesen Gründen ist der RL-Oszillator nur für hohe Frequenzen geeignet. In der nächsten Abbildung sieht man die Schaltung bei verschiedene Induktivität
+nämlich bei $L2 = 100 \mu H$ und bei $L = 1mH$
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{fahrzeugerkennung/RL_Oszillator_vergleich2_ZB.png}
+    \caption{Vergleich des NE555-Oszillators bei unterschiedlichen L}
+\end{figure}
+
+Eine Verzehnfachung der Induktivität führt zu einer Reduktion der Oszillatorfrequenz um den Faktor 10.
+
+\begin{equation} \label{iq:f_NE555}
+    f \propto L
+\end{equation} 
+
+\pagebreak
 \subsubsection{Messung paramagnetischer Metalle}
+Da nicht alle Metalle ferromagnetische Eigenschaften haben werden viele Stoffe wie Aluminium. Kupfer oder diverse Legierungen
+von einer niederfrequenten Messung der Induktivität nicht wahrgenommen. Ein Effekt, welcher bei elektrischen Leitern abhilfe schaffen kann, sind 
+die Eddy Currents. Wenn in einem Leiter ein magnetischen Feld einwirkt erzeugt dieses im Objekt Ströme, die wiederum ihr eigenes magnetische Feld erzeugen.
+Die fließenden Ströme erzeugen im Objekt Ohmsche Verluste, welche normalerweise unerwünscht sind. Sie wirken auch einer Änderung der magnetischen Feldes entgegen,
+da sie selbst Energie brauchen um ihre Richtung zu ändern. Je größer die Frequenz der eingespeisten Felddichte $B$ desto stärker wirkt die 
+Flussdichte $B_{eddy}$ senkend auf die Gesamtflussdichte und so auf den magnetischen Fluss $\phi$. 
+Nach der Gleichung \ref{eq:L_phi} reduziert sich danach die Induktivität mit zunehmender Frequenz.
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{fahrzeugerkennung/Eddy_Currents.pdf}
+    \caption{Eddy Currents in einem Leiter}
+\end{figure}
+
+Bei sehr hohen Frequenzen ist jedoch zu beachten, dass der Skin-Effekt die Querschnittsfläche, durch die der Wechselstrom fließen kann,
+reduziert. Somit nimmt der Effekt der Eddy-Currents ab. Diese Phänomene werden jedoch nicht in dieser Arbeit behandelt, da sie außerhalb des Rahmens der 
+Fahrzeugerkennung liegen. 
+
 \paragraph{Messung eines Wechselstromes}
 \paragraph{Messung der Resonanzfrequenz eines Oszillastors}
 

@@ -95,7 +95,6 @@ darzustellen wird die vorherige HTML Seite nun mit CSS ergänzt.
     }
   \end{minted}
   \caption{style.css}
-  \label{lst:simple_html_site}
 \end{listing}
 
 Nun muss dieses Stylesheet nur noch im \verb|<head>| Tag mit\\
@@ -130,7 +129,7 @@ Manipulation von Elementen über das \ac*{DOM}. Der Standards wird unter dem
 Namen ECMA Script von der Organisation Ecma
 International\footnote{\url{https://www.ecma-international.org}}
 veröffentlicht und die aktuellste Version ist
-\textbf{ECMA-262}\footnote{\url{https://www.ecma-international.org/publications-and-standards/standards/ecma-262}}.
+\textbf{ECMA-262}.
 
 \subsubsection{PHP}
 \ac*{PHP} ist eine Skriptsprache um dynamische Webseiten zu realisieren, jedoch
@@ -140,10 +139,93 @@ Somit ist es nicht möglich den Code als Benutzer zu betrachten. Grundsätzlich
 ist PHP als synchrone Sprache geplant worden, es ist jedoch auch möglich
 asynchron zu Programmieren um die Performance zu steigern. Die aktuellste
 Version ist \acs*{PHP} 8\footnote{\url{https://www.php.net/docs.php}}.
+
+
 \subsubsection{TailwindCSS}
-\subsubsection{Vue}
+Es gibt eine Vielzahl von CSS-Frameworks, das Ziel ist ein einfacheres und
+schnelleres erstellen von Webseiten, dazu gehören neben TailwindCSS folgende
+relevanten Frameworks.
+
+\begin{itemize}
+  \item Bootstrap (\url{https://getbootstrap.com})
+  \item Foundation (\url{https://get.foundation})
+  \item Materialize (\url{https://materializecss.com})
+\end{itemize}
+
+Viele von diesen CSS Frameworks verwenden vorgefertigte Components welche direkt
+verwendet werden können, dies führt dazu, dass die Entwicklung sehr rasch ist.
+Dort unterscheidet sich TailwindCSS von den anderen CSS Frameworks, dort
+existieren sogenannte Utility-Classes, diese können direkt im \acs*{HTML} auf die
+einzelnen Elemente angewendet werden.
+
+%\subsubsection{Vue}
+
 \subsubsection{Laravel}
-\paragraph{Routing}
+Laravel\footnote{\url{https://laravel.com/}} ist ein Open-Source PHP-Framework, es erleichtert die Entwicklung und
+erhöht die Sicherheit und auch durch die zahlreichen First-Party-Packages bietet
+Laravel ein sehr hochwertiges Ecosystem. Da Laravel ein sehr wichtiger Bestandteil des
+Webinterfaces ist wird später noch genauer auf die einzelne Funktionen des
+Frameworks eingegangen. Laravel wird seit Juni 2011 entwickelt und erhält
+jährlich eine neue Version, aktuell ist Laravel 8 die neuste Version.\\
+
+Das Framework folgt dem sogenannten \ac*{MVC} Muster das bedeutet, dass die
+Programmierlogik in drei verschiedene Teile unterteilt wird. Der Sinn dahinter
+ist, dass die Anwendung dadurch sehr flexibel ist und später leichter erweitert
+werden kann oder einzelne Teile wiederverwendet werden können.
+
+\begin{itemize}
+  \item \textbf{Model} \\
+  Hier befindet sich die Datenstruktur der Anwendung. In Laravel kann dies
+  beispielsweise das Model \verb|User| sein.
+  \item \textbf{View} \\
+  In der View befindet sich die Präsentationsebene, im Fall von Laravel sind das
+  Components und Layouts.
+  \item \textbf{Controller} \\
+  In den Controllern der Anwendung befindet sich die Logik um beispielsweise
+  durch das Absenden eines Formulares einen Eintrag in der Datenbank zu erstellen. 
+\end{itemize}
+
+Laravel besitzt eine sehr ausführliche Dokumentation welche unter
+(\url{https://laravel.com/docs/8.x}) zu erreichen ist.
+
+\paragraph{Routing}\mbox{}\\
+In Laravel erfolgt durch ein Routefile unter \verb|routes/web.php|. API Requests
+haben ein eigenes Routefile unter \verb|routes/api.php| und erhalten einen
+\verb|/api| Prefix. Diese Dateien werden dann automatisch durch einen Service
+Provider von Laravel geladen.\\
+
+Der Laravel Router erlaubt folgende HTTP-Anfragemethoden:
+\begin{itemize}
+  \item \textbf{GET} (Fordert Ressource an)\\
+  \mintinline{php}{  Route::get($uri, $callback);}
+  \item \textbf{POST} (Neue Ressource erstellen)\\
+  \mintinline{php}{  Route::post($uri, $callback););}
+  \item \textbf{PUT} (Ressource ersetzen oder erstellen)\\
+  \mintinline{php}{  Route::put($uri, $callback);}
+  \item \textbf{PATCH} (Ressource ändern)\\
+  \mintinline{php}{  Route::patch($uri, $callback);}
+  \item \textbf{DELETE} (Löscht Ressource)\\
+  \mintinline{php}{  Route::delete($uri, $callback);}
+  \item \textbf{OPTIONS} (Liste von unterstützen Methoden des Servers)\\
+  \mintinline{php}{  Route::options($uri, $callback);}
+\end{itemize}
+
+\begin{listing}[H]
+  \begin{minted}{php}
+    Route::group(['middleware' => 'verified', 'prefix' => 'admin'], function () {
+      Route::get('users', [UserController::class, 'index'])->name('users.index');
+      Route::get('users/create', [UserController::class, 'create'])->name('users.create');
+      Route::post('users', [UserController::class, 'store'])->name('users.store');
+      Route::get('users/{user}', [UserController::class, 'show'])->name('users.show');
+      Route::get('users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+      Route::patch('users/{user}', [UserController::class, 'update'])->name('users.update');
+      Route::delete('users/{user}', [UserController::class,
+      'destroy'])->name('users.destroy');
+    });
+  \end{minted}
+  \caption{web.php}
+\end{listing}
+
 \paragraph{Blade Templates}
 \paragraph{Sessions}
 \paragraph{Controllers}
@@ -342,12 +424,11 @@ für die Software \textbf{L}inux, \textbf{A}pache, \textbf{M}ySQL und \textbf{P}
 \begin{itemize}
   \item \textbf{Apache Web Server} (\url{https://httpd.apache.org}) \\ HTTP Server
   \item \textbf{MariaDB} (\url{https://mariadb.org}) \\ Fork von MySQL
-  \item \textbf{PHP} (\url{https://mariadb.org}) \\ Fork von MySQL
+  \item \textbf{PHP} (\url{https://www.php.net}) \\ \ac*{PHP}
   \item \textbf{phpMyAdmin} (\url{https://www.phpmyadmin.net}) \\ Webinterface
         für MySQL
   \item \textbf{Composer} (\url{https://getcomposer.org}) \\ Paketmanager für PHP
   \item \textbf{Git} (\url{https://git-scm.com}) \\ Versionskontrolle
-        Quelltext-Editor
 \end{itemize}
 
 
@@ -634,7 +715,7 @@ Das Deploy-Script wird auf der Lokalen Entwicklermaschine ausgeführt. Das Scrip
     
     git checkout main
   \end{minted}
-  \caption{phpmyadmin.conf}
+  \caption{deploy.sh}
 \end{listing}
 
 \paragraph{Server Deploy Script}\mbox{}\\
