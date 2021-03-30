@@ -332,9 +332,76 @@ Wenn man nun verschiedene Werte für Induktivität einsetzt ergibt sich durch di
     \caption{Zeitsignale Colpitts-Oszillator}
 \end{figure}
 
-
+Es ist ersichtlich, dass dass eine Zunahme der Induktivität zu einer Abnahme in der Frequenz der beiden Signale führt.
+\pagebreak
 \subsection{RS485 Bussystem}
 \subsubsection{Überblick}
+\paragraph{ASCII}\mbox{}\\
+ASCII ist eine amerkanischer Standard zur Kodierung einer 7 Bit langen folge. Dieser Standard ermöglicht es Zeichen wie 'A' oder 'b' sowie auch Zahlen und gewissen Sonderzeichen in Bits umzusetzen. 
+\paragraph{UART}\mbox{}\\
+
+Unter UART versteht man eine eine asynchrone serielle Schnittstelle. Die elektrische Schnittstelle braucht daher auch keine Taktleitung die dem Empfänger der Daten mitteilt wann er zu lesen hat. Stattdessen gibt es zwei Datenleitungen nämlich eine 
+für das Senden TX und eine für das Lesen RX. Auf diesen Datenleitungen befinden sich nur die Bitströme des Empfängers und des Senders. Sie besitzen einen Ruhepegel von logisch 1.
+UART synchronisiert sich idem es beim Start der Daten ein Startbit schickt, welche Sender und Empfänger synchronisiert. 
+Diese beiden Geräte brauchen daher auch genaue interne Uhren um sich über den Zeitraum des Datenaustausches synchron zu halten.
+Die Dauer diese Datenaustausches hängt vor allem von der Bitrate auch genannt Baudrate ab aber auch die Konfiguration der Anzahl von Datenbits und Paritätsbits haben Einfluss auf diese Größe. 
+\\
+In der folgenden Abbildung ist zeitliche Verlauf einer Datenleitung dargestellt es wird das Zeichen 'A' in ASCII codiert übertragen bei einer Baudrate von 57600 Zeichen pro Sekunde.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{fahrzeugerkennung/UART_example.png}
+    \caption{Beispiel einer UART Zeichenübertragung}
+\end{figure}
+
+\paragraph{RS485}\mbox{}\\
+
+RS485 ist ein Standard für eine physikalische Schnittstelle für Datenübertragung von UART Daten. Er besitzt zwei symmetrische Leitung oft mit A und B bezeichnet, dessen Differenzspannung für die Auswertung
+des Datenstromes herangezogen wird. Er ist dafür ausgelegt mehrere Geräte an die gleiche Leitungen anzuschließen. Die maximale Anzahl an Geräten ist mit 32 fix vorgegeben. Es ist zusätzlich notwendig die Spannungen 
+$U_{A}$ und $U_{B}$ im Ruhezustand über einen IC oder einen Spannungsteiler auf fixe Potentiale zu legen. Der Spannungsteiler muss wie folgt aussehen um dem Standard zu entsprechen.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{fahrzeugerkennung/RS485_bias.png}
+    \caption{RS485 Widerstandsnetzwerk}
+\end{figure}
+
+Um diese physikalische Umwandlung zu ermöglichen ist eine Umwandlungs IC erforderlich. In dieser Arbeit wurde ausschließlich der MAX485CSA für Wandlung zwischen den Standardpegeln der UART
+und die der RS485 Schnittstelle verwendet.
+
+Dieser IC ist Bussfähig und kann daher seine Ausgänge hochohmig machen. Er besitzt folgende Eingänge und Ausgänge:
+\begin{itemize}
+    \item \textbf{!RE: Read enable} \\
+    Wenn dieser Eingang auf logisch 0 gesetzt ist wertet der IC des Differenzsignal $U_{AB}$ aus und liefert des Ergebnis an den Ausgang RO.
+    Ansonsten setzt er den Ausgang RO in den Tristate beziehungsweise auf hochohmig.
+    \item \textbf{DE: Data enable} \\
+    Wenn dieser Eingang auf logisch 1 gesetzt ist wird die Spannung am Eingang DI in die zugehörigen Pegel $U_{A}$ und $U_{B}$ umgewandelt.
+    Ansonsten setzt er den Eingang DI in den Tristate beziehungsweise auf hochohmig.
+    \item \textbf{RO: Read out} \\
+    Ist die eingelesene Spannung die sich logisch aus der Differenzspannung $U_{AB}$ ergibt wenn !RE auf logisch 0 ist.
+    \item \textbf{DI: Data In} \\
+    Ist die eingehende Spannung die auf die RS485 Schnittstelle geschrieben werden soll, wenn der Eingang DE auf logisch 1 ist.
+\end{itemize}
+
+Die Auswertung der Differenzspannung $U_{AB}$ kann auch in der folgenden Tabelle aus dem Datenblatt des MAX485CSA entnommen werden. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{fahrzeugerkennung/RS485_receiving_table.png}
+    \caption{Logische Tabelle für $U_{AB}$}
+\end{figure}
+
+In der folgenden Abbildung wird wieder an 'A' ASCII kodiert versendet nur dieses mal wird eine RS485 Schnittstelle mit den entsprechenden Pegeln verwendet verwendet.
+In blau ist die Spannung $U_{A}$ und in orange die Spannung $U_{B}$ zu sehen. Darunter befindet sich das logische UART Signal am Ausgang RO. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{fahrzeugerkennung/RS485_example.png}
+    \caption{Beispiel einer RS485 Zeichenübertragung}
+\end{figure}
+
+\paragraph{Aufbau}\mbox{}\\
+
 \subsubsection{Elektrische Spezifikation}
 \subsubsection{Implementation eines eigenen Protokolls}
 
