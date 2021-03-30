@@ -219,6 +219,7 @@ die Routen benannt, damit sie später im Code einfach referenziert werden könne
 
 \begin{listing}[H]
   \begin{minted}{php}
+    <?php
     Route::group(['middleware' => 'verified', 'prefix' => 'admin'], 
     function () {
       Route::get('users', [UserController::class, 'index'])->name('users.index');
@@ -252,13 +253,111 @@ Im Code~\ref{lst:blade_example} wird nun auf das übergebene Model \verb|User|
 zugegriffen und der Name ausgegeben.
 
 \paragraph{Controllers}\mbox{}\\
-\paragraph{Sessions}\mbox{}\\
-\paragraph{Artisan}\mbox{}\\
+Es besteht theoretisch die Möglichkeit die komplette Logik für die bearbeitung
+von Anfragen direkt in den Route Files zu platzieren, dies ist jedoch sehr
+unübersichtlich und deshalb ist es sinnvoll diese Logik in Controller Klassen
+auszulagern. Dabei werden ähnliche Anfragen zusammengeführt, so ist es sinnvoll
+alle Anfragen wie in Code~\ref{lst:user_routes} im gleichen Controller
+zusammenzuführen.
+
+\begin{listing}[H]
+  \begin{minted}{php}
+    <?php
+    namespace App\Http\Controllers;
+
+    use Illuminate\Http\Request;
+    use App\Models\User;
+    use Illuminate\Support\Facades\Hash;
+    use App\Http\Requests\StoreUser;
+    use App\Http\Requests\UpdateUser;
+    use App\Models\Role;
+    use Image;
+
+    class UserController extends Controller
+    {
+        public function index()
+        {
+            $this->authorize('index', User::class);
+            $users = User::orderBy('id', 'asc')->paginate(25, ['*'], 'users');
+            return view('users.index')->with('users', $users);
+        }
+    ...
+  \end{minted}
+  \caption{UserController.php}
+\end{listing}
+
+\paragraph{Artisan CLI}\mbox{}\\
+Artisan ist ein Kommandozeilen Tool von Laravel und zentraler Bestandteil und
+stellt eine Fülle an sehr nützlichen Befehlen dem Entwickler zur verfügung.
+Mithilfe von Artisan können neue Controller, Models, Migrations und vieles sehr
+einfach erstellt werden. Da es sehr viele Befehle gibt folgen hier nur die
+wichtigstens Befehle:
+
+\begin{itemize}
+  \item \textbf{php artisan list}\\
+  Zeigt eine Liste aller verfügbaren Befehle an
+  \item \textbf{php artisan serve}\\
+  Startet einen PHP Development Server unter dem Port 8000
+  \item \textbf{php artisan make:model <name>}\\
+  Erstellt ein neues Model
+  \item \textbf{php artisan make:migration <name>}\\
+  Erstellt ein neue Migrations
+  \item \textbf{php artisan make:controller <name>}\\
+  Erstellt ein neuer Controller
+  \item \textbf{php artisan migrate}\\
+  Führt die Datenbank Migration Files aus
+\end{itemize}
+
 \paragraph{Migrations}\mbox{}\\
-\paragraph{Middleware}\mbox{}\\
-\paragraph{Eloquent ORM}\mbox{}\\
-\paragraph{Laravel Mix}\mbox{}\\
-\paragraph{Laravel Sanctum}\mbox{}\\
+Datenbank Migrations sind praktisch Vorlagen wie einzelne Tabellen in der Datenbank auszusehen
+haben. Migrations erleichtern die Handhabung von SQL Datenbank im Team mithilfe
+von Source Control wie Git um einiges.
+
+\begin{listing}[H]
+  \begin{minted}{php}
+    <?php
+    class CreateUsersTable extends Migration
+    {
+        public function up()
+        {
+            Schema::create('users', function (Blueprint $table) {
+                $table->id();
+                $table->string('first_name');
+                $table->string('last_name');
+                $table->string('email')->unique();
+                $table->string('avatar')->default('default.png');
+                $table->timestamp('email_verified_at')->nullable();
+                $table->string('password');
+                $table->string('last_login_ip')->nullable();
+                $table->timestamp('last_login_at')->nullable();
+                $table->rememberToken();
+                $table->timestamps();
+            });
+        }
+    
+        public function down()
+        {
+            Schema::dropIfExists('users');
+        }
+    }
+  \end{minted}
+  \caption{create\_users\_table.php}
+  \label{lst:create_users_table}
+\end{listing}
+
+Im Code~\ref{lst:create_users_table} sind zwei Methoden zu erkennen, \verb|up|
+und \verb|down|, in der \verb|up| Methode werden neue Tabellen und Spalten in der
+Datenbank erstellt, bei der \verb|down| Methode wird alles von der \verb|up| Methode
+rückgängig gemacht, in diesem Fall wird die komplette Tabelle gelöscht. Um nun
+die Datenbank zu migrieren muss in der Artisan \acs*{CLI} Befehl \verb|php artisan migrate|
+ausgeführt werden, dabei werden alle Migrations im Verzeichnis
+\verb|database/migrations| ausgeführt.
+
+%\paragraph{Eloquent ORM}
+%\paragraph{Laravel Sanctum}
+%\paragraph{Laravel Mix}
+%\paragraph{Sessions}
+%\paragraph{Middleware}
 
 
 \subsection{Lokale Entwicklungsumgebung mit Laragon}
