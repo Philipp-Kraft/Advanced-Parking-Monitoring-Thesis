@@ -22,11 +22,28 @@ da dadurch die wichtigen Eigenschaften eines Bildes, wie zum Beispiel Kanten, er
 und verarbeitet werden können, aber einzelne abweichende Pixel herausgefiltert werden wodurch 
 unnötige Informationen entfernt werden.\\ 
 
-In Abbildung 1 kann man ein Bild von verschieden Lebensmitteln sehen. Wenn man genau hinsieht 
+\begin{figure}[htbp]
+    \centering
+    \begin{minipage}[t]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{kennzeichenerkennung/vorBilateral.png}
+        \caption{Vor Bilateraler Filterung}
+        \label{vorBi}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{kennzeichenerkennung/nachBilateral.png}
+        \caption{Nach Bilateraler Filterung}
+        \label{nachBi}
+    \end{minipage}
+\end{figure}
+
+In Abbildung \ref{vorBi} kann man ein Bild von verschieden Lebensmitteln sehen. Wenn man genau hinsieht 
 erkennt man vor allem bei den Blättern im Hintergrund und beim Brot viele detailreiche Texturen. 
 Diese Texturen haben keine wichtige Texturen und sind deswegen unnötig. Um die Bildverarbeitung zu 
 vereinfachen wendet man deswegen die bilaterale Filterung auf dieses Bild an, um diese detailreichen 
-Texturen zu vereinfachen. In Abbildung 2 sieht man das Bild nach der bilateralen Filterung. 
+Texturen zu vereinfachen. In Abbildung \ref{nachBi} sieht man das Bild nach der bilateralen Filterung. 
 Wenn man hier dann wieder genauer auf die Blätter und das Brot sieht, erkennt man, dass die 
 detailreichen Texturen weichgezeichnet wurden, aber die Kanten sind genauso gut erkennbar wie vor der Filterung.
 
@@ -40,7 +57,24 @@ ersetzt und wenn der Grauwert kleiner als der Schwellwert ist, wird dieser durch
 Dadurch erhält man ein Bild welches nur noch zwei Farben hat, Schwarz und Weiß. Dies wird deswegen eingesetzt, 
 da dadurch viele Bildverarbeitungsalgorithmen schneller arbeiten und die Effizienz gesteigert wird.\\
 
-In Abbildung 3 sieht man ein solches Graubild welches nur verschieden Graustufen aufweist. In Abbildung 4 sieht man das 
+\begin{figure}[htbp]
+    \centering
+    \begin{minipage}[t]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{kennzeichenerkennung/graustufen.png}
+        \caption{Graustufenbild}
+        \label{graypic}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{kennzeichenerkennung/binary.png}
+        \caption{Binäres Bild nach Thresholding}
+        \label{binarypic}
+    \end{minipage}
+\end{figure}
+
+In Abbildung \ref{graypic} sieht man ein solches Graubild welches nur verschieden Graustufen aufweist. In Abbildung \ref{binarypic} sieht man das 
 Bild nach dem Thresholding. Hier kann man nur noch das Boot mit den Menschen erkennen. Dies ist nicht nur für schnellere 
 Bildverarbeitungsalgorithmen wichtig, sondern wird auch zur Objekterkennung in Bildern verwendet.\\
 
@@ -59,8 +93,25 @@ invertiert. Dabei muss jedoch darauf geachtet werden, dass die Polarität des bi
 da sonst die Erosion nicht richtig funktioniert. Als Resultat erhält man danach ein deutlicheres Bild bei welchem einzelne 
 Pixelfehler herausgefiltert wurden und die Konturen besser erkennbar sind.\\
 
-In Abbildung 5 und 6 sieht man die Anwendung der Erosion. Die Konturen der einzelnen Zeichen im Kennzeichen sind in Abbildung 
-6 nach der Erosion deutlicher erkennbar als davor.
+\begin{figure}[htbp]
+    \centering
+    \begin{minipage}[t]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{kennzeichenerkennung/kennBinary.png}
+        \caption{Binäres Bild nach Thresholding}
+        \label{kennbinpic}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{kennzeichenerkennung/kennErosion.png}
+        \caption{Nach Erosion}
+        \label{eropic}
+    \end{minipage}
+\end{figure}
+
+In Abbildung \ref{kennbinpic} und \ref{eropic} sieht man die Anwendung der Erosion. Die Konturen der einzelnen Zeichen im Kennzeichen sind in Abbildung 
+\ref{eropic} nach der Erosion deutlicher erkennbar als davor.
 
 \subsubsection{Farbraum}
 Der Farbraum eines Bildes enthält alle möglichen Farben eines Farbmodells. Das Farbmodell beschreibt dabei die Parameter, aus 
@@ -157,7 +208,7 @@ Fahrzeug nun innerhalb oder außerhalb des Parkplatzes befindet.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{kennzeichenerkennung/Programmablauf.png}
+    \includegraphics[width=0.9\linewidth]{kennzeichenerkennung/Programmablauf.pdf}
     \caption{Ablaufdiagramm der Kennzeichenerkennung}
 \end{figure}
 
@@ -168,10 +219,10 @@ damit das Kennzeichen im Bild lokalisiert werden. Im Anschluss wird dieses Kennz
 verarbeitet, um dann die einzelnen Zeichen zu segmentieren. Danach kann dann das Modell für die Zeichenerkennung geladen 
 werden und dieses dann auch angewendet werden, um das Ergebnis zu erhalten. Dieses Ergebnis wird dann noch mit einer API an die Datenbank übergeben.
 
-\subsubsection{Verwendete Librarys}
+\subsubsection{Verwendete Libraries}
 
-\paragraph{Versionsübersicht der verwendeten Librarys}\mbox{}\\
-Im Folgenden werden die verwendeten Versionen der benötigten Librarys aufgelistet, um das Programm zu starten. Dies wird noch einmal 
+\paragraph{Versionsübersicht der verwendeten Libraries}\mbox{}\\
+Im Folgenden werden die verwendeten Versionen der benötigten Libraries aufgelistet, um das Programm zu starten. Dies wird noch einmal 
 unterteilt in die Versionen, welche auf Windows 10 benötigt werden und jene auf Raspbian\footnote{Raspbian ist ein Unix-basiertes Betriebssystem für den Raspberry Pi}, da auf Raspbian manche Versionen noch 
 nicht verfügbar sind, neuere und verbesserte Versionen verfügbar sind oder manche Versionen nur auf komplizierten Umwegen installierbar sind.
 
@@ -219,7 +270,7 @@ Die Installation von Jupyter Notebook ist simpel, da man es einfach über pip\fo
 
 \begin{listing}[H]
     \begin{minted}{bash}
-        pip install notebook
+    pip install notebook
     \end{minted}
     \caption{PIP Installation von Jupyter Notebook}
 \end{listing}
@@ -240,7 +291,7 @@ Um Numpy zu installieren muss folgender Befehl in der Konsole eingegeben werden:
 
 \begin{listing}[H]
     \begin{minted}{bash}
-        pip install numpy
+    pip install numpy
     \end{minted}
     \caption{PIP Installation von Numpy}
 \end{listing}
@@ -258,11 +309,11 @@ Die Installation von OpenCV ist dabei etwas komplizierter als bei anderen Librar
 
 Windows:\\
 
-Unter Windows ist die Installation vergleichbar mit anderen Librarys, es muss einfach der folgende Befehl in der Konsole eingegeben werden:
+Unter Windows ist die Installation vergleichbar mit anderen Libraries, es muss einfach der folgende Befehl in der Konsole eingegeben werden:
 
 \begin{listing}[H]
     \begin{minted}{bash}
-        pip install opencv-python
+    pip install opencv-python
     \end{minted}
     \caption{PIP Installation von OpenCV}
 \end{listing}
@@ -276,7 +327,7 @@ Als erstes werden alle Tools und Bibliotheken installiert, welche für OpenCV be
 
 \begin{listing}[H]
     \begin{minted}{bash}
-        $ sudo apt-get install build-essential git cmake pkg-config libjpeg8-dev libtiff4-dev libjasper-dev libpng12-dev libavcodec-dev libavformat-dev libswscale-dev libv4l-dev libgtk2.0-dev libatlas-base-dev gfortran
+    $ sudo apt-get install build-essential git cmake pkg-config libjpeg8-dev libtiff4-dev libjasper-dev libpng12-dev libavcodec-dev libavformat-dev libswscale-dev libv4l-dev libgtk2.0-dev libatlas-base-dev gfortran
     \end{minted}
     \caption{Installation benötigter Tools und Bibliotheken für OpenCV}
 \end{listing}
@@ -285,7 +336,7 @@ Danach kann man mit dem nächsten Befehl OpenCV von einem GitHub-Repository klon
 
 \begin{listing}[H]
     \begin{minted}{bash}
-        $ sudo apt-get install build-essential git cmake pkg-config libjpeg8-dev libtiff4-dev libjasper-dev libpng12-dev libavcodec-dev libavformat-dev libswscale-dev libv4l-dev libgtk2.0-dev libatlas-base-dev gfortran
+    $ sudo apt-get install build-essential git cmake pkg-config libjpeg8-dev libtiff4-dev libjasper-dev libpng12-dev libavcodec-dev libavformat-dev libswscale-dev libv4l-dev libgtk2.0-dev libatlas-base-dev gfortran
     \end{minted}
     \caption{Klonen von OpenCV von GitHub}
 \end{listing}
@@ -294,15 +345,15 @@ Im nächsten Schritt wird OpenCV mit den folgenden Befehlen kompiliert:
 
 \begin{listing}[H]
     \begin{minted}{bash}
-        cd ~/opencv && mkdir build && cd build
+    cd ~/opencv && mkdir build && cd build
 
-        cmake -D CMAKE_BUILD_TYPE=RELEASE \
-        -D CMAKE_INSTALL_PREFIX=/usr/local \
-        -D INSTALL_PYTHON_EXAMPLES=ON \
-        -D INSTALL_C_EXAMPLES=ON \
-        -D OPENCV_EXTRA_MODULES_PATH=~/opencv_contrib/modules \
-         -D BUILD_EXAMPLES=ON ..
-        make -j4
+    cmake -D CMAKE_BUILD_TYPE=RELEASE \
+    -D CMAKE_INSTALL_PREFIX=/usr/local \
+    -D INSTALL_PYTHON_EXAMPLES=ON \
+    -D INSTALL_C_EXAMPLES=ON \
+    -D OPENCV_EXTRA_MODULES_PATH=~/opencv_contrib/modules \
+    -D BUILD_EXAMPLES=ON ..
+    make -j4
     \end{minted}
     \caption{Kompilieren von OpenCV}
 \end{listing}
@@ -311,7 +362,7 @@ Wenn das Kompilieren erfolgreich beendet wurde, kann OpenCV abschließend instal
 
 \begin{listing}[H]
     \begin{minted}{bash}
-        $ sudo make install && sudo ldconfig
+    $ sudo make install && sudo ldconfig
     \end{minted}
     \caption{Abschließende Installation von OpenCV}
 \end{listing}
@@ -340,7 +391,7 @@ Um Matplotlib zu installieren muss das Folgende in der Konsole eingegeben werden
 
 \begin{listing}[H]
     \begin{minted}{bash}
-        pip install matplotlib
+    pip install matplotlib
     \end{minted}
     \caption{PIP Installation von Matplotlib}
 \end{listing}
@@ -356,7 +407,7 @@ Um Keras zu installieren führt man folgenden Befehl in der Konsole aus:
 
 \begin{listing}[H]
     \begin{minted}{bash}
-        pip install keras
+    pip install keras
     \end{minted}
     \caption{PIP Installation von Keras}
 \end{listing}
@@ -372,11 +423,11 @@ Raspbian unterstützt offiziell die benötigte Version von Tensorflow noch nicht
 
 Windows:\\
 
-Die Installation von Tensorflow unter Windows ist einfach, da man es wie andere Librarys einfach über pip installieren kann.
+Die Installation von Tensorflow unter Windows ist einfach, da man es wie andere Libraries einfach über pip installieren kann.
 
 \begin{listing}[H]
     \begin{minted}{bash}
-        pip install tensorflow
+    pip install tensorflow
     \end{minted}
     \caption{PIP Installation von Tensorflow}
 \end{listing}
@@ -390,7 +441,7 @@ Mit dem ersten Befehl werden die benötigten Tools installiert:
 
 \begin{listing}[H]
     \begin{minted}{bash}
-        $ sudo apt-get install cmake curl
+    $ sudo apt-get install cmake curl
     \end{minted}
     \caption{Benötigte Tools für Tensorflow}
 \end{listing}
@@ -399,7 +450,7 @@ Danach kann man die neuste Tensorflow Version von GitHub herunterladen:
 
 \begin{listing}[H]
     \begin{minted}{bash}
-        $ wget -O tensorflow.zip https://github.com/tensorflow/tensorflow/archive/v2.4.0.zip
+    $ wget -O tensorflow.zip https://github.com/tensorflow/tensorflow/archive/v2.4.0.zip
     \end{minted}
     \caption{Tensorflow von GitHub herunterladen}
 \end{listing}
@@ -408,18 +459,18 @@ Anschließend muss Tensorflow entpackt werden:
 
 \begin{listing}[H]
     \begin{minted}{bash}
-        $ unzip tensorflow.zip
-        $ mv tensorflow-2.4.0 tensorflow
-        $ cd tensorflow
+    $ unzip tensorflow.zip
+    $ mv tensorflow-2.4.0 tensorflow
+    $ cd tensorflow
     \end{minted}
     \caption{Entpacken von Tensorflow}
 \end{listing}
 
-Im nächsten Schritt müssen noch zusätzlich erforderliche Librarys installiert werden:
+Im nächsten Schritt müssen noch zusätzlich erforderliche Libraries installiert werden:
 
 \begin{listing}[H]
     \begin{minted}{bash}
-        $ ./tensorflow/lite/tools/make/download_dependencies.sh
+    $ ./tensorflow/lite/tools/make/download_dependencies.sh
     \end{minted}
     \caption{Zusätzlich erforderliche Librarys}
 \end{listing}
@@ -428,7 +479,7 @@ Danach kann die Installation kompiliert werden:
 
 \begin{listing}[H]
     \begin{minted}{bash}
-        $ ./tensorflow/lite/tools/make/build_aarch32_lib.sh
+    $ ./tensorflow/lite/tools/make/build_aarch32_lib.sh
     \end{minted}
     \caption{Kompilieren von Tensorflow}
 \end{listing}
@@ -437,13 +488,13 @@ Danach muss man die Installation mit den folgenden Befehlen abschließen:
 
 \begin{listing}[H]
     \begin{minted}{bash}
-        $ cd ~/tensorflow/tensorflow/lite/tools/make/downloads/flatbuffers
-        $ mkdir build
-        $ cd build
-        $ cmake ..
-        $ make -j4
-        $ sudo make install
-        $ sudo ldconfig
+    $ cd ~/tensorflow/tensorflow/lite/tools/make/downloads/flatbuffers
+    $ mkdir build
+    $ cd build
+    $ cmake ..
+    $ make -j4
+    $ sudo make install
+    $ sudo ldconfig
     \end{minted}
     \caption{Abschließen der Installation von Tensorflow}
 \end{listing}
@@ -466,7 +517,7 @@ Für die Installation von Scikit-learn muss die folgende Zeile in der Konsole au
 
 \begin{listing}[H]
     \begin{minted}{bash}
-        pip install scikit-learn
+    pip install scikit-learn
     \end{minted}
     \caption{PIP Installation von Scikit-learn}
 \end{listing}
@@ -483,7 +534,7 @@ Die Installation von Requests erfolgt mit folgendem Befehl in der Konsole:
 
 \begin{listing}[H]
     \begin{minted}{bash}
-        pip install requests
+    pip install requests
     \end{minted}
     \caption{PIP Installation von Requests}
 \end{listing}
@@ -508,7 +559,7 @@ Diese Library kann nur auf dem Raspberry Pi installiert werden. Um die Library G
 
 \begin{listing}[H]
     \begin{minted}{bash}
-        pip install gpiozero
+    pip install gpiozero
     \end{minted}
     \caption{PIP Installation von Gpiozero}
 \end{listing}
@@ -525,7 +576,7 @@ Für die Installation von picamera muss folgender Befehl in der Konsole eingegeb
 
 \begin{listing}[H]
     \begin{minted}{bash}
-        pip install picamera
+    pip install picamera
     \end{minted}
     \caption{PIP Installation von Picamera}
 \end{listing}
