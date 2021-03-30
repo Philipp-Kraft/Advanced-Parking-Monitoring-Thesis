@@ -1,8 +1,6 @@
 \def \sectionauthors {Philipp Kraft}
 
 \subsection{Einleitung}
-
-\subsection{Anforderungen}
 Das Webinterface hat auf der einen Seite die Aufgabe die Kommunikation mit der
 Kennzeichenerkennung und der Fahrzeugerkennung sicherzustellen und auf der
 anderen Seite die Verwaltung und Darstellung der gewonnen Daten.
@@ -10,15 +8,22 @@ anderen Seite die Verwaltung und Darstellung der gewonnen Daten.
 \subsection{Verwendete Technologien}
 \subsubsection{HTML}
 \acs*{HTML} steht hierbei für \acl*{HTML} und ist eine Auszeichnungssprache
-welche vom \ac*{W3C}\footnote{\url{https://www.w3.org} } entwickelt wird. \ac*{HTML} ist
-De-Facto-Standard um Inhalte in Browsern darzustellen. \acs*{HTML} ist dabei aber
-nicht für die visuelle Darstellung verantwortlich sondern nur für die
-semantische Struktur. Der Sinn dahinter ist, dass der Inhalt und die Vorgaben an
-die Darstellung möglichst gut getrennt ist. Für die Formatierung kommt die Stylesheet-Sprache \ac*{CSS} zum Einsatz,
-welche ebenfalls vom \acl*{W3C} entwickelt wird. Die aktuellste Version der
-\acs*{HTML} Spezifikation ist
+welche vom \ac*{W3C}\footnote{\url{https://www.w3.org} } entwickelt wird.
+\ac*{HTML} ist De-Facto-Standard um Inhalte in Browsern darzustellen.
+\acs*{HTML} ist dabei aber nicht für die visuelle Darstellung verantwortlich
+sondern nur für die semantische Struktur. Der Sinn dahinter ist, dass der Inhalt
+und die Vorgaben an die Darstellung möglichst gut getrennt ist. Für die
+Formatierung kommt die Stylesheet-Sprache \ac*{CSS} zum Einsatz, welche
+ebenfalls vom \acl*{W3C} entwickelt wird. Die aktuellste Version der \acs*{HTML}
+Spezifikation ist
 HTML5\footnote{\url{https://www.w3.org/2014/10/html5-rec.html.en}} und wurde am
 28. Oktober 2014 vom \acs*{W3C} vorgelegt.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.2\linewidth]{webinterface/html5_logo.png}
+  \caption{HTML5 Logo von \citeurl{html5logo}}
+\end{figure}
 
 \paragraph{Beispielhafte HTML Seite}\mbox{}\\
 Eine \acs*{HTML} Seite setzt sich aus einer Vielzahl von sogenannten Elementen
@@ -63,7 +68,7 @@ bzw. eingebunden werden:
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=1\linewidth]{webinterface/simple_html_site.png}
+  \frame{\includegraphics[width=1\linewidth]{webinterface/simple_html_site.png}}
   \caption{Einfache HTML Seite}
 \end{figure}
 
@@ -98,18 +103,17 @@ darzustellen wird die vorherige HTML Seite nun mit CSS ergänzt.
 \end{listing}
 
 Nun muss dieses Stylesheet nur noch im \verb|<head>| Tag mit\\
-\mintinline{css}{  <link rel="stylesheet" href="mystyle.css">} eingebunden
-werden.
+\mintinline{css}{  <link rel="stylesheet" href="style.css">} eingebunden werden.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=1\linewidth]{webinterface/simple_html_site_with_css.png}
+  \frame{\includegraphics[width=1\linewidth]{webinterface/simple_html_site_with_css.png}}
   \caption{Einfache HTML Seite mit CSS}
 \end{figure}
 
-Es lässt sich nun deutlich erkennen, dass sich die Webseite stark verändert hat
-von den Farben bis zu der Schriftart. HTML und CSS bieten noch viel mehr
-Funktionen, eine Vielzahl der Funktionen sind auf der Website
+Es lässt sich nun erkennen, dass sich die Webseite deutlich verändert hat. Dabei
+bieten HTML und CSS bieten noch viel mehr Funktionen, eine ausführliche
+Dokumentation der Funktionen sind auf der Website
 w3schools\footnote{\url{https://www.w3schools.com/html} und
 \url{https://www.w3schools.com/css}} zu finden.
 
@@ -123,22 +127,20 @@ Frontend\footnote{Grafische Benutzeroberfläche mit der der Benutzer interagiert
 mehr beschränkt, es möglich mit Frameworks wie Node.js auch
 Backend\footnote{Verarbeitung von Daten auf beispielsweise einem Server}
 Applikationen zu schreiben und somit ist es möglich Full-Stack\footnote{Front-
-und Backend}-Anwendungen vollständig mit
-\acl*{JS} zu entwickeln. Eine der wichtigsten Anwendungsgebiete ist die
-Manipulation von Elementen über das \ac*{DOM}. Der Standards wird unter dem
-Namen ECMA Script von der Organisation Ecma
-International\footnote{\url{https://www.ecma-international.org}}
-veröffentlicht und die aktuellste Version ist
-\textbf{ECMA-262}.
+und Backend}-Anwendungen vollständig mit \acl*{JS} zu entwickeln. Eine der
+wichtigsten Anwendungsgebiete ist die Manipulation von Elementen über das
+\ac*{DOM}. Der Standards wird unter dem Namen ECMA Script von der Organisation
+Ecma International\footnote{\url{https://www.ecma-international.org}}
+veröffentlicht und die aktuellste Version ist \textbf{ECMA-262}.
 
 \subsubsection{PHP}
 \ac*{PHP} ist eine Skriptsprache um dynamische Webseiten zu realisieren, jedoch
 wird nicht wie bei \acl*{JS} der Code auf dem Client ausgeführt sondern auf dem
-Server, dort wird die HTML-Ausgabe generiert und dem Client zugesendet.
-Somit ist es nicht möglich den Code als Benutzer zu betrachten. Grundsätzlich
-ist PHP als synchrone Sprache geplant worden, es ist jedoch auch möglich
-asynchron zu Programmieren um die Performance zu steigern. Die aktuellste
-Version ist \acs*{PHP} 8\footnote{\url{https://www.php.net/docs.php}}.
+Server, dort wird die HTML-Ausgabe generiert und dem Client zugesendet. Somit
+ist es nicht möglich den Code als Benutzer zu betrachten. Grundsätzlich ist PHP
+als synchrone Sprache geplant worden, es ist jedoch auch möglich asynchron zu
+Programmieren um die Performance zu steigern. Die aktuellste Version ist
+\acs*{PHP} 8\footnote{\url{https://www.php.net/docs.php}}.
 
 
 \subsubsection{TailwindCSS}
@@ -155,8 +157,8 @@ relevanten Frameworks.
 Viele von diesen CSS Frameworks verwenden vorgefertigte Components welche direkt
 verwendet werden können, dies führt dazu, dass die Entwicklung sehr rasch ist.
 Dort unterscheidet sich TailwindCSS von den anderen CSS Frameworks, dort
-existieren sogenannte Utility-Classes, diese können direkt im \acs*{HTML} auf die
-einzelnen Elemente angewendet werden.
+existieren sogenannte Utility-Classes, diese können direkt im \acs*{HTML} auf
+die einzelnen Elemente angewendet werden.
 
 %\subsubsection{Vue}
 
@@ -185,8 +187,22 @@ werden kann oder einzelne Teile wiederverwendet werden können.
   durch das Absenden eines Formulares einen Eintrag in der Datenbank zu erstellen. 
 \end{itemize}
 
-Laravel besitzt eine sehr ausführliche Dokumentation welche unter
-(\url{https://laravel.com/docs/8.x}) zu erreichen ist.
+Ein Anfrage auf eine Webseite läuft in 6. Schritten ab:
+
+\begin{itemize}
+  \item \textbf{1. Schritt:} Der Benutzer führt eine HTTP-Anfragemethode aus
+  \item \textbf{2. Schritt:} Die Anfrage wird geroutet
+  \item \textbf{3. Schritt:} Der Controller interagiert mit dem Model
+  \item \textbf{4. Schritt:} Das Model greift auf die Datenbank zu
+  \item \textbf{5. Schritt:} Der Controller liefert die Daten an eine View
+  \item \textbf{6. Schritt:} View mit den Daten werden an den Client gesendet
+\end{itemize}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\linewidth]{webinterface/mvc_laravel.pdf}
+  \caption{Laravel MVC Muster}
+\end{figure}
 
 \paragraph{Routing}\mbox{}\\
 In Laravel erfolgt durch ein Routefile unter \verb|routes/web.php|. API Requests
@@ -385,6 +401,11 @@ Code~\ref{lst:raw_sql_query} ist es erkenntlich, dass der Eloquent Query
 verständlicher ist. Besonders bei komplexeren Queries ist Eloquent den RAW
 \acs*{SQL} Queries im Bezug auf die Lesbarkeit stark überlegen.
 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.6\linewidth]{webinterface/eloquent_workflow.jpg}
+  \caption{Eloquent ORM Workflow}
+\end{figure}
 
 \paragraph{Laravel Sanctum}\mbox{}\\
 Laravel Sanctum ist ein First-Party-Package von den Entwicklern von Laravel und
