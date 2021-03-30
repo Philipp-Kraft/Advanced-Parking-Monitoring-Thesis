@@ -22,7 +22,7 @@ HTML5\footnote{\url{https://www.w3.org/2014/10/html5-rec.html.en}} und wurde am
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.2\linewidth]{webinterface/html5_logo.png}
-  \caption{HTML5 Logo von \citeurl{html5logo}}
+  \caption{HTML5 Logo}
 \end{figure}
 
 \paragraph{Beispielhafte HTML Seite}\mbox{}\\
@@ -69,7 +69,7 @@ bzw. eingebunden werden:
 \begin{figure}[H]
   \centering
   \frame{\includegraphics[width=1\linewidth]{webinterface/simple_html_site.png}}
-  \caption{Einfache HTML Seite}
+  \caption{Einfache HTML Seite von \citeurl[]{html5logo}}
 \end{figure}
 
 \subsubsection{CSS}
@@ -163,12 +163,13 @@ die einzelnen Elemente angewendet werden.
 %\subsubsection{Vue}
 
 \subsubsection{Laravel}
-Laravel\footnote{\url{https://laravel.com/}} ist ein Open-Source PHP-Framework, es erleichtert die Entwicklung und
-erhöht die Sicherheit und auch durch die zahlreichen First-Party-Packages bietet
-Laravel ein sehr hochwertiges Ecosystem. Da Laravel ein sehr wichtiger Bestandteil des
-Webinterfaces ist wird später noch genauer auf die einzelne Funktionen des
-Frameworks eingegangen. Laravel wird seit Juni 2011 entwickelt und erhält
-jährlich eine neue Version, aktuell ist Laravel 8 die neuste Version.\\
+Laravel\footnote{\url{https://laravel.com/}} ist ein Open-Source PHP-Framework,
+es erleichtert die Entwicklung und erhöht die Sicherheit und auch durch die
+zahlreichen First-Party-Packages bietet Laravel ein sehr hochwertiges Ecosystem.
+Da Laravel ein sehr wichtiger Bestandteil des Webinterfaces ist wird später noch
+genauer auf die einzelne Funktionen des Frameworks eingegangen. Laravel wird
+seit Juni 2011 entwickelt und erhält jährlich eine neue Version, aktuell ist
+Laravel 8 die neuste Version.\\
 
 Das Framework folgt dem sogenannten \ac*{MVC} Muster das bedeutet, dass die
 Programmierlogik in drei verschiedene Teile unterteilt wird. Der Sinn dahinter
@@ -184,7 +185,8 @@ werden kann oder einzelne Teile wiederverwendet werden können.
   Components und Layouts.
   \item \textbf{Controller} \\
   In den Controllern der Anwendung befindet sich die Logik um beispielsweise
-  durch das Absenden eines Formulares einen Eintrag in der Datenbank zu erstellen. 
+  durch das Absenden eines Formulares einen Eintrag in der Datenbank zu
+  erstellen. 
 \end{itemize}
 
 Ein Anfrage auf eine Webseite läuft in 6. Schritten ab:
@@ -226,12 +228,13 @@ Der Laravel Router erlaubt folgende HTTP-Anfragemethoden:
   \mintinline{php}{  Route::options($uri, $callback);}
 \end{itemize}
 
-Im folgenden Ausschnitt Code~\ref{lst:user_routes} werden ein Teil der Routen von den Benutzern dargelegt. Dabei lässt
-sich erkennen, dass die Routen sich in einer Gruppe befinden, welche den Prefix
-\verb|/admin| und die Middleware \verb|verified| hat das bedeutet, dass der Benutzer
-eingeloggt sein muss um diese Routen aufzurufen. Dabei verweisen die Routen auf
-einzelne Methoden im UserController. Schlussendlich werden mit der name-Methode
-die Routen benannt, damit sie später im Code einfach referenziert werden können.
+Im folgenden Ausschnitt Code~\ref{lst:user_routes} werden ein Teil der Routen
+von den Benutzern dargelegt. Dabei lässt sich erkennen, dass die Routen sich in
+einer Gruppe befinden, welche den Prefix \verb|/admin| und die Middleware
+\verb|verified| hat das bedeutet, dass der Benutzer eingeloggt sein muss um
+diese Routen aufzurufen. Dabei verweisen die Routen auf einzelne Methoden im
+UserController. Schlussendlich werden mit der name-Methode die Routen benannt,
+damit sie später im Code einfach referenziert werden können.
 
 \begin{listing}[H]
   \begin{minted}{php}
@@ -325,9 +328,9 @@ wichtigstens Befehle:
 \end{itemize}
 
 \paragraph{Migrations}\mbox{}\\
-Datenbank Migrations sind praktisch Vorlagen wie einzelne Tabellen in der Datenbank auszusehen
-haben. Migrations erleichtern die Handhabung von SQL Datenbank im Team mithilfe
-von Source Control wie Git um einiges.
+Datenbank Migrations sind praktisch Vorlagen wie einzelne Tabellen in der
+Datenbank auszusehen haben. Migrations erleichtern die Handhabung von SQL
+Datenbank im Team mithilfe von Source Control wie Git um einiges.
 
 \begin{listing}[H]
   \begin{minted}{php}
@@ -362,22 +365,22 @@ von Source Control wie Git um einiges.
 \end{listing}
 
 Im Code~\ref{lst:create_users_table} sind zwei Methoden zu erkennen, \verb|up|
-und \verb|down|, in der \verb|up| Methode werden neue Tabellen und Spalten in der
-Datenbank erstellt, bei der \verb|down| Methode wird alles von der \verb|up| Methode
-rückgängig gemacht, in diesem Fall wird die komplette Tabelle gelöscht. Um nun
-die Datenbank zu migrieren muss in der Artisan \acs*{CLI} Befehl \verb|php artisan migrate|
-ausgeführt werden, dabei werden alle Migrations im Verzeichnis
-\verb|database/migrations| ausgeführt.
+und \verb|down|, in der \verb|up| Methode werden neue Tabellen und Spalten in
+der Datenbank erstellt, bei der \verb|down| Methode wird alles von der \verb|up|
+Methode rückgängig gemacht, in diesem Fall wird die komplette Tabelle gelöscht.
+Um nun die Datenbank zu migrieren muss in der Artisan \acs*{CLI} Befehl
+\verb|php artisan migrate| ausgeführt werden, dabei werden alle Migrations im
+Verzeichnis \verb|database/migrations| ausgeführt.
 
 \paragraph{Eloquent ORM}\mbox{}\\
-Eloquent ist ein \ac*{ORM} d.h. um auf die \acs*{SQL} Datenbank zuzugreifen müssen
-keine Raw \acs*{SQL} Queries ausgeführt werden. Im Code erscheint die Datenbank als
-objektorientierte Datenbank und erleichtert somit dem Umgang mit der Datenbank.
-Dabei entspricht besitzt jede Tabelle in der Datenbank einem dazugehöriges Model,
-dieses Model wird verwendet um im Code mit der Datenbank zu interagieren. Ein
-weiter Vorteil ist, dass der Code sehr übersichtlich und leicht lesbar ist,
-jedoch wird die Ausführungszeit leicht erhöht, was jedoch keine große Rolle bei
-kleinen- bis mittelgroßen Webseiten spielt.
+Eloquent ist ein \ac*{ORM} d.h. um auf die \acs*{SQL} Datenbank zuzugreifen
+müssen keine Raw \acs*{SQL} Queries ausgeführt werden. Im Code erscheint die
+Datenbank als objektorientierte Datenbank und erleichtert somit dem Umgang mit
+der Datenbank. Dabei entspricht besitzt jede Tabelle in der Datenbank einem
+dazugehöriges Model, dieses Model wird verwendet um im Code mit der Datenbank zu
+interagieren. Ein weiter Vorteil ist, dass der Code sehr übersichtlich und
+leicht lesbar ist, jedoch wird die Ausführungszeit leicht erhöht, was jedoch
+keine große Rolle bei kleinen- bis mittelgroßen Webseiten spielt.
 
 \begin{listing}[H]
   \begin{minted}{php}
@@ -404,7 +407,7 @@ verständlicher ist. Besonders bei komplexeren Queries ist Eloquent den RAW
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.6\linewidth]{webinterface/eloquent_workflow.jpg}
-  \caption{Eloquent ORM Workflow}
+  \caption{Eloquent ORM Workflow von \citeurl[]{eloquentworkflow}}
 \end{figure}
 
 \paragraph{Laravel Sanctum}\mbox{}\\
@@ -413,7 +416,8 @@ ermöglicht eine einfache Authentifizierung mithilfe von API-Tokens. Dabei wird
 der vom Benutzer erstellte API-Token im HTTP Header \verb|Authorization|
 mitgeliefert und somit autorisiert. Da es sich hierbei um ein
 Sicherheitskritisches Modul handelt ist es besonders wichtig, dass dieser Code
-nahezu Fehlerfrei ist und dies wird durch kontinuierliche Updates und Patches garantiert.
+nahezu Fehlerfrei ist und dies wird durch kontinuierliche Updates und Patches
+garantiert.
  
 %\paragraph{Laravel Mix}
 %\paragraph{Sessions}
@@ -451,9 +455,9 @@ Um PHP Befehle von der Kommandozeile auszuführen muss die Installation zuerst i
 den Windows Path Variables hinzugefügt werden.
 
 Dies erfolgt durch die \verb|Advanced System Settings| $\blacktriangleright$
-\verb|Environment Variables| $\blacktriangleright$ \verb|System Variables|.
-Dort kann nun die Path Variable editiert werden und der Pfad hinzugefügt werden
-in welchem die \verb|php.exe| liegt.
+\verb|Environment Variables| $\blacktriangleright$ \verb|System Variables|. Dort
+kann nun die Path Variable editiert werden und der Pfad hinzugefügt werden in
+welchem die \verb|php.exe| liegt.
 
 \begin{figure}[H]
   \centering
@@ -567,9 +571,10 @@ werden, in diesem Fall Debian (\url{https://www.microsoft.com/de-de/p/debian}).
 Die aktuellste Version von Docker Desktop für Windows lässt sich am einfachsten
 über die offizielle Website von Docker herunterladen (\url{https://docker.com}).
 Nach der Installation muss noch die WSL Integration aktiviert werden. Dazu muss
-in den Einstellungen unter \verb|Resources| $\blacktriangleright$ \verb|WSL Integration| und
-dort muss der Haken bei \verb|Enable integration with my default WSL distro| gesetzt
-werden und die installierte Linux Distribution muss unten aktiviert werden.
+in den Einstellungen unter \verb|Resources| $\blacktriangleright$ \verb|WSL Integration|
+und dort muss der Haken bei \textit{Enable integration with my default WSL distro}
+gesetzt werden und die installierte Linux Distribution muss unten aktiviert
+werden.
 
 \begin{figure}[H]
   \centering
@@ -592,10 +597,10 @@ laufen über die Docker Desktop Anwendung zu steuern.
 
 
 \subsection{Production Server}
-Der Production Server bzw. der Live Server ist der Server wo sich die Webanwendung
-befindet und die Endbenutzer zugreifen, dieser Server wird auch einfach mit
-Production abgekürzt. Der Production Server ist in diesem Fall ein Virtual
-Private Server mit dem Betriebsystem Debian 10, welcher bei einem
+Der Production Server bzw. der Live Server ist der Server wo sich die
+Webanwendung befindet und die Endbenutzer zugreifen, dieser Server wird auch
+einfach mit Production abgekürzt. Der Production Server ist in diesem Fall ein
+Virtual Private Server mit dem Betriebsystem Debian 10, welcher bei einem
 Internet-Hosting Unternehmen mit Sitz in Deutschland gehostet wird.
 
 
@@ -732,7 +737,8 @@ und zusätzlich müssen einige Rechte und Verzeichnisse angepasst werden.
 \end{listing}
 
 Nun muss eine Konfigurations Datei erstellt werden und dort muss ein Blowfish
-Secret\footnote{32 Zeichen String für Cookie-Authentifizierung} angegeben werden und den Pfad für ein Temporäres Verzeichnis.
+Secret\footnote{32 Zeichen String für Cookie-Authentifizierung} angegeben werden
+und den Pfad für ein Temporäres Verzeichnis.
 
 \begin{listing}[H]
   \begin{minted}{bash}
@@ -751,11 +757,10 @@ und am Ende dieser Datei müssen folgende zwei Zeilen eingefügt werden.
   \caption{phpMyAdmin Blowfish Secret und TempDir}
 \end{listing}
 
-
 Zuletzt muss der Apache Web Server konfiguriert werden.
 
-Im Verzeichnis \verb|/etc/apache2/sites-available| muss eine neue
-Konfiguration angelegt werden \verb|phpmyadmin.conf|.
+Im Verzeichnis \verb|/etc/apache2/sites-available| muss eine neue Konfiguration
+angelegt werden \verb|phpmyadmin.conf|.
 
 \begin{listing}[H]
   \begin{minted}{bash}
@@ -789,14 +794,16 @@ muss der Apache Web Server neu gestartet werden.
   \caption{Virtual Host aktivieren}
 \end{listing}
 
-Diese Konfiguration
-ermöglicht es, dass das Webinterface von phpMyAdmin über den Port 9000 (\url{http://dev.philipp-kraft.com:9000})
-erreichbar ist und nicht wie Standardmäßig vorgesehen über das Verzeichnis
-/phpmyadmin (\url{http://dev.philipp-kraft.com/phpmyadmin}), dies bietet einen Sicherheitsvorteil.
+Diese Konfiguration ermöglicht es, dass das Webinterface von phpMyAdmin über den
+Port 9000 (\url{http://dev.philipp-kraft.com:9000}) erreichbar ist und nicht wie
+Standardmäßig vorgesehen über das Verzeichnis /phpmyadmin
+(\url{http://dev.philipp-kraft.com/phpmyadmin}), dies bietet einen
+Sicherheitsvorteil.
 
 \paragraph{Webinterface Virtual Host}\mbox{}\\
 
-Nun muss noch eine Virtual Host Konfiguration für das Webinterface selbst erstellt werden.
+Nun muss noch eine Virtual Host Konfiguration für das Webinterface selbst
+erstellt werden.
 
 \begin{listing}[H]
   \begin{minted}{bash}
@@ -823,7 +830,10 @@ Nun muss noch eine Virtual Host Konfiguration für das Webinterface selbst erste
   \caption{apm.conf}
 \end{listing}
 
-Diesmal wird auf den Standard HTTP Port 80 gehört und dieser führt in das Verzeichnis \verb|/var/www/apm/public|. Zusätzlich werden noch Directives gesetzt, damit das Standard \verb|.htaccess| File von Laravel richtig funktionieren kann.
+Diesmal wird auf den Standard HTTP Port 80 gehört und dieser führt in das
+Verzeichnis \verb|/var/www/apm/public|. Zusätzlich werden noch Directives
+gesetzt, damit das Standard \verb|.htaccess| File von Laravel richtig
+funktionieren kann.
 
 \paragraph{Installation von Composer}\mbox{}\\
 
@@ -836,7 +846,8 @@ Die Installation von Composer gestaltet sich relativ einfach.
   \caption{Download Composer Installer}
 \end{listing}
 
-Nun muss das Setup ausgeführt werden und damit das \verb|composer| Befehl Global verfügbar ist wird Composer in den Pfad \verb|/usr/local/bin| verschoben.
+Nun muss das Setup ausgeführt werden und damit das \verb|composer| Befehl Global
+verfügbar ist wird Composer in den Pfad \verb|/usr/local/bin| verschoben.
 
 \begin{listing}[H]
   \begin{minted}{bash}
@@ -847,7 +858,9 @@ Nun muss das Setup ausgeführt werden und damit das \verb|composer| Befehl Globa
 
 
 \subsubsection{Deployment mit Github Actions}
-Unter Deployment versteht man die automatische Installation von Software, in diesem Fall auf einem Linux Server. Erreicht wird das durch zwei Bash Scripts und mit Github Actions (\url{https://github.com/features/actions}).
+Unter Deployment versteht man die automatische Installation von Software, in
+diesem Fall auf einem Linux Server. Erreicht wird das durch zwei Bash Scripts
+und mit Github Actions (\url{https://github.com/features/actions}).
 
 \paragraph{Git Setup}\mbox{}\\
 
@@ -880,7 +893,9 @@ kann dann einfach in der URL eingefügt werden.
 
 \paragraph{Deploy Script}\mbox{}\\
 
-Das Deploy-Script wird auf der Lokalen Entwicklermaschine ausgeführt. Das Script wechselt in den Production Branch und merged mit dem Main Branch, dieser Push in den Production Branch löst dann die Github Action aus.
+Das Deploy-Script wird auf der Lokalen Entwicklermaschine ausgeführt. Das Script
+wechselt in den Production Branch und merged mit dem Main Branch, dieser Push in
+den Production Branch löst dann die Github Action aus.
 
 \begin{listing}[H]
   \begin{minted}{bash}
@@ -903,7 +918,9 @@ Das Deploy-Script wird auf der Lokalen Entwicklermaschine ausgeführt. Das Scrip
 
 \paragraph{Server Deploy Script}\mbox{}\\
 
-Das Server Deploy Script \verb|server_deploy.sh| versetzt die Laravel Applikation in den Wartungsmodus und lädt sich vom deploy Branch den Code auf den Server herunter, danach werden einige Befehle ausgeführt.
+Das Server Deploy Script \verb|server_deploy.sh| versetzt die Laravel
+Applikation in den Wartungsmodus und lädt sich vom deploy Branch den Code auf
+den Server herunter, danach werden einige Befehle ausgeführt.
 
 \begin{longlisting}
   \begin{minted}{bash}
@@ -938,9 +955,12 @@ Das Server Deploy Script \verb|server_deploy.sh| versetzt die Laravel Applikatio
 
 
 \paragraph{Github Action}\mbox{}\\
-Github Actions ist ein Projekt von Github, welches es ermöglicht Automatisierungen in den Bereichen Entwicklung, Testing und Deployment durchzuführen.
+Github Actions ist ein Projekt von Github, welches es ermöglicht
+Automatisierungen in den Bereichen Entwicklung, Testing und Deployment
+durchzuführen.
 
-Als erstes muss ein Workflow erstellt werden, dieser wird im Root-Verzeichnis des Projekts erstellt \verb|APM\.github\workflows\main.yml|.
+Als erstes muss ein Workflow erstellt werden, dieser wird im Root-Verzeichnis
+des Projekts erstellt \verb|APM\.github\workflows\main.yml|.
 
 \begin{longlisting}
   \begin{minted}{bash}
@@ -989,8 +1009,9 @@ wird das Bash-Script \verb|server_deploy.sh| ausgeführt. Gleichzeitig werden
 einige Berechtigungen angepasst.
 
 In der Repository muss nun noch das SSH-Passwort und der Personal access token
-hinterlegt werden. Dies geschieht über \verb|Settings| $\blacktriangleright$ \verb|Secrets|. Dort
-können nun über \verb|New respository secrets| die Secrets hinterlegt werden.
+hinterlegt werden. Dies geschieht über \verb|Settings| $\blacktriangleright$
+\verb|Secrets|. Dort können nun über \verb|New respository secrets| die Secrets
+hinterlegt werden.
 
 \begin{figure}[H]
   \centering
@@ -1009,8 +1030,8 @@ können nun über \verb|New respository secrets| die Secrets hinterlegt werden.
 
 Da das Ziel ist, dass das Frontend\footnote{Präsentationsebene in Form der
 grafischen Benutzeroberfläche} des Webinterfaces möglichst Modular aufgebaut ist
-und so wenig Code wie möglich wiederholt wird. Ermöglicht wird dies durch das aufbauen
-der Seite mithilfe von Components.
+und so wenig Code wie möglich wiederholt wird. Ermöglicht wird dies durch das
+aufbauen der Seite mithilfe von Components.
 
 
 \subsubsection{Components}
@@ -1022,19 +1043,19 @@ auch oft Blade Components genannt.
 
 \paragraph{Anonymous Components}\mbox{}\\
 
-Es gibt viele verschiedene Möglichkeiten
-Components zu erstellen und verschiedene Konventionen am, einfachsten sind aber
-die \verb|Anonymous Components|, diese haben den Vorteil, dass diese in einer Datei
-verwaltet werden können und somit sehr einfach zu handhaben sind.
+Es gibt viele verschiedene Möglichkeiten Components zu erstellen und
+verschiedene Konventionen am, einfachsten sind aber die \textit{Anonymous Components}, 
+diese haben den Vorteil, dass diese in einer Datei verwaltet werden
+können und somit sehr einfach zu handhaben sind.
 
 \paragraph{Components erstellen}\mbox{}\\
 
 Das Erstellen von einem Component wird nun anhand eines Buttons gezeigt. Da
 dieser als Anonymous Component angelegt wird muss dieser mit keiner Klasse
-assoziiert werden, es wird einfach im Pfad
-\verb|resources\views\components| ein Ordner mit dem Namen \verb|buttons|
-angelegt und darin ein Blade File mit dem Namen \verb|primary.blade.php|. Dort
-kann nun der gewünschte HTML Code platziert werden.
+assoziiert werden, es wird einfach im Pfad \verb|resources\views\components| ein
+Ordner mit dem Namen \verb|buttons| angelegt und darin ein Blade File mit dem
+Namen \verb|primary.blade.php|. Dort kann nun der gewünschte HTML Code platziert
+werden.
 
 \begin{listing}[H]
   \begin{minted}{html}
@@ -1093,8 +1114,9 @@ Somit ist dieser Button Component nun vollständig Modular.
 
 \subsubsection{Layouts}
 
-Da auf den meisten Seiten des Webinterfaces fast das gleiche Layout beibehaltet ist es sinnvoll diesen Inhalt in ein Component umzuwandeln. Auch Layouts
-sind Components.
+Da auf den meisten Seiten des Webinterfaces fast das gleiche Layout beibehaltet
+ist es sinnvoll diesen Inhalt in ein Component umzuwandeln. Auch Layouts sind
+Components.
 
 Es gibt im Webinterface folgende Layouts:
 
@@ -1146,8 +1168,8 @@ engl. für Navigationsleiste}.
 Im Dashboard wird das Admin Layout verwendet, somit befindet sich Links vom Page
 Content nun eine Sidebar mit weiteren Links zu anderen Administrativen Seiten.\\
 
-Um nun die Funktion besser zu verstehen wird nun auf den Code einzelner Components genauer
-eingegangen.
+Um nun die Funktion besser zu verstehen wird nun auf den Code einzelner
+Components genauer eingegangen.
 
 \subsubsection{Navbar}
 Die Navigationsleiste auch Navbar genannt ist ein zentrales Element der Webseite
@@ -1217,7 +1239,8 @@ Webinterfaces. Über die Sidebar sind alle wichtigen Seiten auf einen Blick zu
 sehen und erreichen, dabei spielt es keine Rolle ob auf dem Smartphone oder auf
 dem Desktop, denn die Sidebar wurde so implementiert, dass sie auf kleineren
 Auflösungen eingeklappt wird und nur auf Wunsch mit einem Klick auf das
-Hamburger-Menü-Symbol\footnote{Drei waagrechte Striche ähneln einem Hamburger} in der Navigationsleiste geöffnet, somit wird wichtiger Platz gespart.
+Hamburger-Menü-Symbol\footnote{Drei waagrechte Striche ähneln einem Hamburger}
+in der Navigationsleiste geöffnet, somit wird wichtiger Platz gespart.
 
 \subsubsection{Footer}
 
