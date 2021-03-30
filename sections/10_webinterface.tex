@@ -353,8 +353,47 @@ die Datenbank zu migrieren muss in der Artisan \acs*{CLI} Befehl \verb|php artis
 ausgeführt werden, dabei werden alle Migrations im Verzeichnis
 \verb|database/migrations| ausgeführt.
 
-%\paragraph{Eloquent ORM}
-%\paragraph{Laravel Sanctum}
+\paragraph{Eloquent ORM}\mbox{}\\
+Eloquent ist ein \ac*{ORM} d.h. um auf die \acs*{SQL} Datenbank zuzugreifen müssen
+keine Raw \acs*{SQL} Queries ausgeführt werden. Im Code erscheint die Datenbank als
+objektorientierte Datenbank und erleichtert somit dem Umgang mit der Datenbank.
+Dabei entspricht besitzt jede Tabelle in der Datenbank einem dazugehöriges Model,
+dieses Model wird verwendet um im Code mit der Datenbank zu interagieren. Ein
+weiter Vorteil ist, dass der Code sehr übersichtlich und leicht lesbar ist,
+jedoch wird die Ausführungszeit leicht erhöht, was jedoch keine große Rolle bei
+kleinen- bis mittelgroßen Webseiten spielt.
+
+\begin{listing}[H]
+  \begin{minted}{php}
+    <?php
+    User::where('first_name', 'Philipp')->first();
+  \end{minted}
+  \caption{Eloquent Query}
+  \label{lst:eloquent_query}
+\end{listing}
+
+\begin{listing}[H]
+  \begin{minted}{sql}
+    SELECT * FROM `users` WHERE `first_name` = Philipp
+  \end{minted}
+  \caption{Raw SQL Query}
+  \label{lst:raw_sql_query}
+\end{listing}
+
+Beim Vergleich zwischen dem Code~\ref{lst:eloquent_query} und
+Code~\ref{lst:raw_sql_query} ist es erkenntlich, dass der Eloquent Query
+verständlicher ist. Besonders bei komplexeren Queries ist Eloquent den RAW
+\acs*{SQL} Queries im Bezug auf die Lesbarkeit stark überlegen.
+
+
+\paragraph{Laravel Sanctum}\mbox{}\\
+Laravel Sanctum ist ein First-Party-Package von den Entwicklern von Laravel und
+ermöglicht eine einfache Authentifizierung mithilfe von API-Tokens. Dabei wird
+der vom Benutzer erstellte API-Token im HTTP Header \verb|Authorization|
+mitgeliefert und somit autorisiert. Da es sich hierbei um ein
+Sicherheitskritisches Modul handelt ist es besonders wichtig, dass dieser Code
+nahezu Fehlerfrei ist und dies wird durch kontinuierliche Updates und Patches garantiert.
+ 
 %\paragraph{Laravel Mix}
 %\paragraph{Sessions}
 %\paragraph{Middleware}
@@ -945,7 +984,7 @@ können nun über \verb|New respository secrets| die Secrets hinterlegt werden.
 \end{figure}
 
 
-\subsection{Grundlegender Aufbau}
+\subsection{Grundlegender Aufbau Frontend}
 
 Da das Ziel ist, dass das Frontend\footnote{Präsentationsebene in Form der
 grafischen Benutzeroberfläche} des Webinterfaces möglichst Modular aufgebaut ist
@@ -1039,19 +1078,13 @@ sind Components.
 Es gibt im Webinterface folgende Layouts:
 
 \begin{itemize}
+  \item \textbf{app.blade.php}\\
+  Layout für Allgemeine Seiten
   \item \textbf{admin.blade.php}\\
   Layout für die Administrativen Seiten mit einer Sidebar und Page Header
-  \item \textbf{app.blade.php}\\
-  Layout für sonstige Seiten ohne Sidebar
   \item \textbf{display.blade.php}\\
   Besonderes Layout für die Display Seiten
 \end{itemize}
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=1\linewidth]{webinterface/admin_layout.pdf}
-  \caption{Admin Layout}
-\end{figure}
 
 \begin{figure}[H]
   \centering
@@ -1059,12 +1092,111 @@ Es gibt im Webinterface folgende Layouts:
   \caption{App Layout}
 \end{figure}
 
+Das App Layout ist das Standardmäßige Layout, es besteht aus drei Components,
+der Navigation Bar, dem Page Content und aus einem dynamische Footer.
+
+\begin{figure}[H]
+  \centering
+  \frame{\includegraphics[width=1\linewidth]{webinterface/login_site.png}}
+  \caption{Login Seite mit App Layout}
+  \label{fig:login_site}
+\end{figure}
+
+In der Abbildung~\ref{fig:login_site} wird das App Layout verwendet. Dabei sind
+die drei Components erkennbar.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\linewidth]{webinterface/admin_layout.pdf}
+  \caption{Admin Layout}
+\end{figure}
+
+Das Admin Layout besitzt eine zusätzliche Sidebar mit Links zu verschiedenen
+Administrativen Seiten, im Vergleich zum Standardmäßigen besitzt das Admin
+Layout keinen Footer und eine leicht veränderte Navbar\footnote{Navigation Bar
+engl. für Navigationsleiste}.
+
+\begin{figure}[H]
+  \centering
+  \frame{\includegraphics[width=1\linewidth]{webinterface/dashboard_site.png}}
+  \caption{Dashboard mit Admin Layout}
+\end{figure}
+
+Im Dashboard wird das Admin Layout verwendet, somit befindet sich Links vom Page
+Content nun eine Sidebar mit weiteren Links zu anderen Administrativen Seiten.\\
+
+Um nun die Funktion besser zu verstehen wird nun auf den Code einzelner Components genauer
+eingegangen.
 
 \subsubsection{Navbar}
+Die Navigationsleiste auch Navbar genannt ist ein zentrales Element der Webseite
+um verschiedene Seiten anzusteuern. Dabei veränderte sich diese dynamisch, je
+nachdem ob man eingeloggt ist oder ob ein bestimmtes Feature wie das
+Registrieren von neuen Benutzern deaktiviert ist.
 
+\begin{listing}[H]
+  \begin{minted}{html}
+    @if (!(\Request::is('admin/*') || \Request::is('admin')))
+      <a class="flex title-font font-medium items-center text-gray-900 mr-8">
+         <x-application-logo class="max-h-12" />
+      </a>
+    @if (!Auth::guest())
+      <a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a>
+    @endif
+    @endif
+  \end{minted}
+  \caption{Ausschnitt 1 navigation.blade.php}
+\end{listing}
+
+Der Ausschnitt 1 regelt das Aussehen der Navigationsleiste wenn ein Benutzer
+eingeloggt ist. Dabei wird kein Logo angezeigt wenn der Benutzer eine
+administrative Seite öffnet, da das Logo bereits in der
+Sidebar vorhanden ist. Ebenfalls wird auf nicht administrativen Seiten ein
+zurück zum Dashboard Link angezeigt.
+
+\begin{figure}[H]
+  \centering
+  \frame{\includegraphics[width=1\linewidth]{webinterface/navbar_1.png}}
+  \caption{Navbar Variante 1}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \frame{\includegraphics[width=1\linewidth]{webinterface/navbar_3.png}}
+  \caption{Navbar Variante 2}
+\end{figure}
+
+\begin{listing}[H]
+  \begin{minted}{html}
+    @if (Auth::guest())
+      <div class="flex items-center">
+      <a href="{{ route('login') }}">{{ __('Login') }}</a>
+    @if (Route::has('register'))
+      <a href="{{ route('register') }}">{{ __('Register') }}</a>
+    @endif
+      </div>
+    @endif
+  \end{minted}
+  \caption{Ausschnitt 2 navigation.blade.php}
+\end{listing}
+
+Im zweiten Ausschnitt geht es um die Login/Register Links, diese werden nur
+nicht eingeloggten Benutzern angezeigt. Ob der Register Link angezeigt wird ist
+abhängig von den getätigten Einstellungen in den Seiten Einstellungen.
+
+\begin{figure}[H]
+  \centering
+  \frame{\includegraphics[width=1\linewidth]{webinterface/navbar_2.png}}
+  \caption{Navbar Variante 3}
+\end{figure}
 
 \subsubsection{Sidebar}
-
+Die Sidebar ist das zentrale Element für administrative Benutzer des
+Webinterfaces. Über die Sidebar sind alle wichtigen Seiten auf einen Blick zu
+sehen und erreichen, dabei spielt es keine Rolle ob auf dem Smartphone oder auf
+dem Desktop, denn die Sidebar wurde so implementiert, dass sie auf kleineren
+Auflösungen eingeklappt wird und nur auf Wunsch mit einem Klick auf das
+Hamburger-Menü-Symbol\footnote{Drei waagrechte Striche ähneln einem Hamburger} in der Navigationsleiste geöffnet, somit wird wichtiger Platz gespart.
 
 \subsubsection{Footer}
 
