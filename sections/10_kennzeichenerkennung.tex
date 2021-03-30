@@ -501,9 +501,9 @@ Danach muss man die Installation mit den folgenden Befehlen abschließen:
 
 Nach diesem Schritt sollte Tensorflow Installation funktionieren und man kann es wie jede andere Library in Python einbinden.
 
-\paragraph{localutils}\mbox{}\\
-localutils ist ein einfaches Python-Script, welches die Arbeit mit WPOD-NET im Bereich der Kennzeichenerkennung vereinfacht 
-und in dieser Applikation für die einfachere Nutzung von WPOD-NET verwendet wird. Es beinhaltet die Funktion „detectlp“ mit 
+\paragraph{local{\_}utils}\mbox{}\\
+local{\_}utils ist ein einfaches Python-Script, welches die Arbeit mit WPOD-NET im Bereich der Kennzeichenerkennung vereinfacht 
+und in dieser Applikation für die einfachere Nutzung von WPOD-NET verwendet wird. Es beinhaltet die Funktion „detect{\_}lp“ mit 
 welcher ein Bild des Kennzeichens und die Koordinaten des Kennzeichens ermittelt werden können. Dieses Script kann über den 
 folgenden Link von GitHub heruntergeladen werden: \url{https://github.com/quangnhat185/Plate_detect_and_recognize/blob/master/local_utils.py} 
 
@@ -583,7 +583,314 @@ Für die Installation von picamera muss folgender Befehl in der Konsole eingegeb
 
 \subsubsection{Wichtige Programmteile}
 
+Im folgenden Abschnitt werden die wichtigsten Teile des Kennzeichenerkennungsprogrammes genauer betrachtet und erklärt.
 
+\paragraph{WPOD-NET-Modell laden}\mbox{}\\
+
+\begin{listing}[H]
+    \begin{minted}{python}
+    def load_model(path):
+    try:
+        path = splitext(path)[0]
+        with open ('%s.json' % path, 'r') as json_file:
+            model_json = json_file.read()
+        model = model_from_json(model_json, custom_objects={})
+        model.load_weights('%s.h5' % path)
+        print("-> Model loading finished")
+        return model
+    except Exception as e:
+        print(e)
+    \end{minted}
+    \caption{WPOD-NET Modell laden}
+\end{listing}
+
+Für das Lokalisieren des Kennzeichens wird das Machine-Learning Modell WPOD-NET verwendet. Dieses basiert auf YOLOv2, 
+mit welchem eine Echtzeitobjekterkennung möglich ist und wurde für diese Anwendung dazu angepasst, dass es möglich ist 
+Kennzeichen in einem Bild zu lokalisieren. WPOD-NET versucht zuerst auf Grundlage von YOLOv2 in dem übergebenen Bild 
+ein Fahrzeug zu erkennen, erstellt dann auf dieser Grundlage eine Region, in welcher sich mit hoher Wahrscheinlichkeit 
+das Kennzeichen befindet und liefert dann die Koordinaten des Kennzeichens im Bild. Im oberen Code sieht man die Funktion 
+„load{\_}model“ mit welcher das WPOD-Modell mit den gewichteten Werten geladen wird. Dazu muss dieser Funktion nur der 
+Pfad für das WPOD-NET File übergeben werden. Die Funktion versucht dann ein .json-File zu öffnen und erstellt aus 
+diesem mit der Funktion „model{\_}from{\_}json“ ein Model mit dem WPOD-NET arbeiten kann. Danach wird im selben Ordner 
+in dem auch das .json-File gefunden wurde nach einem .h5-File gesucht. Dieses enthält die gewichteten Werte für das 
+Modell und wird dann geladen. Wenn alles funktioniert hat, erhält man als Rückgabe das Modell mit den geladenen Werten. 
+Im unteren Code sieht man die Anwendung dieser Funktion. Zuerst wird dabei der Pfad für das WPOD-NET File definiert und 
+dieser Pfad wird dann der Funktion „load{\_}model“ übergeben und das Modell als Rückgabewert in der Variable „wpod{\_}net“ abgespeichert.
+
+\begin{listing}[H]
+    \begin{minted}{python}
+    wpod_net_path = "wpod-net.json"
+    wpod_net = load_model(wpod_net_path)
+    \end{minted}
+    \caption{Anwendung des WPOD-NET Modells}
+\end{listing}
+
+\paragraph{Kennzeichen lokalisieren}\mbox{}\\
+
+\begin{listing}[H]
+    \begin{minted}{python}
+    def get_plate(image_path, Dmax=608, Dmin=256):
+        vehicle = preprocess_raw_image(image_path)
+        ratio = float(max(vehicle.shape[:2]) / min(vehicle.shape[:2]))
+        side = int(ratio * Dmin)
+        bound_dim = min(side, Dmax)
+        _ , LpImg, _, cor = detect_lp(wpod_net, vehicle, bound_dim, lp_threshold=0.5)
+        return LpImg, cor
+    \end{minted}
+    \caption{get{\_}plate}
+\end{listing}
+
+Um das Kennzeichen zu lokalisieren wird die Funktion „get{\_}plate“ angewendet. Dieser Funktion muss man den Pfad für das aufgenommene 
+Bild übergeben. Danach wird auf dieses Bild die Funktion „preprocess{\_}raw{\_}image“ angewandt, welches im folgenden Code ersichtlich ist:
+
+\begin{listing}[H]
+    \begin{minted}{python}
+    def preprocess_raw_image(image_path):
+        img = cv2.imread(image_path)
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        img = img / 255
+        img = cv2.resize(img, (224,224))
+        return img
+    \end{minted}
+    \caption{Bild vorbereiten für WPOD-NET}
+\end{listing}
+
+Die Funktion „preprocess{\_}raw{\_}image“ liest das Bild mittels OpenCV ein, ändert dann den Farbraum von BGR zu RGB da OpenCV das Bild mit 
+BGR einliest, WPOD-NET aber RGB benötigt und anschließend wird noch die Größe des Bildes angepasst.\\
+
+Danach geht es wieder in der Funktion „get{\_}plate“ weiter. Dort wird danach in den nächsten Codezeilen das Seitenverhältnis des Bildes 
+definiert und in einer Variable abgespeichert. Dies ist für die nächste Funktion „detect{\_}lp“ notwendig. Diese Funktion ist eine Hilfsfunktion 
+für den Umgang mit WPOD-NET, welcher man das aufgenommene und vorbereitete Bild übergeben muss und als Rückgabe ein Bild des Kennzeichens und 
+die Koordinaten des Kennzeichens zurückgibt. Im unteren Codeteil befindet sich die Anwendung der Funktion „get{\_}plate“ wobei bei erfolgreicher 
+Anwendung der Funktion noch zusätzlich die Koordinaten des Kennzeichens im Terminal ausgegeben werden.
+
+\begin{listing}[H]
+    \begin{minted}{python}
+    input_image = image_path[0]
+    LpImg,cor = get_plate(input_image)
+    print("-> License Plate found in:",splitext(basename(input_image))[0])
+    print("-> Coordinates of License Plate: \n", cor)
+    \end{minted}
+    \caption{Kennzeichen lokalisieren}
+\end{listing}
+
+\paragraph{Bild aufnehmen}\mbox{}\\
+
+\begin{longlisting}
+    \begin{minted}{python}
+    #Kamerabildvorschau
+    camera.start_preview(alpha=220)
+
+    #Warten bis Button gedrückt wird
+    button.wait_for_press()
+
+    #Altes Bild löschen
+    try:
+        os.remove('/home/pi/Documents/Kennzeichenerkennung/Plate_examples /image.jpg')
+    except OSError:
+        pass
+
+    #Bild schießen und abspeichern 
+    camera.capture('/home/pi/Documents/Kennzeichenerkennung/Plate_examples /image.jpg')
+    camera.stop_preview()
+    \end{minted}
+    \caption{Bild aufnehmen}
+\end{longlisting}
+
+In diesem Codeteil befindet sich die Aufnahme des Fahrzeugbildes. Im ersten Schritt wird dabei die Kameravorschau geöffnet, damit es 
+bei einem angeschlossenen Bildschirm einfacher ist das Foto aufzunehmen. Diese Vorschau ist leicht durchsichtig auf dem Bildschirm 
+damit man trotzdem alles andere bedienen kann. Danach wird gewartet bis der Button gedrückt wird. Auf diese Weise dient der Button als 
+Auslöser für die Kamera. Wenn der Button gedrückt wurde, wird zuerst versucht im gewünschten Zielordner das vorhergehende Bild zu löschen 
+damit es zwischen den Bildern zu keinem Konflikt kommt. Dieses vorhergehende Bild wird auch nicht wieder benötigt, da das Bild des 
+Kennzeichens im vorhergehenden Programmdurchlauf schon an die Datenbank übergeben wurde. Erst danach wird das eigentliche Foto für 
+diesen Programmdurchlauf aufgenommen und im Zielordner abgespeichert. Danach wird die Kameravorschau wieder beendet.
+
+\paragraph{Zeichen mittels Konturerkennung finden}\mbox{}\\
+
+\begin{listing}[H]
+    \begin{minted}{python}
+    cnt, hierarchy = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    \end{minted}
+    \caption{Konturen finden}
+\end{listing}
+
+Der nächste wichtige Abschnitt des Programmes beschäftigt sich damit, aus dem Kennzeichenbild die einzelnen Zeichen herauszusuchen und einzeln 
+darzustellen, damit diese dann von einem weiteren Machine Learning Modell erkannt werden können. Dazu wird als erstes die Funktion „findContours“ 
+von OpenCV angewendet, welcher man ein binäres Bild des Kennzeichens übergeben muss und als Rückgabe ein Array von Koordinaten aller gefundenen Konturen ausgibt. 
+
+\begin{listing}[H]
+    \begin{minted}{python}
+    def sort_contours(contours):
+        i = 0
+        boundingBoxes = [cv2.boundingRect(c) for c in contours]
+        (contours, boundingBoxes) = zip(*sorted(zip(contours, boundingBoxes), key=lambda b: b[1][i], reverse = False))
+        return contours
+    \end{minted}
+    \caption{Konturen sortieren}
+\end{listing}
+
+Im nächsten Schritt wird die Funktion „sort{\_}contours“ benötigt, welche die Konturen aus dem vorherigen Array sortiert. Sortieren bedeutet dabei, 
+dass zuerst Rechtecke bei den Konturen aufgespannt werden und mit diesen die Konturen von links nach rechts geordnet werden, damit sich am Ende beim Resultat 
+des Kennzeichens die korrekte Reihenfolge ergibt.
+
+\begin{listing}[H]
+    \begin{minted}{python}
+    for c in sort_contours(cnt):
+        (x, y, w, h) = cv2.boundingRect(c)
+        if h / lp_img.shape[0] >= 0.5 and h / lp_img.shape[0] <= 0.95: 
+            seperated = erosion[y:y+h,x:x+w]
+            seperated = cv2.resize(seperated, dsize=(30, 60))
+            hierarchy, seperated = cv2.threshold(seperated, 220, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+            found_characters.append(seperated)
+
+    print("-> Detected {} characters".format(len(found_characters)))
+    \end{minted}
+    \caption{Filterung der korrekten Konturen}
+\end{listing}
+
+\paragraph{Bildverarbeitung}\mbox{}\\
+
+Im gesamten Programm wird ab und zu ein Bildverarbeitungsalgorithmus verwendet, aber zwischen der Kennzeichenlokalisierung und der Zeichenerfassung befindet 
+sich der Hauptteil davon. Um die einzelnen Zeichen zu lokalisieren müssen zuvor einige Bildverarbeitungsalgorithmen und Funktionen angewandt werden und 
+an anderen Stellen werden meistens die gleichen Funktionen angewandt wie dort. Im folgenden Code sieht man diese Bildverarbeitung:
+
+\begin{listing}[H]
+    \begin{minted}{python}
+    lp_img = cv2.convertScaleAbs(LpImg[0], alpha=(255))
+    api_img = cv2.cvtColor(lp_img, cv2.COLOR_BGR2RGB)
+    gray = cv2.cvtColor(lp_img, cv2.COLOR_BGR2GRAY)
+    blur = cv2.bilateralFilter(gray, 11, 15, 15)
+    thresh = cv2.threshold(blur, 127, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
+    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
+    erosion = cv2.erode(thresh, kernel, iterations=1)
+    \end{minted}
+    \caption{Bildverarbeitungsalgorithmen}
+\end{listing}
+
+In der ersten Zeile wird auf das Kennzeichenbild die Funktion „convertScaleAbs“ angewandt welche jeden Array-Eintrag zu einem Farbwert konvertiert mit dem 
+OpenCV arbeiten kann. Danach wird in einem eigenen Schritt der Farbraum von BGR zu RGB gewechselt, da die API für die Übertragung zur Datenbank ein RGB-Bild 
+des Kennzeichens benötigt. Für die eigentliche Weiterverarbeitung wird der Farbraum in der nächsten Zeile von BGR zu einem Graustufenbild geändert. 
+Anschließend wird darauf ein bilaterales Filter angewandt, welches unnötiges Bildrauschen entfernt, um die weiteren Schritte zu vereinfachen. Danach 
+wird auf das dadurch entstandene Bild Thresholding angewandt, um es in ein binäres Bild zu konvertieren, welches für die Konturerkennung notwendig ist. 
+Um die Qualität dieses binären Bildes noch etwas zu verbessern wird danach mit einem 3x3 Kernel Erosion verwendet. Danach ist das Bild fertig vorbereitet für die Konturerkennung.
+
+\paragraph{Visualisierung mittels Matplotlib}\mbox{}\\
+
+Um die einzelnen Bildverarbeitungsmechanismen zu überprüfen, die Werte anzupassen oder relevante Daten darzustellen, ist es hilfreich mit Hilfe der Library 
+Matplotlib eine Visualisierung durchzuführen. Zusätzlich wird auch noch Jupyter Notebook verwendet, wodurch die Visualisierung nur in der Web-Applikation 
+sichtbar ist, und damit werden nicht unzählige Tabs geöffnet. Im unteren Code sieht man eine solche Anwendung von Matplotlib.
+
+\begin{listing}[H]
+    \begin{minted}{python}
+    mplt.figure(figsize=(10,5))
+    mplt.subplot(2,2,1)
+    mplt.axis(False)
+    mplt.imshow(gray, cmap='gray', vmin = 0, vmax = 255) 
+    mplt.subplot(2,2,2)
+    mplt.axis(False)
+    mplt.imshow(blur, cmap='gray', vmin = 0, vmax = 255)
+    mplt.subplot(2,2,3)
+    mplt.axis(False)
+    mplt.imshow(thresh, cmap='gray', vmin = 0, vmax = 255)
+    mplt.subplot(2,2,4)
+    mplt.axis(False)
+    mplt.imshow(erosion, cmap='gray', vmin = 0, vmax = 255)
+    \end{minted}
+    \caption{Anwendung einer Visualisierung mit Matplotlib}
+\end{listing}
+
+Prinzipiell funktioniert die Library Matplotlib gleich wie eine figure in MATLAB. Im oberen Codeteil werden damit die einzelnen Bildverarbeitungsalgorithmen 
+dargestellt. Zuerst muss eine figure erstellt werden, in welcher die einzelnen Subplots platziert werden. Damit kann man die zusammengehörenden Visualisierungen 
+gruppieren. Danach muss für jedes Bild ein eigener Subplot erzeugt werden, welchen man mit den mitgegebenen Parametern in der figure platzieren kann. Danach 
+wird bei allen Bildern die Achsenbeschriftung deaktiviert, da diese hier nicht benötigt wird. Danach wird das gewünschte Bild ausgewählt und da alle Bilder in 
+Graustufen sind, wird diese angepasst und der Farbwertebereich auf 0 bis 255 gesetzt. Im unteren Bild sieht man die Ausgabe dieser Visualisierung.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{kennzeichenerkennung/matplotlibvisual.png}
+    \caption{Visualisierung mit Matplotlib}
+\end{figure}
+
+\paragraph{Modell für Zeichenerkennung laden und anwenden}\mbox{}\\
+
+Für die Zeichenerkennung wird ein eigenes Neuronales Netz verwendet, welches auf MobileNetV2 basiert. Dafür wird primär die Funktion „predict{\_}from{\_}model“ 
+verwendet, welche im unteren Code ersichtlich ist.
+
+\begin{listing}[H]
+    \begin{minted}{python}
+    def predict_from_model(image, model, labels):
+        image = cv2.resize(image,(80, 80))
+        image = npy.stack((image,)*3, axis = -1)
+        prediction = labels.inverse_transform([npy.argmax (model.predict(image[npy.newaxis,:]))])
+        return prediction
+    \end{minted}
+    \caption{predict{\_}from{\_}model}
+\end{listing}
+
+Vor der Anwendung dieser Funktion muss wieder wie beim ersten Machine Learning Modell das Modell zuerst geladen werden. Danach kann diese Funktion verwendet werden, 
+welcher man das Bild einer Zeichens und das Model übergeben muss. Die Funktion „predict{\_}from{\_}model“ wendet dann nur dieses Modell an und übergibt das 
+vermutete Ergebnis in ein Array.
+
+\begin{longlisting}
+    \begin{minted}{python}
+    fig = mplt.figure(figsize = (15,3))
+    cols = len(found_characters)
+    grid = gridspec.GridSpec(ncols= cols, nrows= 1, figure = fig)
+
+    result = ''
+    for i, character in enumerate(found_characters):
+        fig.add_subplot(grid[i])
+        title = npy.array2string(predict_from_model(character, model, labels))
+        mplt.title('{}'.format(title.strip("'[]"), fontsize=20))
+        result += title.strip("'[]")
+        mplt.axis(False)
+        mplt.imshow(character, cmap='gray')
+
+    print("-> License Plate:", result)
+    \end{minted}
+    \caption{Anwendung der Zeichenerkennung}
+\end{longlisting}
+
+Im oberen Bild sieht man die Anwendung der vorherigen Funktion. Prinzipiell wird für jedes vorher gefundene Zeichen das Modell angewendet 
+und das Resultat von einem Array zu einem String konvertiert. Dieser String wird dann zum Ergebnis-String hinzugefügt, wodurch man am Ende das 
+komplette Kennzeichen in einem String hat. Zusätzlich wird das komplette Kennzeichen mit den vermuteten Ergebnissen mit Matplotlib visualisiert. 
+Dies ist im unteren Bild ersichtlich.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{kennzeichenerkennung/Ergebnisvisual.png}
+    \caption{Visualisiertes Ergebnis der Kennzeichenerkennung}
+\end{figure}
+
+\paragraph{Resultat mittels API an Datenbank senden}\mbox{}\\
+
+Wenn das Programm zu einem Resultat gekommen ist, muss dieses noch an die Datenbank übergeben werden. Der dafür zuständige Code ist im nächsten Codeteil ersichtlich.
+
+\begin{longlisting}
+    \begin{minted}{python}
+    #API-Definitionen
+    url = "http://dev.philipp-kraft.com/api/v1/detections"
+    lp_result = {}
+    lp_files = {}
+    lp_result["name"] = result 
+    lp_result["parking_lot_id"] = "2"   #Parkplatz-ID 
+    lp_files=[
+    ('image',('kennzeichen.png',open('lp_image/lp.png','rb'),'image/png'))
+    ]
+    header = {"Authorization": "Bearer 5|4NcJgCrR9FkeTFeTvRGHLQqoJBeY8IDqxborpuuS"}
+
+    #Senden der Daten an die Datenbank und Ausgabe der Response
+    resp = requests.post(url, data=lp_result, files=lp_files, headers=header)
+    print("-> API-Response:",resp.text)
+    \end{minted}
+    \caption{Senden der Ergebnisse an die Datenbank}
+\end{longlisting}
+
+Im ersten Schritt werden die URL für die API und für die Ergebnisse zwei Dictionaries erstellt. In das erste Dictionary wird der String für das Kennzeichen 
+und die ID-Nummer des Parkplatzes eingetragen. In das zweite Dictionary kommt das Bild des Kennzeichens. Im nächsten Schritt muss noch ein Bearer Token 
+definiert werden, welcher auf der APM-Website generiert werden kann. Dieser wird zur Autorisierung benötigt. Danach können diese Daten über einen Post-Befehl 
+an die API gesendet werden. Um den Status dieser Kommunikation zu überprüfen wird im Anschluss noch die Antwort der API im Terminal ausgegeben. Bei 
+erfolgreicher Kommunikation antwortet diese mit dem aktuellen Status des Fahrzeuges auf dem Parkplatz.
 
 \subsection{Raspberry Pi}
 
