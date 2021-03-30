@@ -11,11 +11,11 @@ daraus resultierende magnetischen Fluss $\phi$
 Es gelten für diese Größen der folgende Zusammenhänge:
 
 \begin{equation} \label{eq:phi}
-    \phi = \frac{U_{m}}{R_{m}}
+    \Phi = \frac{U_{m}}{R_{m}}
 \end{equation}
 
 Wobei \\
-$\phi$ = magnetischer Fluss \\
+$\Phi$ = magnetischer Fluss \\
 $R_{m}$ = magnetischer Widerstand \\
 $U_{m}$ = magnetische Spannung
 \pagebreak
@@ -39,13 +39,13 @@ $\mu_{r}$ = relative Permeabilität  \\
 $A$ = Fläche der Spule
 
 Bis auf die relative Permeabilität sind alle alle anderen Variablen konstant. Daraus lässt sich schlussfolgern, dass der magnetische
-Fluss $\phi$ anhand der Gleichung \ref{eq:phi} und \ref{eq:Rm} proportional zur relativen Permeabilität ist. 
+Fluss $\Phi$ anhand der Gleichung \ref{eq:phi} und \ref{eq:Rm} proportional zur relativen Permeabilität ist. 
 
 \begin{equation} \label{iq:phi}
-    \phi \propto \mu_{r}
+    \Phi \propto \mu_{r}
 \end{equation}
-Der Fluss $\phi$ hängt somit auch von den Materialien ab durch die er fließt. In der nächsten Abbildung kann man erkennen,
-wie ein Fahrzeug über eine im Boden installierte Spule den magnetischen Fluss $\phi$ und somit die magnetische Flussdichte $B$
+Der Fluss $\Phi$ hängt somit auch von den Materialien ab durch die er fließt. In der nächsten Abbildung kann man erkennen,
+wie ein Fahrzeug über eine im Boden installierte Spule den magnetischen Fluss $\Phi$ und somit die magnetische Flussdichte $B$
 beeinflussen kann. 
 
 \begin{figure}[H]
@@ -58,13 +58,13 @@ werden.
 Hierfür gelten folgende Zusammenhänge:
 
 \begin{equation} \label{eq:L_phi}
-    L = \frac{N \cdot \phi}{I} = \frac{\psi}{I} 
+    L = \frac{N \cdot \Phi}{I} = \frac{\Psi}{I} 
 \end{equation}
 Wobei \\
 $L$ = Induktivität der Spule \\
 $I$ = Strom der durch die Spule fließt \\
 $N$ = Anzahl der Windungen der Spule \\
-$\psi$ = Verkettete Fluss
+$\Psi$ = Verkettete Fluss
 
 \pagebreak
 \begin{equation} \label{eq:L_i}
@@ -182,7 +182,7 @@ nämlich bei $L2 = 100 \mu H$ und bei $L = 1mH$
 Eine Verzehnfachung der Induktivität führt zu einer Reduktion der Oszillatorfrequenz um den Faktor 10.
 
 \begin{equation} \label{iq:f_NE555}
-    f \propto L
+    f \propto \frac{1}{L}
 \end{equation} 
 
 \pagebreak
@@ -192,7 +192,7 @@ von einer niederfrequenten Messung der Induktivität nicht wahrgenommen. Ein Eff
 die Eddy Currents. Wenn in einem Leiter ein magnetischen Feld einwirkt erzeugt dieses im Objekt Ströme, die wiederum ihr eigenes magnetische Feld erzeugen.
 Die fließenden Ströme erzeugen im Objekt Ohmsche Verluste, welche normalerweise unerwünscht sind. Sie wirken auch einer Änderung der magnetischen Feldes entgegen,
 da sie selbst Energie brauchen um ihre Richtung zu ändern. Je größer die Frequenz der eingespeisten Felddichte $B$ desto stärker wirkt die 
-Flussdichte $B_{eddy}$ senkend auf die Gesamtflussdichte und so auf den magnetischen Fluss $\phi$. 
+Flussdichte $B_{eddy}$ senkend auf die Gesamtflussdichte und so auf den magnetischen Fluss $\Phi$. 
 Nach der Gleichung \ref{eq:L_phi} reduziert sich danach die Induktivität mit zunehmender Frequenz.
 
 
@@ -206,8 +206,40 @@ Bei sehr hohen Frequenzen ist jedoch zu beachten, dass der Skin-Effekt die Quers
 reduziert. Somit nimmt der Effekt der Eddy-Currents ab. Diese Phänomene werden jedoch nicht in dieser Arbeit behandelt, da sie außerhalb des Rahmens der 
 Fahrzeugerkennung liegen. 
 
-\paragraph{Messung eines Wechselstromes}
-\paragraph{Messung der Resonanzfrequenz eines Oszillastors}
+\paragraph{LC Oszillastoren}\mbox{}\\
+
+Im Vergleich zum RL-Oszillator, der über eine astabile Kippstufe lauft, kann ein LC Oszillator seine Resonanzfrequenz nur durch das verstellen der Induktivität und der Kapazität 
+eines Kondensators verändern. Zudem gibt es in der Theorie keine Wirkverluste, da die Energie abwechselnd zwischen magnetischer und elektroscher Energie umgewandelt wird. In der Realität gibt es jedoch
+ohmsche Verluste, die zu einem Abklingen der Schwingung führen. Es braucht daher ein aktives Glied wie ein Transistor oder ein Operationsverstärker, der den Oszillator mit Energie versorgt.
+\\
+Der zeitliche Verlauf einer ungedämpften Schwingung kann in LTSPice simuliert werden indem wir eine Sprungfunktion auf ein LC Glied geben und einen Widerstand in Serie zum Kondensator oder zur
+Spule geben.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{fahrzeugerkennung/LC_Parallel.PNG}
+    \caption{Parallelschwingkreis in LTSpice}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{fahrzeugerkennung/gedämpfte_schw.PNG}
+    \caption{Gedämpfte Schwingung}
+\end{figure}
+
+Aus der Simulation ergibt sich über eine Cursormessung für die angegebenen Werte $L = 100mH$ und $C = 1mF$ eine Resonanzfrequenz einen Wert von $f = 15.85Hz$. Die Resonanzfrequenz für einfache LC-Schwingkreise lässt sich mit der
+Thomsonschen Schwingungsgleichung errechnen:
+
+\begin{equation} \label{eq:thomson}
+    f = \frac{1}{2 \cdot \pi \sqrt{L \cdot C}}
+\end{equation}
+
+Wenn man die Werte $L = 100mH$ und $C = 1mF$ ind die Gleichung \ref{eq:thomson} einsetzt erhält man eine Resonanzfrequenz von $f = 15.915Hz$.
+Allgemein tritt in LC-Glieder bei einer Phasenlage von $\varphi_{LC} = 180^{\circ}$ und bei der Frequenz nach der Thomsonschen Gleichung \ref{eq:thomson}  Resonanz auf. 
+
+\paragraph{Messung der Frequenz eines Colpitts-Oszillator}\mbox{}\\
+
+
 
 \subsection{RS485 Bussystem}
 \subsubsection{Überblick}
