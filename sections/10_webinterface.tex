@@ -98,7 +98,7 @@ darzustellen wird die vorherige HTML Seite nun mit CSS ergänzt.
 \end{listing}
 
 Nun muss dieses Stylesheet nur noch im \verb|<head>| Tag mit\\
-\mintinline{css}{  <link rel="stylesheet" href="mystyle.css">} eingebunden
+\mintinline{css}{  <link rel="stylesheet" href="style.css">} eingebunden
 werden.
 
 \begin{figure}[H]
@@ -1196,12 +1196,124 @@ Webinterfaces. Über die Sidebar sind alle wichtigen Seiten auf einen Blick zu
 sehen und erreichen, dabei spielt es keine Rolle ob auf dem Smartphone oder auf
 dem Desktop, denn die Sidebar wurde so implementiert, dass sie auf kleineren
 Auflösungen eingeklappt wird und nur auf Wunsch mit einem Klick auf das
-Hamburger-Menü-Symbol\footnote{Drei waagrechte Striche ähneln einem Hamburger} in der Navigationsleiste geöffnet, somit wird wichtiger Platz gespart.
+Hamburger-Menü-Symbol\footnote{Drei waagrechte Striche ähneln einem Hamburger}
+in der Navigationsleiste geöffnet, somit wird wichtiger Platz gespart.\\
+
+Für das dynamische Verhalten der Sidebar wird \acl*{JS} verwendet. Es wird nicht
+Vanilla\footnote{Bedeutet so viel wie ohne Zusätze} \acl*{JS} verwendet, sondern
+AlpineJS\footnote{\url{https://github.com/alpinejs/alpine}}. Dabei folgt das
+Lightweight Framework dem gleichen Prinzip wie TailwindCSS nur eben für
+JavaScript. 
+
+% TODO
+\begin{listing}[H]
+  \begin{minted}{html}
+    <div x-data="{ sidebarOpen: false }" class="flex h-screen bg-gray-200 z-0">
+    </div>
+  \end{minted}
+  \caption{Footer AlpineJS}
+\end{listing}
+
+Die Sidebar Einträge bestehen aus zwei Components, dem Sidebar Header Component
+und dem Sidebar Link Component.\\
+
+Der Sidebar Header Component ist da um die verschiedenen Links in verschiedene
+Sektionen aufzuteilen, damit die Übersichtlichkeit gewährt bleibt.
+
+\begin{listing}[H]
+  \begin{minted}{html}
+    <x-sidebar-header>{{ __('General') }}</x-sidebar-header>
+  \end{minted}
+  \caption{Sidebar Header}
+\end{listing}
+
+Der Sidebar Link Component ist für die Links zuständig. Dieser besteht aus einem
+\acs*{SVG}-Icon und dem Namen der Seite. Die Route wird dem Component über
+\verb|:href| übergeben und nicht mit \verb|href|, da die URL mit einer Helper Methode
+angegeben wird und ansonsten von Blade nicht compiliert wird und als
+tatsächlicher Hyperlink angenommen wird.
+
+\begin{listing}[H]
+  \begin{minted}{html}
+    <x-sidebar-link :href="route('home')" :active="request()->routeIs('home')">
+      <span class="iconify h-6 w-6" data-icon="bx:bx-home" data-inline="false"></span>
+      <span class="mx-3">{{ __('Home') }}</span>
+    </x-sidebar-link>
+  \end{minted}
+  \caption{Sidebar Link}
+\end{listing}
+
+\begin{figure}[H]
+  \centering
+  \frame{\includegraphics[width=0.35\linewidth]{webinterface/sidebar_desktop.png}}
+  \caption{Sidebar Desktop}
+\end{figure}
+
 
 \subsubsection{Footer}
+Der Footer ist dazu da um Informationen rund um Impressum, Datenschutzverweis,
+Geschäftsbedingungen und Urheberrechtshinweis darzustellen.\\
+
+Grundsätzlich ist besitzt der Footer des Webinterfaces auf der linken Seite
+einen variablen Text der sich frei über die Seiten Einstellungen einstellen
+lässt und auf der rechten Seiten Verweise auf die Datenschutzbestimmungen,
+Allgemeine Geschäftsbedingungen und Impressum welche sich ebenfalls über die
+Seiten Einstellungen konfigurieren lassen. Befindet sich auf diesen Seiten kein
+Inhalt werden diese auch nicht im Footer angezeigt.
+
+\begin{figure}[H]
+  \centering
+  \frame{\includegraphics[width=1\linewidth]{webinterface/footer.png}}
+  \caption{Footer}
+\end{figure}
 
 \subsection{Funktionen}
+Das Webinterface besitzt eine große Anzahl an Features und
+Konfigurationsmöglichkeiten. In den folgenden Seiten werden alle Funktion mit
+deren technischen Funktion erklärt.
+
 \subsubsection{Dashboard}
+Das Dashboard ist praktisch die Startseite für eingeloggte Benutzer, als erstes
+wird dem Benutzer eine Sicherheitsnachricht über den letzten Login angezeigt.
+Dabei wird die Zeit seit dem letzten Login angegeben und die IP-Adresse.\\
+
+Um diese Daten abzugreifen wird im \verb|AuthenticatedSessionController| die
+\verb|store| Methode ergänzt. Dabei wird nachdem sich der Benutzer erfolgreich
+Authentifiziert hat die IP-Adresse und der aktuelle Zeitpunkt in die Datenbank
+geschrieben.
+
+\begin{listing}[H]
+  \begin{minted}{php}
+    <?php
+    $user = Auth::user();
+    $user->last_login_at = Carbon::now()->toDateTimeString();
+    $user->last_login_ip = $request->getClientIp();
+    $user->save();
+  \end{minted}
+  \caption{AuthenticatedSessionController.php}
+\end{listing}
+
+\begin{figure}[H]
+  \centering
+  \frame{\includegraphics[width=1\linewidth]{webinterface/sicherheitsnachricht.png}}
+  \caption{Dashboard Sicherheitsnachricht}
+\end{figure}
+
+Neben der Sicherheitsnachricht werden einige statistische Zahlen über folgendes dargestellt:
+
+\begin{itemize}
+  \item Anzahl der registrierten Benutzer
+  \item Anzahl der Parkplätze im System
+  \item Anzahl der bekannten Kennzeichen
+  \item Anzahl der erkannten Kennzeichens
+\end{itemize}
+
+\begin{figure}[H]
+  \centering
+  \frame{\includegraphics[width=1\linewidth]{webinterface/dashboard_stats.png}}
+  \caption{Dashboard Statistik}
+\end{figure}
+
 \subsubsection{Login- und Registersystem}
 \subsubsection{News}
 \subsubsection{Benutzerverwaltung}
