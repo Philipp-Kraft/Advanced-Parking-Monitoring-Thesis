@@ -210,31 +210,55 @@ Der Laravel Router erlaubt folgende HTTP-Anfragemethoden:
   \mintinline{php}{  Route::options($uri, $callback);}
 \end{itemize}
 
+Im folgenden Ausschnitt Code~\ref{lst:user_routes} werden ein Teil der Routen von den Benutzern dargelegt. Dabei lässt
+sich erkennen, dass die Routen sich in einer Gruppe befinden, welche den Prefix
+\verb|/admin| und die Middleware \verb|verified| hat das bedeutet, dass der Benutzer
+eingeloggt sein muss um diese Routen aufzurufen. Dabei verweisen die Routen auf
+einzelne Methoden im UserController. Schlussendlich werden mit der name-Methode
+die Routen benannt, damit sie später im Code einfach referenziert werden können.
+
 \begin{listing}[H]
   \begin{minted}{php}
-    Route::group(['middleware' => 'verified', 'prefix' => 'admin'], function () {
+    Route::group(['middleware' => 'verified', 'prefix' => 'admin'], 
+    function () {
       Route::get('users', [UserController::class, 'index'])->name('users.index');
       Route::get('users/create', [UserController::class, 'create'])->name('users.create');
       Route::post('users', [UserController::class, 'store'])->name('users.store');
-      Route::get('users/{user}', [UserController::class, 'show'])->name('users.show');
-      Route::get('users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
-      Route::patch('users/{user}', [UserController::class, 'update'])->name('users.update');
-      Route::delete('users/{user}', [UserController::class,
-      'destroy'])->name('users.destroy');
     });
   \end{minted}
   \caption{web.php}
+  \label{lst:user_routes}
 \end{listing}
 
-\paragraph{Blade Templates}
-\paragraph{Sessions}
-\paragraph{Controllers}
-\paragraph{Artisan}
-\paragraph{Migrations}
-\paragraph{Middleware}
-\paragraph{Eloquent ORM}
-\paragraph{Laravel Mix}
-\paragraph{Laravel Sanctum}
+\paragraph{Blade Templates}\mbox{}\\
+Blade ist eine Template Engine, die mit Laravel mitgeliefert wird. Blade
+erleichtert und vereinfacht das Verwenden von PHP Code in HTML, dabei wird der
+Blade Syntax in normalen PHP Code compiliert. Blade Dateien werden mit der
+Extension \verb|.blade.php| erstellt. Damit der Inhalt der einzelnen Seiten
+dynamisch ist müssen Daten übergeben werden, dies erfolgt über die Controller.\\
+
+Um nun Inhalt innerhalb eines Blade Files anzuzeigen verwendet Blade doppelt
+Geschweifte Klammern.
+
+\begin{listing}[H]
+  \begin{minted}{php}
+    Hallo, {{ $user->full_name }}.
+  \end{minted}
+  \caption{example.blade.php}
+  \label{lst:blade_example}
+\end{listing}
+
+Im Code~\ref{lst:blade_example} wird nun auf das übergebene Model \verb|User|
+zugegriffen und der Name ausgegeben.
+
+\paragraph{Controllers}\mbox{}\\
+\paragraph{Sessions}\mbox{}\\
+\paragraph{Artisan}\mbox{}\\
+\paragraph{Migrations}\mbox{}\\
+\paragraph{Middleware}\mbox{}\\
+\paragraph{Eloquent ORM}\mbox{}\\
+\paragraph{Laravel Mix}\mbox{}\\
+\paragraph{Laravel Sanctum}\mbox{}\\
 
 
 \subsection{Lokale Entwicklungsumgebung mit Laragon}
