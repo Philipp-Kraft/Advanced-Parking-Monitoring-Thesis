@@ -133,7 +133,7 @@ für RL-Glieder folgendermaßen beschrieben werden.
     \tau = \frac{L}{R}
 \end{equation} 
 
-
+Wobei \\
 $i(t)$ = Strom der durch die Spule fließt zum Zeitpunkt t \\
 $L$ = Induktivität der Spule in H\\
 $R$ = Widerstand in $\Omega$ \\
@@ -164,14 +164,14 @@ Die Zeitsignale lassen sich in LTSPice mit dem NE555 als Timer-Baustein simulier
 
 Im oberen Diagramm ist der Verlauf des Stromes durch die Spule zu erkennen der wie erwartet zu- und abnimmt. Im unteren Diagramm ist in 
 schwarz die Betriebsspannung als Referenz in rot der CV Pin und in blau der DIS Pin des NE555. Das rote Signal wechselt zwischen zwei drittel der Betriebsspannung 
-und einem drittel der Betriebsspannung mit einer Frequenz von $f = 438kHz$ bei einer Induktivität von $L = 300 \mu H$, einem Widerstand $R4 = 100\Omega$ und einem
+und einem drittel der Betriebsspannung mit einer Frequenz von $f = \SI{438}{\kilo\hertz}$ bei einer Induktivität von $L = \SI{300}{\micro\henry}$, einem Widerstand $R4 = 100\Omega$ und einem
 Widerstand $R5 = 300\Omega$. Die Simulation entspricht hier der Theorie, jedoch bricht das blaue Signal am PIN DIS in der Einschaltphase ein.
 Der grund dafür ist der interne Widerstand des NE555, der ab einem gewissen Stromverbrauch für einen Spannungsabfall sorgt. Da es meist besser ist mit
 niedrigen Frequenzen zu arbeiten ist es nach den Gleichungen \ref{eq:i_L} und \ref{eq:tau_RL} entweder nötig die Induktivität zu erhöhen oder die Widerstände zu verkleinern.
 Die Induktivität lässt sich aber entweder durch erhöhen der Windungen oder durch Vergrößerung der Spule erreichen, was in vielen Fällen nicht möglich ist oder zunehmends kostspielig ist.
 Die Reduktion der Widerstände führt zu einer Zunahme des Stromes und der Verlustleistung, was auch unerwünscht ist.
 Aus diesen Gründen ist der RL-Oszillator nur für hohe Frequenzen geeignet. In der nächsten Abbildung sieht man die Schaltung bei verschiedene Induktivität
-nämlich bei $L2 = 100 \mu H$ und bei $L = 1mH$
+nämlich bei $L2 = \SI{100}{\micro\henry}$ und bei $L2 = \SI{1}{\milli\henry}$
 
 \begin{figure}[H]
     \centering
@@ -206,7 +206,7 @@ Bei sehr hohen Frequenzen ist jedoch zu beachten, dass der Skin-Effekt die Quers
 reduziert. Somit nimmt der Effekt der Eddy-Currents ab. Diese Phänomene werden jedoch nicht in dieser Arbeit behandelt, da sie außerhalb des Rahmens der 
 Fahrzeugerkennung liegen. 
 
-\paragraph{LC Oszillastoren}\mbox{}\\
+\paragraph{LC Oszillatoren}\mbox{}\\
 
 Im Vergleich zum RL-Oszillator, der über eine astabile Kippstufe lauft, kann ein LC Oszillator seine Resonanzfrequenz nur durch das verstellen der Induktivität und der Kapazität 
 eines Kondensators verändern. Zudem gibt es in der Theorie keine Wirkverluste, da die Energie abwechselnd zwischen magnetischer und elektroscher Energie umgewandelt wird. In der Realität gibt es jedoch
@@ -227,18 +227,110 @@ Spule geben.
     \caption{Gedämpfte Schwingung}
 \end{figure}
 
-Aus der Simulation ergibt sich über eine Cursormessung für die angegebenen Werte $L = 100mH$ und $C = 1mF$ eine Resonanzfrequenz einen Wert von $f = 15.85Hz$. Die Resonanzfrequenz für einfache LC-Schwingkreise lässt sich mit der
+Aus der Simulation ergibt sich über eine Cursormessung für die angegebenen Werte $L = \SI{100}{\milli\henry}$ und $C = \SI{100}{\milli\farad}$ eine Resonanzfrequenz einen Wert von $f = 15.85Hz$. Die Resonanzfrequenz für einfache LC-Schwingkreise lässt sich mit der
 Thomsonschen Schwingungsgleichung errechnen:
 
 \begin{equation} \label{eq:thomson}
     f = \frac{1}{2 \cdot \pi \sqrt{L \cdot C}}
 \end{equation}
 
-Wenn man die Werte $L = 100mH$ und $C = 1mF$ ind die Gleichung \ref{eq:thomson} einsetzt erhält man eine Resonanzfrequenz von $f = 15.915Hz$.
+Wobei \\
+$f$ = Resonanzfrequenz des LC-Gliedes\\
+$L$ = Induktivität der Spule\\
+$C$ = Kapazität des Kondensators\\
+
+Wenn man die Werte $L = \SI{100}{\milli\henry}$ und $C = \SI{100}{\milli\farad}$ ind die Gleichung \ref{eq:thomson} einsetzt erhält man eine Resonanzfrequenz von $f = 15.915Hz$.
 Allgemein tritt in LC-Glieder bei einer Phasenlage von $\varphi_{LC} = 180^{\circ}$ und bei der Frequenz nach der Thomsonschen Gleichung \ref{eq:thomson}  Resonanz auf. 
+
+\paragraph{Einfluss von Induktivitätsänderungen auf LC-Oszillatoren}\mbox{}\\
+
+Für die Fahrzeugerkennung ist es von Relevanz zu wissen wie die Frequenz dieser Oszillatoren auf die Änderung der Induktivität der im Boden verbauten Spule reagiert.
+Wenn eine Parklücke frei ist besitzt die Spule eine Induktivität von $L_{0}$ und hat nach der Thomsonschen Gleichung \ref{eq:thomson} eine Resonanzfrequenz $f_{0}$. Für kleine Änderungen $\Delta L$ kann eine Näherung
+der Frequenzänderung gemacht werden indem man in den Punkt $(f_{0}, L_{0})$ in den Graphen der Thomsonschen Gleichung aufgetragen über die Induktivität $L$ eine Tangente in diesen Punkt legt. Bei einer 
+Kapazität von $C = \SI{1}{\micro\farad}$ erhält man folgenden Graphen: 
+
+\begin{center}
+    \begin{tikzpicture}
+        
+        \begin{axis}[
+                axis x line=middle, 
+                axis y line=middle, 
+                xlabel={$L \text{ in } \si[]{\henry}$}, 
+                ylabel={$f \text{ in } \si[]{\hertz}$}, 
+                x=15cm/0.001,    
+                y=0.0003cm,    
+                grid =both,
+                minor x tick num=1,
+                subtickwidth=0pt,
+                xtick={0,0.0001,...,0.001}, 
+                ytick={0,5000,...,30000}, 
+                xmin=0,  
+                xmax=0.0011,   
+                ymin=0,  
+                ymax=32000,  
+                scale = 0.7 
+        ]
+        
+        \addplot [blue, thick, samples at={0,0.000001,0.000005,0.00001,...,0.0002,0.0003,0.0004,...,0.002}] {1/(2*pi*sqrt(x*1e-6))};
+        \addplot[mark=none, red, thick] coordinates {(0, 20000) (0.4e-3, 0.1e4)};
+        \addplot[mark=none, black, dashed] coordinates {(0, 1.4e4) (0.13e-3, 1.4e4)};
+        \addplot[mark=none, black, dashed] coordinates {(0.13e-3, 0) (0.13e-3, 1.4e4)};
+        \node[label={45:{($f_{0}$,$L_{0}$)}},circle,fill,inner sep=2pt] at (axis cs:0.13e-3,1.4e4) {};
+        \node[label={45:{$L_{0}$}},circle,fill,inner sep=2pt] at (axis cs:0.13e-3,0) {};
+        \node[label={45:{$f_{0}$}},circle,fill,inner sep=2pt] at (axis cs:0,1.4e4) {};
+    \end{axis}
+    \end{tikzpicture}
+\end{center}
+
+Mit dieser Näherung kann man mit des Differentials der Thomsonschen Gleichung \ref{eq:thomson} die Änderung des Funktionswertes $f(L \pm \Delta L) = \Delta f \approx df$ 
 
 \paragraph{Messung der Frequenz eines Colpitts-Oszillator}\mbox{}\\
 
+Der Colpitts-Oszillator ist eine Variante des LC-Oszillator und wird in der Praxis oft mit einem aktiven Element betrieben. Im Vergleich zu einem einfachen LC-Glied besitzt dieser Oszillator
+zwei Kondensatoren. Das Schaltbild sieht so aus:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\linewidth]{fahrzeugerkennung/Colpitts_LC.PNG}
+    \caption{Colpitts LC-Glied}
+\end{figure}
+
+Dieses LC-Glied wird als Rückkoppelglied eingesetzt und sorgt für die nötige Phasendrehung von $\varphi_{LC} = 180^{\circ}$. Wie man in der obigen Abbildung sehen kann liegen die Kondensatoren 
+$C_{1}$ und $C_{2}$ in Serie. Es ergibt sich daher eine Gesamtkapazität von $C_{ges}$.
+
+\begin{equation} \label{eq:c_gescolpitts}
+    C_{ges} = \frac{C_{1} \cdot C_{2}}{C_{1} + C_{2}}
+\end{equation}
+Durch einsetzen in die Thomsonsche Gleichung erhält man für die Resonanzfrequenz eines Colpitts-Oszillator:
+\begin{equation} \label{eq:colpitts}
+    f = \frac{1}{2 \cdot \pi \sqrt{L \cdot \left( \frac{C_{1} \cdot C_{2}}{C_{1} + C_{2}} \right) }}
+\end{equation}
+
+Wobei \\
+$f$ = Resonanzfrequenz des Colpitts-Oszillator\\
+$L$ = Induktivität der Spule\\
+$C_{1}$ = Kapazität des Kondensators $C_{1}$\\
+$C_{2}$ = Kapazität des Kondensators $C_{2}$\\
+
+\pagebreak
+Das aktive Element wird an die Anschlüsse der Spule angeschlossen muss selbst eine Phasendrehung von 180° liefern. Zusätzlich muss die Verstärkung des Gliedes größer als 1 damit eine dauerhafte 
+Schwingung entstehen kann. Mit einem Operationsverstärker muss der nicht invertierende Eingang auf eine Bezugsspannung gelegt werden. Diese Bezugsspannung wird of in die Mitte des Versorgungsspannungsbereich
+gelegt. Bei einem Spannungsbereich von $\SI{0}{\volt}$ bis $\SI{5}{\volt}$ ist eine Bezugsspannung von $\SI{2,5}{\volt}$ sinnvoll. Der invertierende Eingang wird an das Colpitts LC-Glied angeschlossen. Der Ausgang des Operationsverstärker wird über
+einen Widerstand an das LC-Glied geschalten, damit das Rückkoppelglied besser vor übersteuerungen am Ausgang des Operationsverstärkers geschütz ist. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\linewidth]{fahrzeugerkennung/Colpitts_active.PNG}
+    \caption{Aktiver Colpitts-Oszillator}
+\end{figure}
+
+Wenn man nun verschiedene Werte für Induktivität einsetzt ergibt sich durch die Simulation dieses Schaltbildes folgende Zeitsignale für den Ausgang des Operationsverstärker OUT und der Spannung SINE:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{fahrzeugerkennung/Colpitts_active_ZB.PNG}
+    \caption{Zeitsignale Colpitts-Oszillator}
+\end{figure}
 
 
 \subsection{RS485 Bussystem}
