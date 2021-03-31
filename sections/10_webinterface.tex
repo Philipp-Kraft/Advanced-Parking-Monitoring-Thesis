@@ -461,19 +461,19 @@ welchem die \verb|php.exe| liegt.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.6\linewidth]{webinterface/advanced_system_settings.pdf}
+  \frame{\includegraphics[width=0.6\linewidth]{webinterface/advanced_system_settings.pdf}}
   \caption{Advanced System Settings}
 \end{figure}
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.6\linewidth]{webinterface/system_variables.pdf}
+  \frame{\includegraphics[width=0.6\linewidth]{webinterface/system_variables.pdf}}
   \caption{System Variables}
 \end{figure}
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.6\linewidth]{webinterface/environment_variable.pdf}
+  \frame{\includegraphics[width=0.6\linewidth]{webinterface/environment_variable.pdf}}
   \caption{Environment Variables}
 \end{figure}
 
@@ -1622,6 +1622,7 @@ gleichzeitig werden einige Rechte dieser Gruppe zugeteilt.
     ]);
   \end{minted}
   \caption{Rolle erstellen und Rechte zuweisen}
+  \label{lst:roleseeder}
 \end{listing}
 
 Eine ähnliche Methode wird verwendet um einem Benutzer eine oder mehrere Rollen
@@ -1660,7 +1661,7 @@ liefert die Methode \verb|false| erhält der Benutzer einen 403 Forbidden HTTP E
 
 \paragraph{Rolle erstellen}\mbox{}\\
 Eine neue Rolle kann über \verb|Roles| $\blacktriangleright$ 
-\verb|Create new role| $\blacktriangleright$ erstellt werden. Dabei können
+\verb|Create new role| erstellt werden. Dabei können
 folgende Informationen konfiguriert werden:
 
 \begin{itemize}
@@ -1727,29 +1728,28 @@ Beziehung zu den Parklücken (Parking Spots), sowie zu den Erkennungen
 
 \begin{figure}[H]
   \centering
-  \frame{\includegraphics[width=1\linewidth]{webinterface/parking_lot_er.pdf}}
+  \includegraphics[width=1\linewidth]{webinterface/parking_lot_er.pdf}
   \caption{Parking Lots, Parking Spots und Detections ER}
   \label{fig:parking_lot_er}
 \end{figure}
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=1\linewidth]{webinterface/parking_lots.pdf}
+  \frame{\includegraphics[width=1\linewidth]{webinterface/parking_lots.pdf}}
   \caption{Übersicht aller Parkplätze}
 \end{figure}
-
-\begin{figure}[H]
-  \centering
-  \frame{\includegraphics[width=1\linewidth]{webinterface/parking_lot_show.pdf}}
-  \caption{Parklücken und Erkennungen eines Parkplatzes}
-\end{figure}
-
 
 \paragraph{Parklücken}\mbox{}\\
 Eine Parklücke besteht aus einer Adresse und dem Status. Die Adresse ist eine
 von der Hardware gesetzte Zahl um die einzelnen Parklücken mit der API zu
 identifizieren und anzusteuern. Der Status ist dafür da um anzuzeigen ob eine Parklücke besetzt
 oder frei ist.
+
+\begin{figure}[H]
+  \centering
+  \frame{\includegraphics[width=1\linewidth]{webinterface/parking_lot_show.pdf}}
+  \caption{Parklücken und Erkennungen eines Parkplatzes}
+\end{figure}
 
 %\subsubsection{Kennzeichenverwaltung}
 %\subsubsection{Erkennungsverlauf}
@@ -1762,35 +1762,201 @@ oder frei ist.
 \subsection{API}
 \subsubsection{Einleitung}
 \subsubsection{Erkennungen}
-\subsubsection{Kennzeichen}
-\subsubsection{Parkplätze}
-\subsubsection{Parklücken}
-
-\paragraph{POST Request}\mbox{}\\
+\paragraph{GET /api/v1/detections}\mbox{}\\
 
 \begin{table}[H]
   \centering
   \begin{tabular}{|l|l|}
   \hline
-  \multicolumn{2}{|c|}{\textbf{Parklücken POST API}}                             \\ \hline
-  \textbf{Pfad}                    & /api/v1/lots/\{id\}/spots              \\ \hline
-  \textbf{Beschreibung}            &                                        \\ \hline
-  \textbf{HTTP-Methode}            & POST                                   \\ \hline
-  \textbf{Authentifizierung Nötig} & true                                   \\ \hline
-  \textbf{Rückgabetyp}             & application/json                       \\ \hline
-  \textbf{Path Parameter}          &                                        \\ \hline
-  id                               & Required: true                         \\ \hline
-                                   & Type: int                              \\ \hline
-                                   & Description: Parking Lot Id            \\ \hline
-  \textbf{Query Parameter}         &                                        \\ \hline
-  address                          & Required: true                         \\ \hline
-                                   & Type: int                              \\ \hline
-                                   & Description: Hardware Adresse          \\ \hline
-  occupied                         & Required: true                         \\ \hline
-                                   & Type: bool                             \\ \hline
-                                   & Description: 1 for occupied 0 for free \\ \hline
+  \multicolumn{2}{|c|}{\textbf{Erkennungen GET}} \\ \hline
+  \textbf{Pfad}                & /api/v1/detections  \\ \hline
+  \textbf{Beschreibung}        &                     \\ \hline
+  \textbf{HTTP-Methode}        & GET                 \\ \hline
+  \textbf{Authentifizierung}   & Bearer Token        \\ \hline
+  \textbf{Rückgabetyp}         & application/json    \\ \hline
   \end{tabular}
-  \caption{Parklücken POST API}
+  \caption{GET /api/v1/detections}
+\end{table}
+
+\paragraph{GET /api/v1/detections/\{id\}}\mbox{}\\
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|}
+  \hline
+  \multicolumn{2}{|c|}{\textbf{Erkennungen GET}}         \\ \hline
+  \textbf{Pfad}              & /api/v1/detections        \\ \hline
+  \textbf{Beschreibung}      &                           \\ \hline
+  \textbf{HTTP-Methode}      & GET                       \\ \hline
+  \textbf{Authentifizierung} & Bearer Token              \\ \hline
+  \textbf{Rückgabetyp}       & application/json          \\ \hline
+  \multicolumn{2}{|c|}{\textbf{Path Parameter}}          \\ \hline
+  id                         & Required: true            \\ \hline
+                             & Type: int                 \\ \hline
+                             & Description: Detection Id \\ \hline
+  \end{tabular}
+  \caption{GET /api/v1/detections/\{id\}}
+\end{table}
+
+\paragraph{POST /api/v1/detections}\mbox{}\\
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|}
+  \hline
+  \multicolumn{2}{|c|}{\textbf{Erkennungen POST}}          \\ \hline
+  \textbf{Pfad}              & /api/v1/detections              \\ \hline
+  \textbf{Beschreibung}      &                                 \\ \hline
+  \textbf{HTTP-Methode}      & POST                            \\ \hline
+  \textbf{Authentifizierung} & Bearer Token                    \\ \hline
+  \textbf{Rückgabetyp}       & application/json                \\ \hline
+  \multicolumn{2}{|c|}{\textbf{Query Parameter}}               \\ \hline
+  name                       & Required: true                  \\ \hline
+                             & Type: string                    \\ \hline
+                             & Description: License plate name \\ \hline
+  parking\_lot\_id           & Required: true                  \\ \hline
+                             & Type: int                       \\ \hline
+                             & Description: Parking Lot Id     \\ \hline
+  \end{tabular}
+  \caption{POST /api/v1/detections}
+\end{table}
+
+\subsubsection{Kennzeichen}
+\paragraph{GET /api/v1/plates}\mbox{}\\
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|}
+  \hline
+  \multicolumn{2}{|c|}{\textbf{Kennzeichen GET}} \\ \hline
+  \textbf{Pfad}                & /api/v1/plates  \\ \hline
+  \textbf{Beschreibung}        &                     \\ \hline
+  \textbf{HTTP-Methode}        & GET                 \\ \hline
+  \textbf{Authentifizierung}   & Bearer Token        \\ \hline
+  \textbf{Rückgabetyp}         & application/json    \\ \hline
+  \end{tabular}
+  \caption{GET /api/v1/plates}
+\end{table}
+
+\paragraph{GET /api/v1/plates/\{id\}}\mbox{}\\
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|}
+  \hline
+  \multicolumn{2}{|c|}{\textbf{Kennzeichen GET}}         \\ \hline
+  \textbf{Pfad}              & /api/v1/plates        \\ \hline
+  \textbf{Beschreibung}      &                           \\ \hline
+  \textbf{HTTP-Methode}      & GET                       \\ \hline
+  \textbf{Authentifizierung} & Bearer Token              \\ \hline
+  \textbf{Rückgabetyp}       & application/json          \\ \hline
+  \multicolumn{2}{|c|}{\textbf{Path Parameter}}          \\ \hline
+  id                         & Required: true            \\ \hline
+                             & Type: int                 \\ \hline
+                             & Description: License Plate Id \\ \hline
+  \end{tabular}
+  \caption{GET /api/v1/plates/\{id\}}
+\end{table}
+
+\subsubsection{Parkplätze}
+\paragraph{GET /api/v1/lots}\mbox{}\\
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|}
+  \hline
+  \multicolumn{2}{|c|}{\textbf{Parkplätze GET}} \\ \hline
+  \textbf{Pfad}                & /api/v1/lots  \\ \hline
+  \textbf{Beschreibung}        &                     \\ \hline
+  \textbf{HTTP-Methode}        & GET                 \\ \hline
+  \textbf{Authentifizierung}   & Bearer Token        \\ \hline
+  \textbf{Rückgabetyp}         & application/json    \\ \hline
+  \end{tabular}
+  \caption{GET /api/v1/lots}
+\end{table}
+
+\paragraph{GET /api/v1/lots/\{id\}}\mbox{}\\
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|}
+  \hline
+  \multicolumn{2}{|c|}{\textbf{Parkplätze GET}}         \\ \hline
+  \textbf{Pfad}              & /api/v1/lots        \\ \hline
+  \textbf{Beschreibung}      &                           \\ \hline
+  \textbf{HTTP-Methode}      & GET                       \\ \hline
+  \textbf{Authentifizierung} & Bearer Token              \\ \hline
+  \textbf{Rückgabetyp}       & application/json          \\ \hline
+  \multicolumn{2}{|c|}{\textbf{Path Parameter}}          \\ \hline
+  id                         & Required: true            \\ \hline
+                             & Type: int                 \\ \hline
+                             & Description: Parking Lot Id \\ \hline
+  \end{tabular}
+  \caption{GET /api/v1/lots/\{id\}}
+\end{table}
+
+\subsubsection{Parklücken}
+
+\paragraph{GET /api/v1/spots}\mbox{}\\
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|}
+  \hline
+  \multicolumn{2}{|c|}{\textbf{Parklücke GET}} \\ \hline
+  \textbf{Pfad}                & /api/v1/spots  \\ \hline
+  \textbf{Beschreibung}        &                     \\ \hline
+  \textbf{HTTP-Methode}        & GET                 \\ \hline
+  \textbf{Authentifizierung}   & Bearer Token        \\ \hline
+  \textbf{Rückgabetyp}         & application/json    \\ \hline
+  \end{tabular}
+  \caption{GET /api/v1/spots}
+\end{table}
+
+\paragraph{GET /api/v1/spots/\{id\}}\mbox{}\\
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|}
+  \hline
+  \multicolumn{2}{|c|}{\textbf{Parklücke GET}}         \\ \hline
+  \textbf{Pfad}              & /api/v1/spots        \\ \hline
+  \textbf{Beschreibung}      &                           \\ \hline
+  \textbf{HTTP-Methode}      & GET                       \\ \hline
+  \textbf{Authentifizierung} & Bearer Token              \\ \hline
+  \textbf{Rückgabetyp}       & application/json          \\ \hline
+  \multicolumn{2}{|c|}{\textbf{Path Parameter}}          \\ \hline
+  id                         & Required: true            \\ \hline
+                             & Type: int                 \\ \hline
+                             & Description: Parking Spot Id \\ \hline
+  \end{tabular}
+  \caption{GET /api/v1/spots/\{id\}}
+\end{table}
+
+\paragraph{POST /api/v1/lots/\{id\}/spots}\mbox{}\\
+\begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|}
+  \hline
+  \multicolumn{2}{|c|}{\textbf{Parklücken POST}}                  \\ \hline
+  \textbf{Pfad}              & /api/v1/lots/\{id\}/spots              \\ \hline
+  \textbf{Beschreibung}      &                                        \\ \hline
+  \textbf{HTTP-Methode}      & POST                                   \\ \hline
+  \textbf{Authentifizierung} & Bearer Token                           \\ \hline
+  \textbf{Rückgabetyp}       & application/json                       \\ \hline
+  \multicolumn{2}{|c|}{\textbf{Path Parameter}}                       \\ \hline
+  id                         & Required: true                         \\ \hline
+                             & Type: int                              \\ \hline
+                             & Description: Parking Lot Id            \\ \hline
+  \multicolumn{2}{|c|}{\textbf{Query Parameter}}                      \\ \hline
+  address                    & Required: true                         \\ \hline
+                             & Type: int                              \\ \hline
+                             & Description: Hardware Adresse          \\ \hline
+  occupied                   & Required: true                         \\ \hline
+                             & Type: bool                             \\ \hline
+                             & Description: 1 for occupied 0 for free \\ \hline
+  \end{tabular}
+  \caption{POST /api/v1/lots/\{id\}/spots}
 \end{table}
 
 \begin{listing}[H]
@@ -1812,11 +1978,62 @@ oder frei ist.
       }
     }
   \end{minted}
-  \caption{Beispielhafte Parklücken POST API Rückgabe}
+  \caption{Beispielhafte POST /api/v1/lots/\{id\}/spots Rückgabe}
 \end{listing}
 
 \subsubsection{Einstellungen}
+\paragraph{GET /api/v1/settings}\mbox{}\\
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|}
+  \hline
+  \multicolumn{2}{|c|}{\textbf{Einstellungen GET}} \\ \hline
+  \textbf{Pfad}                & /api/v1/settings  \\ \hline
+  \textbf{Beschreibung}        &                     \\ \hline
+  \textbf{HTTP-Methode}        & GET                 \\ \hline
+  \textbf{Authentifizierung}   & Bearer Token        \\ \hline
+  \textbf{Rückgabetyp}         & application/json    \\ \hline
+  \end{tabular}
+  \caption{GET /api/v1/settings}
+\end{table}
+
 \subsubsection{Benutzer}
+\paragraph{GET /api/v1/users}\mbox{}\\
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|}
+  \hline
+  \multicolumn{2}{|c|}{\textbf{Benutzer GET}} \\ \hline
+  \textbf{Pfad}                & /api/v1/users  \\ \hline
+  \textbf{Beschreibung}        &                     \\ \hline
+  \textbf{HTTP-Methode}        & GET                 \\ \hline
+  \textbf{Authentifizierung}   & Bearer Token        \\ \hline
+  \textbf{Rückgabetyp}         & application/json    \\ \hline
+  \end{tabular}
+  \caption{GET /api/v1/users}
+\end{table}
+
+\paragraph{GET /api/v1/users/\{id\}}\mbox{}\\
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|}
+  \hline
+  \multicolumn{2}{|c|}{\textbf{Benutzer GET}}         \\ \hline
+  \textbf{Pfad}              & /api/v1/users        \\ \hline
+  \textbf{Beschreibung}      &                           \\ \hline
+  \textbf{HTTP-Methode}      & GET                       \\ \hline
+  \textbf{Authentifizierung} & Bearer Token              \\ \hline
+  \textbf{Rückgabetyp}       & application/json          \\ \hline
+  \multicolumn{2}{|c|}{\textbf{Path Parameter}}          \\ \hline
+  id                         & Required: true            \\ \hline
+                             & Type: int                 \\ \hline
+                             & Description: User Id \\ \hline
+  \end{tabular}
+  \caption{GET /api/v1/users/\{id\}}
+\end{table}
 
 %\subsection{Performance und Sicherheit}
 %\subsubsection{Form Validation}
