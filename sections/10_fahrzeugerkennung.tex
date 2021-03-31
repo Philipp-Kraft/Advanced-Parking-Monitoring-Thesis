@@ -283,6 +283,20 @@ Kapazität von $C = \SI{1}{\micro\farad}$ erhält man folgenden Graphen:
 \end{center}
 
 Mit dieser Näherung kann man mit des Differentials der Thomsonschen Gleichung \ref{eq:thomson} die Änderung des Funktionswertes $f(L \pm \Delta L) = \Delta f \approx df$ 
+\begin{align*} \label{eq:df_L}
+    df = \frac{\partial f}{\partial L}\bigg|_{L_{0}} \cdot dL \\ 
+    df = \frac{\partial}{\partial L}  \left (  \frac{1}{2 \pi \sqrt{L_{0}C}} \right ) \Delta dL \\
+    df = - \frac{1}{4 \pi} (L_{0}C)^{-\frac{3}{2}} \cdot \Delta L
+\end{align*}
+
+Für relative Änderungen der Induktivität $\Delta L$ um den Wert $L_{0}$ gilt:
+
+\begin{equation} \label{eq:f_df}
+    \frac{df}{f_{0}} =  -\frac{1}{2C} \cdot \frac{\Delta L}{L_{0}}
+\end{equation}
+
+Das bedeutet, dass eine kleine relative Änderung der Inuktivität $\frac{\Delta L}{L_{0}}$ bei gleicher Kapazität $C$ für eine halb so große relative Änderung in der Frequenz führt. 
+Dieser Ansatz gilt nur bei kleinen $\Delta L$.
 
 \paragraph{Messung der Frequenz eines Colpitts-Oszillator}\mbox{}\\
 
@@ -291,7 +305,7 @@ zwei Kondensatoren. Das Schaltbild sieht so aus:
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.4\linewidth]{fahrzeugerkennung/Colpitts_LC.PNG}
+    \includegraphics[width=0.3\linewidth]{fahrzeugerkennung/Colpitts_LC.PNG}
     \caption{Colpitts LC-Glied}
 \end{figure}
 
@@ -335,9 +349,16 @@ Wenn man nun verschiedene Werte für Induktivität einsetzt ergibt sich durch di
 Es ist ersichtlich, dass dass eine Zunahme der Induktivität zu einer Abnahme in der Frequenz der beiden Signale führt.
 \pagebreak
 \subsection{RS485 Bussystem}
-\subsubsection{Überblick}
+\subsubsection{Benutzte Standards}
 \paragraph{ASCII}\mbox{}\\
 ASCII ist eine amerkanischer Standard zur Kodierung einer 7 Bit langen folge. Dieser Standard ermöglicht es Zeichen wie 'A' oder 'b' sowie auch Zahlen und gewissen Sonderzeichen in Bits umzusetzen. 
+\paragraph{USB}\mbox{}\\
+
+Unter USB versteht man eine serielles Bussystem, welches dazu dient Peripherie Geräte an einen Computer zu verbinden. USB ermöglicht es Geräte während der Laufzeit des Betriebsssystems anzustecken und wieder zu entfernen.
+Je nach Version des USB Standards ist es möglich unterschiedliche Datenraten und Leistungen zu verwenden, wobei neuere Standards Rückkompatibel zu alten Versionen sind. Für die Ansteeurng des Bussystems ist es notwendig einen Comupter anzuschließen. 
+Der USB Standard bietet sich hier an, da er weit verbreitet ist und daher mit vielen Computern kompatibel ist.
+
+
 \paragraph{UART}\mbox{}\\
 
 Unter UART versteht man eine eine asynchrone serielle Schnittstelle. Die elektrische Schnittstelle braucht daher auch keine Taktleitung die dem Empfänger der Daten mitteilt wann er zu lesen hat. Stattdessen gibt es zwei Datenleitungen nämlich eine 
@@ -362,7 +383,7 @@ $U_{A}$ und $U_{B}$ im Ruhezustand über einen IC oder einen Spannungsteiler auf
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\linewidth]{fahrzeugerkennung/RS485_bias.png}
+    \includegraphics[width=0.15\linewidth]{fahrzeugerkennung/RS485_bias.png}
     \caption{RS485 Widerstandsnetzwerk}
 \end{figure}
 
@@ -400,9 +421,109 @@ In blau ist die Spannung $U_{A}$ und in orange die Spannung $U_{B}$ zu sehen. Da
     \caption{Beispiel einer RS485 Zeichenübertragung}
 \end{figure}
 
-\paragraph{Aufbau}\mbox{}\\
+\paragraph{RJ45}\mbox{}\\
+Um die Anzahl der Kabel zu minimieren und um das Anschließen von Geräten an den Bus einfach zu halten ist ein
+mehradriger Stecker mit zugehörigem Kabel nötig.\\
+Der RJ-45 Stecker ist eine genormter Stecker und besitzt insgesamt 8 Adern und ist für Kommunikationsanschlüsse gedacht. Er kann daher größere Datenraten zulassen und viele auf dem
+Markt vorhandene Kabel haben zusätzliche Abschirmungen, die die Datenleitungen vor elektrischen Störungen schützen. 
 
-\subsubsection{Elektrische Spezifikation}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{fahrzeugerkennung/RJ45_connectors.jpg}
+    \caption{RJ45 Steckerbuchse und Kabel}
+\end{figure}
+
+
+
+\subsubsection{Aufbau}
+
+Das Bussystem wir über eine Master Slave Struktur verwaltet was heißt das nur das ein einzelnes Master-Gerät als erstes andere Teilnehmer am Bus ansprechen kann.
+Slave-Geräte können nur nach Anfrage des Masters auf den Bus schreiben. Neben der Steuerung der Kommunikation sollte das Master-Gerät aus praktischen Gründen ebenfalls die Slave-Geräte
+mit Energie versorgen und ihnen eindeutige Adressen zuweisen können. \\
+
+In den unteren Abbildungen sind der logische Aufbau und der physikalische Aufbau zu sehen.
+Auf die einzelnen Funktionen diverser Leitungen wird in den folgenden Paragraphen eingegangen.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{fahrzeugerkennung/übersicht_bus.pdf}
+    \caption{Logische Übersicht des Bussystems}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{fahrzeugerkennung/übersicht_irl.jpg}
+    \caption{Physische Übersicht des Bussystems}
+\end{figure}
+
+Die elektrische Belegung der Leitungen ist wie in der folgenden Tabelle festgelegt worden. Mit dieser Belegung ist es möglich die Slave-Geräte an den RS485 Datenbus zu legen,
+sie mit Spannung zu versorgen und die Adressvergabe mit einer zusätzlichen Logikleitung zu regeln. 
+
+\begin{table}[]
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        \textbf{Pinnummer} & \textbf{Farbe} & \textbf{Netz} & \textbf{Beschreibung}                      \\ \hline
+        1                  & Orange / weiß  & GND           & Masse                                      \\ \hline
+        2                  & Orange         & +5V           & 5 Volt Versorgungsspannung                 \\ \hline
+        3                  & Grün / weiß    &               & unbelegt                                   \\ \hline
+        4                  & Blau           & A             & RS485 positives Datensignal                \\ \hline
+        5                  & Blau / weiß    & B             & RS485 negatives Datensignal                \\ \hline
+        6                  & Grün           & VCC           & Positive Versorgungsspannung +9V bis 30V   \\ \hline
+        7                  & Braun / weiß   & GND           & Masse                                      \\ \hline
+        8                  & Braun          & ADR           & Logiksignal zur Vergabe der Slave Adressen \\ \hline
+    \end{tabular}
+    \caption{RJ45 allgemeine Pinbelegung}
+\end{table}
+
+\paragraph{Funktion der Adresslogikleitung}\mbox{}\\
+
+Da alle Teilnehmer des RS485-Busses parallel an den Datenleitung A und B liegen kann der Master sie voneinander nicht unterscheiden. Dieses Probleme beseitigt die Adressleitung, welche
+die einzelnen Geräte logisch aneinanderreiht.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{fahrzeugerkennung/adress_function.pdf}
+    \caption{Anordnung der Slave-Geräte mit Adresslogikleitung}
+\end{figure}
+
+Jedes Slave-Gerät setzt seine Adresslogikleitung über einen Pullup-Widerstand auf logisch 1 wenn es keine Adresse zugeordnet bekommen hat.
+Als erstes in der Reihe ist der Master, der seine Adresslogikleitung auf logisch 0 setzt und so dem ersten Gerät in der Kette bekannt gibt, dass es eine Adresse zugewiesen bekommt. Wenn es
+diese Adresse bekommen hat legt das Slave-Gerät seine ausgehende Adresslogikleitung ADRO auf logisch 0. So kann das nächste Gerät in der Kette erkennen, dass es eine Adresse zugewiesen kriegt, 
+indem es auf die eingehende Adressleitung ADRI achtet.\\
+In den folgenden Abbildungwn sieht man wie die Geräte über den RJ45 Stecker elektrisch am Bus hängen. Der Master hat nur einen Stecker und hat seine Adresslogikleitung fix auf logisch 0 gelegt.
+Die Slaves hingegen brauchen zwei Stecker um die Adresskette zu bilden und unterscheiden zwischen eingehender Adresslogikleitung ADRI und ausgehender Adresslogikleitung ADRO. \\
+Wenn jedoch die Slaves falsche herum angeschlossen werden und ADRI und ADRO vertauscht sind kann dieser Fehler vom Mikrokontroller erkannt und behoben werden. Die genauen Details dieser Funktion 
+werden in späteren Abschnitten erklärt. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{fahrzeugerkennung/RJ45_slave.png}
+    \caption{RJ45 Pinbelegung des Slave-Geräts}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\linewidth]{fahrzeugerkennung/RJ45_master.png}
+    \caption{RJ45 Pinbelegung des Master-USB-Geräts}
+\end{figure}
+
+\paragraph{Versorgungsleitungen VCC und GND}\mbox{}\\
+
+Da es für jeden Parkplatz ein Slave-Gerät gibt ist die Länge der Busleitung nicht unbeträchtlich. Es kann so entlang der Leitung zu abfällen in der Versorgungsspannung aufgrund des Widerstands der langen Leitung.
+Um dem entgegenzuwirken muss die Versorgungsspannung VCC bezogen auf Masse größer als die benötigte Spannung an den Geräten sein. Die Slave-Geräte besitzen alle einen Linearregler der für einen konstante Spannung von 5V sorgt.
+Die Eingangsspannung des Spannungsreglers muss je nach Ausführung um eine gewisse Differenzspannung größer sein als die am Ausgang benötigte Spannung sein. Dieser Wert wird als \textit{Dropout Voltage} bezeichnet. 
+Für den IC L78L05ACD lässt sich aus dem Datenblatt folgende Spannung nachlesen: $\SI{2}{\volt}$
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{fahrzeugerkennung/L78L05_characteristics.png}
+    \caption{Elektrische Eigenschaften des L78L05ACD}
+\end{figure}
+
+Daraus lasst sich schließen dass der IC mindestens eine Spannung von $\SI{7}{\volt}$ braucht um zu funktionieren. Als Eingangsspannung für alle Messung wurde $\SI{9}{\volt}$ verwendet. Nach Datenblatt ist die Eingangsspannung auf 
+einen Maximalwert von $\SI{30}{\volt}$ beschränkt. Es ist zu beachten, dass eine Erhöhung der Eingangsspannung zu mehr Verlusten am Linearregler führt und somit für eine schlechte Effizienz sorgt.
+
 \subsubsection{Implementation eines eigenen Protokolls}
 
 \subsection{Mikrokontroller Slave-Geräte}
