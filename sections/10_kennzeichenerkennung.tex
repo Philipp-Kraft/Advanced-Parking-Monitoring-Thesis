@@ -159,21 +159,21 @@ liefert eine Liste mit allen Konturen. Die Konturen werden in der Liste als ein 
 \subsubsection{Einleitung}
 Die Software ist der wichtigste und größte Teil der Kennzeichenerkennung. Sie erhält ein Bild, in welchem ein Auto mit 
 einem Kennzeichen enthalten ist und liefert am Ende dieses Kennzeichen und sendet dieses dann automatisch an die Datenbank. 
-Die Software kann entweder über Bildverarbeitung oder mit Machine Learning Modellen realisiert werden. Der erste Ansatz bei 
+Die Software kann entweder über Bildverarbeitung oder mit Modellen für Maschinelles Lernen realisiert werden. Der erste Ansatz bei 
 dieser Anwendung war mit klassischer Bildverarbeitung, welche aber nicht die gewünschte Genauigkeit erreicht hat, weswegen 
-dann auf Machine Learning gewechselt wurde.
+dann auf Maschinelles Lernen gewechselt wurde.
 
 \subsubsection{Programmiersprache}
 Die verwendete Programmiersprache für die Kennzeichenerkennung ist Python. Python ist eine höhere Programmiersprache, 
-welche übersichtlich und leicht lesbar ist. Sie ist vor allem für Bildverarbeitung und Machine Learning Anwendungen gut geeignet, 
+welche übersichtlich und leicht lesbar ist. Sie ist vor allem für Bildverarbeitung und Anwendungen mit Maschinellem Lernen gut geeignet, 
 da es dafür hoch optimierte und effiziente Bibliotheken gibt wie zum Beispiel OpenCV, Numpy und Tensorflow. Dadurch ist Python 
 für diese Anwendung besser geeignet als zum Beispiel C++. Dieses wäre zwar normalerweise effizienter, bietet aber weniger 
 optimierte Bibliotheken in diesem Bereich, wodurch es hier weniger gut geeignet ist.
 
 \subsubsection{Konzept}
 Das Programm für die Kennzeichenerkennung basiert auf fünf Stufen. Die erste Stufe ist die Bildaufnahme, die zweite ist die 
-Kennzeichenerfassung mittels Machine Learning, die dritte ist die Kennzeichensegmentierung mithilfe von Bildverarbeitung, 
-die vierte ist die Zeichenerkennung mittels Machine Learning und die fünfte ist die Anbindung an die Datenbank.
+Kennzeichenerfassung mittels Maschinellem Lernen, die dritte ist die Kennzeichensegmentierung mithilfe von Bildverarbeitung, 
+die vierte ist die Zeichenerkennung mittels Maschinellem Lernen und die fünfte ist die Anbindung an die Datenbank.
 
 \paragraph{Bildaufnahme}\mbox{}\\
 Um ein Bild verarbeiten zu können und aus diesem ein Kennzeichen auslesen zu können, muss zuerst ein Bild vorliegen. 
@@ -183,7 +183,7 @@ sich in diesem Ordner bereits ein Bild befindet und falls eines vorhanden ist wi
 durch mehrere Bilder verhindert.
 
 \paragraph{Kennzeichenerfassung}\mbox{}\\
-Die Kennzeichenerfassung hat die Aufgabe, das Kennzeichen im Eingabebild zu lokalisieren. Dies geschieht mittels Machine Learning 
+Die Kennzeichenerfassung hat die Aufgabe, das Kennzeichen im Eingabebild zu lokalisieren. Dies geschieht mittels Maschinellem Lernen 
 mit dem Modul WPOD-NET von Sérgio Montazolli Silva und Cláudio Rosita Jung\footnote{License Plate Detection and Recognition in Unconstrained Scenarios}. Dieses verwendet zuerst das Modul YOLOv2 welches zur 
 Echtzeitobjekterkennung verwendet werden kann und in dieser Anwendung zur Erkennung von Fahrzeugen verwendet wird. Danach werden 
 die Koordinaten des Kennzeichens ermittelt und dieses aus dem Bild ausgeschnitten und abgespeichert.
@@ -213,7 +213,7 @@ Fahrzeug nun innerhalb oder außerhalb des Parkplatzes befindet.
 \end{figure}
 
 Im oberen Diagramm ist der Ablauf des Programms angegeben. Zuerst wird mit einem Button der Auslöser betätigt und damit das 
-Foto aufgenommen. Dann wird das erste Machine Learning Modell für die Kennzeichenerkennung „WPOD-NET“\footnote{Machine Learning Modell für Kennzeichenerfassung} geladen. Bevor das 
+Foto aufgenommen. Dann wird das erste Modell für Maschinelles Lernen für die Kennzeichenerkennung „WPOD-NET“\footnote{Modell für Maschinelles Lernen für Kennzeichenerfassung} geladen. Bevor das 
 Bild diesem Modell übergeben werden kann, muss es noch angepasst werden damit das Modell damit arbeiten kann. Danach kann 
 damit das Kennzeichen im Bild lokalisiert werden. Im Anschluss wird dieses Kennzeichenbild mit mehreren Bildverarbeitungsalgorithmen 
 verarbeitet, um dann die einzelnen Zeichen zu segmentieren. Danach kann dann das Modell für die Zeichenerkennung geladen 
@@ -257,12 +257,12 @@ Raspbian:
 \end{itemize}
 
 \paragraph{Jupyter Notebook}\mbox{}\\
-Jupyter Notebook ist eine nützliche Erweiterung für Python, wenn es um den Bereich der Daten-Visualisierung und Machine Learning geht. 
+Jupyter Notebook ist eine nützliche Erweiterung für Python, wenn es um den Bereich der Daten-Visualisierung und Maschinelles Lernen geht. 
 Sie ist eine Unteranwendung des Open-Source Projektes „Project Jupyter“, welches von großen Partnern wie Microsoft und Google unterstützt 
 und verwendet wird. Mit Jupyter Notebook ist es möglich in einer Web-Anwendung ein Live-Script abzuarbeiten und in Kombination mit Matplotlib 
 die Daten visuell darzustellen, abzuspeichern und zu überwachen. Im Gegensatz zur direkten Darstellung in der Entwicklungsumgebung, wird 
 der letzte Durchgang des Scripts, inklusive aller Bilder und Grafiken gespeichert. Zudem ist es auch hervorragend für das Training und 
-die dazugehörende Überwachung von Machine Learning Modulen geeignet. Außerdem bietet Jupyter Notebook noch die Möglichkeit mehrere Scripts 
+die dazugehörende Überwachung von Modulen für Maschinelles Lernen geeignet. Außerdem bietet Jupyter Notebook noch die Möglichkeit mehrere Scripts 
 parallel abzuarbeiten und diese individuell zu überwachen. In dieser Applikation wird es für ein solches Training und für die anschauliche 
 Visualisierung von Daten genutzt.\\
 
@@ -299,11 +299,11 @@ Um Numpy zu installieren muss folgender Befehl in der Konsole eingegeben werden:
 \paragraph{OpenCV}\mbox{}\\
 OpenCV ist die wichtigste und mächtigste Library die in dieser Applikation verwendet wird. Sie wurde ursprünglich in C++ geschrieben, 
 aber es gibt auch eine Version in Python, welche in dieser Applikation verwendet wird. OpenCV ist eine freie Library für Bildverarbeitung, 
-Computer Vision\footnote{Die Computergestütze Auswertung und Verarbeitung von Kamerabildern} und Machine Learning, welche von Intel gestartet wurde und mittlerweile die wichtigste und am weitesten verbreitete 
+Computer Vision\footnote{Die Computergestütze Auswertung und Verarbeitung von Kamerabildern} und Maschinelles Lernen, welche von Intel gestartet wurde und mittlerweile die wichtigste und am weitesten verbreitete 
 Library in diesem Bereich ist. Sie verwendet Numpy-Arrays, um für eine effiziente Verarbeitung von Bildern zu sorgen. Einige der wichtigsten 
 Funktionen stellen die klassischen Bildverarbeitungsalgorithmen wie zum Beispiel Filterung und Farbraumanpassungen, die Verarbeitung und 
-Auswertung von Kamerabildern und auch die Kompatibilität mit Deep-Learning\footnote{Machine Learning Methode welche Neuronale Netze nutzt} dar. In dieser Applikation wird OpenCV für diverse 
-Bildverarbeitungsalgorithmen, die Zusammenarbeit mit Machine Learning Modulen, die Verarbeitung eines Kamerabildes und das allgemeine Arbeiten mit Bildern verwendet.\\
+Auswertung von Kamerabildern und auch die Kompatibilität mit Deep-Learning\footnote{Methode für Maschinelles Lernen welche Neuronale Netze nutzt} dar. In dieser Applikation wird OpenCV für diverse 
+Bildverarbeitungsalgorithmen, die Zusammenarbeit mit Modellen für Maschinelles Lernen, die Verarbeitung eines Kamerabildes und das allgemeine Arbeiten mit Bildern verwendet.\\
 
 Die Installation von OpenCV ist dabei etwas komplizierter als bei anderen Librarys.\\
 
@@ -399,9 +399,9 @@ Um Matplotlib zu installieren muss das Folgende in der Konsole eingegeben werden
 \paragraph{Keras}\mbox{}\\
 Keras ist eine Deep-Learning Schnittstelle für diverse Machine Learning Frameworks wie zum Beispiel Tensorflow oder Theanos. 
 Damit wird die Bedienung und Anwendung dieser Frameworks vereinfacht und es bietet auch diverse Funktionen, um Inputs mit 
-den Machine Learning Modellen kompatibel zu machen. Keras ist ein Teil von Tensorflow, wird aber eigenständig weiterentwickelt, 
+den Modellen für Maschinelles Lernen kompatibel zu machen. Keras ist ein Teil von Tensorflow, wird aber eigenständig weiterentwickelt, 
 um die Kompatibilität mit anderen Machine Learning Frameworks aufrechtzuerhalten. In dieser Applikation wird es in 
-Zusammenarbeit mit Tensorflow verwendet, um mit den verwendeten Machine Learning Modellen zu arbeiten.\\
+Zusammenarbeit mit Tensorflow verwendet, um mit den verwendeten Modellen für Maschinelles Lernen zu arbeiten.\\
 
 Um Keras zu installieren führt man folgenden Befehl in der Konsole aus:
 
@@ -413,10 +413,10 @@ Um Keras zu installieren führt man folgenden Befehl in der Konsole aus:
 \end{listing}
 
 \paragraph{Tensorflow}\mbox{}\\
-Tensorflow ist eines der weltweit beliebtesten Frameworks für Machine Learning und wird von weltweit erfolgreichen Firmen wie 
-zum Beispiel Google, AMD oder auch Intel verwendet. Es bietet eine umfassende Plattformen für jegliche Machine Learning Anwendungen 
+Tensorflow ist eines der weltweit beliebtesten Frameworks für Maschinelles Lernen und wird von weltweit erfolgreichen Firmen wie 
+zum Beispiel Google, AMD oder auch Intel verwendet. Es bietet eine umfassende Plattformen für jegliche Anwendugnen für Maschinelles Lernen 
 und ist in Zusammenarbeit mit APIs wie zum Beispiel Keras leicht zu verwenden. In dieser Applikation wird damit ein neuronales 
-Netz trainiert und mehrere Machine Learning Modelle verwaltet und verwendet.\\
+Netz trainiert und mehrere Modelle für Maschinelles Lernen verwaltet und verwendet.\\
 
 Bei der Installation von Tensorflow muss beachtet werden, dass sich diese von Windows zu Raspbian stark unterscheidet. 
 Raspbian unterstützt offiziell die benötigte Version von Tensorflow noch nicht und deswegen muss dieses über ein paar Umwege installiert werden.\\
@@ -508,10 +508,9 @@ welcher ein Bild des Kennzeichens und die Koordinaten des Kennzeichens ermittelt
 folgenden Link von GitHub heruntergeladen werden: \url{https://github.com/quangnhat185/Plate_detect_and_recognize/blob/master/local_utils.py} 
 
 \paragraph{Scikit-learn}\mbox{}\\
-Scikit-learn ist eine freie Library für Machine Learning und basiert auf Numpy und Matplotlib. Es wird vor allem verwendet, 
+Scikit-learn ist eine freie Library für Maschinelles Lernen und basiert auf Numpy und Matplotlib. Es wird vor allem verwendet, 
 um mit großen visuellen Datensätzen neuronale Netze zu trainieren.  Es bietet Funktionen, um Modelle anzupassen, Daten vorzubereiten, 
-Modelle zu trainieren und ähnliches. In dieser Applikation wird es für die Normalisierung von Labels verwendet, um diese für Machine 
-Learning Modelle anzupassen und für das zufällige Aufteilen von Arrays in Test und Trainingsteile, welche für das Training eines Neuronalen Netzes benötigt werden.\\
+Modelle zu trainieren und ähnliches. In dieser Applikation wird es für die Normalisierung von Labels verwendet, um diese für Modelle für Maschinelles Lernen anzupassen und für das zufällige Aufteilen von Arrays in Test und Trainingsteile, welche für das Training eines Neuronalen Netzes benötigt werden.\\
 
 Für die Installation von Scikit-learn muss die folgende Zeile in der Konsole ausgeführt werden:
 
@@ -604,7 +603,7 @@ Im folgenden Abschnitt werden die wichtigsten Teile des Kennzeichenerkennungspro
     \caption{WPOD-NET Modell laden}
 \end{listing}
 
-Für das Lokalisieren des Kennzeichens wird das Machine-Learning Modell WPOD-NET verwendet. Dieses basiert auf YOLOv2, 
+Für das Lokalisieren des Kennzeichens wird das Model für Maschinelles Lernen WPOD-NET verwendet. Dieses basiert auf YOLOv2, 
 mit welchem eine Echtzeitobjekterkennung möglich ist und wurde für diese Anwendung dazu angepasst, dass es möglich ist 
 Kennzeichen in einem Bild zu lokalisieren. WPOD-NET versucht zuerst auf Grundlage von YOLOv2 in dem übergebenen Bild 
 ein Fahrzeug zu erkennen, erstellt dann auf dieser Grundlage eine Region, in welcher sich mit hoher Wahrscheinlichkeit 
@@ -715,7 +714,7 @@ diesen Programmdurchlauf aufgenommen und im Zielordner abgespeichert. Danach wir
 \end{listing}
 
 Der nächste wichtige Abschnitt des Programmes beschäftigt sich damit, aus dem Kennzeichenbild die einzelnen Zeichen herauszusuchen und einzeln 
-darzustellen, damit diese dann von einem weiteren Machine Learning Modell erkannt werden können. Dazu wird als erstes die Funktion „findContours“ 
+darzustellen, damit diese dann von einem weiteren Modell für Maschinelles Lernen erkannt werden können. Dazu wird als erstes die Funktion „findContours“ 
 von OpenCV angewendet, welcher man ein binäres Bild des Kennzeichens übergeben muss und als Rückgabe ein Array von Koordinaten aller gefundenen Konturen ausgibt. 
 
 \begin{listing}[H]
@@ -827,7 +826,7 @@ verwendet, welche im unteren Code ersichtlich ist.
     \caption{predict{\_}from{\_}model}
 \end{listing}
 
-Vor der Anwendung dieser Funktion muss wieder wie beim ersten Machine Learning Modell das Modell zuerst geladen werden. Danach kann diese Funktion verwendet werden, 
+Vor der Anwendung dieser Funktion muss wieder, wie beim ersten Modell für Maschinelles Lernen, das Modell zuerst geladen werden. Danach kann diese Funktion verwendet werden, 
 welcher man das Bild einer Zeichens und das Model übergeben muss. Die Funktion „predict{\_}from{\_}model“ wendet dann nur dieses Modell an und übergibt das 
 vermutete Ergebnis in ein Array.
 
@@ -932,3 +931,182 @@ qualitativ hochwertiges Bild, welches für die Software gut verarbeitbar ist.
     \includegraphics[width=0.6\linewidth]{kennzeichenerkennung/rpiKamera.png}
     \caption{Raspberry Pi mit Kamera}
 \end{figure}
+
+\subsection{Maschinelles Lernen}
+
+\subsubsection{Einleitung}
+Die Kennzeichenerkennung ist eine sehr komplexe Anwendung, da es unzählige Kennzeichen gibt und jedes einzelne davon erkannt werden sollte. 
+Dabei ist nicht nur auf verschiedene Länderkennzeichen zu achten, welche sich stark voneinander unterscheiden, sondern auch auf Sonderkennzeichen, 
+welche sich sogar auf nationaler Ebene von den normalen Kennzeichen unterscheiden. Zudem besteht noch die Problematik, dass sich die Kennzeichen 
+oft in unterschiedlichen Zuständen befinden, wie zum Beispiel mit Dreck beschmutzt oder ähnliches. Das bedeutet, dass eine in der Praxis 
+anwendbare Kennzeichenerkennung mit all diesen Gegebenheiten zurechtkommen muss, damit das Kennzeichen in nahezu jeder möglichen Situation 
+erkannt werden kann. Um dies zu erreichen wird das Programm für die Kennzeichenerkennung in drei größere Teile aufgeteilt. Die Kennzeichenlokalisierung, 
+die Zeichenerfassung und die Zeichenerkennung. Die Zeichenerfassung gestaltet sich relativ einfach, da diese bereits ein Bild des Kennzeichens erhält, 
+in dem ansonsten keine größeren Störfaktoren beinhaltet sind. Diese muss also nur die Konturen innerhalb dieses Bildes finden und diese so sortieren, 
+dass nur noch die einzelnen Zeichen übrig bleiben. Bei der Kennzeichenlokalisierung und der Zeichenerfassung gestaltet sich die Lage schon etwas schwieriger. 
+Die Kennzeichenlokalisierung steht vor dem Problem, dass wenn man klassisch mit der Bildverarbeitung nach einer passenden Kontur für das Kennzeichen sucht, 
+kann dieser Algorithmus durch Störfaktoren wie ein zufällig ähnlich großes Orts- oder Straßenschild getäuscht werden, wodurch es zu einem Fehler kommt. 
+Auch Fenster oder ähnlich proportionierte Gegenstände können zu solch einem Fehler führen. Die Lösung dafür befindet sich im Bereich des Maschinellen Lernens. 
+Anstatt nur nach einer Kontur zu suchen, wird mit solch einem Modell gezielt nach einem Kennzeichen gesucht. Dies ist möglich, da so ein Modell mit vielen 
+möglichen Eingaben und den passenden Ausgaben dazu trainiert wird ein Muster zwischen den Ein- und Ausgaben zu finden, mit welchem es dann ähnliche Probleme 
+selbstständig lösen kann. Auch bei der Zeichenerkennung bietet sich solch ein Modell an, da es darauf trainiert werden kann, einzelne Zeichen mit einer 
+hohen Genauigkeit zu erkennen. Hier wäre es zwar ohne Maschinelles Lernen auch möglich ein relativ gutes Ergebnis zu erzielen, indem man mittels Korrelation 
+von Vergleichsbildern das Zeichen findet, welches am wahrscheinlichsten passen würde, aber in dieser Applikation wird auch hierfür ein Modell für Maschinelles Lernen verwendet.
+
+\subsubsection{Definition}
+Maschinelles Lernen beschreibt ein Modell, welches zuerst in einer Trainingsphase trainiert werden muss, um danach ähnliche Probleme näherungsweise lösen zu können. 
+Dazu wird in der Trainingsphase ein Datensatz bereitgestellt welcher mögliche Eingaben und meistens auch die passenden Ausgaben enthält. Durch die vielen verschiedenen 
+Eingaben und Ausgaben ist es für das Modell möglich ein Muster zwischen diesen zu erkennen, welches durch dieses Training verbessert werden kann. Es gilt dabei, je 
+länger die Trainingsphase dauert desto genauer wird das Modell. Der Aufwand besteht dabei darin, die gigantischen Datensätze zur Verfügung zu stellen, da diese oft 
+zuvor erstellt werden müssen. Zudem ist das Training ein sehr rechenintensiver Vorgang, welcher für ein gutes Ergebnis oft mehrere Stunden benötigt. In den letzten 
+Jahren hat sich im Bereich des Modell Trainings eine neue Entwicklung namens „Deep Learning“ verbreitet, mit welcher eine höhere Genauigkeit als mit bisherigen Modellen 
+erreicht werden kann. Dabei werden künstliche Neuronale Netze erstellt, welche der Vernetzung von Neuronen in Lebewesen nachempfunden sind. Diese künstlichen Neuronen 
+sind Verknüpfungspunkte zwischen Eingang und Ausgang des Modells und sind je nach Komplexität in verschiedene Schichten aufgeteilt. Um diese künstlichen Neuronen zu 
+trainieren, werden deren Gewichtungswerte angepasst. Deswegen muss bei solchen Modellen auch oft eine Datei mit den gewichteten Werten eingebunden werden.
+
+\subsubsection{Vergleich Maschinelles Lernen / Bildverarbeitung}
+Zum Beginn dieser Applikation wurde ein Ansatz ohne den Einsatz von Maschinellem Lernen verfolgt. Dazu wurde ein Testprogramm geschrieben, welches das Kennzeichen 
+über eine Konturerkennung lokalisieren sollte. Dies führte aber zu häufig auftretenden Fehlern. Einer dieser Fehler ist in der unteren Abbildung ersichtlich.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{kennzeichenerkennung/bildvtestfehler.png}
+    \caption{Fehler bei Konturerkennung}
+\end{figure}
+
+Wie in der oberen Abbildung erkennbar ist, hat das Programm nicht das Kennzeichen erkannt, sondern ein Fenster im Hintergrund, welches eine ähnliche Kontur 
+wie das Fenster aufweist. Dies ist deswegen aufgetreten, da das Kennzeichen über seine Kontur gefunden werden sollte und dazu alle Konturen im Bild aufgelistet 
+werden und aus dieser Liste dann das Kennzeichen herausgesucht werden sollte. Dies führte in dieser Testversion aber nahezu nie zu einem Ergebnis, welches in 
+der Praxis anwendbar gewesen wäre. Durch eine Anpassung der Software wäre es zwar möglich gewesen die Genauigkeit zu verbessern und dafür zu sorgen, dass mit 
+einer größeren Wahrscheinlichkeit die richtige Kontur ausgewählt wird, aber bei einer Kontur mit den gleichen Proportionen wie ein Kennzeichen, wäre die Konturerkennung 
+wieder schnell an ihre Grenzen gestoßen. Deswegen wurde der Ansatz komplett verändert und für die Kennzeichenlokalisierung ein Modell für Maschinelles Lernen 
+verwendet, welches auf deutlich elegantere und effizientere Weise ein besseres Resultat erzielen kann.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{kennzeichenerkennung/kennmaschinlearn.png}
+    \caption{Resultat mit maschinellem Lernen}
+\end{figure}
+
+Zum Vergleich mit dem Testprogramm sieht man im oberen Bild das Ergebnis der Variante mit Maschinellem Lernen mit demselben Eingangsbild. Dabei wurde ohne 
+Probleme das Kennzeichen perfekt erkannt und im weiteren Programmablauf aus dem Eingangsbild ausgeschnitten.
+
+\subsubsection{Verwendete Modelle für Maschinelles Lernen}
+
+\paragraph{WPOD-NET}\mbox{}\\
+Das „Warped Planar Object Detection Network“ (WPOD-NET) ist ein künstliches Neuronales Netz, welches von Sérgio Montazolli Silva und 
+Cláudio Rosita Jung\footnote{Montazzolli, Sérgio \& Jung, Claudio. (2018). License Plate Detection and Recognition in Unconstrained Scenarios. } 
+entwickelt wurde. Es wurde entwickelt, um aus Bildern die Kennzeichen von Fahrzeugen herauszusuchen und bietet im Gegensatz zu anderen Modellen den entscheidenden 
+Vorteil, dass es bei diesem Modell irrelevant ist aus welchem Winkel das Bild vom Kennzeichen aufgenommen wird. Andere Modelle funktionieren oft nur wenn das Foto 
+vom Kennzeichen direkt von vorne aufgenommen wurde, da ansonsten das Bild verzerrt wird und dadurch das Kennzeichen nicht mehr ausgelesen werden kann. Dieses Modell 
+schafft es auch aus einem von der Seite aufgenommen Bild das Kennzeichen in den meisten Fällen gut genug herauszulesen, dass dieses Bild danach weiterverarbeitet 
+werden kann. Dies bietet den Vorteil, dass die Kamera für das Gerät nicht in fix verbaut werden muss, sondern theoretisch auch in einem mobilen Gerät installiert werden kann.\\
+
+Die Kennzeichenerkennung dieses Modells basiert auf zwei Schritten. Zuerst wird im Bild nach einem Fahrzeug gesucht und dieses ausgeschnitten, um danach mit 
+WPOD-NET das Kennzeichen aus diesem Bild herauszusuchen. Die Fahrzeugerkennung basiert dabei auf dem 
+YOLOv2\footnote{J. Redmon and A. Farhadi, "YOLO9000: Better, Faster, Stronger," 2017 IEEE Conference on Computer Vision and Pattern Recognition (CVPR), Honolulu, HI, USA, 2017, pp. 6517-6525, doi: 10.1109/CVPR.2017.690.} Netzwerk, 
+welches für Echtzeitobjekterkennung verwendet wird und neben vielen anderen Gegenständen auch in der Lage ist Fahrzeuge zu erkennen. Nach dieser Fahrzeugerkennung wird das Bild in das WPOD-NET eingegeben.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{kennzeichenerkennung/wpodnet.png}
+    \caption{Ablauf von WPOD-NET}
+\end{figure}
+
+Im oberen Bild ist der prinzipielle Ablauf der Kennzeichenerkennung ersichtlich. Zu Beginn wird das Bild mit dem Kennzeichen in das WPOD-NET eingegeben 
+und dieses gibt dann eine Matrix mit gewichteten Werten zurück, welche für jede einzelne Zelle eine Wahrscheinlichkeit angibt, dass sich dort ein Kennzeichen 
+befindet. Um die Zelle, die am wahrscheinlichsten ist, wird dann ein Rechteck gespannt in welchem sich mit sehr hoher Wahrscheinlichkeit das Kennzeichen 
+befindet. Danach wird auf die Wahrscheinlichkeitswerte für das gesamte Rechteck Thresholding angewandt, um zu bestimmen in welchen Zellen sich das Kennzeichen 
+befindet. Dadurch hat man dann diejenige Region gefunden, in der sich das Kennzeichen befindet und kann dieses, wenn nötig in ein horizontal und vertikal 
+ausgerichtet Rechteck umwandeln. Dadurch erhält man dann ein Bild des Kennzeichens.
+
+\paragraph{MobileNetV2}\mbox{}\\
+MobileNetV2 ist die Grundlage für das eigene trainierte Neuronale Netz. MobileNetV2 ist eine Grundlage für diverse Neuronale Netze und speziell für Anwendungen im Bereich der Computer Vision 
+geeignet. Einige Beispiel dafür sind die Erkennung von Gesichtsmerkmalen, Echtzeitobjekterkennung, Unterscheidung diverser Hunderassen oder ähnliches. Dabei ist das Modell je nach Bedürfnissen 
+einstellbar, womit für eine schnellere und bessere Leistung weniger Schichten für das Neuronale Netz verwendet werden, oder aber für eine sehr genaue und präzise Funktion mehr Schichten verwendet werden. 
+Dies ist dadurch möglich, dass das Netzwerk auf einer variablen Schichtanzahl aufgebaut ist. In dieser Applikation wird es deswegen verwendet, da damit in diesem Bereich eine hohe Präzision erzielbar ist, 
+welche für die Kennzeichenerkennung benötigt wird.
+
+\subsection{Modell Training}
+Um das Modell für die Zeichenerkennung zu trainieren wurde ein eigenes Programm geschrieben, welches das Modell mittels Tensorflow trainiert. 
+Dazu wird ein Datensatz von 35 000 Bildern von Zeichen verwendet, bei welchen die richtige Ausgabe aus dem Dateiname auslesbar ist. 
+Im folgenden Bild sieht man ein Beispiel für so ein Bild aus dem Datensatz.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.2\linewidth]{kennzeichenerkennung/S.jpg}
+    \caption{Beispiel eines Zeichens aus dem Datensatz}
+\end{figure}
+
+Das Modell wird durch die verschiedenen Schriftarten und die variierende Qualität der Bilder nicht direkt auf die Erkennung von Zeichen aus 
+einem Kennzeichen trainiert, sondern auf die Erkennung von Zeichen in jeglicher Situation. Dies benötigt zwar länger, um das Modell zu trainieren, 
+aber es ist dadurch genauer und kann auch in anderen Anwendungen ohne größere Umstellungen verwendet werden.\\
+
+In den nächsten Codeteilen sieht man ein paar wichtige Ausschnitte aus dem Code für das Modell Training.
+
+\begin{longlisting}
+    \begin{minted}{python}
+    def create_model(lr=1e-4,decay=1e-4/30, training=False,output_shape=y.shape[1]):
+        baseModel = MobileNetV2(weights="imagenet", include_top=False, input_tensor=Input(shape=(80, 80, 3)))
+
+        headModel = baseModel.output
+        headModel = AveragePooling2D(pool_size=(3, 3))(headModel)
+        headModel = Flatten(name="flatten")(headModel)
+        headModel = Dense(128, activation="relu")(headModel)
+        headModel = Dropout(0.5)(headModel)
+        headModel = Dense(output_shape, activation="softmax")(headModel)
+
+        model = Model(inputs=baseModel.input, outputs=headModel)
+
+        if training:
+            for layer in baseModel.layers:
+                layer.trainable = True
+            optimizer = Adam(lr=lr, decay = decay)
+            model.compile(loss="categorical_crossentropy", optimizer=optimizer, metrics=["accuracy"])
+    
+        return model
+    \end{minted}
+    \caption{Erstellen des Modells basierend auf MobileNetV2}
+\end{longlisting}
+
+Im ersten Teil sieht man das grundlegende Erstellen des Modells auf der Grundlage von MobileNetV2. Zusätzlich werden noch die Einstellungen für 
+Tensorflow getroffen wie zum Beispiel die Größe der Eingabe und weitere Parameter, welche von Tensorflow für die Erstellung des Modells benötigt wird. 
+Im unteren Teil wird noch definiert welcher Optimierer verwendet werden soll und dass während des Trainings die Genauigkeit des Modells aufgenommen werden soll.
+
+\begin{longlisting}
+    \begin{minted}{python}
+    INIT_LR = 1e-4
+    EPOCHS = 30
+
+    model = create_model(lr=INIT_LR, decay=INIT_LR/EPOCHS, training=True)
+
+    BATCH_SIZE = 64
+
+    my_checkpointer = [EarlyStopping(monitor='val_loss', patience=5, verbose=0), ModelCheckpoint(filepath="License_character_recognition.h5", verbose=1, save_weights_only=True)]
+    result = model.fit(image_gen.flow(trainX, trainY, batch_size=BATCH_SIZE), 
+                        steps_per_epoch=len(trainX) // BATCH_SIZE, 
+                        validation_data=(testX, testY), 
+                        validation_steps=len(testX) // BATCH_SIZE, 
+                        epochs=EPOCHS, callbacks=my_checkpointer)
+    \end{minted}
+    \caption{Trainieren des Modells und Einstellungen anpassen}
+\end{longlisting}
+
+Im zweiten Teil wird zuerst die Standard Lernrate des Modells und die Anzahl der Epochen definiert. Die Epochen sind eine Art Meilenstein, 
+nach welchem die Genauigkeit dargestellt und beurteilt wird, um den Trainingserfolg zu beurteilen. Außerdem werden nach jeder Epoche die gewichteten Werte 
+angepasst und abgespeichert. Danach wird noch eingestellt nach welcher Anzahl an Epochen ohne signifikante Verbesserung das Training frühzeitig 
+beendet werden soll, und wohin die gewichteten Werte abgespeichert werden sollen. Danach werden Tensorflow die Daten übergeben, um das Training 
+zu beginnen. Die Dauer dieses Vorgangs unterscheidet sich von Computer zu Computer, und hat bei dieser Applikation in etwa 10 Stunden gedauert.\\
+
+Im nächsten Bild sieht man den Trainingsverlauf des Modells über 30 Epochen.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{kennzeichenerkennung/trainingsverlauf.png}
+    \caption{Verlauf des Modell Trainings}
+\end{figure}
+
+Im oberen Bild kann man erkennen, dass die Genauigkeit des Modells bereits nach wenigen Epochen einen Wert von über 90\% erreicht hat und 
+nach den 30 Epochen auf einen Endwert von 98,02\% erreicht hat. Das bedeutet, dass bei einem Kennzeichen mit durchschnittlich 7 Zeichen 
+eine insgesamte Genauigkeit von 86,93\% erreicht wird. Diese Genauigkeit könnte mit einem längeren Training theoretisch auf einen Wert von 
+nahezu 100\% gesteigert werden, aber dazu benötigt es einen stärkeren Computer, welcher zudem noch eine ganze Weile nicht benutzt werden kann.
