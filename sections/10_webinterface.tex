@@ -1819,8 +1819,70 @@ oder frei ist.
   \caption{Parklücken und Erkennungen eines Parkplatzes}
 \end{figure}
 
-%\subsubsection{Kennzeichenverwaltung}
-%\subsubsection{Erkennungsverlauf}
+\subsubsection{Kennzeichenverwaltung}
+Die Kennzeichenverwaltung ist ein wichtiger Teil des Webinterfaces und für die
+Kennzeichenerkennung, die Kennzeichenverwaltung beherrscht alle CRUD-Operationen
+und steht in Beziehungen mit anderen Features wie dem Erkennungsverlauf oder der
+Parkplatzverwaltung. 
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\linewidth]{webinterface/license_plates_er.pdf}
+  \caption{Kennzeichen, Parkplätze, Erkennungen und Benutzer Beziehung}
+\end{figure}
+
+Ein Kennzeichen besitzt folgende Informationen:
+
+\begin{itemize}
+  \item \textbf{Assoziierter Benutzer}\\
+  Es besteht die Möglichkeit ein Kennzeichen einem Benutzer zuzuweisen.
+  \item \textbf{Name des Kennzeichens}\\
+  Der Name des Kennzeichens wird durch die Kennzeichenerkennung vorgegeben oder
+  kann auch manuell verändert bzw. eingetragen werden.
+  \item \textbf{Park Status}
+  Der Park Status gibt an ob sich ein Fahrzeug mit dem Kennzeichen gerade auf
+  einem Parkplatz befindet (Inside) oder nicht (Outside).
+  \item \textbf{Allowance Status}
+  Der Allowance Status gibt an ob ein Kennzeichen erlaubt, unerlaubt oder
+  unbekannt ist.
+\end{itemize}
+
+Betrachtet man ein einzelnes Kennzeichen im Webinterface ist es möglich diesem
+einen Benutzer zuzuordnen bzw. manuelle Einstellungen vorzunehmen beispielsweise
+bei einem fehlerhaften Park Status. Ebenfalls ist es direkt möglich alle
+aufgenommenen Erkennungen des Kennzeichens inklusive Bild zu betrachten.
+
+\begin{figure}[H]
+  \centering
+  \frame{\includegraphics[width=1\linewidth]{webinterface/license_plates_list.pdf}}
+  \caption{Liste aller Kennzeichen}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \frame{\includegraphics[width=1\linewidth]{webinterface/license_plate.pdf}}
+  \caption{Einzelnes Kennzeichen}
+\end{figure}
+
+\subsubsection{Erkennungsverlauf}
+Unter einer Erkennung bzw. Detection wird im Webinterface eine einzelne
+Kennzeichenaufnahme eines Fahrzeuges verstanden. Das bedeutet ein Kennzeichen
+kann viele Erkennungen besitzen.\\
+
+Eine Erkennung besteht praktisch aus dem neuen Park Status, dem Foto des
+Kennzeichens von der Kennzeichenerkennung und einem genauen Zeitpunkt. Eine
+Erkennung kann nicht manuell über das Webinterface bearbeitet werden und ist nur
+durch die API veränderbar. Eine Erkennungen wird nicht nur mit einem Kennzeichen
+assoziiert und somit mit einem Benutzer, sondern auch mit einem Parkplatz. Die
+Kennzeichenerkennungen gibt bei der API-Request ein Parkplatz an und verknüpft
+somit die Erkennung mit dem jeweiligen Parkplatz. 
+
+\begin{figure}[H]
+  \centering
+  \frame{\includegraphics[width=1\linewidth]{webinterface/detections.pdf}}
+  \caption{Liste aller Erkennungen}
+\end{figure}
+
 \subsubsection{Seiten Einstellungen}
 In den Seiten Einstellungen ist es möglich als Benutzer bestimmte Aspekte des
 Webinterfaces zu konfigurieren dazu zählt:
