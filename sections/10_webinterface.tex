@@ -1268,6 +1268,43 @@ Segmente zerlegt und in einer Liste mit Hyperlinks zusammengeführt.
   \caption{Content Header}
 \end{figure}
 
+\subsubsection{Session Alerts}
+Um einen Benutzer zu informieren, dass eine Anfrage erfolgreich ausgeführt wurde
+oder ob es einen Fehler gab werden \textit{Session Alerts} verwendet.\\
+
+Wird beispielsweise ein neues Kennzeichen im System angelegt, so wird der
+Benutzer nicht nur zu der Liste aller Kennzeichen geleitet, sondern es wird in
+der Session des Browsers eine Nachricht mitgespeichert.
+
+\begin{listing}[H]
+  \begin{minted}{php}
+    <?php
+    return redirect(route('plates.index'))->with('success', __('The license plate was successfully created!'));
+  \end{minted}
+  \caption{Controller mit success Nachricht}
+\end{listing}
+
+Um diese Nachricht nun anzuzeigen wurde ein Component entworfen welcher nur
+angezeigt wird, wenn ein solche Session Nachricht vorhanden ist. Neben einer
+\textit{success} Nachricht gibt es auch noch eine \textit{error} Nachricht,
+diese wird bei fehlerhaften Angaben in einem Formular verwendet.
+
+\begin{listing}[H]
+  \begin{minted}{html}
+    @if (session('success'))
+    <div class="bg-green-200 px-6 py-4 mb-4 rounded-md text-lg flex items-center justify-items-stretch">
+      <span class="text-green-800">{{ session('success') }}</span>
+    </div>
+    @endif
+  \end{minted}
+  \caption{Session Alert Component}
+\end{listing}
+
+\begin{figure}[H]
+  \centering
+  \frame{\includegraphics[width=1\linewidth]{webinterface/session_alert.pdf}}
+  \caption{Success Session Alert}
+\end{figure}
 
 \subsubsection{Sidebar}
 Die Sidebar ist das zentrale Element für administrative Benutzer des
@@ -1282,21 +1319,10 @@ Für das dynamische Verhalten der Sidebar wird \acl*{JS} verwendet. Es wird nich
 Vanilla\footnote{Bedeutet so viel wie ohne Zusätze} \acl*{JS} verwendet, sondern
 AlpineJS\footnote{\url{https://github.com/alpinejs/alpine}}. Dabei folgt das
 Lightweight Framework einem ähnlichen Prinzip wie TailwindCSS nur eben für
-JavaScript. 
-
-% TODO
-\begin{listing}[H]
-  \begin{minted}{html}
-    <div x-data="{ sidebarOpen: false }" class="flex h-screen bg-gray-200 z-0">
-    </div>
-  \end{minted}
-  \caption{Sidebar mit AlpineJS}
-\end{listing}
+JavaScript.\\
 
 Die Sidebar Einträge bestehen aus zwei Components, dem Sidebar Header Component
-und dem Sidebar Link Component.\\
-
-Der Sidebar Header Component ist da um die verschiedenen Links in verschiedene
+und dem Sidebar Link Component. Der Sidebar Header Component ist da um die verschiedenen Links in verschiedene
 Sektionen aufzuteilen, damit die Übersichtlichkeit gewährt bleibt.
 
 \begin{listing}[H]
@@ -1392,12 +1418,6 @@ dargestellt:
   \frame{\includegraphics[width=1\linewidth]{webinterface/dashboard_stats.pdf}}
   \caption{Dashboard Statistik}
 \end{figure}
-
-%TODO
-%\subsubsection{Login- und Registersystem}
-%Ein eigenes Login- und Registersystem zu implementieren kann sehr kompliziert
-%und risikoreich sein, deshalb wird mit Laravel ein Authentifizierungssystem
-%mitgeliefert. 
 
 \subsubsection{Benutzerverwaltung}
 
