@@ -1751,11 +1751,11 @@ oder frei ist.
   \caption{Parklücken und Erkennungen eines Parkplatzes}
 \end{figure}
 
-%\subsubsection{Kennzeichenverwaltung}
-%\subsubsection{Erkennungsverlauf}
-%\subsubsection{Seiten Einstellungen}
-%\subsubsection{Profil}
-%\subsubsection{Lokalisierung}
+\subsubsection{Kennzeichenverwaltung}
+\subsubsection{Erkennungsverlauf}
+\subsubsection{Seiten Einstellungen}
+\subsubsection{Profil}
+\subsubsection{Lokalisierung}
 %\subsubsection{Notifications}
 
 
@@ -1774,9 +1774,16 @@ oder frei ist.
   \textbf{HTTP-Methode}        & GET                 \\ \hline
   \textbf{Authentifizierung}   & Bearer Token        \\ \hline
   \textbf{Rückgabetyp}         & application/json    \\ \hline
+  \multicolumn{2}{|c|}{\textbf{Path Parameter}}                      \\ \hline
+  \multicolumn{2}{|c|}{None}          \\ \hline
+  \multicolumn{2}{|c|}{\textbf{Query Parameter}}                      \\ \hline
+  \multicolumn{2}{|c|}{None}          \\ \hline
   \end{tabular}
   \caption{GET /api/v1/detections}
 \end{table}
+
+Die Rückgabe entspricht der Rückgabe von \verb|GET /api/v1/detections/{id}|, jedoch wird ein
+Array von Erkennungen geliefert.
 
 \paragraph{GET /api/v1/detections/\{id\}}\mbox{}\\
 
@@ -1794,9 +1801,44 @@ oder frei ist.
   id                         & Required: true            \\ \hline
                              & Type: int                 \\ \hline
                              & Description: Detection Id \\ \hline
+  \multicolumn{2}{|c|}{\textbf{Query Parameter}}                      \\ \hline
+  \multicolumn{2}{|c|}{None}          \\ \hline
   \end{tabular}
   \caption{GET /api/v1/detections/\{id\}}
 \end{table}
+
+\begin{listing}[H]
+  \begin{minted}{js}
+    {
+        "id": 1,
+        "license_plate_id": 69,
+        "parking_lot_id": 3,
+        "parking_status": "Outside",
+        "image": null,
+        "created_at": "2021-03-23T02:10:57.000000Z",
+        "updated_at": "2021-03-09T02:08:54.000000Z",
+        "license_plate": {
+            "id": 69,
+            "user_id": 74,
+            "name": "B509DYY",
+            "country": "Austria",
+            "parking_status": "Outside",
+            "allowance_status": "Disallowed",
+            "created_at": "2020-11-19T17:26:03.000000Z",
+            "updated_at": "2021-03-20T21:12:24.000000Z"
+        },
+        "parking_lot": {
+            "id": 3,
+            "name": "Parking Space 1",
+            "description": null,
+            "image": "default.png",
+            "created_at": "2021-03-31T22:40:24.000000Z",
+            "updated_at": "2021-03-31T22:42:57.000000Z"
+        }
+    }
+  \end{minted}
+  \caption{Beispielhafte GET /api/v1/detections/\{id\} Rückgabe}
+\end{listing}
 
 \paragraph{POST /api/v1/detections}\mbox{}\\
 
@@ -1817,9 +1859,13 @@ oder frei ist.
   parking\_lot\_id           & Required: true                  \\ \hline
                              & Type: int                       \\ \hline
                              & Description: Parking Lot Id     \\ \hline
+  \multicolumn{2}{|c|}{\textbf{Query Parameter}}                      \\ \hline
+  \multicolumn{2}{|c|}{None}          \\ \hline
   \end{tabular}
   \caption{POST /api/v1/detections}
 \end{table}
+
+Die Rückgabe entspricht der Rückgabe von \verb|GET /api/v1/detections/{id}|.
 
 \subsubsection{Kennzeichen}
 \paragraph{GET /api/v1/plates}\mbox{}\\
@@ -1834,9 +1880,16 @@ oder frei ist.
   \textbf{HTTP-Methode}        & GET                 \\ \hline
   \textbf{Authentifizierung}   & Bearer Token        \\ \hline
   \textbf{Rückgabetyp}         & application/json    \\ \hline
+  \multicolumn{2}{|c|}{\textbf{Path Parameter}}                      \\ \hline
+  \multicolumn{2}{|c|}{None}          \\ \hline
+  \multicolumn{2}{|c|}{\textbf{Query Parameter}}                      \\ \hline
+  \multicolumn{2}{|c|}{None}          \\ \hline
   \end{tabular}
   \caption{GET /api/v1/plates}
 \end{table}
+
+Die Rückgabe entspricht \verb|GET /api/v1/plates/{id}|, jedoch wird ein
+Array mit einzelnen Kennzeichen geliefert.
 
 \paragraph{GET /api/v1/plates/\{id\}}\mbox{}\\
 
@@ -1858,6 +1911,35 @@ oder frei ist.
   \caption{GET /api/v1/plates/\{id\}}
 \end{table}
 
+\begin{listing}[H]
+  \begin{minted}{js}
+    {
+        "id": 1,
+        "user_id": 8,
+        "name": "FK8VD0",
+        "country": "Austria",
+        "parking_status": "Inside",
+        "allowance_status": "Unknown",
+        "created_at": "2020-12-05T07:04:31.000000Z",
+        "updated_at": "2021-03-22T09:31:46.000000Z",
+        "detections": [
+            {
+                "id": 149,
+                "license_plate_id": 1,
+                "parking_lot_id": 2,
+                "parking_status": "Inside",
+                "image": null,
+                "created_at": "2021-03-12T18:18:40.000000Z",
+                "updated_at": "2021-03-22T11:46:44.000000Z"
+            },
+            ...
+        ]
+    }
+  \end{minted}
+  \caption{Beispielhafte GET /api/v1/plates/\{id\} Rückgabe}
+\end{listing}
+
+
 \subsubsection{Parkplätze}
 \paragraph{GET /api/v1/lots}\mbox{}\\
 
@@ -1871,9 +1953,16 @@ oder frei ist.
   \textbf{HTTP-Methode}        & GET                 \\ \hline
   \textbf{Authentifizierung}   & Bearer Token        \\ \hline
   \textbf{Rückgabetyp}         & application/json    \\ \hline
+  \multicolumn{2}{|c|}{\textbf{Path Parameter}}                      \\ \hline
+  \multicolumn{2}{|c|}{None}          \\ \hline
+  \multicolumn{2}{|c|}{\textbf{Query Parameter}}                      \\ \hline
+  \multicolumn{2}{|c|}{None}          \\ \hline
   \end{tabular}
   \caption{GET /api/v1/lots}
 \end{table}
+
+Die Rückgabe entspricht \verb|GET /api/v1/lots/{i\}|, jedoch wird ein
+Array von einzelnen Parkplätzen geliefert.
 
 \paragraph{GET /api/v1/lots/\{id\}}\mbox{}\\
 
@@ -1891,12 +1980,39 @@ oder frei ist.
   id                         & Required: true            \\ \hline
                              & Type: int                 \\ \hline
                              & Description: Parking Lot Id \\ \hline
+  \multicolumn{2}{|c|}{\textbf{Query Parameter}}                      \\ \hline
+  \multicolumn{2}{|c|}{None}          \\ \hline
   \end{tabular}
   \caption{GET /api/v1/lots/\{id\}}
 \end{table}
 
-\subsubsection{Parklücken}
+\begin{listing}[H]
+  \begin{minted}{js}
+    {
+        "id": 3,
+        "name": "Parking Space 1",
+        "description": null,
+        "image": "default.png",
+        "created_at": "2021-03-31T22:40:24.000000Z",
+        "updated_at": "2021-03-31T22:42:57.000000Z",
+        "detections": [
+            {
+                "id": 1,
+                "license_plate_id": 69,
+                "parking_lot_id": 3,
+                "parking_status": "Outside",
+                "image": null,
+                "created_at": "2021-03-23T02:10:57.000000Z",
+                "updated_at": "2021-03-09T02:08:54.000000Z"
+            },
+            ...
+        ]
+    }
+  \end{minted}
+  \caption{Beispielhafte GET /api/v1/lots/\{id\} Rückgabe}
+\end{listing}
 
+\subsubsection{Parklücken}
 \paragraph{GET /api/v1/spots}\mbox{}\\
 
 \begin{table}[H]
@@ -1909,9 +2025,16 @@ oder frei ist.
   \textbf{HTTP-Methode}        & GET                 \\ \hline
   \textbf{Authentifizierung}   & Bearer Token        \\ \hline
   \textbf{Rückgabetyp}         & application/json    \\ \hline
+  \multicolumn{2}{|c|}{\textbf{Path Parameter}}                      \\ \hline
+  \multicolumn{2}{|c|}{None}          \\ \hline
+  \multicolumn{2}{|c|}{\textbf{Query Parameter}}                      \\ \hline
+  \multicolumn{2}{|c|}{None}          \\ \hline
   \end{tabular}
   \caption{GET /api/v1/spots}
 \end{table}
+
+Die Rückgabe entspricht \verb|GET /api/v1/spots/{id}|, jedoch wird ein
+Array von einzelnen Parklücken geliefert.
 
 \paragraph{GET /api/v1/spots/\{id\}}\mbox{}\\
 
@@ -1929,11 +2052,36 @@ oder frei ist.
   id                         & Required: true            \\ \hline
                              & Type: int                 \\ \hline
                              & Description: Parking Spot Id \\ \hline
+  \multicolumn{2}{|c|}{\textbf{Query Parameter}}                      \\ \hline
+  \multicolumn{2}{|c|}{None}          \\ \hline
   \end{tabular}
   \caption{GET /api/v1/spots/\{id\}}
 \end{table}
 
+\begin{listing}[H]
+  \begin{minted}{js}
+    {
+        "id": 40,
+        "address": null,
+        "parking_lot_id": 2,
+        "occupied": 0,
+        "created_at": "2021-03-22T17:51:10.000000Z",
+        "updated_at": "2021-02-13T23:23:55.000000Z",
+        "parking_lot": {
+            "id": 2,
+            "name": "Parkplatz Ost",
+            "description": "Dieser Parkplatz ist für Schüler gedacht",
+            "image": "parkplatz_ost.png",
+            "created_at": "2021-03-30T15:44:19.000000Z",
+            "updated_at": "2021-03-30T15:44:19.000000Z"
+        }
+    }
+  \end{minted}
+  \caption{Beispielhafte GET /api/v1/spots/\{id\} Rückgabe}
+\end{listing}
+
 \paragraph{POST /api/v1/lots/\{id\}/spots}\mbox{}\\
+
 \begin{table}[H]
   \centering
   \begin{tabular}{|l|l|}
@@ -1994,9 +2142,27 @@ oder frei ist.
   \textbf{HTTP-Methode}        & GET                 \\ \hline
   \textbf{Authentifizierung}   & Bearer Token        \\ \hline
   \textbf{Rückgabetyp}         & application/json    \\ \hline
+  \multicolumn{2}{|c|}{\textbf{Path Parameter}}                      \\ \hline
+  \multicolumn{2}{|c|}{None}          \\ \hline
+  \multicolumn{2}{|c|}{\textbf{Query Parameter}}                      \\ \hline
+  \multicolumn{2}{|c|}{None}          \\ \hline
   \end{tabular}
   \caption{GET /api/v1/settings}
 \end{table}
+
+\begin{listing}[H]
+  \begin{minted}{js}
+    [
+        {
+            "id": 1,
+            "key": "site_title",
+            "value": "APM"
+        },
+        ...
+    ]
+  \end{minted}
+  \caption{Beispielhafte GET /api/v1/settings Rückgabe}
+\end{listing}
 
 \subsubsection{Benutzer}
 \paragraph{GET /api/v1/users}\mbox{}\\
@@ -2011,9 +2177,16 @@ oder frei ist.
   \textbf{HTTP-Methode}        & GET                 \\ \hline
   \textbf{Authentifizierung}   & Bearer Token        \\ \hline
   \textbf{Rückgabetyp}         & application/json    \\ \hline
+  \multicolumn{2}{|c|}{\textbf{Path Parameter}}                      \\ \hline
+  \multicolumn{2}{|c|}{None}          \\ \hline
+  \multicolumn{2}{|c|}{\textbf{Query Parameter}}                      \\ \hline
+  \multicolumn{2}{|c|}{None}          \\ \hline
   \end{tabular}
   \caption{GET /api/v1/users}
 \end{table}
+
+Die Rückgabe entspricht \verb|GET /api/v1/users/{id}|, jedoch wird ein
+Array von einzelnen Benutzern geliefert.
 
 \paragraph{GET /api/v1/users/\{id\}}\mbox{}\\
 
@@ -2031,14 +2204,27 @@ oder frei ist.
   id                         & Required: true            \\ \hline
                              & Type: int                 \\ \hline
                              & Description: User Id \\ \hline
+  \multicolumn{2}{|c|}{\textbf{Query Parameter}}                      \\ \hline
+  \multicolumn{2}{|c|}{None}          \\ \hline
   \end{tabular}
   \caption{GET /api/v1/users/\{id\}}
 \end{table}
 
-%\subsection{Performance und Sicherheit}
-%\subsubsection{Form Validation}
-%\subsubsection{Authentifizierung}
-%\subsubsection{Authentisierung}
-%\subsubsection{SQL Injection}
-%\subsubsection{Cross-Site-Scripting}
-%\subsubsection{Lighthouse}
+\begin{listing}[H]
+  \begin{minted}{js}
+    {
+        "id": 1,
+        "first_name": "Philipp",
+        "last_name": "Kraft",
+        "email": "Mail@Philipp-Kraft.com",
+        "avatar": "philipp.png",
+        "email_verified_at": "2021-03-30T15:44:18.000000Z",
+        "last_login_ip": "127.0.0.1",
+        "last_login_at": "2021-04-01 09:22:01",
+        "created_at": "2021-03-30T15:44:18.000000Z",
+        "updated_at": "2021-04-01T09:22:01.000000Z",
+        "license_plates": []
+    }
+  \end{minted}
+  \caption{Beispielhafte GET /api/v1/users/\{id\} Rückgabe}
+\end{listing}
