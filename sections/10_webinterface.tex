@@ -419,16 +419,64 @@ Sicherheitskritisches Modul handelt ist es besonders wichtig, dass dieser Code
 nahezu Fehlerfrei ist und dies wird durch kontinuierliche Updates und Patches
 garantiert.
  
-%\paragraph{Laravel Mix}
-%\paragraph{Sessions}
-%\paragraph{Middleware}
+\paragraph{Sessions}\mbox{}\\
+Das HTTP Netzwerkprotokoll ist ein Zustandsloses Protokoll, da aber immer über
+einen Benutzer Informationen über mehrere Seiten beibehalten werden sollen wird
+ein System benötigt um diese Informationen zu speichern. Sessions lösen dieses
+Problem und funktionieren wie folgt. Ein Benutzer besucht eine Seite und besitzt
+im lokalen Speicher (Cookie) eine Session ID vom Server. Wenn der Benutzer nun
+eine andere Seite der gleichen Webseite besucht wird diese Session ID dem Server
+wieder gesendet und er kann den Benutzer zuordnen. Laravel verwendet als Backend
+für die Sessions Memcached oder Redis.
+
+\paragraph{Middleware}\mbox{}\\
+Eine Middleware erleichtert es HTTP Anfragen zu filtern bzw. zu begutachten.
+Beispielsweise wird im Webinterface eine Middleware für das richtige setzen der
+Sprache verwendet. Bei jedem Aufruf einer Seite überprüft die Middleware welcher
+Wert in der Sessions des Benutzers steht um so die passende Sprache auszuwählen.
+
+\paragraph{Service Provider}\mbox{}\\
+Service Provider sind da um bestimmte Funktionen einer Anwendung zu
+initialisieren. Beispielsweise wird im Webinterface ein
+\textit{SettingsServerProvider} verwendet um die Einstellungen aus der Datenbank
+in das Laravel Einstellungssystem zu übernehmen.
+
+\paragraph{Form Validation}\mbox{}\\
+Für bestimmte Formulare ist es notwendig zu überprüfen ob die Angaben korrekt
+sind, beispielsweise dass ein Passwort eine bestimmte Länge hat oder ob eine
+E-Mail ein @-Zeichen enthält. Um diese HTTP-Anfragen zu überprüfen müssen Regeln
+festgelegt, diese werden in Laravel in \textit{Request} Files festgelegt.
+
+\begin{listing}[H]
+  \begin{minted}{php}
+    <?php
+    public function rules()
+    {
+      return [
+        'first_name' => ['string', 'max:255'],
+        'last_name' => ['string', 'max:255'],
+        'email' => ['string', 'email', 'max:255'],
+        'password' => ['nullable', 'string', 'min:8', 'confirmed'],
+      ];
+    }
+  \end{minted}
+  \caption{UserUpdate Request}
+  \label{lst:userupdate_request}
+\end{listing}
+
+Im Code~\ref{lst:userupdate_request} werden Regeln für den Vornamen, Nachnamen,
+die Email und für das Passwort festgelegt. Die verfügbaren Regeln sind durch
+Laravel definiert. Liefert eine Request Methode \textit{false} wird der
+Controller nicht weiter ausgeführt und die nicht korrekt ausgefüllten Felder
+werden in der Session gespeichert und können dem User als Fehlernachricht
+dargestellt werden.
+
 
 
 \subsection{Lokale Entwicklungsumgebung mit Laragon}
 Für die Programmierung des Webinterfaces müssen zuerst einige Vorkehrungen
 getroffen werden, dazu zählt zu einem die Installation von benötigter Software
 und deren konfiguration.
-
 
 \subsubsection{Benötigte Software}
 
@@ -1926,6 +1974,41 @@ ausgewählte Standardsprache aus den Seiten Einstellungen ausgewählt.
 
 \subsection{API}
 \subsubsection{Einleitung}
+\ac*{API} ist der Teil des Webinterfaces der mit der Hardware kommuniziert.
+Diese Programmierschnittstelle ist sehr einfach zu verwenden und wird mit
+Laravel Sanctum abgesichert. Die API ermöglicht ein bearbeiten von lesen von
+Daten aus dem Webinterface mithilfe von HTTP-Anfragen.
+
+\subsubsection{Autorisierung mit Bearer Token}
+Wie bereits besprochen erfolgt die Autorisierung der HTTP-Anfragen mit Laravel
+Sanctum. Sanctum verwendet dabei einen sogenannten Bearer Token. Dieser Bearer
+Token wird bei Anfragen einfach in der Anfrage im HTTP-Header mitgeschickt und
+der Server gleicht dies mit den verschlüsselten Token in der Datenbank ab
+erlaubt oder verweigert den Zugriff.
+
+\subsubsection{API Tokens erstellen}
+Über das Webinterface kann entweder über die Sidebar oder über das Dropdown Menü
+in der Navigationsleiste das Menü \textit{API Tokens} erreicht werden. Dort
+können nun neue API Tokens erstellt werden, zur späteren Identifikation kann
+diesem API Token mit einem Namen versehen werden, dieser Name spielt aber
+ansonsten keine Rolle. 
+
+\begin{figure}[H]
+  \centering
+  \frame{\includegraphics[width=1\linewidth]{webinterface/create_api_token.pdf}}
+  \caption{API Token}
+\end{figure}
+
+Beim erstellen des API Tokens öffnet sich einmalig ein Popup mit dem Bearer
+Token, dieser muss nun abgespeichert werden, denn der Token wird aus
+Sicherheitsgründen nur einmalig angezeigt.
+
+\begin{figure}[H]
+  \centering
+  \frame{\includegraphics[width=0.5\linewidth]{webinterface/api_token.pdf}}
+  \caption{API Token Popup}
+\end{figure}
+
 \subsubsection{Erkennungen}
 \paragraph{GET /api/v1/detections}\mbox{}\\
 
