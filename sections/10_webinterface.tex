@@ -1751,13 +1751,158 @@ oder frei ist.
   \caption{Parklücken und Erkennungen eines Parkplatzes}
 \end{figure}
 
-\subsubsection{Kennzeichenverwaltung}
-\subsubsection{Erkennungsverlauf}
+%\subsubsection{Kennzeichenverwaltung}
+%\subsubsection{Erkennungsverlauf}
 \subsubsection{Seiten Einstellungen}
-\subsubsection{Profil}
-\subsubsection{Lokalisierung}
-%\subsubsection{Notifications}
+In den Seiten Einstellungen ist es möglich als Benutzer bestimmte Aspekte des
+Webinterfaces zu konfigurieren dazu zählt:
 
+\begin{itemize}
+  \item Seiten Titel (\verb|key: site_title|)
+  \item Standardsprache (\verb|key: default_language|)
+  \item Seiten Logo
+  \item Erlauben, dass sich neue Benutzer registrieren (\verb|key: allow_new_users|)
+  \item Footer Einstellungen (\verb|key: footer_content|)
+  \item Inhalt der Datenschutzbestimmungsseite (\verb|key: privacy_policy|)
+  \item Inhalt der Allgemeinen Geschäftsbedingungen (\verb|key: terms_of_service|)
+  \item Inhalt des Impressums (\verb|key: imprint|)
+\end{itemize}
+
+\paragraph{Funktion der Einstellungen}\mbox{}\\
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.35\linewidth]{webinterface/settings_er.pdf}
+  \caption{Einstellunge Tabelle}
+\end{figure}
+
+Die Einstellungen werden in der Datenbank gespeichert, in der Datenbank besteht eine Einstellung
+aus einem \verb|key| und einer \verb|value|. \verb|key| ist dabei vorgegeben und
+die \verb|value| kann frei durch das GUI konfiguriert werden.\\
+
+Damit der Browser des Benutzers über die aktuellen Einstellungen bescheid weiß
+wird mithilfe eines Service Providers die in der Datenbank vorhandenen
+Einstellungen in die Laravel Konfiguration übernommen.
+
+\begin{listing}[H]
+  \begin{minted}{php}
+    <?php
+    public function boot()
+    {
+      if (Schema::hasTable('settings')) {
+        config()->set('settings', \App\Models\Setting::pluck('value', 'key')->all());
+      }
+    }
+  \end{minted}
+  \caption{SettingsServiceProvider}
+\end{listing}
+
+Nun ist es möglich im Projekt überall mit der \verb|config()| Helper Methode die
+Seiten Einstellungen abzurufen. Somit ist es beispielsweise möglich den Seiten
+Titel des Webinterfaces in den Layouts anzugeben.
+
+\begin{listing}[H]
+  \begin{minted}{html}
+    <title>{{ config('settings.site_title') }}</title>
+  \end{minted}
+  \caption{Seiten Titel Konfiguration}
+\end{listing}
+
+\subsubsection{Profil}\label{sec:profile}
+Das Profil ist dazu, da um seine eigenen Benutzerinformationen zu betrachten und
+zu bearbeiten. Es sind die gleichen Einstellungen wie in der Benutzerverwaltung
+einstellbar, jedoch nur über seinen eigenen Account. Eine zusätzliche
+Einstellung stellt die UI-Sprache dar, dort kann jeder Benutzer seine gewünschte
+UI-Sprache konfigurieren.\\
+
+\begin{figure}[H]
+  \centering
+  \frame{\includegraphics[width=1\linewidth]{webinterface/profile_settings.pdf}}
+  \caption{Profil}
+\end{figure}
+
+Erreichbar ist das Profil über die Navigationsleiste oben rechts mit einem Klick
+auf das Profilbild, es öffnet sich ein Dropdown Menü mit dem Eintrag Profil. 
+
+\begin{figure}[H]
+  \centering
+  \frame{\includegraphics[width=0.4\linewidth]{webinterface/navbar_dropdown.pdf}}
+  \caption{Navigationsleiste Dropdown}
+\end{figure}
+
+\subsubsection{Lokalisierung}
+Lokalisierung ist sehr ähnlich zur Übersetzung, aber anstatt einer wörtlichen
+Übersetzung wird die Sprache and das Zielpublikum angepasst. Gegenbenfalls
+werden auch Maßeinheiten, Datums- und Uhrzeitformate angepasst.\\
+
+Das Webinterface besitzt die Möglichkeit zwischen Deutsch und Englisch
+auszuwählen, hierbei wurde das Webinterface zuerst in Englisch verfasst und dann
+in das Deutsche lokalisiert.
+
+\paragraph{Funktion der Sprachauswahl}\mbox{}\\
+Wie bereits in der Sektion~\ref{sec:profile} erklärt kann ein Benutzer in den
+Profileinstellungen sich eine Sprache je nach Bedürfnis auswählen, dabei wird
+diese Sprache nur lokal bei diesem Benutzer angepasst.\\
+
+Bei der Sprachauswahl wird ein \verb|select| Element verwendet, wenn ein
+Benutzer nun eine andere Option auswählt wird dieser weitergeleitet,
+beispielsweise bei einem Klick auf English wird dieser auf \verb|/locale/en|
+weitergeleitet. 
+
+\begin{listing}[H]
+  \begin{minted}{php}
+    <?php
+    <select name="language" onChange="location = this.value;">
+    <option {{ Session::get('locale') == 'en' ? 'selected' : '' }}
+      value="{{ route('locale', ['locale' => 'en']) }}">
+      English</option>
+    <option {{ Session::get('locale') == 'de' ? 'selected' : '' }}
+      value="{{ route('locale', ['locale' => 'de']) }}">
+      Deutsch</option>
+    </select>
+  \end{minted}
+  \caption{Spracheauswahl}
+\end{listing}
+
+Beim Aufruf dieser Route wird in die Session des Benutzers die gewünschte
+Sprache geschrieben und der Benutzer wird direkt wieder zu der Ursprungsseite
+zurück geschickt. Diese Vorgang geht so schnell, dass ein Benutzer nicht
+bemerkt, dass die Seite gewechselt wurde.
+
+\begin{listing}[H]
+  \begin{minted}{php}
+    <?php
+    Route::get('locale/{locale}', function ($locale) {
+        Session::put('locale', $locale);
+        return redirect()->back();
+    })->name('locale');
+  \end{minted}
+  \caption{Spracheauswahl Route}
+\end{listing}
+
+Nun steht in der Session des Benutzers die gewünschte Sprache, diese muss nun
+angewandt werden. Für das Anwenden der Sprache wird eine \verb|Middleware|
+verwendet. Die \verb|Localization| Middleware wird bei jedem Aufruf einer Route
+ausgeführt, dabei wird geprüft ob der Benutzer den Eintrag \verb|locale|
+besitz, welcher vorhin durch den Service Provider gesetzt wurde und dann wird
+die gewünschte Sprache gesetzt.
+
+\begin{listing}[H]
+  \begin{minted}{php}
+    <?php
+    if (\Session::has('locale')) {
+      \App::setlocale(\Session::get('locale'));
+    } else {
+      \App::setlocale(config('settings.default_language'));
+      \Session::put('locale', config('settings.default_language'));
+    }
+  \end{minted}
+  \caption{Localization Middleware}
+\end{listing}
+
+Besitzt der Benutzer keine \verb|locale| Variable in seiner Session bedeutet,
+dass dieser noch keine Sprache festgelegt hat, somit wird automatisch die
+ausgewählte Standardsprache aus den Seiten Einstellungen ausgewählt.
 
 \subsection{API}
 \subsubsection{Einleitung}
@@ -1938,7 +2083,6 @@ Array mit einzelnen Kennzeichen geliefert.
   \end{minted}
   \caption{Beispielhafte GET /api/v1/plates/\{id\} Rückgabe}
 \end{listing}
-
 
 \subsubsection{Parkplätze}
 \paragraph{GET /api/v1/lots}\mbox{}\\
