@@ -385,6 +385,7 @@ $U_{A}$ und $U_{B}$ im Ruhezustand über einen IC oder einen Spannungsteiler auf
     \centering
     \includegraphics[width=0.15\linewidth]{fahrzeugerkennung/RS485_bias.pdf}
     \caption{RS485 Widerstandsnetzwerk}
+    \label{fig:rs485_bias}
 \end{figure}
 
 Um diese physikalische Umwandlung zu ermöglichen ist eine Umwandlungs IC erforderlich. In dieser Arbeit wurde ausschließlich der MAX485CSA für Wandlung zwischen den Standardpegeln der UART
@@ -455,7 +456,10 @@ Auf die einzelnen Funktionen diverser Leitungen wird in den folgenden Paragraphe
     \includegraphics[width=1\linewidth]{fahrzeugerkennung/übersicht_irl.pdf}
     \caption{Physische Übersicht des Bussystems}
 \end{figure}
-
+Ganze rechts oben in schwarz ist der RaspberryPi der hier als Computer dient es kann aber auch ein anderer Computer verwendet werden. Unterhalb des RaspberryPi ist der USB-RS485 Wandler der mit einem USB-Kabel
+am RaspberryPi angeschlossen ist und von an einer Versorgungsspannung hängt. Der USB-Rs485 Wandler ist wiederrum mit einem RJ45-Kabel an einen Slave verbunden. In diesem Bild sind zwei Slaves an das Bussystem geschlossen worden.
+Es können aber bis zu 31 sein. Ganz rechts ist der Leitungsabschluss der in Abbildung \ref{fig:rs485_bias} zu sehen ist.
+\\ \\
 Die elektrische Belegung der Leitungen ist wie in der folgenden Tabelle festgelegt worden. Mit dieser Belegung ist es möglich die Slave-Geräte an den RS485 Datenbus zu legen,
 sie mit Spannung zu versorgen und die Adressvergabe mit einer zusätzlichen Logikleitung zu regeln. 
 
@@ -590,7 +594,58 @@ In den nächsten Abbildung werden die möglichen Steuerbefehle für Master und S
     \includegraphics[width=1\linewidth]{fahrzeugerkennung/slave_response_datenframe.pdf}
     \caption{Slave Response Datenframe}
 \end{sidewaysfigure}
+\pagebreak
+Um den Ablauf einer deutlicher darzustellen wird der Steuerbefehl IO1 mit Datenframe Antwort des Slaves gemessen. 
+Wir erhalten folgendes Bild am Oszilloskop.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{fahrzeugerkennung/slave_resp_measured_dataframe.pdf}
+    \caption{gemessene Slave Response bei Steuerbefehl IO1}
+\end{figure}
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|l|l|l|l|l|l|c|c|}
+        \hline
+        \multicolumn{17}{|c|}{\textbf{Datenframe}}                                                                                           \\ \hline
+        \textbf{Byte}  & 0     & 1           & 2          & 3    & 4           & 5          & 6    & \multicolumn{7}{c|}{7-13} & 14   & 15   \\ \hline
+        \textbf{Name}  & START & \multicolumn{2}{c|}{ADR} & CTRL & \multicolumn{2}{c|}{ARG} & \multicolumn{8}{c|}{DATA}        & STOP & LF   \\ \hline
+        \textbf{Hex}   & 0x02  & 0x30        & 0x31       & 0x31 & 0x49        & 0x00       & 0x30 & \multicolumn{7}{c|}{0x00} & 0x03 & 0x11 \\ \hline
+        \textbf{ASCII} & STX   & 0           & 1          & 1    & I           & NUL        & 0    & \multicolumn{7}{c|}{NUL}  & ETX  & LF   \\ \hline
+    \end{tabular}
+    \caption{ausgelesene Bytes aus einem gemessenen Datenframe}
+\end{table}
+
+Wir sehen dass die Bytes START, ETX und LF die dix zugewiesenen Werte \texttt{0x02, 0x03} und \texttt{0x11} haben. Die ADR Bytes haben ASCII dekodiert die Zeichen '0' und '1' welche zusammengezählt die Adresse 1 ergeben. 
+Dies ist die fixe Adresse des Masters und stimmt auch mit unserem Master/Slave System überein, wo die Slaves Datenframes nur an den Master zurück schicken. Das Kontrollbyte CTRL hat den Hexadezimalwert \texttt{0x31} 
+und entspricht ASCII dekodiert dem Zeichen '1'. Sieht man nun in der Tabelle mit den Slave-Response Datenframes nach erhalten wir den Befehl IO1. Mit diesem Befehl wird ein digitaler Ein- und Ausgang des Mikrokontroller gesteuert.
+Das erste Argumentbyte ergibt ASCII dekodiert das Zeichen 'I' was laut gleicher Tabelle SET bedeutet. Das zweite Argumentbyte hat den Hexadezimalwert \texttt{0x30} welches dekodiert das ASCII Zeichen '0' ist. Dieses Zeichen gibt an,
+dass der Ausgang IO0 auf logisch 0 zu schalten ist. Die Datenbytes für die den Befehl IO1 sind bis auf das erste alle von sich aus leer. Das erste Datenbyte soll bestätigen dass der Ausgang auf logisch 0 geschalten worden ist und tatsächlich steht 
+diesem Byte das Zeichen '0'.  
+\\ \\
+Der interne C-Code des Slave generiert für den IO1 Befehl dia Antwort auf folgende weise.
+\begin{listing}[H]
+    \begin{minted}{c}
+    unsigned char response[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+    IO1_OUT;
+    if(argument_2 == OFF)
+    {
+        IO1_OFF; 
+        response[0] = 0x30;
+    }
+    else if(argument_2 == ON)
+    {
+        IO1_ON;
+        response[0] = 0x30;
+    }
+    rs485_write_frame(MASTER_MSB, MASTER_LSB, IO1, SET, NONE, response);
+    \end{minted}
+    \caption{Response C-Code des Slave für IO1}
+  \end{listing}
+\pagebreak
+
+Das Slave-Gerät setzt IO1 als Ausgang und überprüft das zweite Argumentbyte auf dessen Inhalt und setzt den Ausgang je nachdem auf logisch 1 oder 0.
 
 \subsection{Mikrokontroller Slave-Geräte}
 \subsubsection{Überblick}
