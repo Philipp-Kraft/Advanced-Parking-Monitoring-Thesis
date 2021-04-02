@@ -1024,7 +1024,7 @@ Probleme das Kennzeichen perfekt erkannt und im weiteren Programmablauf aus dem 
 
 \paragraph{WPOD-NET}\mbox{}\\
 Das „Warped Planar Object Detection Network“ (WPOD-NET) ist ein künstliches Neuronales Netz, welches von Sérgio Montazolli Silva und 
-Cláudio Rosita Jung\footnote{Montazzolli, Sérgio \& Jung, Claudio. (2018). License Plate Detection and Recognition in Unconstrained Scenarios. } 
+Cláudio Rosita Jung\footnote{\cite{wpodnet}}
 entwickelt wurde. Es wurde entwickelt, um aus Bildern die Kennzeichen von Fahrzeugen herauszusuchen und bietet im Gegensatz zu anderen Modellen den entscheidenden 
 Vorteil, dass es bei diesem Modell irrelevant ist aus welchem Winkel das Bild vom Kennzeichen aufgenommen wird. Andere Modelle funktionieren oft nur wenn das Foto 
 vom Kennzeichen direkt von vorne aufgenommen wurde, da ansonsten das Bild verzerrt wird und dadurch das Kennzeichen nicht mehr ausgelesen werden kann. Dieses Modell 
@@ -1033,7 +1033,7 @@ werden kann. Dies bietet den Vorteil, dass die Kamera für das Gerät nicht in f
 
 Die Kennzeichenerkennung dieses Modells basiert auf zwei Schritten. Zuerst wird im Bild nach einem Fahrzeug gesucht und dieses ausgeschnitten, um danach mit 
 WPOD-NET das Kennzeichen aus diesem Bild herauszusuchen. Die Fahrzeugerkennung basiert dabei auf dem 
-YOLOv2\footnote{J. Redmon and A. Farhadi, "YOLO9000: Better, Faster, Stronger," 2017 IEEE Conference on Computer Vision and Pattern Recognition (CVPR), Honolulu, HI, USA, 2017, pp. 6517-6525, doi: 10.1109/CVPR.2017.690.} Netzwerk, 
+YOLOv2\footnote{\cite{YOLO9000}} Netzwerk, 
 welches für Echtzeitobjekterkennung verwendet wird und neben vielen anderen Gegenständen auch in der Lage ist Fahrzeuge zu erkennen. Nach dieser Fahrzeugerkennung wird das Bild in das WPOD-NET eingegeben.
 
 \begin{figure}[H]
@@ -1050,7 +1050,7 @@ befindet. Dadurch hat man dann diejenige Region gefunden, in der sich das Kennze
 ausgerichtet Rechteck umwandeln. Dadurch erhält man dann ein Bild des Kennzeichens.
 
 \paragraph{MobileNetV2}\mbox{}\\
-MobileNetV2 ist die Grundlage für das eigene trainierte Neuronale Netz. MobileNetV2 ist eine Grundlage für diverse Neuronale Netze und speziell für Anwendungen im Bereich der Computer Vision 
+MobileNetV2\footnote{\cite{MobileNet}} ist die Grundlage für das eigene trainierte Neuronale Netz. MobileNetV2 ist eine Grundlage für diverse Neuronale Netze und speziell für Anwendungen im Bereich der Computer Vision 
 geeignet. Einige Beispiel dafür sind die Erkennung von Gesichtsmerkmalen, Echtzeitobjekterkennung, Unterscheidung diverser Hunderassen oder ähnliches. Dabei ist das Modell je nach Bedürfnissen 
 einstellbar, womit für eine schnellere und bessere Leistung weniger Schichten für das Neuronale Netz verwendet werden, oder aber für eine sehr genaue und präzise Funktion mehr Schichten verwendet werden. 
 Dies ist dadurch möglich, dass das Netzwerk auf einer variablen Schichtanzahl aufgebaut ist. In dieser Applikation wird es deswegen verwendet, da damit in diesem Bereich eine hohe Präzision erzielbar ist, 
