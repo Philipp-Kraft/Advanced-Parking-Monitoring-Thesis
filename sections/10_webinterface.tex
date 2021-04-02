@@ -1,9 +1,28 @@
 \def \sectionauthors {Philipp Kraft}
 
 \subsection{Einleitung}
-Das Webinterface hat auf der einen Seite die Aufgabe die Kommunikation mit der
-Kennzeichenerkennung und der Fahrzeugerkennung sicherzustellen und auf der
-anderen Seite die Verwaltung und Darstellung der gewonnen Daten.
+Das Webinterface ist die Web-Applikation, die auf der einen Seite die Aufgabe hat,
+die Kommunikation mithilfe einer eigenen Programmierschnittstelle mit der
+Kennzeichenerkennung und Fahrzeugerkennung sicherzustellen und auf der anderen
+Seite die Verwaltung und Darstellung der gewonnenen Daten für den Betreiber des
+Parkplatzes bzw. der Parkplätze.\\
+
+Ein Benutzer besitzt im Webinterface eine Vielzahl von
+Konfigurationsmöglichkeiten und Funktionen, dazu zählen:
+
+\begin{itemize}
+  \item Mobile-Friendly
+  \item Dashboard
+  \item Neuigkeiten
+  \item Benutzerverwaltung
+  \item Rechte- und Rollenverwaltung
+  \item Parkplatzverwaltung
+  \item Kennzeichenverwaltung
+  \item Erkennungsverlauf
+  \item Seiten Einstellungen
+  \item Profiloptionen
+  \item Lokalisierung
+\end{itemize}
 
 \subsection{Verwendete Technologien}
 \subsubsection{HTML}
@@ -29,7 +48,7 @@ HTML5\footnote{\url{https://www.w3.org/2014/10/html5-rec.html.en}} und wurde am
 Eine \acs*{HTML} Seite setzt sich aus einer Vielzahl von sogenannten Elementen
 zusammen. Ein Element besteht aus einem Start Tag und aus einem End Tag, der
 Inhalt wird zwischen diese Tags geschrieben. Nun folgt eine einfache HTML Seite,
-welche die Grundlegenden Funktionen von HTML und CSS darlegen soll.
+welche die grundlegenden Funktionen von HTML und CSS darlegen soll.
 
 \begin{listing}[H]
   \begin{minted}{html}
@@ -53,10 +72,9 @@ welche die Grundlegenden Funktionen von HTML und CSS darlegen soll.
 Das Element \verb|<!DOCTYPE html>| deklariert, dass die folgende Seite den HTML5
 Standard verwendet. Danach folgt mit \verb|<html>| das Wurzelelement, dass alle
 anderen Elemente beinhaltet. Das \verb|<head>| Element beinhaltet verschiedene
-Metadaten d.h. Daten die nicht angezeigt werden. Im oben gezeigten Beispiel
-Code~\ref{lst:simple_html_site} wird nur der Title des Dokuments gesetzt, dieser
-wird im Browser Tab angezeigt. Es können aber auch noch andere Daten gesetzt
-bzw. eingebunden werden:
+Metadaten. Im oben gezeigten Code~\ref{lst:simple_html_site} wird nur der Titel
+des Dokuments gesetzt, dieser wird im Browser Tab angezeigt. Es können aber auch
+noch andere Daten gesetzt bzw. eingebunden werden:
 
 \begin{itemize}
   \item Character Set
@@ -75,7 +93,7 @@ bzw. eingebunden werden:
 \subsubsection{CSS}
 Wie bereits angesprochen ist \ac*{CSS} für die Formatierung bzw. die visuelle
 Darstellung der einzelnen HTML-Elemente verantwortlich. Der Standard wird wie
-bei HTML vom \acs*{W3C} spezifiziert und die aktuellste Version ist CSS3 was so
+bei HTML vom \acs*{W3C} spezifiziert und die aktuellste Version ist CSS3, was so
 viel bedeutet wie \acs*{CSS} Level 3, wobei nur einzelne Teile als Empfehlung
 durch das \acs*{W3C} vorgelegt wurden, beispielweise das CSS Color Module Level
 3\footnote{\url{https://www.w3.org/TR/css-color-3}}. Um die Funktion
@@ -112,40 +130,41 @@ Nun muss dieses Stylesheet nur noch im \verb|<head>| Tag mit\\
 \end{figure}
 
 Es lässt sich nun erkennen, dass sich die Webseite deutlich verändert hat. Dabei
-bieten HTML und CSS bieten noch viel mehr Funktionen, eine ausführliche
+bieten HTML und CSS noch viel mehr Funktionen, eine ausführliche
 Dokumentation der Funktionen sind auf der Website
 w3schools\footnote{\url{https://www.w3schools.com/html} und
 \url{https://www.w3schools.com/css}} zu finden.
 
 \subsubsection{JavaScript}
-Es folgt nun eine weitere sehr wichtige Technologie und die meist verwendete
+Es folgt nun eine weitere sehr wichtige Technologie im Bereich der
+Webentwicklung und die meist verwendete
 Programmiersprache überhaupt laut der Stack Overflow Developer Survey
 2020\footnote{\url{https://insights.stackoverflow.com/survey/2020}}. \ac*{JS}
 ermöglicht es dynamische Webseiten zu erstellen, dabei wird der Code direkt
 lokal im Browser ausgeführt. Jedoch ist JavaScript nicht mehr nur auf das
 Frontend\footnote{Präsentationsebene in Form der grafischen Benutzeroberfläche}
-mehr beschränkt, es möglich mit Frameworks wie Node.js auch
+mehr beschränkt, es ist auch möglich mit Frameworks wie \textit{Node.js} auch
 Backend\footnote{Verarbeitung von Daten auf beispielsweise einem Server}
 Applikationen zu schreiben und somit ist es möglich Full-Stack\footnote{Front-
 und Backend}-Anwendungen vollständig mit \acl*{JS} zu entwickeln. Eine der
 wichtigsten Anwendungsgebiete ist die Manipulation von Elementen über das
-\ac*{DOM}. Der Standards wird unter dem Namen ECMA Script von der Organisation
+\ac*{DOM}. Der Standard wird unter dem Namen ECMA Script von der Organisation
 Ecma International\footnote{\url{https://www.ecma-international.org}}
-veröffentlicht und die aktuellste Version ist \textbf{ECMA-262}.
+veröffentlicht und die aktuellste Version ist ECMA-262.
 
 \subsubsection{PHP}
-\ac*{PHP} ist eine Skriptsprache um dynamische Webseiten zu realisieren, jedoch
-wird nicht wie bei \acl*{JS} der Code auf dem Client ausgeführt sondern auf dem
-Server, dort wird die HTML-Ausgabe generiert und dem Client zugesendet. Somit
-ist es nicht möglich den Code als Benutzer zu betrachten. Grundsätzlich ist PHP
-als synchrone Sprache geplant worden, es ist jedoch auch möglich asynchron zu
-Programmieren um die Performance zu steigern. Die aktuellste Version ist
+\ac*{PHP} ist eine serverseitige Skriptsprache, um dynamische Webseiten zu realisieren, jedoch
+wird nicht wie bei \acl*{JS} der Code auf dem Client ausgeführt, sondern auf dem
+Server, dort wird die HTML-Ausgabe generiert und dem Client zugesendet. Darum
+ist es nicht möglich, den Code als Benutzer zu betrachten. Der Syntax von PHP
+erinnert an C und Java und ermöglicht es schnell und einfache dynamische
+Webseiten zu programmieren. Die aktuellste Version ist
 \acs*{PHP} 8\footnote{\url{https://www.php.net/docs.php}}.
 
 
 \subsubsection{TailwindCSS}
 Es gibt eine Vielzahl von CSS-Frameworks, das Ziel ist ein einfacheres und
-schnelleres erstellen von Webseiten, dazu gehören neben TailwindCSS folgende
+schnelleres Erstellen von Webseiten, dazu gehören neben TailwindCSS folgende
 relevanten Frameworks.
 
 \begin{itemize}
@@ -154,19 +173,19 @@ relevanten Frameworks.
   \item Materialize (\url{https://materializecss.com})
 \end{itemize}
 
-Viele von diesen CSS Frameworks verwenden vorgefertigte Components welche direkt
+Viele von diesen CSS-Frameworks verwenden vorgefertigte Komponenten, welche direkt
 verwendet werden können, dies führt dazu, dass die Entwicklung sehr rasch ist.
-Dort unterscheidet sich TailwindCSS von den anderen CSS Frameworks, dort
+Dort unterscheidet sich TailwindCSS von den anderen CSS-Frameworks, dort
 existieren sogenannte Utility-Classes, diese können direkt im \acs*{HTML} auf
-die einzelnen Elemente angewendet werden.
-
-%\subsubsection{Vue}
+die einzelnen Elemente angewendet werden und ermöglichen somit eine bessere Anpassbarkeit.
 
 \subsubsection{Laravel}
 Laravel\footnote{\url{https://laravel.com/}} ist ein Open-Source PHP-Framework,
-es erleichtert die Entwicklung und erhöht die Sicherheit und auch durch die
-zahlreichen First-Party-Packages bietet Laravel ein sehr hochwertiges Ecosystem.
-Da Laravel ein sehr wichtiger Bestandteil des Webinterfaces ist wird später noch
+es erleichtert die Entwicklung und erhöht die Sicherheit. Durch die
+zahlreichen First-Party-Packages bietet Laravel ein sehr hochwertiges
+Ecosystem\footnote{Vielzahl von Tools und Software}
+für Entwickler.
+Da Laravel ein sehr wichtiger Bestandteil des Webinterfaces ist, wird später noch
 genauer auf die einzelne Funktionen des Frameworks eingegangen. Laravel wird
 seit Juni 2011 entwickelt und erhält jährlich eine neue Version, aktuell ist
 Laravel 8 die neuste Version.\\
@@ -174,29 +193,29 @@ Laravel 8 die neuste Version.\\
 Das Framework folgt dem sogenannten \ac*{MVC} Muster das bedeutet, dass die
 Programmierlogik in drei verschiedene Teile unterteilt wird. Der Sinn dahinter
 ist, dass die Anwendung dadurch sehr flexibel ist und später leichter erweitert
-werden kann oder einzelne Teile wiederverwendet werden können.
+werden kann oder einzelne Teile einfach wiederverwendet werden können.
 
 \begin{itemize}
   \item \textbf{Model} \\
   Hier befindet sich die Datenstruktur der Anwendung. In Laravel kann dies
-  beispielsweise das Model \verb|User| sein.
+  beispielsweise das Model \textit{User} sein.
   \item \textbf{View} \\
-  In der View befindet sich die Präsentationsebene, im Fall von Laravel sind das
-  Components und Layouts.
+  Die View ist die Präsentationsebene, im Fall von Laravel sind das
+  Komponenten und Layouts.
   \item \textbf{Controller} \\
-  In den Controllern der Anwendung befindet sich die Logik um beispielsweise
+  In den Controllern der Anwendung befindet sich die Logik, um beispielsweise
   durch das Absenden eines Formulares einen Eintrag in der Datenbank zu
   erstellen. 
 \end{itemize}
 
-Ein Anfrage auf eine Webseite läuft in 6. Schritten ab:
+Ein Anfrage auf einer Webseite läuft in 6. Schritten ab:
 
 \begin{itemize}
-  \item \textbf{1. Schritt:} Der Benutzer führt eine HTTP-Anfragemethode aus
-  \item \textbf{2. Schritt:} Die Anfrage wird geroutet
-  \item \textbf{3. Schritt:} Der Controller interagiert mit dem Model
-  \item \textbf{4. Schritt:} Das Model greift auf die Datenbank zu
-  \item \textbf{5. Schritt:} Der Controller liefert die Daten an eine View
+  \item \textbf{1. Schritt:} Benutzer führt eine HTTP-Anfragemethode aus
+  \item \textbf{2. Schritt:} Anfrage wird geroutet
+  \item \textbf{3. Schritt:} Controller interagiert mit dem Model
+  \item \textbf{4. Schritt:} Model greift auf die Datenbank zu
+  \item \textbf{5. Schritt:} Controller liefert die Daten an eine View
   \item \textbf{6. Schritt:} View mit den Daten werden an den Client gesendet
 \end{itemize}
 
@@ -206,277 +225,10 @@ Ein Anfrage auf eine Webseite läuft in 6. Schritten ab:
   \caption{Laravel MVC Muster}
 \end{figure}
 
-\paragraph{Routing}\mbox{}\\
-In Laravel erfolgt durch ein Routefile unter \verb|routes/web.php|. API Requests
-haben ein eigenes Routefile unter \verb|routes/api.php| und erhalten einen
-\verb|/api| Prefix. Diese Dateien werden dann automatisch durch einen Service
-Provider von Laravel geladen.\\
-
-Der Laravel Router erlaubt folgende HTTP-Anfragemethoden:
-\begin{itemize}
-  \item \textbf{GET} (Fordert Ressource an)\\
-  \mintinline{php}{  Route::get($uri, $callback);}
-  \item \textbf{POST} (Neue Ressource erstellen)\\
-  \mintinline{php}{  Route::post($uri, $callback););}
-  \item \textbf{PUT} (Ressource ersetzen oder erstellen)\\
-  \mintinline{php}{  Route::put($uri, $callback);}
-  \item \textbf{PATCH} (Ressource ändern)\\
-  \mintinline{php}{  Route::patch($uri, $callback);}
-  \item \textbf{DELETE} (Löscht Ressource)\\
-  \mintinline{php}{  Route::delete($uri, $callback);}
-  \item \textbf{OPTIONS} (Liste von unterstützen Methoden des Servers)\\
-  \mintinline{php}{  Route::options($uri, $callback);}
-\end{itemize}
-
-Im folgenden Ausschnitt Code~\ref{lst:user_routes} werden ein Teil der Routen
-von den Benutzern dargelegt. Dabei lässt sich erkennen, dass die Routen sich in
-einer Gruppe befinden, welche den Prefix \verb|/admin| und die Middleware
-\verb|verified| hat das bedeutet, dass der Benutzer eingeloggt sein muss um
-diese Routen aufzurufen. Dabei verweisen die Routen auf einzelne Methoden im
-UserController. Schlussendlich werden mit der name-Methode die Routen benannt,
-damit sie später im Code einfach referenziert werden können.
-
-\begin{listing}[H]
-  \begin{minted}{php}
-    <?php
-    Route::group(['middleware' => 'verified', 'prefix' => 'admin'], 
-    function () {
-      Route::get('users', [UserController::class, 'index'])->name('users.index');
-      Route::get('users/create', [UserController::class, 'create'])->name('users.create');
-      Route::post('users', [UserController::class, 'store'])->name('users.store');
-    });
-  \end{minted}
-  \caption{web.php}
-  \label{lst:user_routes}
-\end{listing}
-
-\paragraph{Blade Templates}\mbox{}\\
-Blade ist eine Template Engine, die mit Laravel mitgeliefert wird. Blade
-erleichtert und vereinfacht das Verwenden von PHP Code in HTML, dabei wird der
-Blade Syntax in normalen PHP Code compiliert. Blade Dateien werden mit der
-Extension \verb|.blade.php| erstellt. Damit der Inhalt der einzelnen Seiten
-dynamisch ist müssen Daten übergeben werden, dies erfolgt über die Controller.\\
-
-Um nun Inhalt innerhalb eines Blade Files anzuzeigen verwendet Blade doppelt
-Geschweifte Klammern.
-
-\begin{listing}[H]
-  \begin{minted}{php}
-    Hallo, {{ $user->full_name }}.
-  \end{minted}
-  \caption{example.blade.php}
-  \label{lst:blade_example}
-\end{listing}
-
-Im Code~\ref{lst:blade_example} wird nun auf das übergebene Model \verb|User|
-zugegriffen und der Name ausgegeben.
-
-\paragraph{Controllers}\mbox{}\\
-Es besteht theoretisch die Möglichkeit die komplette Logik für die bearbeitung
-von Anfragen direkt in den Route Files zu platzieren, dies ist jedoch sehr
-unübersichtlich und deshalb ist es sinnvoll diese Logik in Controller Klassen
-auszulagern. Dabei werden ähnliche Anfragen zusammengeführt, so ist es sinnvoll
-alle Anfragen wie in Code~\ref{lst:user_routes} im gleichen Controller
-zusammenzuführen.
-
-\begin{listing}[H]
-  \begin{minted}{php}
-    <?php
-    namespace App\Http\Controllers;
-
-    use Illuminate\Http\Request;
-    use App\Models\User;
-    use Illuminate\Support\Facades\Hash;
-    use App\Http\Requests\StoreUser;
-    use App\Http\Requests\UpdateUser;
-    use App\Models\Role;
-    use Image;
-
-    class UserController extends Controller
-    {
-        public function index()
-        {
-            $this->authorize('index', User::class);
-            $users = User::orderBy('id', 'asc')->paginate(25, ['*'], 'users');
-            return view('users.index')->with('users', $users);
-        }
-    ...
-  \end{minted}
-  \caption{UserController.php}
-\end{listing}
-
-\paragraph{Artisan CLI}\mbox{}\\
-Artisan ist ein Kommandozeilen Tool von Laravel und zentraler Bestandteil und
-stellt eine Fülle an sehr nützlichen Befehlen dem Entwickler zur verfügung.
-Mithilfe von Artisan können neue Controller, Models, Migrations und vieles sehr
-einfach erstellt werden. Da es sehr viele Befehle gibt folgen hier nur die
-wichtigstens Befehle:
-
-\begin{itemize}
-  \item \textbf{php artisan list}\\
-  Zeigt eine Liste aller verfügbaren Befehle an
-  \item \textbf{php artisan serve}\\
-  Startet einen PHP Development Server unter dem Port 8000
-  \item \textbf{php artisan make:model <name>}\\
-  Erstellt ein neues Model
-  \item \textbf{php artisan make:migration <name>}\\
-  Erstellt ein neue Migrations
-  \item \textbf{php artisan make:controller <name>}\\
-  Erstellt ein neuer Controller
-  \item \textbf{php artisan migrate}\\
-  Führt die Datenbank Migration Files aus
-\end{itemize}
-
-\paragraph{Migrations}\mbox{}\\
-Datenbank Migrations sind praktisch Vorlagen wie einzelne Tabellen in der
-Datenbank auszusehen haben. Migrations erleichtern die Handhabung von SQL
-Datenbank im Team mithilfe von Source Control wie Git um einiges.
-
-\begin{listing}[H]
-  \begin{minted}{php}
-    <?php
-    class CreateUsersTable extends Migration
-    {
-        public function up()
-        {
-            Schema::create('users', function (Blueprint $table) {
-                $table->id();
-                $table->string('first_name');
-                $table->string('last_name');
-                $table->string('email')->unique();
-                $table->string('avatar')->default('default.png');
-                $table->timestamp('email_verified_at')->nullable();
-                $table->string('password');
-                $table->string('last_login_ip')->nullable();
-                $table->timestamp('last_login_at')->nullable();
-                $table->rememberToken();
-                $table->timestamps();
-            });
-        }
-    
-        public function down()
-        {
-            Schema::dropIfExists('users');
-        }
-    }
-  \end{minted}
-  \caption{create\_users\_table.php}
-  \label{lst:create_users_table}
-\end{listing}
-
-Im Code~\ref{lst:create_users_table} sind zwei Methoden zu erkennen, \verb|up|
-und \verb|down|, in der \verb|up| Methode werden neue Tabellen und Spalten in
-der Datenbank erstellt, bei der \verb|down| Methode wird alles von der \verb|up|
-Methode rückgängig gemacht, in diesem Fall wird die komplette Tabelle gelöscht.
-Um nun die Datenbank zu migrieren muss in der Artisan \acs*{CLI} Befehl
-\verb|php artisan migrate| ausgeführt werden, dabei werden alle Migrations im
-Verzeichnis \verb|database/migrations| ausgeführt.
-
-\paragraph{Eloquent ORM}\mbox{}\\
-Eloquent ist ein \ac*{ORM} d.h. um auf die \acs*{SQL} Datenbank zuzugreifen
-müssen keine Raw \acs*{SQL} Queries ausgeführt werden. Im Code erscheint die
-Datenbank als objektorientierte Datenbank und erleichtert somit dem Umgang mit
-der Datenbank. Dabei entspricht besitzt jede Tabelle in der Datenbank einem
-dazugehöriges Model, dieses Model wird verwendet um im Code mit der Datenbank zu
-interagieren. Ein weiter Vorteil ist, dass der Code sehr übersichtlich und
-leicht lesbar ist, jedoch wird die Ausführungszeit leicht erhöht, was jedoch
-keine große Rolle bei kleinen- bis mittelgroßen Webseiten spielt.
-
-\begin{listing}[H]
-  \begin{minted}{php}
-    <?php
-    User::where('first_name', 'Philipp')->first();
-  \end{minted}
-  \caption{Eloquent Query}
-  \label{lst:eloquent_query}
-\end{listing}
-
-\begin{listing}[H]
-  \begin{minted}{sql}
-    SELECT * FROM `users` WHERE `first_name` = Philipp
-  \end{minted}
-  \caption{Raw SQL Query}
-  \label{lst:raw_sql_query}
-\end{listing}
-
-Beim Vergleich zwischen dem Code~\ref{lst:eloquent_query} und
-Code~\ref{lst:raw_sql_query} ist es erkenntlich, dass der Eloquent Query
-verständlicher ist. Besonders bei komplexeren Queries ist Eloquent den RAW
-\acs*{SQL} Queries im Bezug auf die Lesbarkeit stark überlegen.
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.6\linewidth]{webinterface/eloquent_workflow.pdf}
-  \caption{Eloquent ORM Workflow von \citeurl[]{eloquentworkflow}}
-\end{figure}
-
-\paragraph{Laravel Sanctum}\mbox{}\\
-Laravel Sanctum ist ein First-Party-Package von den Entwicklern von Laravel und
-ermöglicht eine einfache Authentifizierung mithilfe von API-Tokens. Dabei wird
-der vom Benutzer erstellte API-Token im HTTP Header \verb|Authorization|
-mitgeliefert und somit autorisiert. Da es sich hierbei um ein
-Sicherheitskritisches Modul handelt ist es besonders wichtig, dass dieser Code
-nahezu Fehlerfrei ist und dies wird durch kontinuierliche Updates und Patches
-garantiert.
- 
-\paragraph{Sessions}\mbox{}\\
-Das HTTP Netzwerkprotokoll ist ein Zustandsloses Protokoll, da aber immer über
-einen Benutzer Informationen über mehrere Seiten beibehalten werden sollen wird
-ein System benötigt um diese Informationen zu speichern. Sessions lösen dieses
-Problem und funktionieren wie folgt. Ein Benutzer besucht eine Seite und besitzt
-im lokalen Speicher (Cookie) eine Session ID vom Server. Wenn der Benutzer nun
-eine andere Seite der gleichen Webseite besucht wird diese Session ID dem Server
-wieder gesendet und er kann den Benutzer zuordnen. Laravel verwendet als Backend
-für die Sessions Memcached oder Redis.
-
-\paragraph{Middleware}\mbox{}\\
-Eine Middleware erleichtert es HTTP Anfragen zu filtern bzw. zu begutachten.
-Beispielsweise wird im Webinterface eine Middleware für das richtige setzen der
-Sprache verwendet. Bei jedem Aufruf einer Seite überprüft die Middleware welcher
-Wert in der Sessions des Benutzers steht um so die passende Sprache auszuwählen.
-
-\paragraph{Service Provider}\mbox{}\\
-Service Provider sind da um bestimmte Funktionen einer Anwendung zu
-initialisieren. Beispielsweise wird im Webinterface ein
-\textit{SettingsServerProvider} verwendet um die Einstellungen aus der Datenbank
-in das Laravel Einstellungssystem zu übernehmen.
-
-\paragraph{Form Validation}\mbox{}\\
-Für bestimmte Formulare ist es notwendig zu überprüfen ob die Angaben korrekt
-sind, beispielsweise dass ein Passwort eine bestimmte Länge hat oder ob eine
-E-Mail ein @-Zeichen enthält. Um diese HTTP-Anfragen zu überprüfen müssen Regeln
-festgelegt, diese werden in Laravel in \textit{Request} Files festgelegt.
-
-\begin{listing}[H]
-  \begin{minted}{php}
-    <?php
-    public function rules()
-    {
-      return [
-        'first_name' => ['string', 'max:255'],
-        'last_name' => ['string', 'max:255'],
-        'email' => ['string', 'email', 'max:255'],
-        'password' => ['nullable', 'string', 'min:8', 'confirmed'],
-      ];
-    }
-  \end{minted}
-  \caption{UserUpdate Request}
-  \label{lst:userupdate_request}
-\end{listing}
-
-Im Code~\ref{lst:userupdate_request} werden Regeln für den Vornamen, Nachnamen,
-die Email und für das Passwort festgelegt. Die verfügbaren Regeln sind durch
-Laravel definiert. Liefert eine Request Methode \textit{false} wird der
-Controller nicht weiter ausgeführt und die nicht korrekt ausgefüllten Felder
-werden in der Session gespeichert und können dem User als Fehlernachricht
-dargestellt werden.
-
-
-
 \subsection{Lokale Entwicklungsumgebung mit Laragon}
 Für die Programmierung des Webinterfaces müssen zuerst einige Vorkehrungen
 getroffen werden, dazu zählt zu einem die Installation von benötigter Software
-und deren konfiguration.
+und deren Konfiguration.
 
 \subsubsection{Benötigte Software}
 
@@ -499,7 +251,7 @@ und deren konfiguration.
 
 
 \subsubsection{Konfiguration von PHP}
-Um PHP Befehle von der Kommandozeile auszuführen muss die Installation zuerst in
+Um PHP Befehle von der Kommandozeile auszuführen, muss die PHP Installation zuerst in
 den Windows Path Variables hinzugefügt werden.
 
 Dies erfolgt durch die \verb|Advanced System Settings| $\blacktriangleright$
@@ -509,25 +261,25 @@ welchem die \verb|php.exe| liegt.
 
 \begin{figure}[H]
   \centering
-  \frame{\includegraphics[width=0.6\linewidth]{webinterface/advanced_system_settings.pdf}}
+  \frame{\includegraphics[width=0.5\linewidth]{webinterface/advanced_system_settings.pdf}}
   \caption{Advanced System Settings}
 \end{figure}
 
 \begin{figure}[H]
   \centering
-  \frame{\includegraphics[width=0.6\linewidth]{webinterface/system_variables.pdf}}
+  \frame{\includegraphics[width=0.5\linewidth]{webinterface/system_variables.pdf}}
   \caption{System Variables}
 \end{figure}
 
 \begin{figure}[H]
   \centering
-  \frame{\includegraphics[width=0.6\linewidth]{webinterface/environment_variable.pdf}}
+  \frame{\includegraphics[width=0.5\linewidth]{webinterface/environment_variable.pdf}}
   \caption{Environment Variables}
 \end{figure}
 
-Die korrekte konfiguration kann durch die Kommandozeile geprüft werden, dort
-muss das Befehl \verb|php -v| ausgeführt werden. Dabei ist zu beachten, dass
-nach dem hinzufügen der Path Variable die gewählte Kommandozeile neu gestartet
+Ob die Konfiguration korrekt ist kann durch die Kommandozeile überprüft werden, dort
+muss der Befehl \verb|php -v| ausgeführt werden. Dabei ist zu beachten, dass
+nach dem Hinzufügen der Path Variable die gewählte Kommandozeile neu gestartet
 werden muss.
 
 \begin{figure}[H]
@@ -536,15 +288,15 @@ werden muss.
   \caption{PHP Version}
 \end{figure}
 
-Somit ist PHP korrekt konfiguriert.
-
+Da eine Antwort mit der installierten Versionsnummer folgt, ist PHP korrekt
+installiert und konfiguriert.
 
 \subsubsection{Installation von phpMyAdmin}
 phpMyAdmin ist ein Tool, welches den Umgang mit MySQL Datenbanken mit einem
 Webinterface erleichtert. Die aktuellste Version lässt sich von
 \url{https://www.phpmyadmin.net/downloads} downloaden. Dieses Archiv muss
 entpackt werden und ausgehend vom Laragon Root Verzeichnis in das Verzeichnis
-\verb|/etc/apps| kopiert werden. Um die Installation zu überprüfen muss der
+\verb|/etc/apps| kopiert werden. Um die Installation zu überprüfen, muss der
 Apache HTTP Server und der MySQL Server gestartet werden, nun sollte bei einer
 korrekten Installation das Webinterface von phpMyAdmin unter
 \url{http://localhost/phpmyadmin} erreichbar sein.
@@ -555,12 +307,10 @@ korrekten Installation das Webinterface von phpMyAdmin unter
   \caption{phpMyAdmin Webinterface}
 \end{figure}
 
-Es ist nicht notwendig ein Passwort einzugeben, da Standardmäßig kein Passwort
-gesetzt wird.
-
+Es ist nicht notwendig ein Passwort einzugeben, da Standardmäßig dem
+\textit{root} Benutzer kein Passwort gesetzt wird.
 
 \subsection{Lokale Entwicklungsumgebung mit WSL und Docker}
-
 
 \subsubsection{Benötigte Software}
 
@@ -573,20 +323,21 @@ gesetzt wird.
         Quelltext-Editor
 \end{itemize}
 
-
 \subsubsection{Installation von WSL}
-Zuerst müssen einige Einstellungen in Windows getroffen werden um später eine
-Linux Distribution herunterzuladen können. Diese Befehle können über die
+Zuerst müssen einige Einstellungen in Windows getroffen werden, um später eine
+Linux-Distribution herunterzuladen können. Die folgenden Befehle müssen über eine
 Kommandozeile mit Administrativen Rechten ausgeführt werden.
 
+
+\paragraph{1. Schritt: WSL aktivieren}\mbox{}\\
 \begin{listing}[H]
   \begin{minted}{bash}
     dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
   \end{minted}
-  \caption{WSL Feature Feature aktivierens}
+  \caption{WSL Feature aktivieren}
 \end{listing}
 
-\paragraph{2. Schritt: Virtual Machine Aktivieren}\mbox{}\\
+\paragraph{2. Schritt: Virtual Machine aktivieren}\mbox{}\\
 \begin{listing}[H]
   \begin{minted}{bash}
     dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
@@ -598,11 +349,13 @@ Nach diesem Schritt ist ein Neustart des Computers notwendig.
 
 \paragraph{3. Schritt: Linux Kernel Update}\mbox{}\\
 Nun muss ein Linux Kernel Update installiert werden, die aktuelle Version ist
-unter \url{https://aka.ms/wsl2kernel} zu finden.
+unter \url{https://aka.ms/wsl2kernel} zu finden. Die Installation ist sehr
+einfach.
 
 \paragraph{4. Schritt: WSL 2}\mbox{}\\
 Nach dem Neustart des Computers sollte es nun möglich sein WSL 2 als Version
 auszuwählen.
+
 \begin{listing}[H]
   \begin{minted}{bash}
     wsl --set-default-version 2
@@ -610,17 +363,16 @@ auszuwählen.
   \caption{WSL 2 auswählen}
 \end{listing}
 
-\paragraph{5. Schritt: Linux Distribution herunterladen}\mbox{}\\
-Zuletzt kann eine Linux Distribution aus dem Windows Store heruntergeladen
+\paragraph{5. Schritt: Linux-Distribution herunterladen}\mbox{}\\
+Zuletzt kann eine Linux-Distribution aus dem Windows Store heruntergeladen
 werden, in diesem Fall Debian (\url{https://www.microsoft.com/de-de/p/debian}).
-
 
 \subsubsection{Installation von Docker}
 Die aktuellste Version von Docker Desktop für Windows lässt sich am einfachsten
 über die offizielle Website von Docker herunterladen (\url{https://docker.com}).
 Nach der Installation muss noch die WSL Integration aktiviert werden. Dazu muss
 in den Einstellungen unter \verb|Resources| $\blacktriangleright$ \verb|WSL Integration|
-und dort muss der Haken bei \textit{Enable integration with my default WSL distro}
+ein Haken bei \textit{Enable integration with my default WSL distro}
 gesetzt werden und die installierte Linux Distribution muss unten aktiviert
 werden.
 
@@ -630,9 +382,11 @@ werden.
   \caption{Docker WSL Integration}
 \end{figure}
 
-Somit ist die Lokale Entwicklungsumgebung mit WSL und Docker abgeschlossen, die
-benötigte Software wird später automatisch durch Laravel Sail in einem Docker
+Somit ist die lokale Entwicklungsumgebung mit WSL und Docker abgeschlossen,
+weitere benötigte Software wird später automatisch durch Laravel Sail in einem Docker
 Container installiert.
+
+% TODO: Laravel Sail
 
 \begin{figure}[H]
   \centering
@@ -643,14 +397,12 @@ Container installiert.
 Es ist somit möglich die Services welche im Container in der Linux Distribution
 laufen über die Docker Desktop Anwendung zu steuern.
 
-
 \subsection{Production Server}
-Der Production Server bzw. der Live Server ist der Server wo sich die
+Der Production Server bzw. der Live Server ist der Server, wo sich die
 Webanwendung befindet und die Endbenutzer zugreifen, dieser Server wird auch
 einfach mit Production abgekürzt. Der Production Server ist in diesem Fall ein
-Virtual Private Server mit dem Betriebsystem Debian 10, welcher bei einem
+Virtual Private Server mit dem Betriebssystem Debian 10, welcher bei einem
 Internet-Hosting Unternehmen mit Sitz in Deutschland gehostet wird.
-
 
 \subsubsection{Benötigte Software}
 
@@ -669,7 +421,7 @@ für die Software \textbf{L}inux, \textbf{A}pache, \textbf{M}ySQL und \textbf{P}
 
 
 \subsubsection{Installation des LAMP Stacks}
-Bevor die Software Pakete installiert werden sollte die Linux Software/Update
+Bevor die Softwarepakete installiert werden, sollte die Linux Software
 Repository geupdatet werden.
 
 \begin{listing}[H]
@@ -690,8 +442,8 @@ Nun kann der Apache Web Server installiert werden.
   \caption{Apache installieren}
 \end{listing}
 
-Die Installation kann nun leicht überprüft werden indem man im Browser die IP
-bzw. die dazugehörige Domain öffnet, in diesem Fall:
+Die Installation kann nun leicht überprüft werden, indem man im Browser die IP
+bzw. die dazugehörige Domain aufruft, in diesem Fall:
 (\url{http://dev.philipp-kraft.com}).
 
 \begin{figure}[H]
@@ -703,7 +455,8 @@ bzw. die dazugehörige Domain öffnet, in diesem Fall:
 Erscheint die Debian Default Page ist Apache korrekt installiert.
 
 \paragraph{PHP}\mbox{}\\
-Neben PHP werden auch einige PHP Extensions benötigt.
+Neben PHP werden auch einige PHP Extensions benötigt, diese können leicht mit
+dem folgenden Befehl installiert werden.
 
 \begin{listing}[H]
   \begin{minted}{bash}
@@ -712,9 +465,11 @@ Neben PHP werden auch einige PHP Extensions benötigt.
   \caption{PHP installieren}
 \end{listing}
 
-Die Installation kann einfach mit dem Befehl \verb|php -v| überprüft werden.
+Die Installation kann nun wie bei Windows mit dem Befehl \verb|php -v| überprüft werden.
 
 \paragraph{MariaDB}\mbox{}\\
+
+Die Installation von MariaDB ist ähnlich der von Apache und erfolgt mit einem Befehl.
 
 \begin{listing}[H]
   \begin{minted}{bash}
@@ -732,10 +487,10 @@ Nun muss MariaDB noch konfiguriert werden.
   \caption{MariaDB Secure Installation}
 \end{listing}
 
-Dabei wird dem root MySQL User ein Passwort gesetzt, Anonyme Benutzer gelöscht
-und es werden Test Datenbanken gelöscht.
+Dabei wird dem root MySQL User ein Passwort gesetzt, anonyme Benutzer gelöscht
+und allfällige Test Datenbanken gelöscht.\\
 
-Nun wird ein neuer Benutzer mit root Berechtigungen erstellt.
+Nun wird ein neuer Benutzer mit dem Namen \textit{admin} mit \textit{root} Berechtigungen erstellt.
 
 \begin{listing}[H]
   \begin{minted}{sql}
@@ -771,7 +526,7 @@ Anschließend muss das Archiv entpackt werden.
   \caption{phpMyAdmin Entpacken}
 \end{listing}
 
-Als nächstes muss das entpackte Archiv in einen anderen Pfad verschoben werden
+Als Nächstes muss das entpackte Archiv in einen anderen Pfad verschoben werden
 und zusätzlich müssen einige Rechte und Verzeichnisse angepasst werden.
 
 \begin{listing}[H]
@@ -784,9 +539,9 @@ und zusätzlich müssen einige Rechte und Verzeichnisse angepasst werden.
   \caption{phpMyAdmin Rechte und Verzeichnisse}
 \end{listing}
 
-Nun muss eine Konfigurations Datei erstellt werden und dort muss ein Blowfish
+Nun muss eine Konfigurationsdatei erstellt werden und dort muss ein Blowfish
 Secret\footnote{32 Zeichen String für Cookie-Authentifizierung} angegeben werden
-und den Pfad für ein Temporäres Verzeichnis.
+und den Pfad für ein temporäres Verzeichnis.
 
 \begin{listing}[H]
   \begin{minted}{bash}
@@ -795,7 +550,7 @@ und den Pfad für ein Temporäres Verzeichnis.
   \caption{phpMyAdmin Konfigurationsdatei erstellen}
 \end{listing}
 
-und am Ende dieser Datei müssen folgende zwei Zeilen eingefügt werden.
+Am Ende dieser Datei müssen folgende zwei Zeilen eingefügt werden.
 
 \begin{listing}[H]
   \begin{minted}{bash}
@@ -805,10 +560,10 @@ und am Ende dieser Datei müssen folgende zwei Zeilen eingefügt werden.
   \caption{phpMyAdmin Blowfish Secret und TempDir}
 \end{listing}
 
-Zuletzt muss der Apache Web Server konfiguriert werden.
+Zuletzt muss der Apache Web Server konfiguriert werden.\\
 
-Im Verzeichnis \verb|/etc/apache2/sites-available| muss eine neue Konfiguration
-angelegt werden \verb|phpmyadmin.conf|.
+Im Verzeichnis \verb|/etc/apache2/sites-available| muss eine neue
+Konfigurationsdatei mit dem Namen \verb|phpmyadmin.conf| angelegt werden.
 
 \begin{listing}[H]
   \begin{minted}{bash}
@@ -831,22 +586,23 @@ angelegt werden \verb|phpmyadmin.conf|.
   \caption{phpmyadmin.conf}
 \end{listing}
 
-Nun kann diese Virtual Host Konfigurations Datei aktiviert werden und danach
-muss der Apache Web Server neu gestartet werden.
+Nun kann diese Virtual Host Konfigurationsdatei aktiviert werden und danach
+muss der Apache Web Server neu gestartet werden, damit die Konfiguration wirksam
+ist.
 
 \begin{listing}[H]
   \begin{minted}{bash}
     a2ensite phpmyadmin
     systemctl restart apache2
   \end{minted}
-  \caption{Virtual Host aktivieren}
+  \caption{Virtual Host Konfiguration aktivieren}
 \end{listing}
 
 Diese Konfiguration ermöglicht es, dass das Webinterface von phpMyAdmin über den
 Port 9000 (\url{http://dev.philipp-kraft.com:9000}) erreichbar ist und nicht wie
-Standardmäßig vorgesehen über das Verzeichnis /phpmyadmin
+Standardmäßig vorgesehen über das Verzeichnis \verb|/phpmyadmin|
 (\url{http://dev.philipp-kraft.com/phpmyadmin}), dies bietet einen
-Sicherheitsvorteil.
+Sicherheitsvorteil, da potenzielle Angreifer nicht einmal den Zugang finden.
 
 \paragraph{Webinterface Virtual Host}\mbox{}\\
 
@@ -895,7 +651,7 @@ Die Installation von Composer gestaltet sich relativ einfach.
 \end{listing}
 
 Nun muss das Setup ausgeführt werden und damit das \verb|composer| Befehl Global
-verfügbar ist wird Composer in den Pfad \verb|/usr/local/bin| verschoben.
+verfügbar ist, wird Composer in den Pfad \verb|/usr/local/bin| verschoben.
 
 \begin{listing}[H]
   \begin{minted}{bash}
@@ -903,7 +659,6 @@ verfügbar ist wird Composer in den Pfad \verb|/usr/local/bin| verschoben.
   \end{minted}
   \caption{Composer Setup}
 \end{listing}
-
 
 \subsubsection{Deployment mit Github Actions}
 Unter Deployment versteht man die automatische Installation von Software, in
@@ -924,24 +679,23 @@ installieren.
 
 Im Verzeichnis \verb|/var/www/apm| soll sich später das Webinterface befinden,
 deshalb muss in diesem Pfad Git konfiguriert werden. Dazu wird die Remote URL
-konfiguriert.
+definiert.
 
 \begin{listing}[H]
   \begin{minted}{bash}
-    git config remote.origin.url 'https://{TOKEN}@github.com/
-    Philipp-Kraft/Advanced_Parking_Monitoring_Webinterface.git'
+    git config remote.origin.url 'https://{TOKEN}@github.com/ Philipp-Kraft/Advanced_Parking_Monitoring_Webinterface.git'
   \end{minted}
   \caption{Git Remote Origin}
 \end{listing}
 
-Da beim Github Account eine Zwei-Faktor-Authentisierung verwendet wird muss die
-Authentifizierung mit einem Personal access token erfolgen. Dieser kann unter
+Da beim Github Account eine Zwei-Faktor-Authentisierung verwendet wird, muss die
+Authentifizierung mit einem Personal Access Token erfolgen. Dieser kann unter
 \url{https://github.com/settings/tokens} erstellt werden, der erstellte Token
-kann dann einfach in der URL eingefügt werden.
+kann dann einfach in der Remote URL eingefügt werden.
 
 \paragraph{Deploy Script}\mbox{}\\
 
-Das Deploy-Script wird auf der Lokalen Entwicklermaschine ausgeführt. Das Script
+Das Deploy-Script wird auf der lokalen Entwicklermaschine ausgeführt. Das Script
 wechselt in den Production Branch und merged mit dem Main Branch, dieser Push in
 den Production Branch löst dann die Github Action aus.
 
@@ -961,13 +715,13 @@ den Production Branch löst dann die Github Action aus.
     
     git checkout main
   \end{minted}
-  \caption{deploy.sh}
+  \caption{Lokales Deploy Script}
 \end{listing}
 
 \paragraph{Server Deploy Script}\mbox{}\\
 
 Das Server Deploy Script \verb|server_deploy.sh| versetzt die Laravel
-Applikation in den Wartungsmodus und lädt sich vom deploy Branch den Code auf
+Applikation in den Wartungsmodus und lädt sich vom Deploy Branch den Code auf
 den Server herunter, danach werden einige Befehle ausgeführt.
 
 \begin{longlisting}
@@ -998,17 +752,16 @@ den Server herunter, danach werden einige Befehle ausgeführt.
     
     echo "Application deployed!"
   \end{minted}
-  \caption{serverdeploy.sh}
+  \caption{Server Deploy Script}
 \end{longlisting}
 
-
-\paragraph{Github Action}\mbox{}\\
-Github Actions ist ein Projekt von Github, welches es ermöglicht
+\paragraph{Github Actions}\mbox{}\\
+Github Actions ist ein Projekt von Github, welches es ermöglicht,
 Automatisierungen in den Bereichen Entwicklung, Testing und Deployment
 durchzuführen.
 
 Als erstes muss ein Workflow erstellt werden, dieser wird im Root-Verzeichnis
-des Projekts erstellt \verb|APM\.github\workflows\main.yml|.
+des Projekts unter dem Pfad \verb|APM\.github\workflows\main.yml| erstellt.
 
 \begin{longlisting}
   \begin{minted}{bash}
@@ -1050,15 +803,15 @@ des Projekts erstellt \verb|APM\.github\workflows\main.yml|.
   \caption{main.yml}
 \end{longlisting}
 
-Dieser Workflow setzt einen Ubuntu Server in der Cloud auf und baut dort die
-Assets zusammen, damit die Downtime auf dem Production Server möglichst gering
-ist. Danach wird eine SSH Verbindung zum Production Server aufgebaut und dort
-wird das Bash-Script \verb|server_deploy.sh| ausgeführt. Gleichzeitig werden
-einige Berechtigungen angepasst.
+Dieser Workflow setzt einen Ubuntu Server in der Cloud bei Github auf und baut
+dort die Frontend Assets zusammen, damit die Downtime auf dem Production Server
+möglichst gering ist. Danach wird eine SSH Verbindung zum Production Server
+aufgebaut und dort wird das Bash-Script \verb|server_deploy.sh| ausgeführt.
+Gleichzeitig werden einige Berechtigungen angepasst.
 
-In der Repository muss nun noch das SSH-Passwort und der Personal access token
+In der Repository muss nun noch das SSH-Passwort des Servers und der Personal Access Token
 hinterlegt werden. Dies geschieht über \verb|Settings| $\blacktriangleright$
-\verb|Secrets|. Dort können nun über \verb|New respository secrets| die Secrets
+\verb|Secrets|. Dort können nun über \textit{New respository secrets} die Secrets
 hinterlegt werden.
 
 \begin{figure}[H]
@@ -1073,17 +826,290 @@ hinterlegt werden.
   \caption{Github Action Übersicht}
 \end{figure}
 
+\subsection{Aufbau Backend}
 
-\subsection{Grundlegender Aufbau Frontend}
+\subsubsection{Einleitung}
+% TODO
 
-Da das Ziel ist, dass das Frontend des Webinterfaces möglichst Modular aufgebaut ist
+\subsubsection{Routing}
+In Laravel erfolgt das Routing durch ein Routefile unter \verb|routes/web.php|. API-Anfragen
+haben ein eigenes Routefile unter \verb|routes/api.php| und erhalten direkt einen
+\verb|/api| Prefix in der URL. Die Route Files werden automatisch durch einen
+Service Provider von Laravel beim Start der Anwendung geladen.\\
+
+Der Laravel Router erlaubt folgende HTTP-Anfragemethoden:
+\begin{itemize}
+  \item \textbf{GET} (Fordert Ressource an)\\
+  \mintinline{php}{  Route::get($uri, $callback);}
+  \item \textbf{POST} (Neue Ressource erstellen)\\
+  \mintinline{php}{  Route::post($uri, $callback););}
+  \item \textbf{PUT} (Ressource ersetzen oder erstellen)\\
+  \mintinline{php}{  Route::put($uri, $callback);}
+  \item \textbf{PATCH} (Ressource ändern)\\
+  \mintinline{php}{  Route::patch($uri, $callback);}
+  \item \textbf{DELETE} (Löscht Ressource)\\
+  \mintinline{php}{  Route::delete($uri, $callback);}
+  \item \textbf{OPTIONS} (Liste von unterstützen Methoden des Servers)\\
+  \mintinline{php}{  Route::options($uri, $callback);}
+\end{itemize}
+
+Im folgenden Code~\ref{lst:user_routes} wird ein Teil der Routen von der
+Benutzerverwaltung dargelegt. Dabei lässt sich erkennen, dass die Routen sich in
+einer Gruppe befinden, welche den Prefix \verb|/admin| und die Middleware
+\verb|verified| hat. Die Middleware verbietet es nicht eingeloggten Benutzern
+diese Routen aufzurufen. Dabei verweisen die Routen auf einzelne Methoden im
+UserController. Schlussendlich werden mit der \verb|name|-Methode die Routen benannt,
+damit sie später im Code einfach referenziert werden können.
+
+\begin{listing}[H]
+  \begin{minted}{php}
+    <?php
+    Route::group(['middleware' => 'verified', 'prefix' => 'admin'], 
+    function () {
+      Route::get('users', [UserController::class, 'index'])->name('users.index');
+      Route::get('users/create', [UserController::class, 'create'])->name('users.create');
+      Route::post('users', [UserController::class, 'store'])->name('users.store');
+    });
+  \end{minted}
+  \caption{web.php}
+  \label{lst:user_routes}
+\end{listing}
+
+\subsubsection{Blade Templates}
+Blade ist eine Template Engine, die mit Laravel mitgeliefert wird. Blade
+erleichtert und vereinfacht das Verwenden von PHP Code in HTML, dabei wird der
+Blade Syntax in normalen PHP Code kompiliert. Blade Dateien werden mit der
+Extension \verb|.blade.php| erstellt. Damit der Inhalt der einzelnen Seiten
+dynamisch ist, müssen die Blade Dateien mit Inhalt bzw. mit Daten gefüllt werden, dies erfolgt über die Controller.\\
+
+Um nun übergebenen Inhalt eines Controllers innerhalb einer Blade Datei anzuzeigen, verwendet Blade doppelt
+geschweifte Klammern.
+
+\begin{listing}[H]
+  \begin{minted}{php}
+    Hallo, {{ $user->full_name }}.
+  \end{minted}
+  \caption{example.blade.php}
+  \label{lst:blade_example}
+\end{listing}
+
+Im Code~\ref{lst:blade_example} wird nun auf das übergebene Model \textit{User}
+zugegriffen und der Name ausgegeben.
+
+\subsubsection{Controller}
+Es besteht theoretisch die Möglichkeit, die komplette Logik für die Bearbeitung
+von Anfragen direkt in den Route Files zu platzieren, dies ist jedoch sehr
+unübersichtlich und deshalb ist es sinnvoll, diese Logik in Controller Klassen
+auszulagern. Dabei werden ähnliche Anfragen zusammengeführt, beispielsweise werden
+alle Anfragen im Bezug auf die Benutzerverwaltung wie im Code~\ref{lst:user_routes} im gleichen Controller
+zusammengeführt.
+
+\begin{listing}[H]
+  \begin{minted}{php}
+    <?php
+    namespace App\Http\Controllers;
+
+    use Illuminate\Http\Request;
+    use App\Models\User;
+    use Illuminate\Support\Facades\Hash;
+    use App\Http\Requests\StoreUser;
+    use App\Http\Requests\UpdateUser;
+    use App\Models\Role;
+    use Image;
+
+    class UserController extends Controller
+    {
+        public function index()
+        {
+            $this->authorize('index', User::class);
+            $users = User::orderBy('id', 'asc')->paginate(25, ['*'], 'users');
+            return view('users.index')->with('users', $users);
+        }
+    ...
+  \end{minted}
+  \caption{UserController.php}
+\end{listing}
+
+\subsubsection{Artisan CLI}
+Artisan ist ein Kommandozeilentool von Laravel und zentraler Bestandteil vom Framework. Die
+Artisan CLI
+stellt eine Fülle an sehr nützlichen Befehlen dem Entwickler zur Verfügung.
+Mithilfe von Artisan können neue Controller, Models, Migrations und viel mehr, sehr
+einfach erstellt werden. Da es sehr viele Befehle, gibt folgen hier nur die
+wichtigsten Befehle:
+
+\begin{itemize}
+  \item \textbf{php artisan list}\\
+  Zeigt eine Liste aller verfügbaren Befehle an
+  \item \textbf{php artisan serve}\\
+  Startet einen PHP Development Server unter dem Port 8000
+  \item \textbf{php artisan make:model <name>}\\
+  Erstellt ein neues Model
+  \item \textbf{php artisan make:migration <name>}\\
+  Erstellt eine neue Migration
+  \item \textbf{php artisan make:controller <name>}\\
+  Erstellt ein neuer Controller
+  \item \textbf{php artisan migrate}\\
+  Führt die Datenbank Migration Files aus
+\end{itemize}
+
+\subsubsection{Migrations}
+Datenbank Migrations sind praktisch Vorlagen, wie einzelne Tabellen in der
+Datenbank auszusehen haben. Migrations erleichtern die Handhabung von SQL
+Datenbanken im Team, da nun die Möglichkeit besteht bis auf den Inhalt diese mit Git zu verwalten.
+
+\begin{listing}[H]
+  \begin{minted}{php}
+    <?php
+    class CreateUsersTable extends Migration
+    {
+        public function up()
+        {
+            Schema::create('users', function (Blueprint $table) {
+                $table->id();
+                $table->string('first_name');
+                $table->string('last_name');
+                $table->string('email')->unique();
+                $table->string('avatar')->default('default.png');
+                $table->timestamp('email_verified_at')->nullable();
+                $table->string('password');
+                $table->string('last_login_ip')->nullable();
+                $table->timestamp('last_login_at')->nullable();
+                $table->rememberToken();
+                $table->timestamps();
+            });
+        }
+    
+        public function down()
+        {
+            Schema::dropIfExists('users');
+        }
+    }
+  \end{minted}
+  \caption{create\_users\_table.php}
+  \label{lst:create_users_table}
+\end{listing}
+
+Im Code~\ref{lst:create_users_table} sind zwei Methoden zu erkennen, \verb|up|
+und \verb|down|, in der \verb|up| Methode werden neue Tabellen und Spalten in
+der Datenbank erstellt, bei der \verb|down| Methode wird alles von der \verb|up|
+Methode rückgängig gemacht, in diesem Fall wird die komplette Tabelle gelöscht.
+Um nun die Datenbank zu migrieren, muss in der Artisan \acs*{CLI} der Befehl
+\verb|php artisan migrate| ausgeführt werden, dabei werden alle Migrations im
+Verzeichnis \verb|database/migrations| ausgeführt.
+
+\subsubsection{Eloquent ORM}
+Eloquent ist ein \ac*{ORM} d.h. um auf die \acs*{SQL} Datenbank zuzugreifen,
+müssen keine Raw \acs*{SQL} Queries ausgeführt werden. Im Code erscheint die
+Datenbank als objektorientierte Datenbank und erleichtert somit dem Umgang mit
+der Datenbank. Um nun mit der Datenbank zu interagieren, werden im Code Models
+verwendet, beispielsweise ein \textit{User Model}. In solch einem Model sind auch die
+Beziehungen zu anderen Models festgelegt (1:n, n:m usw.). Ist es nun gewünscht,
+auf die Daten in der Datenbank zuzugreifen, wird im Code mit dem passenden Model
+gearbeitet. Der große Vorteil, der beim Verwenden von Eloquent entsteht, ist der
+leicht lesbare Code, jedoch wird die Ausführungszeit leicht erhöht, was jedoch
+keine große Rolle bei kleinen- bis mittelgroßen Webseiten spielt.
+
+\begin{listing}[H]
+  \begin{minted}{php}
+    <?php
+    User::where('first_name', 'Philipp')->first();
+  \end{minted}
+  \caption{Eloquent Query}
+  \label{lst:eloquent_query}
+\end{listing}
+
+\begin{listing}[H]
+  \begin{minted}{sql}
+    SELECT * FROM `users` WHERE `first_name` = Philipp
+  \end{minted}
+  \caption{Raw SQL Query}
+  \label{lst:raw_sql_query}
+\end{listing}
+
+Beim Vergleich zwischen dem Code~\ref{lst:eloquent_query} und
+Code~\ref{lst:raw_sql_query} ist es erkenntlich, dass der Query mit Eloquent
+verständlicher ist. Besonders bei komplexeren Queries ist Eloquent den Raw
+\acs*{SQL} Queries im Bezug auf die Lesbarkeit stark überlegen.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.6\linewidth]{webinterface/eloquent_workflow.pdf}
+  \caption{Eloquent ORM Workflow von \citeurl[]{eloquentworkflow}}
+\end{figure}
+
+\subsubsection{Laravel Sanctum}
+Laravel Sanctum ist ein First-Party-Package von den Entwicklern von Laravel und
+ermöglicht eine einfache Authentifizierung mithilfe von API-Tokens. Dabei wird
+der vom Benutzer erstellte API-Token im HTTP Header \verb|Authorization|
+mitgeliefert und somit wird die Anfrage bei korrektem Token autorisiert. Da es sich hierbei um ein
+Sicherheitskritisches Modul handelt ist es besonders wichtig, dass dieser Code
+nahezu Fehlerfrei ist und dies wird durch kontinuierliche Updates und Patches
+von den Laravel Entwicklern gewährleistet.
+ 
+\subsubsection{Sessions}
+Das HTTP Netzwerkprotokoll ist ein zustandsloses Protokoll, da aber immer über
+einen Benutzer Informationen über mehrere Seiten beibehalten werden soll, wird
+ein System benötigt, um diese Informationen zu speichern. Sessions lösen dieses
+Problem und funktionieren wie folgt. Ein Benutzer besucht eine Seite und besitzt
+im lokalen Speicher (Cookie) eine Session ID vom Server. Wenn der Benutzer nun
+eine andere Seite der gleichen Webseite besucht, wird diese Session ID dem Server
+wieder gesendet und der Server kann den Benutzer passend zuordnen. Laravel verwendet als Backend
+für die Sessions Memcached oder Redis.
+
+\subsubsection{Middleware}\
+Eine Middleware erleichtert es HTTP Anfragen zu filtern bzw. zu begutachten.
+Beispielsweise wird im Webinterface eine Middleware für das passende, setzen der
+Sprache verwendet. Bei jedem Aufruf einer Seite überprüft die Middleware welcher
+Wert in der Session des Benutzers steht, um so die passende Sprache auszuwählen.
+
+\subsubsection{Service Provider}
+Service Provider sind da, um bestimmte Funktionen in der Anwendung zu
+initialisieren. Beispielsweise wird im Webinterface ein
+\textit{SettingsServiceProvider} verwendet um die Einstellungen aus der Datenbank
+in das Laravel Einstellungssystem zu übernehmen.
+
+\subsubsection{Form Validation}
+Für bestimmte Formulare ist es notwendig zu überprüfen, ob die Angaben korrekt
+sind, beispielsweise dass ein Passwort eine bestimmte Länge hat oder ob eine
+E-Mail ein @-Zeichen enthält. Um diese HTTP-Anfragen zu überprüfen, müssen bestimmte Regeln
+festgelegt werden, diese werden in Laravel in \textit{Request} Files festgelegt.
+
+\begin{listing}[H]
+  \begin{minted}{php}
+    <?php
+    public function rules()
+    {
+      return [
+        'first_name' => ['string', 'max:255'],
+        'last_name' => ['string', 'max:255'],
+        'email' => ['string', 'email', 'max:255'],
+        'password' => ['nullable', 'string', 'min:8', 'confirmed'],
+      ];
+    }
+  \end{minted}
+  \caption{UserUpdate Request}
+  \label{lst:userupdate_request}
+\end{listing}
+
+Im Code~\ref{lst:userupdate_request} werden Regeln für den Vornamen, Nachnamen,
+die E-Mail und für das Passwort festgelegt. Die verfügbaren Regeln sind durch
+Laravel definiert. Liefert eine Request Methode \textit{false} wird der
+Controller nicht weiter ausgeführt und die nicht korrekt ausgefüllten Felder
+werden in der Session gespeichert und können dem User als Fehlernachricht
+dargestellt werden.
+
+\subsection{Aufbau Frontend}
+
+\subsubsection{Einleitung}
+
+Da das Ziel ist, dass das Frontend des Webinterfaces möglichst modular aufgebaut ist
 und so wenig Code wie möglich wiederholt wird. Ermöglicht wird dies durch das
-aufbauen der Seite mithilfe von Components.
-
+Aufbauen der Seite mithilfe von Components.
 
 \subsubsection{Components}
 
-Components sind praktisch kleine Bausteine aus denen die komplette Seite
+Components sind praktisch kleine Bausteine, aus denen die komplette Seite
 aufgebaut ist. Components sind kein natives Feature von HTML/CSS oder PHP, diese
 Funktion wird von der Template Engine Blade bereitgestellt, deshalb werden diese
 auch oft Blade Components genannt. 
@@ -1098,10 +1124,10 @@ können und somit sehr einfach zu handhaben sind.
 \paragraph{Components erstellen}\mbox{}\\
 
 Das Erstellen von einem Component wird nun anhand eines Buttons gezeigt. Da
-dieser als Anonymous Component angelegt wird muss dieser mit keiner Klasse
-assoziiert werden, es wird einfach im Pfad \verb|resources\views\components| ein
-Ordner mit dem Namen \verb|buttons| angelegt und darin ein Blade File mit dem
-Namen \verb|primary.blade.php|. Dort kann nun der gewünschte HTML Code platziert
+dieser als Anonymous Component angelegt wird, muss dieser mit keiner Klasse
+assoziiert werden, es wird einfach im Pfad \verb|resources/views/components| ein
+Ordner mit dem Namen \textit{buttons} angelegt und darin ein Blade File mit dem
+Namen \verb|primary.blade.php| angelegt. Dort kann nun der gewünschte HTML Code platziert
 werden.
 
 \begin{listing}[H]
@@ -1114,20 +1140,18 @@ werden.
   \label{lst:primary.blade.php}
 \end{listing}
 
-
-Im Code~\ref{lst:primary.blade.php} ist eine Variable mit dem Namen \verb|slot|
-verwendet worden. Diese Variable wird später beim verwenden automatisch mit dem
-Inhalt zwischen dem HTML Element ersetzt.
-
+Im Code~\ref{lst:primary.blade.php} wird eine Variable mit dem Namen \verb|slot|
+verwendet. Diese Variable wird später beim verwenden automatisch mit dem
+Inhalt im HTML Tag ersetzt.
 
 \paragraph{Components verwenden}\mbox{}\\
 
-Es stellt sich nun die Frage wie man dieses erstelle Component nun verwendet.
+Es stellt sich nun die Frage, wie man dieses erstellen Component nun verwendet.
 Die Blade Components verwenden den gleichen Syntax wie ein normales HTML
-Element, mit dem Unterschied dass ein \verb|x-| vor dem Namen des Components
-angeführt werden muss. Da sich der vorhin erstellte Component in einem Ordner befindet muss das auch
+Element mit dem Unterschied, dass ein \verb|x-| vor dem Namen des Components
+angeführt werden muss. Da sich der vorhin erstellte Component in einem Ordner befindet, muss das auch
 angegeben werden, dabei wird kein Slash wie üblich um einen Pfad anzugeben
-verwendet sondern ein Punkt, es muss auch keine Extensions angegeben werden.
+verwendet sondern ein Punkt, es muss auch keine Datei Extension angegeben werden.
 
 \begin{listing}[H]
   \begin{minted}{html}
@@ -1136,16 +1160,14 @@ verwendet sondern ein Punkt, es muss auch keine Extensions angegeben werden.
   \caption{Verwendung eines Button Components}
 \end{listing}
 
-
 \paragraph{Attribute übergeben}\mbox{}\\
 
 Auch wenn viele Components ohne Problem überall ohne Veränderung verwendet
-werden können, ist es gewünscht bei manchen Components beispielweise eine
-zusätzliche Klasse anzugeben um die Größe des Elements zu verändern. Erreicht
+werden können, ist es gewünscht, bei manchen Components beispielweise eine
+zusätzliche Klasse, anzugeben um beispielsweise die Größe des Elements zu verändern. Erreicht
 wird das mit der \verb|attributes| Variable im Blade File des Components, da
-aber oft schon Attribute definiert sind ist es möglich mit der \verb|merge|
+aber oft schon Attribute definiert sind, ist es möglich, mit der \verb|merge|
 Methode die Attribute zusammenzuführen.
-
 
 \begin{listing}[H]
   \begin{minted}{php}
@@ -1158,22 +1180,20 @@ Methode die Attribute zusammenzuführen.
 
 Somit ist dieser Button Component nun vollständig Modular.
 
-
 \subsubsection{Layouts}
 
-Da auf den meisten Seiten des Webinterfaces fast das gleiche Layout beibehaltet
-ist es sinnvoll diesen Inhalt in ein Component umzuwandeln. Auch Layouts sind
-Components.
+Da auf den meisten Seiten des Webinterfaces fast das gleiche Layout beibehalten
+wird, ist es sinnvoll diesen Inhalt in ein Component umzuwandeln. Auch Layouts sind
+Components.\\
 
 Es gibt im Webinterface folgende Layouts:
 
 \begin{itemize}
   \item \textbf{app.blade.php}\\
-  Layout für Allgemeine Seiten
+  Layout für Allgemeine Seiten mit Footer
   \item \textbf{admin.blade.php}\\
-  Layout für die Administrativen Seiten mit einer Sidebar und Page Header
-  \item \textbf{display.blade.php}\\
-  Besonderes Layout für die Display Seiten
+  Layout für die administrativen Seiten mit einer Sidebar, Content Header und
+  ohne Footer
 \end{itemize}
 
 \begin{figure}[H]
@@ -1182,8 +1202,8 @@ Es gibt im Webinterface folgende Layouts:
   \caption{App Layout}
 \end{figure}
 
-Das App Layout ist das Standardmäßige Layout, es besteht aus drei Components,
-der Navigation Bar, dem Page Content und aus einem dynamische Footer.
+Das App Layout ist das standardmäßige Layout, es besteht aus der
+Navigationsleiste und dem Footer, dazwischen befindet sich der Inhalt der Webseite.
 
 \begin{figure}[H]
   \centering
@@ -1192,8 +1212,7 @@ der Navigation Bar, dem Page Content und aus einem dynamische Footer.
   \label{fig:login_site}
 \end{figure}
 
-In der Abbildung~\ref{fig:login_site} wird das App Layout verwendet. Dabei sind
-die drei Components erkennbar.
+In der Abbildung~\ref{fig:login_site} wird das App Layout bei der Login Seite verwendet.
 
 \begin{figure}[H]
   \centering
@@ -1202,7 +1221,7 @@ die drei Components erkennbar.
 \end{figure}
 
 Das Admin Layout besitzt eine zusätzliche Sidebar mit Links zu verschiedenen
-Administrativen Seiten, im Vergleich zum Standardmäßigen besitzt das Admin
+administrativen Seiten, im Vergleich zum App Layout, besitzt das Admin
 Layout keinen Footer und eine leicht veränderte Navbar\footnote{Navigation Bar
 engl. für Navigationsleiste}.
 
@@ -1212,17 +1231,17 @@ engl. für Navigationsleiste}.
   \caption{Dashboard mit Admin Layout}
 \end{figure}
 
-Im Dashboard wird das Admin Layout verwendet, somit befindet sich Links vom Page
-Content nun eine Sidebar mit weiteren Links zu anderen Administrativen Seiten.\\
+Im Dashboard wird das Admin Layout verwendet, somit befindet sich auf der linken
+Seite nun eine Sidebar mit Links zu anderen administrativen Seiten.\\
 
-Um nun die Funktion besser zu verstehen wird nun auf den Code einzelner
-Components genauer eingegangen.
+Um nun die Funktion der Webseite besser zu verstehen, wird nun auf den Code
+einzelner wichtiger Components genauer eingegangen.
 
 \subsubsection{Navbar}
-Die Navigationsleiste auch Navbar genannt ist ein zentrales Element der Webseite
+Die Navigationsleiste, auch Navbar genannt, ist ein zentrales Element der Webseite,
 um verschiedene Seiten anzusteuern. Dabei veränderte sich diese dynamisch, je
-nachdem ob man eingeloggt ist oder ob ein bestimmtes Feature wie das
-Registrieren von neuen Benutzern deaktiviert ist.
+nachdem, ob man eingeloggt ist oder ob der Betreiber der Seite ein bestimmtes Feature wie das
+Registrieren von neuen Benutzern deaktiviert hat.
 
 \begin{listing}[H]
   \begin{minted}{html}
@@ -1235,11 +1254,12 @@ Registrieren von neuen Benutzern deaktiviert ist.
     @endif
     @endif
   \end{minted}
-  \caption{Ausschnitt 1 navigation.blade.php}
+  \caption{Ausschnitt 1 Navigationsleiste}
+  \label{lst:1_nav_blade}
 \end{listing}
 
-Der Ausschnitt 1 regelt das Aussehen der Navigationsleiste wenn ein Benutzer
-eingeloggt ist. Dabei wird kein Logo angezeigt wenn der Benutzer eine
+Der Code~\ref{lst:1_nav_blade} regelt das Aussehen der Navigationsleiste, wenn ein Benutzer
+eingeloggt ist. Dabei wird kein Logo angezeigt, wenn der Benutzer eine
 administrative Seite öffnet, da das Logo bereits in der
 Sidebar vorhanden ist. Ebenfalls wird auf nicht administrativen Seiten ein
 zurück zum Dashboard Link angezeigt.
@@ -1267,12 +1287,12 @@ zurück zum Dashboard Link angezeigt.
       </div>
     @endif
   \end{minted}
-  \caption{Ausschnitt 2 navigation.blade.php}
+  \caption{Ausschnitt 2 Navigationsleiste}
 \end{listing}
 
-Im zweiten Ausschnitt geht es um die Login/Register Links, diese werden nur
+Im zweiten Ausschnitt der Navigationsleiste geht es um die Login/Register Links, diese werden nur
 nicht eingeloggten Benutzern angezeigt. Ob der Register Link angezeigt wird ist
-abhängig von den getätigten Einstellungen in den Seiten Einstellungen.
+abhängig, davon ob die Registrierung in den Seiten Einstellungen erlaubt ist.
 
 \begin{figure}[H]
   \centering
@@ -1281,16 +1301,16 @@ abhängig von den getätigten Einstellungen in den Seiten Einstellungen.
 \end{figure}
 
 \subsubsection{Content Header}
-Um die Navigation zu erleichtern besitzt das Webinterface bei Seiten mit dem
-\verb|admin|-Layout unter der Navigationsleiste einen Content Header. Der
-Content Header setzt sich aus dem Seiten Titel und den sogenannten Breadcrumbs\footnote{engl.
+Um die Navigation zu erleichtern, besitzt das Webinterface bei Seiten mit dem
+Admin Layout unter der Navigationsleiste einen Content Header. Der
+Content Header setzt sich aus dem Titel der jeweiligen Seite und den sogenannten Breadcrumbs\footnote{engl.
 für Brotkrümel, entspricht einer Navigation} zusammen. Dabei befindet sich ganz
-links der aktuelle Seiten Titel, welcher ebenfalls im Browser Tab angezeigt wird
-und rechts die Brotkrümelnavigation. Die Breadcrumbs geben dabei dem Benutzer an
+links der aktuelle Seitentitel, welcher ebenfalls im Browser Tab angezeigt wird
+und rechts die Brotkrümelnavigation. Die Breadcrumbs geben dabei dem Benutzer an,
 in welcher Verzweigung er sich aktuell befindet.\\
 
 Die Breadcrumbs werden aus der URL aufgebaut, dabei werden die einzelnen
-Segmente zerlegt und in einer Liste mit Hyperlinks zusammengeführt.  
+Segmente zerlegt und in einer Liste horizontal mit Hyperlinks zusammengeführt.  
 
 \begin{listing}[H]
   \begin{minted}{php}
@@ -1318,11 +1338,11 @@ Segmente zerlegt und in einer Liste mit Hyperlinks zusammengeführt.
 
 \subsubsection{Session Alerts}
 Um einen Benutzer zu informieren, dass eine Anfrage erfolgreich ausgeführt wurde
-oder ob es einen Fehler gab werden \textit{Session Alerts} verwendet.\\
+oder ob es einen Fehler gab, werden \textit{Session Alerts} verwendet.\\
 
 Wird beispielsweise ein neues Kennzeichen im System angelegt, so wird der
-Benutzer nicht nur zu der Liste aller Kennzeichen geleitet, sondern es wird in
-der Session des Browsers eine Nachricht mitgespeichert.
+Benutzer nicht nur zu der Liste aller Kennzeichen zurück geleitet, sondern es wird in
+der Session des jeweiligen Benutzers eine Nachricht mitgespeichert.
 
 \begin{listing}[H]
   \begin{minted}{php}
@@ -1335,7 +1355,7 @@ der Session des Browsers eine Nachricht mitgespeichert.
 Um diese Nachricht nun anzuzeigen wurde ein Component entworfen welcher nur
 angezeigt wird, wenn ein solche Session Nachricht vorhanden ist. Neben einer
 \textit{success} Nachricht gibt es auch noch eine \textit{error} Nachricht,
-diese wird bei fehlerhaften Angaben in einem Formular verwendet.
+diese wird beispielsweise bei fehlerhaften Angaben in einem Formular verwendet.
 
 \begin{listing}[H]
   \begin{minted}{html}
@@ -1359,18 +1379,19 @@ Die Sidebar ist das zentrale Element für administrative Benutzer des
 Webinterfaces. Über die Sidebar sind alle wichtigen Seiten auf einen Blick zu
 sehen und erreichen, dabei spielt es keine Rolle ob auf dem Smartphone oder auf
 dem Desktop, denn die Sidebar wurde so implementiert, dass sie auf kleineren
-Auflösungen eingeklappt wird und nur auf Wunsch mit einem das
+Auflösungen eingeklappt wird und nur auf Wunsch mit einem Klick auf das
 Hamburger-Menü-Symbol\footnote{Drei waagrechte Striche ähneln einem Hamburger}
-in der Navigationsleiste geöffnet, somit wird wichtiger Platz gespart.\\
+in der Navigationsleiste geöffnet wird, somit bleibt mehr Platz für das
+Darstellen andere Elemente.\\
 
-Für das dynamische Verhalten der Sidebar wird \acl*{JS} verwendet. Es wird nicht
+Für das dynamische Verhalten der Sidebar wird \acl*{JS} verwendet. Es wird kein
 Vanilla\footnote{Bedeutet so viel wie ohne Zusätze} \acl*{JS} verwendet, sondern
 AlpineJS\footnote{\url{https://github.com/alpinejs/alpine}}. Dabei folgt das
 Lightweight Framework einem ähnlichen Prinzip wie TailwindCSS nur eben für
 JavaScript.\\
 
 Die Sidebar Einträge bestehen aus zwei Components, dem Sidebar Header Component
-und dem Sidebar Link Component. Der Sidebar Header Component ist da um die verschiedenen Links in verschiedene
+und dem Sidebar Link Component. Der Sidebar Header Component ist da, um die verschiedenen Links in verschiedene
 Sektionen aufzuteilen, damit die Übersichtlichkeit gewährt bleibt.
 
 \begin{listing}[H]
@@ -1382,9 +1403,9 @@ Sektionen aufzuteilen, damit die Übersichtlichkeit gewährt bleibt.
 
 Der Sidebar Link Component ist für die Links zuständig. Dieser besteht aus einem
 \acs*{SVG}-Icon und dem Namen der Seite. Die Route wird dem Component über
-\verb|:href| übergeben und nicht mit \verb|href|, da die URL mit einer Helper Methode
-angegeben wird und ansonsten von Blade nicht compiliert wird und als
-tatsächlicher Hyperlink angenommen wird.
+\verb|:href| übergeben und nicht mit \verb|href|, da die URL mit der Helper
+Methode \verb|route| angegeben wird und sonst von Blade nicht kompiliert wird
+und schlussendlich der zu kompilierende Code im HTML steht.
 
 \begin{listing}[H]
   \begin{minted}{html}
@@ -1402,15 +1423,15 @@ tatsächlicher Hyperlink angenommen wird.
 \end{figure}
 
 \subsubsection{Footer}
-Der Footer ist dazu da um Informationen rund um Impressum, Datenschutzverweis,
+Der Footer ist dazu da, um Informationen rund um Impressum, Datenschutzverweis,
 Geschäftsbedingungen und Urheberrechtshinweis darzustellen.\\
 
 Grundsätzlich ist besitzt der Footer des Webinterfaces auf der linken Seite
-einen variablen Text der sich frei über die Seiten Einstellungen einstellen
+einen variablen Text der sich frei über die Seiten Einstellungen konfigurieren
 lässt und auf der rechten Seiten Verweise auf die Datenschutzbestimmungen,
-Allgemeine Geschäftsbedingungen und Impressum welche sich ebenfalls über die
+allgemeine Geschäftsbedingungen und Impressum, welche sich ebenfalls über die
 Seiten Einstellungen konfigurieren lassen. Befindet sich auf diesen Seiten kein
-Inhalt werden diese auch nicht im Footer angezeigt.
+Inhalt, werden diese auch nicht im Footer angezeigt.
 
 \begin{figure}[H]
   \centering
@@ -1421,17 +1442,19 @@ Inhalt werden diese auch nicht im Footer angezeigt.
 \subsection{Funktionen}
 Das Webinterface besitzt eine große Anzahl an Features und
 Konfigurationsmöglichkeiten. In den folgenden Seiten werden alle Funktionen
-ausführlich mit deren technischen Funktion erklärt.
+ausführlich mit derem technischen Hintergrund erklärt.
+
+% TODO Liste aller Funktionen
 
 \subsubsection{Dashboard}
-Das Dashboard ist praktisch die Startseite für eingeloggte Benutzer, als erstes
+Das Dashboard ist praktisch die Startseite für eingeloggte Benutzer, als Erstes
 wird dem Benutzer eine Sicherheitsnachricht über den letzten Login angezeigt.
 Dabei wird die Zeit seit dem letzten Login angegeben und die dabei verwendete
 IP-Adresse.\\
 
-Um diese Daten zu speichern wird im \verb|AuthenticatedSessionController| die
-\verb|store| Methode ergänzt. Dabei wird nachdem sich der Benutzer erfolgreich
-Authentifiziert hat die IP-Adresse und der aktuelle Zeitpunkt in die Datenbank
+Um diese Daten zu speichern, wird im \verb|AuthenticatedSessionController| die
+\verb|store| Methode ergänzt. Dabei wird, nachdem sich der Benutzer erfolgreich
+authentifiziert hat, die IP-Adresse und der aktuelle Zeitpunkt in die Datenbank
 geschrieben.
 
 \begin{listing}[H]
@@ -1470,8 +1493,9 @@ dargestellt:
 \subsubsection{Benutzerverwaltung}
 
 Die Benutzerverwaltung ist ein zentrales Steuerelement des Webinterfaces und wichtig
-für die Zugriffskontrolle. Für die Benutzerverwaltung sind alle CRUD-Operationen\footnote{Grundlegende Operationen:
-Create, Read, Update und Delete} verfügbar.
+für die Zugriffskontrolle. Für die Benutzerverwaltung sind alle
+CRUD-Operationen\footnote{Grundlegende Operationen Create, Read, Update und
+Delete von Daten} verfügbar.
 
 \begin{figure}[H]
   \centering
@@ -1483,7 +1507,7 @@ Create, Read, Update und Delete} verfügbar.
 
 Die Startseite der Benutzerverwaltung ist eine Liste von allen Benutzern im
 System. Dort sind die wichtigsten Informationen direkt abzulesen wie Name, Rolle
-und Email.
+und E-Mail.
 
 \begin{figure}[H]
   \centering
@@ -1514,12 +1538,12 @@ folgende Informationen eines Benutzers konfiguriert werden:
 \end{figure}
 
 \paragraph{Profilbilder}\mbox{}\\
-Jeder Benutzer hat die Möglichkeit ein Profilbild zu besitzen und dies wird
-überall verwendet wo ein Benutzer erwähnt wird.\\
+Jeder Benutzer hat die Möglichkeit, ein Profilbild zu besitzen und dies wird
+überall verwendet, wo ein Benutzer erwähnt wird.\\
 
-Um ein Bild hochzuladen muss beim editieren/erstellen auf das Profilbild bzw.
+Um ein Bild hochzuladen, muss beim editieren/erstellen, auf das aktuelle Profilbild bzw.
 auf das Standardprofilbild geklickt werden, es öffnet sich nun ein Upload-Dialog
-des Betriebsystems und erlaubt es ein Bild auszuwählen.
+des Betriebssystems und erlaubt es ein Bild auszuwählen.
 
 \begin{listing}[H]
   \begin{minted}{html}
@@ -1534,12 +1558,13 @@ des Betriebsystems und erlaubt es ein Bild auszuwählen.
   \caption{Profilbild Upload}
 \end{listing}
 
-Bevor das Bild nun auf dem Server gespeichert wird ist es notwendig es mit der
+Bevor das Bild nun auf dem Server gespeichert wird, ist es notwendig, das Bild
+mit der 
 PHP Image Library
-\textbf{Intervention}\footnote{\url{http://image.intervention.io/}} das Bild auf
+\textbf{Intervention}\footnote{\url{http://image.intervention.io/}} auf
 die passende Größe zu skalieren. Nach diesem Schritt wird das Bild unter dem
-Pfad \verb|/uploads/avatars/| mit einem zufälligem Namen abgespeichert und mit
-dem Benutzer assoziiert.
+Pfad \verb|/uploads/avatars/| mit einem zufälligem Namen mithilfe des aktuellen Datums abgespeichert und mit
+dem Benutzer in der Datenbank assoziiert.
 
 \begin{listing}[H]
   \begin{minted}{php}
@@ -1565,9 +1590,9 @@ Anfragen gibt (z.B. Benutzer editieren), diese Vielzahl an Rechten können
 verschiedenen Gruppen zugewiesen werden. Schlussendlich kann man diese Gruppen
 einzelnen Benutzern zuweisen.\\
 
-Es gibt nun drei relevante Modelle (\verb|User|, \verb|Role| und \verb|Permission|), dabei
-besteht zwischen dem User und dem Role Model eine m zu n Beziehung. Ebenfalls
-besteht zwischen dem Role Model und dem Permission Model eine m zu n Beziehung.
+Es gibt nun drei relevante Modelle (\textit{User}, \textit{Role} und \textit{givePermissionBySlug}), dabei
+besteht zwischen dem User und dem Role Model eine \textit{m zu n} Beziehung. Zwischen dem
+Role Model und dem Permission Model besteht auch eine eine \textit{m zu n} Beziehung.
 
 \begin{figure}[H]
   \centering
@@ -1652,7 +1677,7 @@ Das Webinterface besitzt 43 verschiedene Rechte.
 \end{longtable}
 
 \paragraph{Vergabe von Rechten und Rollen mit Slugs}\mbox{}\\
-Da es bei der großen Anzahl von verschiedenen Rechte kompliziert wäre die Rechte
+Da es bei der großen Anzahl von verschiedenen Rechte kompliziert wäre, die Rechte
 und Rollen mit einer ID zu vergeben wird ein Slug\footnote{Benutzerfreundlicher
 Name} verwendet.
 
@@ -1677,9 +1702,9 @@ Mit der \verb|givePermissionBySlug| Methode ist es nun möglich Rollen eine
 Vielzahl von Rechten zuzuteilen, dabei muss nur ein Array mit den Slugs der
 einzelnen Rechte übergeben werden.\\
 
-Im Codeausschnitt~\ref{lst:roleseeder} vom RoleSeeder wird eine neue Rolle mit
+Im Code~\ref{lst:roleseeder} vom RoleSeeder wird eine neue Rolle mit
 dem Namen \textbf{Administrator} und dem Slug \textbf{admin} erstellt,
-gleichzeitig werden einige Rechte dieser Gruppe zugeteilt.
+gleichzeitig werden dieser Gruppe einige Rechte zugeteilt.
 
 \begin{listing}[H]
   \begin{minted}{php}
@@ -1693,11 +1718,11 @@ gleichzeitig werden einige Rechte dieser Gruppe zugeteilt.
   \label{lst:roleseeder}
 \end{listing}
 
-Eine ähnliche Methode wird verwendet um einem Benutzer eine oder mehrere Rollen
+Eine ähnliche Methode wird verwendet, um einem Benutzer eine oder mehrere Rollen
 zuzuweisen.
 
 \paragraph{Authentisierung}\mbox{}\\
-Für das Überprüfen ob ein Benutzer die korrekten Rechte besitzt werden Laravel
+Für das Überprüfen, ob ein Benutzer die korrekten Rechte besitzt, werden Laravel
 Policies verwendet. Es wird für jedes Modell eine Policy erstellt und für jedes
 Recht eine Methode. Diese Methoden werden nun innerhalb eines Controllers
 aufgerufen, liefert die Methode \verb|true| wird die Anfrage fortgesetzt,
@@ -1741,7 +1766,7 @@ folgende Informationen konfiguriert werden:
 \end{itemize}
 
 Die gewünschten Rechte werden mithilfe von Checkboxen ausgewählt. Die
-zusätzliche Option Standardrolle erlaubt es diese Rolle automatisch neue
+zusätzliche Option Standardrolle erlaubt es, diese Rolle automatisch neue
 registrierten Benutzern zuzuweisen.
 
 \begin{figure}[H]
@@ -1750,10 +1775,9 @@ registrierten Benutzern zuzuweisen.
   \caption{Benutzer erstellen}
 \end{figure}
 
-
 \subsubsection{Neuigkeiten}
-Das Neuigkeiten Feature ist eine Möglichkeit um Besucher des Webinterfaces
-rasch über eine wichtige Neuigkeiten zu informieren. Dabei ist das System ähnlich
+Das Neuigkeiten Feature ist eine Möglichkeit, um Besucher des Webinterfaces
+rasch über wichtige Neuigkeiten zu informieren. Dabei ist das System ähnlich
 wie ein Blog aufgebaut und zeigt die einzelnen News auf der Startseite der
 Webseite an. Es sind alle CRUD-Operationen verfügbar.
 
@@ -1767,18 +1791,20 @@ Neben dem Titel und Inhalt gibt es noch zwei besondere Einstellungen:
 
 \begin{itemize}
   \item \textbf{Published}\\
-  Um eine Neuigkeit auf der Startseite für Besucher anzuzeigen muss diese
+  Um eine Neuigkeit auf der Startseite Besucher anzuzeigen muss diese
   Einstellung aktiviert sein. 
   \item \textbf{Anonymous}\\
   Ist es nicht erwünscht, dass der Name und das Profilbild des Autors auf der
   Startseite angezeigt wird, kann dies mit dieser Option deaktiviert werden.
+  Anstatt des Namens wird \textit{Anonymous user} angezeigt und das
+  Standardprofilbild wird verwendet.
 \end{itemize}
 
 Für das editieren des Inhalts wird der Quelloffene \acs*{WYSIWYG}-HTML-Editor
 CKEditor 5\footnote{\url{https://ckeditor.com}} verwendet.\\
 
-Die Startseite besitzt einen modifizierten Content Header mit dem akutellen
-Datum und Uhrzeit.
+Die Startseite besitzt einen modifizierten Content Header mit dem Akutellen
+Datum und der Uhrzeit.
 
 \begin{figure}[H]
   \centering
@@ -1788,11 +1814,11 @@ Datum und Uhrzeit.
 
 \subsubsection{Parkplatzverwaltung}
 Ein Benutzer kann beliebig viele Parkplätze im Webinterface anlegen, ein
-Parkplatz besteht dabei aus einem Namen und einer Beschreibung, ein Parkplatz
-kann ebenfalls ein Bild hinzugefügt werden ähnlich wie bei den Benutzern. In der
+Parkplatz besteht dabei aus einem Namen und einer Beschreibung, einem Parkplatz
+kann ebenfalls ein Bild hinzugefügt werden, ähnlich wie bei den Benutzern. In der
 Abbildung~\ref{fig:parking_lot_er} ist zu erkennen, dass ein Parkplatz eine 1:n
 Beziehung zu den Parklücken (Parking Spots), sowie zu den Erkennungen
-(Detections). 
+(Detections) besitzt. 
 
 \begin{figure}[H]
   \centering
@@ -1809,8 +1835,8 @@ Beziehung zu den Parklücken (Parking Spots), sowie zu den Erkennungen
 
 \paragraph{Parklücken}\mbox{}\\
 Eine Parklücke besteht aus einer Adresse und dem Status. Die Adresse ist eine
-von der Hardware gesetzte Zahl um die einzelnen Parklücken mit der API zu
-identifizieren und anzusteuern. Der Status ist dafür da um anzuzeigen ob eine Parklücke besetzt
+von der Hardware gesetzte Zahl, um die einzelnen Parklücken mit der API zu
+identifizieren und anzusteuern. Der Status ist dafür da, um anzuzeigen, ob eine Parklücke besetzt
 oder frei ist.
 
 \begin{figure}[H]
@@ -1822,7 +1848,7 @@ oder frei ist.
 \subsubsection{Kennzeichenverwaltung}
 Die Kennzeichenverwaltung ist ein wichtiger Teil des Webinterfaces und für die
 Kennzeichenerkennung, die Kennzeichenverwaltung beherrscht alle CRUD-Operationen
-und steht in Beziehungen mit anderen Features wie dem Erkennungsverlauf oder der
+und steht in starker Abhängigkeit mit anderen Features wie dem Erkennungsverlauf oder der
 Parkplatzverwaltung. 
 
 \begin{figure}[H]
@@ -1837,18 +1863,18 @@ Ein Kennzeichen besitzt folgende Informationen:
   \item \textbf{Assoziierter Benutzer}\\
   Es besteht die Möglichkeit ein Kennzeichen einem Benutzer zuzuweisen.
   \item \textbf{Name des Kennzeichens}\\
-  Der Name des Kennzeichens wird durch die Kennzeichenerkennung vorgegeben oder
-  kann auch manuell verändert bzw. eingetragen werden.
+  Der Name des Kennzeichens wird durch die Kennzeichenerkennung vorgegeben, oder
+  kann manuell verändert bzw. eingetragen werden.
   \item \textbf{Park Status}
-  Der Park Status gibt an ob sich ein Fahrzeug mit dem Kennzeichen gerade auf
+  Der Park Status gibt an, ob sich ein Fahrzeug mit dem Kennzeichen gerade auf
   einem Parkplatz befindet (Inside) oder nicht (Outside).
   \item \textbf{Allowance Status}
-  Der Allowance Status gibt an ob ein Kennzeichen erlaubt, unerlaubt oder
+  Der Allowance Status gibt an, ob ein Kennzeichen erlaubt, unerlaubt oder
   unbekannt ist.
 \end{itemize}
 
-Betrachtet man ein einzelnes Kennzeichen im Webinterface ist es möglich diesem
-einen Benutzer zuzuordnen bzw. manuelle Einstellungen vorzunehmen beispielsweise
+Betrachtet man ein einzelnes Kennzeichen im Webinterface, ist es möglich, diesem
+einen Benutzer zuzuordnen bzw. manuelle Einstellungen vorzunehmen, beispielsweise
 bei einem fehlerhaften Park Status. Ebenfalls ist es direkt möglich alle
 aufgenommenen Erkennungen des Kennzeichens inklusive Bild zu betrachten.
 
@@ -1866,7 +1892,7 @@ aufgenommenen Erkennungen des Kennzeichens inklusive Bild zu betrachten.
 
 \subsubsection{Erkennungsverlauf}
 Unter einer Erkennung bzw. Detection wird im Webinterface eine einzelne
-Kennzeichenaufnahme eines Fahrzeuges verstanden. Das bedeutet ein Kennzeichen
+Kennzeichenaufnahme eines Fahrzeuges verstanden. Das bedeutet, ein Kennzeichen
 kann viele Erkennungen besitzen.\\
 
 Eine Erkennung besteht praktisch aus dem neuen Park Status, dem Foto des
@@ -1874,7 +1900,7 @@ Kennzeichens von der Kennzeichenerkennung und einem genauen Zeitpunkt. Eine
 Erkennung kann nicht manuell über das Webinterface bearbeitet werden und ist nur
 durch die API veränderbar. Eine Erkennungen wird nicht nur mit einem Kennzeichen
 assoziiert und somit mit einem Benutzer, sondern auch mit einem Parkplatz. Die
-Kennzeichenerkennungen gibt bei der API-Request ein Parkplatz an und verknüpft
+Kennzeichenerkennungen gibt bei einer API-Request ein Parkplatz an und verknüpft
 somit die Erkennung mit dem jeweiligen Parkplatz. 
 
 \begin{figure}[H]
@@ -1884,7 +1910,7 @@ somit die Erkennung mit dem jeweiligen Parkplatz.
 \end{figure}
 
 \subsubsection{Seiten Einstellungen}
-In den Seiten Einstellungen ist es möglich als Benutzer bestimmte Aspekte des
+In den Seiten Einstellungen ist es möglich, als Benutzer bestimmte Aspekte des
 Webinterfaces zu konfigurieren dazu zählt:
 
 \begin{itemize}
@@ -1907,10 +1933,10 @@ Webinterfaces zu konfigurieren dazu zählt:
 \end{figure}
 
 Die Einstellungen werden in der Datenbank gespeichert, in der Datenbank besteht eine Einstellung
-aus einem \verb|key| und einer \verb|value|. \verb|key| ist dabei vorgegeben und
-die \verb|value| kann frei durch das GUI konfiguriert werden.\\
+aus einem \verb|key| und einer \verb|value|. Der \verb|key| ist dabei vorgegeben und
+die \verb|value| kann frei durch die grafische Benutzeroberfläche konfiguriert werden.\\
 
-Damit der Browser des Benutzers über die aktuellen Einstellungen bescheid weiß
+Damit der Browser des Benutzers über die aktuellen Einstellungen Bescheid weiß,
 wird mithilfe eines Service Providers die in der Datenbank vorhandenen
 Einstellungen in die Laravel Konfiguration übernommen.
 
@@ -1927,8 +1953,8 @@ Einstellungen in die Laravel Konfiguration übernommen.
   \caption{SettingsServiceProvider}
 \end{listing}
 
-Nun ist es möglich im Projekt überall mit der \verb|config()| Helper Methode die
-Seiten Einstellungen abzurufen. Somit ist es beispielsweise möglich den Seiten
+Nun ist es möglich, im Projekt überall mit der \verb|config()| Helper Methode die
+Seiten Einstellungen abzurufen. Somit ist es beispielsweise möglich, den Seiten
 Titel des Webinterfaces in den Layouts anzugeben.
 
 \begin{listing}[H]
@@ -1939,7 +1965,7 @@ Titel des Webinterfaces in den Layouts anzugeben.
 \end{listing}
 
 \subsubsection{Profil}\label{sec:profile}
-Das Profil ist dazu, da um seine eigenen Benutzerinformationen zu betrachten und
+Das Profil ist dazu da, um seine eigenen Benutzerinformationen zu betrachten und
 zu bearbeiten. Es sind die gleichen Einstellungen wie in der Benutzerverwaltung
 einstellbar, jedoch nur über seinen eigenen Account. Eine zusätzliche
 Einstellung stellt die UI-Sprache dar, dort kann jeder Benutzer seine gewünschte
@@ -1952,7 +1978,7 @@ UI-Sprache konfigurieren.\\
 \end{figure}
 
 Erreichbar ist das Profil über die Navigationsleiste oben rechts mit einem Klick
-auf das Profilbild, es öffnet sich ein Dropdown Menü mit dem Eintrag Profil. 
+auf das Profilbild, es öffnet sich ein Dropdownmenü mit dem Eintrag Profil. 
 
 \begin{figure}[H]
   \centering
@@ -1962,20 +1988,20 @@ auf das Profilbild, es öffnet sich ein Dropdown Menü mit dem Eintrag Profil.
 
 \subsubsection{Lokalisierung}
 Lokalisierung ist sehr ähnlich zur Übersetzung, aber anstatt einer wörtlichen
-Übersetzung wird die Sprache and das Zielpublikum angepasst. Gegenbenfalls
+Übersetzung wird die Sprache an das Zielpublikum angepasst. Gegebenenfalls
 werden auch Maßeinheiten, Datums- und Uhrzeitformate angepasst.\\
 
-Das Webinterface besitzt die Möglichkeit zwischen Deutsch und Englisch
+Das Webinterface besitzt die Möglichkeit, zwischen Deutsch und Englisch
 auszuwählen, hierbei wurde das Webinterface zuerst in Englisch verfasst und dann
 in das Deutsche lokalisiert.
 
 \paragraph{Funktion der Sprachauswahl}\mbox{}\\
-Wie bereits in der Sektion~\ref{sec:profile} erklärt kann ein Benutzer in den
+Wie bereits in der Sektion~\ref{sec:profile} erklärt, kann ein Benutzer in den
 Profileinstellungen sich eine Sprache je nach Bedürfnis auswählen, dabei wird
 diese Sprache nur lokal bei diesem Benutzer angepasst.\\
 
 Bei der Sprachauswahl wird ein \verb|select| Element verwendet, wenn ein
-Benutzer nun eine andere Option auswählt wird dieser weitergeleitet,
+Benutzer nun eine andere Option auswählt, wird dieser weitergeleitet,
 beispielsweise bei einem Klick auf English wird dieser auf \verb|/locale/en|
 weitergeleitet. 
 
@@ -1996,7 +2022,7 @@ weitergeleitet.
 
 Beim Aufruf dieser Route wird in die Session des Benutzers die gewünschte
 Sprache geschrieben und der Benutzer wird direkt wieder zu der Ursprungsseite
-zurück geschickt. Diese Vorgang geht so schnell, dass ein Benutzer nicht
+zurückgeschickt. Dieser Vorgang geht so schnell, dass ein Benutzer nicht
 bemerkt, dass die Seite gewechselt wurde.
 
 \begin{listing}[H]
@@ -2011,11 +2037,11 @@ bemerkt, dass die Seite gewechselt wurde.
 \end{listing}
 
 Nun steht in der Session des Benutzers die gewünschte Sprache, diese muss nun
-angewandt werden. Für das Anwenden der Sprache wird eine \verb|Middleware|
+angewendet werden. Für das Anwenden der Sprache wird eine \verb|Middleware|
 verwendet. Die \verb|Localization| Middleware wird bei jedem Aufruf einer Route
-ausgeführt, dabei wird geprüft ob der Benutzer den Eintrag \verb|locale|
-besitz, welcher vorhin durch den Service Provider gesetzt wurde und dann wird
-die gewünschte Sprache gesetzt.
+ausgeführt, dabei wird geprüft, ob der Benutzer den Eintrag \verb|locale|
+besitz, welcher vorhin durch den Service Provider gesetzt wurde. Ist dort ein
+Eintrag vorhanden wird die Seite in die passende Sprache lokalisiert.
 
 \begin{listing}[H]
   \begin{minted}{php}
@@ -2030,29 +2056,29 @@ die gewünschte Sprache gesetzt.
   \caption{Localization Middleware}
 \end{listing}
 
-Besitzt der Benutzer keine \verb|locale| Variable in seiner Session bedeutet,
-dass dieser noch keine Sprache festgelegt hat, somit wird automatisch die
+Besitzt der Benutzer keine \verb|locale| Variable in seiner Session, bedeutet
+das, dass dieser noch keine Sprache festgelegt hat, somit wird automatisch die
 ausgewählte Standardsprache aus den Seiten Einstellungen ausgewählt.
 
 \subsection{API}
 \subsubsection{Einleitung}
-\ac*{API} ist der Teil des Webinterfaces der mit der Hardware kommuniziert.
+Die \ac*{API} ist der Teil des Webinterfaces der mit der Hardware kommuniziert.
 Diese Programmierschnittstelle ist sehr einfach zu verwenden und wird mit
-Laravel Sanctum abgesichert. Die API ermöglicht ein bearbeiten von lesen von
+Laravel Sanctum abgesichert. Die API ermöglicht ein Bearbeiten und lesen von
 Daten aus dem Webinterface mithilfe von HTTP-Anfragen.
 
 \subsubsection{Autorisierung mit Bearer Token}
 Wie bereits besprochen erfolgt die Autorisierung der HTTP-Anfragen mit Laravel
 Sanctum. Sanctum verwendet dabei einen sogenannten Bearer Token. Dieser Bearer
-Token wird bei Anfragen einfach in der Anfrage im HTTP-Header mitgeschickt und
-der Server gleicht dies mit den verschlüsselten Token in der Datenbank ab
+Token wird bei Anfragen einfach im HTTP-Header mitgeschickt und
+der Server gleicht dies mit den verschlüsselten Token in der Datenbank ab und
 erlaubt oder verweigert den Zugriff.
 
 \subsubsection{API Tokens erstellen}
-Über das Webinterface kann entweder über die Sidebar oder über das Dropdown Menü
+Über das Webinterface kann entweder über die Sidebar oder über das Dropdownmenü
 in der Navigationsleiste das Menü \textit{API Tokens} erreicht werden. Dort
 können nun neue API Tokens erstellt werden, zur späteren Identifikation kann
-diesem API Token mit einem Namen versehen werden, dieser Name spielt aber
+dieser API Token mit einem Namen versehen werden, dieser Name spielt aber
 ansonsten keine Rolle. 
 
 \begin{figure}[H]
@@ -2061,9 +2087,9 @@ ansonsten keine Rolle.
   \caption{API Token}
 \end{figure}
 
-Beim erstellen des API Tokens öffnet sich einmalig ein Popup mit dem Bearer
+Beim Erstellen des API Tokens öffnet sich einmalig ein Popup mit dem Bearer
 Token, dieser muss nun abgespeichert werden, denn der Token wird aus
-Sicherheitsgründen nur einmalig angezeigt.
+Sicherheitsgründen nur einmal angezeigt.
 
 \begin{figure}[H]
   \centering
