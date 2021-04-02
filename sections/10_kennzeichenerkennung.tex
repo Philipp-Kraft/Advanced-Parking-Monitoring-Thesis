@@ -1,8 +1,37 @@
 \def \sectionauthors {Samuel Bleiner}
+\subsection{Einleitung}
+Der Teil der Kennzeichenerkennung beschäftigt sich damit, aus aufgenommenen Fotos der einfahrenden und ausfahrenden Fahrzeuge, 
+das Kennzeichen auszulesen und dieses an die Datenbank zu senden. Dies wird benötigt um damit es möglich ist zu bestimmen welches 
+Fahrzeug sich im Moment auf dem Parkplatz befindet. Zudem kann dadurch jedes Fahrzeug eindeutig identifiziert werden, da das Kennzeichen 
+einzigartig sein muss.  In Zusammenhang mit der Datenbankverwaltung können so auch bestimmte Kennzeichen definiert werden, welche anders 
+behandelt werden als andere Kennzeichen. Ein Beispiel dafür wäre kostenloses Parken für den Parkplatzbesitzer oder auch gesperrte Kennzeichen, 
+bei welchen der Parkplatzbetreiber eine Benachrichtigung bekommt, wenn sich diese auf dem Parkplatz befinden. Die Verbindung zur Datenbank 
+erfolgt über eine eigene API, mit welcher die Daten schnell und einfach übertragen werden können. Um das Programm für die Kennzeichenerkennung 
+zu realisieren werden sowohl bewährte Bildverarbeitungsalgorithmen eingesetzt als auch Neuronale Netze, welche sich in den Bereich des 
+Maschinellen Lernens einordnen lassen, wodurch die Genauigkeit gesteigert werden kann. Zusätzlich wird für das komplette Modul ein Gehäuse 
+gefertigt in welchem die Elektronik fest verbaut werden kann und trotzdem die Möglichkeit zu weiteren Verbesserungen ermöglicht.
+
 \subsection{Anforderungen}
-\lipsum[1-5]
-\subsection{Vorstudie}
-\lipsum[1-5]
+Das Modul für die Kennzeichenerkennung muss einige Anforderungen erfüllen, um für seinen Einsatzzweck bestmöglich geeignet zu sein.\\
+
+Als erstes muss die Software einige Anforderungen erfüllen. Sie muss eine hohe Genauigkeit erreichen, um in möglichst jedem einzelnen Fall 
+ein korrektes Ergebnis zu liefern. Um diese Genauigkeit zu erreichen werden mehrere Modell für Maschinelles Lernen verwendet, mit welchen 
+eine bessere Genauigkeit als mit anderen Methoden erreicht werden kann. Die Geschwindigkeit ist hingegen ein nicht ganz so wichtiger Punkt, 
+da Fahrzeuge für eine erfolgreiche Erkennung nicht zu schnell fahren dürfen, um eine passende Fotoaufnahme zu ermöglichen. Dadurch wird der 
+Zeitintervall zwischen den Fahrzeugen erhöht, weswegen der Fokus bei der Software nahezu vollständig auf die Genauigkeit gelegt werden kann 
+und die Geschwindigkeit bis zu einem gewissen Punkt vernachlässigt werden kann. Das bedeutet, dass die Software für einen Durchlauf mehrere 
+Sekunden benötigen darf, ohne dadurch auch nur annähernd die Anwendung zu behindern. Außerdem muss die Leistung eines Raspberry Pi 4 2GB für 
+die Software ausreichen, da dieser für das Modul verwendet wird.\\
+
+Als nächstes kommt der Auslöser für die Fotoaufnahme. Dieser muss so auslösen, dass das Fahrzeug sich in einer Position vor der Kamera befindet 
+und muss unabhängig von der Art des Fahrzeuges, also egal ob es ein kleines Auto oder ein großer SUV ist, ungefähr an der gleichen Position auslösen. 
+In dieser Applikation wird dafür ein manueller Button verwendet, aber in einer möglichen Verbesserung wäre es sinnvoll diesen durch eine Lichtschranke oder ähnliches zu ersetzen.\\
+
+Der letzte Punkt ist dann noch das Gehäuse. Dieses muss stabil genug sein, um fest verbaut zu werden, Zugang zu den wichtigsten Anschlüssen 
+bieten und eine Halterung für die Kamera sollte auch integriert sein. Um für die Entwicklung ein geeignetes Gehäuse zu entwickeln wurde hier ein 
+Gehäuse mit einem 3D-Drucker erstellt. Das Gehäuse wird von oben und unten verschraubt und bietet die Möglichkeit die Kamera mit Schrauben zu sichern. 
+Die Anschlüsse für die Stromversorgung, die USB-Ports, die HDMI-Ports, den Ethernet-Anschluss und die GPIO-Pins sind zugänglich damit es auch weiterhin 
+möglich ist damit zu arbeiten, auch wenn kleine Änderungen durchgeführt werden. Zudem ist es dadurch auch möglich zu Test- und Entwicklungszwecken einen Bildschirm anzuschließen.
 
 \subsection{Bildverarbeitung}
 
