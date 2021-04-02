@@ -30,7 +30,7 @@ Konfigurationsmöglichkeiten und Funktionen, dazu zählen:
 welche vom \ac*{W3C}\footnote{\url{https://www.w3.org} } entwickelt wird.
 \ac*{HTML} ist De-Facto-Standard um Inhalte in Browsern darzustellen.
 \acs*{HTML} ist dabei aber nicht für die visuelle Darstellung verantwortlich
-sondern nur für die semantische Struktur. Der Sinn dahinter ist, dass der Inhalt
+sondern nur für die semantische Struktur\footcite[]{htmlwhatwg}. Der Sinn dahinter ist, dass der Inhalt
 und die Vorgaben an die Darstellung möglichst gut getrennt ist. Für die
 Formatierung kommt die Stylesheet-Sprache \ac*{CSS} zum Einsatz, welche
 ebenfalls vom \acl*{W3C} entwickelt wird. Die aktuellste Version der \acs*{HTML}
@@ -94,7 +94,7 @@ noch andere Daten gesetzt bzw. eingebunden werden:
 Wie bereits angesprochen ist \ac*{CSS} für die Formatierung bzw. die visuelle
 Darstellung der einzelnen HTML-Elemente verantwortlich. Der Standard wird wie
 bei HTML vom \acs*{W3C} spezifiziert und die aktuellste Version ist CSS3, was so
-viel bedeutet wie \acs*{CSS} Level 3, wobei nur einzelne Teile als Empfehlung
+viel bedeutet wie \acs*{CSS} Level 3\footcite[]{w3ccss}, wobei nur einzelne Teile als Empfehlung
 durch das \acs*{W3C} vorgelegt wurden, beispielweise das CSS Color Module Level
 3\footnote{\url{https://www.w3.org/TR/css-color-3}}. Um die Funktion
 darzustellen wird die vorherige HTML Seite nun mit CSS ergänzt.
@@ -184,13 +184,14 @@ Laravel\footnote{\url{https://laravel.com/}} ist ein Open-Source PHP-Framework,
 es erleichtert die Entwicklung und erhöht die Sicherheit. Durch die
 zahlreichen First-Party-Packages bietet Laravel ein sehr hochwertiges
 Ecosystem\footnote{Vielzahl von Tools und Software}
-für Entwickler.
+für Entwickler.\\
+
 Da Laravel ein sehr wichtiger Bestandteil des Webinterfaces ist, wird später noch
 genauer auf die einzelne Funktionen des Frameworks eingegangen. Laravel wird
 seit Juni 2011 entwickelt und erhält jährlich eine neue Version, aktuell ist
 Laravel 8 die neuste Version.\\
 
-Das Framework folgt dem sogenannten \ac*{MVC} Muster das bedeutet, dass die
+Das Framework folgt dem sogenannten \ac*{MVC} Muster\footcite[]{stauffer2019laravel} das bedeutet, dass die
 Programmierlogik in drei verschiedene Teile unterteilt wird. Der Sinn dahinter
 ist, dass die Anwendung dadurch sehr flexibel ist und später leichter erweitert
 werden kann oder einzelne Teile einfach wiederverwendet werden können.
@@ -226,6 +227,7 @@ Ein Anfrage auf einer Webseite läuft in 6. Schritten ab:
 \end{figure}
 
 \subsection{Lokale Entwicklungsumgebung mit Laragon}
+\subsubsection{Einleitung}
 Für die Programmierung des Webinterfaces müssen zuerst einige Vorkehrungen
 getroffen werden, dazu zählt zu einem die Installation von benötigter Software
 und deren Konfiguration.
@@ -311,6 +313,20 @@ Es ist nicht notwendig ein Passwort einzugeben, da Standardmäßig dem
 \textit{root} Benutzer kein Passwort gesetzt wird.
 
 \subsection{Lokale Entwicklungsumgebung mit WSL und Docker}
+\subsubsection{Einleitung}
+Eine alternative zu der Entwicklungsumgebung mit Laragon, ist die
+Entwicklungsumgebung mit WSL und Docker. Der Vorteil von dieser Umgebung ist,
+dass die Anwendung sich in einem virtualisierten Container befindet und somit
+die exakt gleichen Bedingungen wie später auf dem Production Server vorhanden
+sind. Ein weiter Vorteil ist die Übersichtlichkeit und die Wartung, auf dem
+Entwickler PC muss kein PHP, kein Apache usw. installiert werden, all diese
+Software wird nur im Container installiert.\\
+
+\ac*{WSL} ist eine Kompatibilitätsschicht zum Ausführen von Linux Programmen.
+WSL2 virtualisiert hierbei mithilfe von Hyper-V einen vollständigen
+Linux-Kernel, ein Nachteil davon ist, dass durch den Einsatz von Hyper-V auch
+das Host-Betriebssystem virtualisiert ist, jedoch ist das wenig bis gar nicht
+spürbar für den Anwender.
 
 \subsubsection{Benötigte Software}
 
@@ -386,8 +402,6 @@ Somit ist die lokale Entwicklungsumgebung mit WSL und Docker abgeschlossen,
 weitere benötigte Software wird später automatisch durch Laravel Sail in einem Docker
 Container installiert.
 
-% TODO: Laravel Sail
-
 \begin{figure}[H]
   \centering
   \includegraphics[width=1\linewidth]{webinterface/docker_container.pdf}
@@ -397,7 +411,27 @@ Container installiert.
 Es ist somit möglich die Services welche im Container in der Linux Distribution
 laufen über die Docker Desktop Anwendung zu steuern.
 
+\subsubsection{Laravel Sail}
+Laravel Sail ist ein Kommandozeilen Tool für das Entwickeln in einer Docker
+Umgebung. Sail wird standardmäßig in neuen Laravel Anwendungen mitinstalliert,
+es ist deshalb keine manuelle Installation notwendig. Um Sail zu verwenden ist
+es sinnvoll ein Bash alias zu setzen:
+
+\begin{listing}[H]
+  \begin{minted}{bash}
+    alias sail='bash vendor/bin/sail'
+  \end{minted}
+  \caption{Sail Bash alias}
+\end{listing}
+
+Nun ist es möglich mit dem Befehl \verb|sail up| die Docker Virtualisierung zu
+starten, dabei wird MySQL, Apache, Redis und PHP gestartet. Es muss nichts
+konfiguriert werden, ist es doch gewünscht an der Docker Virtualisierung etwas
+anzupassen kann dies über die Datei \verb|docker-compose.yml| im Rootverzeichnis
+der Laravel Anwendung vorgenommen werden.
+
 \subsection{Production Server}
+\subsubsection{Einleitung}
 Der Production Server bzw. der Live Server ist der Server, wo sich die
 Webanwendung befindet und die Endbenutzer zugreifen, dieser Server wird auch
 einfach mit Production abgekürzt. Der Production Server ist in diesem Fall ein
@@ -405,7 +439,6 @@ Virtual Private Server mit dem Betriebssystem Debian 10, welcher bei einem
 Internet-Hosting Unternehmen mit Sitz in Deutschland gehostet wird.
 
 \subsubsection{Benötigte Software}
-
 Für den Live Server wird der sogenannte \glqq LAMP\grqq{} Stack verwendet. LAMP steht dabei
 für die Software \textbf{L}inux, \textbf{A}pache, \textbf{M}ySQL und \textbf{P}HP.
 
@@ -826,12 +859,33 @@ hinterlegt werden.
   \caption{Github Action Übersicht}
 \end{figure}
 
-\subsection{Aufbau Backend}
+\subsection{Backend}
 
 \subsubsection{Einleitung}
-% TODO
+Als Backend bezeichnet man Systeme, die sich mit der Datenverarbeitung im
+Hintergrund beschäftigen. Für das Webinterface wurde als Backend PHP in
+Verbindungmit Laravel gewählt. PHP und Larvel in Kombination wurden aus
+folgenden Gründen gewählt:
+
+\begin{itemize}
+  \item \textbf{Quelloffen:}\\
+  PHP und Laravel sind Quelloffen d.h. der Quelltext ist öffentlich zugänglich.
+  \item \textbf{Plattformunabhängig:}\\
+  Es spielt keine Rolle welches Betriebssystem verwendet wird.
+  \item \textbf{Verbreitung:}\\
+  PHP ist die meist genutzte Server-Programmiersprache und Laravel das
+  beliebteste PHP-Framework
+  \item \textbf{Sicherheit:}\\
+  Besonders in Kombination mit Laravel sind viele Gefahren wie
+  Cross-Site-Scripting und SQL Injection kein Problem mehr.
+  \item \textbf{Stabilität:}\\
+  Fehler und Sicherheitslücken werden innerhalb kürzester Zeit von den
+  Entwicklern behoben.
+\end{itemize}
 
 \subsubsection{Routing}
+
+\paragraph{Routing in Laravel}\mbox{}\\
 In Laravel erfolgt das Routing durch ein Routefile unter \verb|routes/web.php|. API-Anfragen
 haben ein eigenes Routefile unter \verb|routes/api.php| und erhalten direkt einen
 \verb|/api| Prefix in der URL. Die Route Files werden automatisch durch einen
@@ -853,13 +907,37 @@ Der Laravel Router erlaubt folgende HTTP-Anfragemethoden:
   \mintinline{php}{  Route::options($uri, $callback);}
 \end{itemize}
 
-Im folgenden Code~\ref{lst:user_routes} wird ein Teil der Routen von der
-Benutzerverwaltung dargelegt. Dabei lässt sich erkennen, dass die Routen sich in
-einer Gruppe befinden, welche den Prefix \verb|/admin| und die Middleware
-\verb|verified| hat. Die Middleware verbietet es nicht eingeloggten Benutzern
-diese Routen aufzurufen. Dabei verweisen die Routen auf einzelne Methoden im
-UserController. Schlussendlich werden mit der \verb|name|-Methode die Routen benannt,
-damit sie später im Code einfach referenziert werden können.
+\paragraph{Verfügbare Web Routen}\mbox{}\\
+Im Webinterface sind die Routen in drei Gruppen unterteilt:
+
+\begin{itemize}
+  \item \textbf{Öffentliche Routen}\\
+  Öffentliche Routen können von jedem Benutzer erreicht werden.
+  \item \textbf{Verified Routen}\\
+  Verified Routen sind nur durch eingeloggte Benutzer erreichbar.
+  \item \textbf{Admin Routen}\\
+  Ob Admin Routen erreichbar sind, hängt davon ab ob ein Benutzer die passenden
+  Rechte besitzt.
+\end{itemize}
+
+Insgesamt besitzt das Webinterface \textbf{52} verschieden Routen. Die Middleware \textit{verified}
+überprüft hierbei ob ein Benutzer eingeloggt ist, die Option \textit{prefix}
+sorgt dafür, dass \textit{admin} vor allen Routen in der URL angeführt wird.\\
+
+Es gibt für folgende Seiten Routen, wobei Routen mit verschachtelungen nur einmalig genannt
+werden:
+
+\begin{multicols}{2}
+  \begin{itemize}
+    \item Locale  \item Privacy Policy \item Terms of Serivce \item Imprint
+    \item Profile \item Posts \item Users \item Roles
+    \item Plates \item Lots \item Detections \item Displays
+    \item Settings \item Tokens  \item[\vspace{\fill}]
+  \end{itemize}
+\end{multicols}
+
+Ein Ausschnitt dieser Routen ist im Code~\ref{lst:user_routes} zu sehen, hierbei
+sind die alle Routen der Benutzerverwaltung dargelegt.
 
 \begin{listing}[H]
   \begin{minted}{php}
@@ -869,32 +947,15 @@ damit sie später im Code einfach referenziert werden können.
       Route::get('users', [UserController::class, 'index'])->name('users.index');
       Route::get('users/create', [UserController::class, 'create'])->name('users.create');
       Route::post('users', [UserController::class, 'store'])->name('users.store');
+      Route::get('users/{user}', [UserController::class, 'show'])->name('users.show');
+      Route::get('users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+      Route::patch('users/{user}', [UserController::class, 'update'])->name('users.update');
+      Route::delete('users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
     });
   \end{minted}
   \caption{web.php}
   \label{lst:user_routes}
 \end{listing}
-
-\subsubsection{Blade Templates}
-Blade ist eine Template Engine, die mit Laravel mitgeliefert wird. Blade
-erleichtert und vereinfacht das Verwenden von PHP Code in HTML, dabei wird der
-Blade Syntax in normalen PHP Code kompiliert. Blade Dateien werden mit der
-Extension \verb|.blade.php| erstellt. Damit der Inhalt der einzelnen Seiten
-dynamisch ist, müssen die Blade Dateien mit Inhalt bzw. mit Daten gefüllt werden, dies erfolgt über die Controller.\\
-
-Um nun übergebenen Inhalt eines Controllers innerhalb einer Blade Datei anzuzeigen, verwendet Blade doppelt
-geschweifte Klammern.
-
-\begin{listing}[H]
-  \begin{minted}{php}
-    Hallo, {{ $user->full_name }}.
-  \end{minted}
-  \caption{example.blade.php}
-  \label{lst:blade_example}
-\end{listing}
-
-Im Code~\ref{lst:blade_example} wird nun auf das übergebene Model \textit{User}
-zugegriffen und der Name ausgegeben.
 
 \subsubsection{Controller}
 Es besteht theoretisch die Möglichkeit, die komplette Logik für die Bearbeitung
@@ -904,18 +965,24 @@ auszulagern. Dabei werden ähnliche Anfragen zusammengeführt, beispielsweise we
 alle Anfragen im Bezug auf die Benutzerverwaltung wie im Code~\ref{lst:user_routes} im gleichen Controller
 zusammengeführt.
 
+Das Webinterface besitzt neben den Controllern für die Authentifizierung und die
+API folgende Controller:
+
+\begin{multicols}{2}
+  \begin{itemize}
+    \item DashboardController  \item DetectionController \item LicensePlateController \item ParkingLotController
+    \item ParkingSpotController \item PermissionController \item PostController \item ProfileController
+    \item RoleController \item SettingController \item TokenController \item UserController \item[\vspace{\fill}]
+  \end{itemize}
+\end{multicols}
+
+Ein Ausschnitt des UserControllers ist im folgenden
+Code~\ref{lst:usercontroller} zu erkennen.
+
 \begin{listing}[H]
   \begin{minted}{php}
     <?php
     namespace App\Http\Controllers;
-
-    use Illuminate\Http\Request;
-    use App\Models\User;
-    use Illuminate\Support\Facades\Hash;
-    use App\Http\Requests\StoreUser;
-    use App\Http\Requests\UpdateUser;
-    use App\Models\Role;
-    use Image;
 
     class UserController extends Controller
     {
@@ -928,6 +995,7 @@ zusammengeführt.
     ...
   \end{minted}
   \caption{UserController.php}
+  \label{lst:usercontroller}
 \end{listing}
 
 \subsubsection{Artisan CLI}
@@ -953,7 +1021,46 @@ wichtigsten Befehle:
   Führt die Datenbank Migration Files aus
 \end{itemize}
 
-\subsubsection{Migrations}
+\subsubsection{Datenbank}
+
+\paragraph{Seeder}\mbox{}\\
+Um ein bestimmtes Feature zu testen, beispielsweise die Benutzerverwaltung sind
+Testdaten notwendig. Da es sehr mühsam wäre mehrere hunderte Benutzer selbst zu
+erstellen werden Seeder verwendet. Seeder erlauben sehr einfach vorher
+definierte Daten in die Datenbank zu seeden bzw. schreiben. Neben Testdaten für
+das Testen von bestimmten Features werden auch die vordefinierten Rechte
+mithilfe von Seeder in die Datenbank geschrieben.\\
+
+Das Webinterface besitzt folgende Seeder:
+
+\begin{multicols}{2}
+  \begin{itemize}
+    \item DetectionSeeder  \item LicensePlateSeeder \item ParkingLotSeeder \item ParkingSpotSeeder
+    \item PermissionSeeder \item PostSeeder \item RoleSeeder \item SettingSeeder
+    \item UserSeeder \item[\vspace{\fill}]
+  \end{itemize}
+\end{multicols}
+
+\begin{listing}[H]
+  \begin{minted}{php}
+    <?php
+    public function run()
+    {
+      Role::query()->delete();
+    
+      Role::create(['name' => 'Owner', 'slug' => 'owner'])
+        ->permissions()->attach(Permission::all());
+    
+      Role::create(['name' => 'Viewer', 'slug' => 'viewer'])
+        ->givePermissionBySlug(['index-user', 'index-license-plate',
+        'index-detection']);
+      ...
+    }
+  \end{minted}
+  \caption{Rollen Datenbank Seeder}
+\end{listing}
+
+\paragraph{Migrations}\mbox{}\\
 Datenbank Migrations sind praktisch Vorlagen, wie einzelne Tabellen in der
 Datenbank auszusehen haben. Migrations erleichtern die Handhabung von SQL
 Datenbanken im Team, da nun die Möglichkeit besteht bis auf den Inhalt diese mit Git zu verwalten.
@@ -996,7 +1103,18 @@ der Datenbank erstellt, bei der \verb|down| Methode wird alles von der \verb|up|
 Methode rückgängig gemacht, in diesem Fall wird die komplette Tabelle gelöscht.
 Um nun die Datenbank zu migrieren, muss in der Artisan \acs*{CLI} der Befehl
 \verb|php artisan migrate| ausgeführt werden, dabei werden alle Migrations im
-Verzeichnis \verb|database/migrations| ausgeführt.
+Verzeichnis \verb|database/migrations| ausgeführt.\\
+
+Das Webinterface besitzt folgende Migration Files:
+
+\begin{multicols}{2}
+  \begin{itemize}
+    \item create\_users\_table  \item create\_password\_resets\_table \item create\_failed\_jobs\_table \item create\_personal\_access\_tokens\_table
+    \item create\_license\_plates\_table \item create\_parking\_lots\_table \item create\_detections\_table \item create\_roles\_table
+    \item create\_permissions\_table \item create\_users\_roles\_table \item create\_roles\_permissions\_table  \item create\_settings\_table
+    \item create\_parking\_spots\_table \item create\_posts\_table \item[\vspace{\fill}]
+  \end{itemize}
+\end{multicols}
 
 \subsubsection{Eloquent ORM}
 Eloquent ist ein \ac*{ORM} d.h. um auf die \acs*{SQL} Datenbank zuzugreifen,
@@ -1034,7 +1152,7 @@ verständlicher ist. Besonders bei komplexeren Queries ist Eloquent den Raw
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.6\linewidth]{webinterface/eloquent_workflow.pdf}
+  \includegraphics[width=0.8\linewidth]{webinterface/eloquent_workflow.pdf}
   \caption{Eloquent ORM Workflow von \citeurl[]{eloquentworkflow}}
 \end{figure}
 
@@ -1075,6 +1193,13 @@ sind, beispielsweise dass ein Passwort eine bestimmte Länge hat oder ob eine
 E-Mail ein @-Zeichen enthält. Um diese HTTP-Anfragen zu überprüfen, müssen bestimmte Regeln
 festgelegt werden, diese werden in Laravel in \textit{Request} Files festgelegt.
 
+Im Code~\ref{lst:userupdate_request} werden Regeln für den Vornamen, Nachnamen,
+die E-Mail und für das Passwort festgelegt. Die verfügbaren Regeln sind durch
+Laravel definiert. Liefert eine Request Methode \textit{false} wird der
+Controller nicht weiter ausgeführt und die nicht korrekt ausgefüllten Felder
+werden in der Session gespeichert und können dem User als Fehlernachricht
+dargestellt werden.
+
 \begin{listing}[H]
   \begin{minted}{php}
     <?php
@@ -1092,20 +1217,34 @@ festgelegt werden, diese werden in Laravel in \textit{Request} Files festgelegt.
   \label{lst:userupdate_request}
 \end{listing}
 
-Im Code~\ref{lst:userupdate_request} werden Regeln für den Vornamen, Nachnamen,
-die E-Mail und für das Passwort festgelegt. Die verfügbaren Regeln sind durch
-Laravel definiert. Liefert eine Request Methode \textit{false} wird der
-Controller nicht weiter ausgeführt und die nicht korrekt ausgefüllten Felder
-werden in der Session gespeichert und können dem User als Fehlernachricht
-dargestellt werden.
-
-\subsection{Aufbau Frontend}
+\subsection{Frontend}
 
 \subsubsection{Einleitung}
 
 Da das Ziel ist, dass das Frontend des Webinterfaces möglichst modular aufgebaut ist
 und so wenig Code wie möglich wiederholt wird. Ermöglicht wird dies durch das
 Aufbauen der Seite mithilfe von Components.
+
+\subsubsection{Blade Templates}
+Blade ist eine Template Engine, die mit Laravel mitgeliefert wird. Blade
+erleichtert und vereinfacht das Verwenden von PHP Code in HTML, dabei wird der
+Blade Syntax in normalen PHP Code kompiliert. Blade Dateien werden mit der
+Extension \verb|.blade.php| erstellt. Damit der Inhalt der einzelnen Seiten
+dynamisch ist, müssen die Blade Dateien mit Inhalt bzw. mit Daten gefüllt werden, dies erfolgt über die Controller.\\
+
+Um nun übergebenen Inhalt eines Controllers innerhalb einer Blade Datei anzuzeigen, verwendet Blade doppelt
+geschweifte Klammern.
+
+\begin{listing}[H]
+  \begin{minted}{php}
+    Hallo, {{ $user->full_name }}.
+  \end{minted}
+  \caption{example.blade.php}
+  \label{lst:blade_example}
+\end{listing}
+
+Im Code~\ref{lst:blade_example} wird nun auf das übergebene Model \textit{User}
+zugegriffen und der Name ausgegeben.
 
 \subsubsection{Components}
 
@@ -1440,11 +1579,10 @@ Inhalt, werden diese auch nicht im Footer angezeigt.
 \end{figure}
 
 \subsection{Funktionen}
+\subsubsection{Einleitung}
 Das Webinterface besitzt eine große Anzahl an Features und
 Konfigurationsmöglichkeiten. In den folgenden Seiten werden alle Funktionen
 ausführlich mit derem technischen Hintergrund erklärt.
-
-% TODO Liste aller Funktionen
 
 \subsubsection{Dashboard}
 Das Dashboard ist praktisch die Startseite für eingeloggte Benutzer, als Erstes
