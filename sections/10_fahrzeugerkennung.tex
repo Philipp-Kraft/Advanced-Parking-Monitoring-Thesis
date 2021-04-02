@@ -104,6 +104,7 @@ eine anderes Vehikel sehr viel Eisen beinhaltet wirkt sich die dies steigernd au
 Verfahren nutzen dieses Prinzip um die Belegung einer Parklücke zu bestimmen.
 
 \paragraph{RL-Oszillator mit Timer Baustein}\mbox{}
+
 Bei diesem Messverfahren wird die Änderung der Induktivität $L$ über die Änderung einer Stromladekurve über einen Widerstand
 $R$ ermittelt. Eine Simulation in LTSPice mit folgendem Schaltbild kann die Auswirkung auf eine Ladekurve bei gleicher Spannung
 und gleichem Widerstand gut darstellen.
@@ -351,6 +352,7 @@ Es ist ersichtlich, dass dass eine Zunahme der Induktivität zu einer Abnahme in
 \subsection{RS485 Bussystem}
 \subsubsection{Benutzte Standards}
 \paragraph{ASCII}\mbox{}
+
 ASCII ist eine amerkanischer Standard zur Kodierung einer 7 Bit langen folge. Dieser Standard ermöglicht es Zeichen wie 'A' oder 'b' sowie auch Zahlen und gewissen Sonderzeichen in Bits umzusetzen. 
 \paragraph{USB}\mbox{}
 
@@ -424,6 +426,7 @@ In blau ist die Spannung $U_{A}$ und in orange die Spannung $U_{B}$ zu sehen. Da
 \end{figure}
 
 \paragraph{RJ45}\mbox{}
+
 Um die Anzahl der Kabel zu minimieren und um das Anschließen von Geräten an den Bus einfach zu halten ist ein
 mehradriger Stecker mit zugehörigem Kabel nötig.\\
 Der RJ-45 Stecker ist eine genormter Stecker und besitzt insgesamt 8 Adern und ist für Kommunikationsanschlüsse gedacht. Er kann daher größere Datenraten zulassen und viele auf dem
@@ -456,6 +459,7 @@ Auf die einzelnen Funktionen diverser Leitungen wird in den folgenden Paragraphe
     \centering
     \includegraphics[width=1\linewidth]{fahrzeugerkennung/übersicht_irl.pdf}
     \caption{Physische Übersicht des Bussystems}
+    \label{fig:bus_physical_overview}
 \end{figure}
 Ganze rechts oben in schwarz ist der RaspberryPi der hier als Computer dient es kann aber auch ein anderer Computer verwendet werden. Unterhalb des RaspberryPi ist der USB-RS485 Wandler der mit einem USB-Kabel
 am RaspberryPi angeschlossen ist und von an einer Versorgungsspannung hängt. Der USB-Rs485 Wandler ist wiederrum mit einem RJ45-Kabel an einen Slave verbunden. In diesem Bild sind zwei Slaves an das Bussystem geschlossen worden.
@@ -481,7 +485,7 @@ sie mit Spannung zu versorgen und die Adressvergabe mit einer zusätzlichen Logi
     \caption{RJ45 allgemeine Pinbelegung}
 \end{table}
 
-\paragraph{Funktion der Adresslogikleitung}\mbox{}
+\paragraph{Funktion der Adresslogikleitung}\label{sec:func_adress_wire}\mbox{}
 
 Da alle Teilnehmer des RS485-Busses parallel an den Datenleitung A und B liegen kann der Master sie voneinander nicht unterscheiden. Dieses Probleme beseitigt die Adressleitung, welche
 die einzelnen Geräte logisch aneinanderreiht.
@@ -648,13 +652,45 @@ Der interne C-Code des Slave generiert für den IO1 Befehl dia Antwort auf folge
 Das Slave-Gerät setzt IO1 als Ausgang und überprüft das zweite Argumentbyte auf dessen Inhalt und setzt den Ausgang je nachdem auf logisch 1 oder 0.
 \pagebreak
 \subsection{Mikrocontroller Slave-Gerät}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{fahrzeugerkennung/uC_slave_orthagonal.pdf}
+    \caption{Slave-Geräte mit Gehäuse}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{fahrzeugerkennung/uC_slave_front.pdf}
+    \caption{Slave-Geräte mit Gehäuse von vorne}
+    \label{fig:slave_front}
+\end{figure}
+
 \subsubsection{Überblick}
+
+In der folgenden Abbildung sind alle wichtigen ICs, Ein- und Ausgänge und deren logische Verknüpfungen dargestellt. 
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{fahrzeugerkennung/slave_overview.pdf}
     \caption{Logischer Aufbau des Slave-Gerät}
 \end{figure}
+
+\begin{itemize}
+    \item \textbf{Atmega328PB} \\
+    Ist der Mikrocontroller des Slave-Geräts. Er liest die Frequenz des Oszillator, kontrolliert die Ein- und Ausgänge IO0 und IO1 und ist für die serielle Kommunikation mit dem Bus verantwortlich.
+    \item \textbf{L78L05ACD} \\
+    Ist ein Spannugsregler, der die erhöhte Spannung aus dem Bussystem absenkt und dem Slave zur Verfügung stellt.
+    \item \textbf{MAX485} \\
+    Ist ein RS485 Pegelwandler, der die UART Signale des Mikrocontroller in die entsprechenden Pegel umwandelt
+    \item \textbf{Oszillator} \\
+    An ihn wird die Spule angeschlossen. Er erzeugt mit einer Colpitts-Schaltung eine Resonanzfrequenz mit die vom Mikrocontroller ausgelesen wird.
+    
+    \item \textbf{IO0 und IO1} \\
+    Es handelt sich um digitale Eingänge und Ausgänge des Mikrocontroller, welche je nach Anwendung unterschiedliche Funktionen haben können. An ihnen hängen zwei LEDs nämlich LED0 und LED1.
+\end{itemize}
+
+In den folgenden Absätzen wird genauer auf diese angeführten Blöcke eingegangen.
 
 \subsubsection{Mikrocontroller}
 
@@ -667,7 +703,7 @@ und können analoge Spannung einlesen sowie PWM Signale erzeugen. Ihre vielfält
     \caption{Atmega328PU in DIP28}
 \end{figure}
 
-Für die Slave-Geräte ist ein Mikrokontroller sehr gut geeignet, da er keine komplexen Rechnungen durchführen muss. Er soll mit einer seriellen Schnittstelle arbeiten, Rechtecksignale im $\SI{40}{\kilo\hertz}$ bis $\SI{200}{\kilo\hertz}$ Bereich genau bestimmen und
+Für die Slave-Geräte ist ein Mikrocontroller sehr gut geeignet, da er keine komplexen Rechnungen durchführen muss. Er soll mit einer seriellen Schnittstelle arbeiten, Rechtecksignale im $\SI{40}{\kilo\hertz}$ bis $\SI{200}{\kilo\hertz}$ Bereich genau bestimmen und
 digitale Eingänge und Ausgänge aufweisen können. Auch Interrupts sind vorhanden, welche es möglich machen bei internen oder externen Ereignissen gewissen Programmteile auszuführen.
 
 
@@ -740,11 +776,245 @@ Für eine Spule mit einer Induktivität von $\SI{50}{\micro\henry}$ würde sich 
     \caption{Colpitts Kondensatoren im Slave Schaltplan}
 \end{figure}
 
-\subsubsection{Atmega328PB}
-\subsubsection{Peripherie des Mikrocontrollers}
-\paragraph{3wandler}
+Die Spule wird an den Änschluss der mit 'L' beschriftet ist angeschlossen (Siehe Abbildung \ref{fig:slave_front})
 
-\paragraph{Digitale Ein- und Ausgänge}
+\subsubsection{Digitale Ein- und Ausgänge IO0 /IO1}
+
+Sie haben generell verschiedene Anwendungsmöglichkeiten und sind daher je nach Kundenwunsch anpassbar. Derzeit werden sie als visuelle Indikatoren verwendet um direkt am Parkplatz anzuzeigen, ob er besetzt ist. 
+Auf der Platine sind zwei LEDs verbaut, die immer den Zustand des IO-Pins anzeigen. Für den Parkplatz ist jedoch nötig die LEDs nach außen zu leiten. Dafür gibt es die Anschlüsse '0' und '1' die für IO0 und IO1 stehen sowie die Anschlüsse
+'+' und '-' die für $\SI{5}{\volt}$ und Masse stehen (Siehe Abbildung \ref{fig:slave_front}). Die Spannungsausgänge sind auch nützlich für externe Sensoren un Aktoren die nicht mehr wie $\SI{100}{\milli\ampere}$ brauchen.
+
+\subsubsection{weitere Anschlüsse}
+\paragraph{Separater VCC Eingang}\mbox{} 
+
+In der Entwicklungsphase hat es sich praktisch erwiesen einen eigenen Spannungsanschluss am Gerät anzubringen. Dieser ist an den Spannungsregler angeschlossen und muss mit $\SI{9}{\volt}$ bis $\SI{30}{\volt}$ vorsorgt werden.
+Für den normalen Betrieb ist jedoch keinen direkte Versorgung des Slaves mit Spannung nötig, da er seine Spannung über den RJ45 Stecker bezieht.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{fahrzeugerkennung/uC_slave_left.pdf}
+    \caption{Slave-Gerät mit Gehäuse von links}
+    \label{fig:slave_left}
+\end{figure}
+
+\paragraph{RJ45 Anschlüsse}\mbox{} 
+
+Wie im Absatz \ref{sec:func_adress_wire} erklärt müssen die Slaves in einer Kette verbunden werden um sie eindeutig zu identifizieren. Aus diesem Grund gibt es zwei RJ45-Stecker die die Slaves miteinander verbinden (Siehe Abbildung \ref{fig:bus_physical_overview}).
+
+\paragraph{SPI Programmieranschluss}\mbox{} 
+
+Um den Mikrocontroller zu Programmieren braucht es einen Anschluss für einen externnen Programmer, der den Maschinencode auf den hochlädt. Der Atmega328PB lässt eben über seine SPI Anschlüsse programmieren welche im folgenden Bild
+an den in rot gekennzeichneten Stecker geführt werden. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{fahrzeugerkennung/spi_marked.pdf}
+    \caption{SPI Anschluss}
+    \label{fig:slave_left}
+\end{figure}
+
+In gleicher Orientation wie in Abbildung \ref{fig:slave_left} gilt die folgende Netzbeschriftung.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|}
+        \hline
+        MISO & +5V  \\ \hline
+        SCK  & MOSI \\ \hline
+        RST  & GND  \\ \hline
+    \end{tabular}
+    \caption{Netzbelegung des SPI Anschluss}
+\end{table}
+
+\subsubsection{Atmega328PB}
+\paragraph{Zuweisung der Pins}\mbox{} 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{fahrzeugerkennung/Atmega328PB_pinout.pdf}
+    \caption{Pin-Netz Zuordnung des Atmega328PB im Slave Schaltplan}
+\end{figure}
+
+\paragraph{Fuse-Bits und Quartz}\mbox{} 
+
+Unter Fuse-Bits versteht man Bits die nicht durch die Software des Mikrocontroller verändert werden können und zur Konfiguration des Mikrocontrollers dienen. Sie können nur durch einen externen Programmer verändert werden, 
+wenn sie nicht schon vom Hersteller gesperrt worden sind. Es gibt insgesamt drei Fuse-Bytes, die für die Einstellungen des Atmega328PB zuständig sind. Sie regeln den internen Taktvorteiler, geben die Größe des Bootsektors und
+regeln neben anderen Sachen die Programmierung über SPI.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        Fuse-Byte & \textbf{Low Fuse} & \textbf{Extended Fuse} & \textbf{High Fuse} \\ \hline
+        Hex       & 0xFF              & 0xFD                   & 0xDA               \\ \hline
+        Bin       & 1111 1111         & 1111 1101              & 1101 1010          \\ \hline
+    \end{tabular}
+    \caption{Konfiguration der Fuse Bits}
+\end{table}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{fahrzeugerkennung/fuse_low_byte_datasheet.pdf}
+    \caption{Low Fuse-Byte}
+\end{figure}
+
+Für das Low-Byte gibt die Takteinstellungén vor. Der Slave ist auf einen externen $\SI{16}{\mega\hertz}$ Quartz angewiesen und er soll auch mit dieser Frequenz arbeiten. 
+Der Taktteiler ist daher 1 welcher mit den Bit CKDIV = 1 eingestellt wurde. Die Taktquelle ist mit den Bits CKSEL0-3 auf einen externen Quartz umgestellt worden.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{fahrzeugerkennung/CKSEL_datasheet.pdf}
+    \caption{Einstelleoptionen für den internen Takt des Atmega328PB}
+\end{figure}
+
+Wenn man weiter im Datenblatt liest erhält man die Werte für die Trimmkondensatoren nämlich jeweils $\SI{22}{\nano\farad}$.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{fahrzeugerkennung/quartz_schaltplan.pdf}
+    \caption{Quartz im Slave Schaltplan}
+\end{figure}
+
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{fahrzeugerkennung/fuse_high_byte_datasheet.pdf}
+    \caption{High Fuse-Byte}
+\end{figure}
+
+Hier ist zu beachten, dass das Bit SPIEN auf 0 gesetz sein muss damit ein externer SPI-Programmer verwendet werden kann. Wird dieses Bit auf 1 gesetzt kann das nur schwer rückgängig gemacht werden.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{fahrzeugerkennung/fuse_extended_byte_datasheet.pdf}
+    \caption{Extended Fuse-Byte}
+\end{figure}
+
+Mit diesem Byte wird der Brownout Reset Spannungspegel festgelegt. Wenn die Versorgungsspannung des Atmega328PB unter diesen Wert fällt bricht der Mikrocontroller seinen Operation aus und setzt sich zurück.
+
+
+\paragraph{SPI-Programmierung}\mbox{} 
+
+Es gibt viele Möglichkeiten den einen Mikrocontroller mit unterschiedlichen Werkzeugen zu programmieren. Einen Variante ist die mit den unten Verwendeten Werkzeugen.
+
+\begin{itemize}
+    \item \textbf{AVRDUDE} \\
+    AVRDUDE\footnote{\url{https://www.mikrocontroller.net/articles/AVRDUDE}} ist eine Programmiersoftware für Mikrocontroller aus der Microchip-AVR Familie. Sie hat keine Benutzeroberfläche sondern hat nur eine Terminalausgabe.
+    \item \textbf{PlatformIO} \\
+    PlatformIO ist Erweiterung für Visual Studio Code, die es ermöglicht Mikrokontroller Projekte zu entwickeln. Sie bietet auch die Möglichkeit an bereits existierende Compiler oder Programmiersoftware wie AVRDUDE zu verwenden.
+    \item \textbf{Arduino UNO als Programmer} \\
+    Der Arduino Uno ist ein Mikrocontroller basiertes Board, welches weit verbreitet ist und für das es große Softwareunterstützung gibt. Eine mögliche Anwendung dieses Boards ist die eines SPI-Programmer. 
+    Dazu muss aber zuerst die richtige Software auf den Arduino hochgeladen werden. Dafür braucht man die zum Arduino zugehörige Arduino Entwicklungsumgebung.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.4\linewidth]{fahrzeugerkennung/open_arduinoISP_sketch.pdf}
+        \caption{ArduinoISP Sketch auswählen}
+    \end{figure}
+    Der ArduinoISP Sketch macht den Arduino UNO zu einem AVR Programmer. Dieser Sketch muss dann kompiliert und hochgeladen werden. Dafür sind die in der folgenden Abbildung Einstellungen zu beachten. Der COM-Anschluss kann
+    bei anderen Computern anders sein und sollte immer selbst bestimmt werden. 
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.4\linewidth]{fahrzeugerkennung/arduino_upload_Settings.pdf}
+        \caption{Arduino Upload Einstellungen für ArduinoISP Sketch}
+    \end{figure}
+\end{itemize}
+
+Wenn der Arduino als SPI-Programmer kann er wir im unteren Bild an den Slave angeschlossen werden.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{fahrzeugerkennung/spi_prgramming.pdf}
+    \caption{Anschluss eines externen SPI Programmer}
+\end{figure}
+
+Um die Fuse-Bits zu setzen ist es nötig AVRDUDE einmal mit den folgenden Parametern zu starten. Es muss wieder der zuerst der COM-Anschluss des Arduino am Computer ermittelt werden.
+
+\begin{listing}[H]
+    \begin{minted}{shell}
+    -U efuse:w:0xfd:m -U lfuse:w:0xff:m -U hfuse:w:0xda:m -e -v -p m328pb -c arduino -PCOM11 -b19200 -D -C"C:\Program Files (x86)\Arduino\hardware\tools\avr\etc\avrdude.conf"
+    \end{minted}
+    \caption{AVRDUDE Argumente für die Fuse-Bits}
+\end{listing}
+
+Damit man  in Visual Studio Code über PlatformIO kompilieren und hochladen kann sind die folgenden Einstellung in der platformio.ini Datei zu treffen.
+
+
+\begin{listing}[H]
+    \begin{minted}{Ini}
+    [env:ATmega328PB]
+    platform = atmelavr
+    board = ATmega328PB
+    framework = arduino
+    upload_port = COM11
+    upload_protocol = stk500v1
+    upload_speed = 19200
+    board_build.F_cpu = 16000000L
+    board_fuses.lfuse = 0xFF
+    board_fuses.hfuse = 0xDA
+    board_fuses.efuse = 0xFD
+    upload_flags = 
+    -PCOM11
+    -b$UPLOAD_SPEED
+    -e
+    \end{minted}
+    \caption{PlatformIO Einstellungen}
+\end{listing}
+\subsubsection{Software des Slaves}
+\paragraph{Konfiguration der Register}\mbox{} 
+
+Die Funktionen der Registerwerte wurden in den Code-Komentaren hinerlegt.
+\begin{listing}[H]
+    \begin{minted}{C}
+    void init()
+    {
+        DDRC &= ~(1 << DDC4) & ~(1 << DDC5);      //ADRO und ADRI als Eingang 
+        DDRB |= (1 << PORTB1) | (1 << PORTB2);    //IO0 und IO1 als Ausgang
+    
+        PORTB &= ~(1<< PORTB2) & ~(1 << PORTB1);  //IO0 und IO1 auf logisch 0 legen.
+        PORTC |= (1 << PORTC4) | (1 << PORTC5);   //Pullupwiderstände von ADRO und ADRI einschalten
+        
+        rs485_init(56700, P_NONE, S_1, F_CPU);
+        reset();
+    }
+    \end{minted}
+    \caption{allgemeine Registereinstellungen}
+\end{listing}
+
+\begin{listing}[H]
+    \begin{minted}{C}
+    TCCR1A = 0;                                             // OC1A Abschalten
+    TCCR1B |= (1 << CS10) | (1 << CS11) | (1 << WGM12);     // f-count = 250kHz, CTC
+    OCR1A = 25000;                                          // f-ISR = 10Hz
+    TIMSK1 |= (1 << OCIE1A);                                // Compare A interrupt
+    \end{minted}
+    \caption{Timer Registereinstellungen}
+\end{listing}
+
+
+\begin{listing}[H]
+    \begin{minted}{C}
+    uint16_t ubrr = ((internal_clk/8UL/baudrate) - 1);                      //UBRRL berechnen
+    parity = ((parity & 0x02) << UPM01) | ((parity & 0x01) << UPM00);       //Paritöt fü UCSR0C bertechnen
+    stopbit = ((stopbit & 0x01) << USBS0);                                  //Stopbit fü UCSR0C bertechnen
+    UBRR0L = (char)ubrr;
+    UBRR0H = (ubrr >> 8) & 0xFF;
+    UCSR0A |= (1 << U2X0);
+    UCSR0C |=  (0 << UMSEL01) | (0 << UMSEL00) | parity | stopbit | (1 << UCSZ01) | (1 << UCSZ00);         //Asynchron, Parität, Stopbits, 8 Datenits
+    UCSR0B |=  (1 << RXCIE0) | (1 << RXEN0) | (1 << TXEN0);                 //Empfangsinterrupt, Empfang und Übertragung einschalten.      
+    \end{minted}
+    \caption{UART Registereinstellungen}
+\end{listing}
+                             
+
+
+\paragraph{UART Betrieb}\mbox{} 
+
+\paragraph{Ausertung von Datenframes}\mbox{} 
+
+\paragraph{Taktmessung}\mbox{} 
+
 \subsubsection{Layout des Slave-Gerätes}
 \subsubsection{Gehäuse}
 
