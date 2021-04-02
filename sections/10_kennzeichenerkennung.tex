@@ -1202,3 +1202,96 @@ Diese Einzelteile wurden dann mit einem 3D-Drucker gefertigt. In den nächsten B
 \end{figure}
 
 Das fertige Gehäuse erfüllt alle zu Beginn definierten Anforderungen und ist somit bestens für diese Anwendung geeignet.
+
+\subsection{Test}
+
+\subsubsection{Einleitung}
+Um die Kennzeichenerkennung zu testen und herauszufinden wie genau sie in der Praxis ist, wurden mehrere Tests durchgeführt, welche aufschlussreiche Ergebnisse geliefert haben.
+Für den Test wird als Stromversorgung eine Powebank verwendet und ein Laptop wird mit dem Raspberry Pi über VNC\footnote{Virtual Network Computing} verbunden um die Ergebnisse auszuwerten.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{kennzeichenerkennung/Testaufbau.pdf}
+    \caption{Testaufbau}
+\end{figure}
+
+\subsubsection{Erster Test}
+Im ersten Test wurde die Kennzeichenerkennung zum ersten Mal in der Praxis ausprobiert. Dies geschah in einer sehr schwierigen Umgebung mit schlechter Beleuchtung 
+und vielen Lichtreflexionen durch Schnee. Im nachfolgenden Bild sieht man ein Bild dieses Tests.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{kennzeichenerkennung/test1.pdf}
+    \caption{Erster Test}
+\end{figure}
+
+Dieses Bild war eines der wenigen Bilder welches nicht durch Lichtreflexionen überbelichtet wurde, daran konnte man bemerken, dass die Kamera des Raspberry Pi eindeutig 
+nicht für solche Verhältnisse gemacht wurde, aber trotzdem keine allzu schlechten Ergebnisse liefert. Die Kennzeichenerkennung lieferte für dieses Bild das Ergebnis „82538BB“. 
+Dies war für kein schlechter Erster Test, aber er zeigte, dass die Kennzeichenerkennung noch Schwierigkeiten mit der Unterscheidung von ähnlichen Zeichen wie zum Beispiel 
+„8“ und „B“ oder auch „2“ und „Z“ hatte. Um dieses Problem zu lösen, wurde das Modell Training noch einmal überarbeitet, um die Genauigkeit der Zeichenerkennung zu verbessern. 
+Dies führte zu einer signifikanten Verbesserung, welche im zweiten Test deutlich zu erkennen ist.
+
+\subsubsection{Zweiter Test}
+Der zweite Test fand unter besseren Licht- und Umgebungsbedingungen statt und zusätzlich wurde auch die Genauigkeit der Zeichenerkennung verbessert. 
+Während des zweiten Tests wurde mit über 10 verschiedenen Fahrzeugen die Kennzeichenerkennung ausgetestet. Im Folgenden werden einige der unterschiedlichen Testbilder 
+und deren Resultate gezeigt und analysiert.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{kennzeichenerkennung/test2.pdf}
+    \caption{Zweiter Test | Bild 1}
+\end{figure}
+
+\textbf{Resultat:} FK773FG\\
+
+In diesem Bild wurde das Kennzeichen nahezu perfekt erkannt. Der einzige Unterschied liegt in der dritten „7“, welche vom Programm als „3“ erkannt wurde.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{kennzeichenerkennung/test3.pdf}
+    \caption{Zweiter Test | Bild 2}
+\end{figure}
+
+\textbf{Resultat:} Nicht erkannt\\
+
+Dieses Bild führte zu einem Fehler, weil in dem Bild kein Kennzeichen erkannt wurde. Dies kann zwei mögliche Ursachen haben. 
+Entweder wurde von YOLOv2 im Bild kein Fahrzeug erkannt, oder es wurde von WPOD-NET kein Kennzeichen erkannt. Dies sind mögliche Fälle, da beide Modelle keine 
+Genauigkeit von 100\% aufweisen.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{kennzeichenerkennung/test4.pdf}
+    \caption{Zweiter Test | Bild 3}
+\end{figure}
+
+\textbf{Resultat:} FK 596 GP\\
+
+In diesem Bild wurde das Kennzeichen ohne jeglichen Fehler ausgelesen und die Kennzeichenerkennung hat damit einwandfrei funktioniert.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{kennzeichenerkennung/test5.pdf}
+    \caption{Zweiter Test | Bild 4}
+\end{figure}
+
+\textbf{Resultat:} FK0K\\
+
+Dieses Bild lieferte ein sehr interessantes Resultat. Wie im Bild eindeutig erkennbar ist, hat die Kamera das komplette Bild massiv überbelichtet , 
+wodurch einiges sehr schlecht erkennbar ist. Trotz dieser erschwerten Bedingungen hat es die Kennzeichenerkennung aber geschafft einige der Zeichen 
+korrekt auszulesen. Die anderen Zeichen wurden gar nicht erst erkannt, was auf die Zeichensegmentierung zurückzuführen ist.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{kennzeichenerkennung/test6.pdf}
+    \caption{Zweiter Test | Bild 5}
+\end{figure}
+
+\textbf{Resultat:} B668IR\\
+
+Auch in diesem Bild wurde das Kennzeichen ohne jeglichen Fehler ausgelesen.
+
+\subsubsection{Fazit}
+In den Tests ist klar erkennbar, dass die Kennzeichenerkennung selbst gute Resultate liefert. Vor allem die Steigerung der Genauigkeit vom ersten zum zweiten 
+Test ist dabei hervorzuheben. Die berechnete Genauigkeit von etwa 87\% für eine fehlerfreie Kennzeichenerkennung konnte mit dem zweiten Test durchaus bestätigt werden. 
+Die größte Schwachstelle der Kennzeichenerkennung ist jedoch die Kamera, welche sehr sensibel auf die unterschiedlichen Lichtverhältnisse reagiert. 
+Ansonsten hat die Kennzeichenerkennung nahezu alle Kennzeichen fehlerfrei ausgelesen und nur ein einziges Kennzeichen wurde nicht erkannt. 
