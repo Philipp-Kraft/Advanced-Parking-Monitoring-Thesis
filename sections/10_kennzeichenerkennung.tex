@@ -1139,3 +1139,66 @@ Im oberen Bild kann man erkennen, dass die Genauigkeit des Modells bereits nach 
 nach den 30 Epochen auf einen Endwert von 98,02\% erreicht hat. Das bedeutet, dass bei einem Kennzeichen mit durchschnittlich 7 Zeichen 
 eine insgesamte Genauigkeit von 86,93\% erreicht wird. Diese Genauigkeit könnte mit einem längeren Training theoretisch auf einen Wert von 
 nahezu 100\% gesteigert werden, aber dazu benötigt es einen stärkeren Computer, welcher zudem noch eine ganze Weile nicht benutzt werden kann.
+
+\subsection{Gehäuse}
+
+\subsubsection{Anforderungen}
+Die Anforderungen an das Gehäuse sind recht simpel. Es soll das Modul vor äußeren Einwirkungen schützen, eine Möglichkeit bieten, 
+um die Kamera des Raspberry Pi zu befestigen und für weitere Test- und Entwicklungszwecke soll es die wichtigsten Anschlüsse des Raspberry Pi 
+zugänglich machen, damit diese verwendet werden können. Zudem sollen die Entwicklungs- und Produktionskosten eher gering sein, weswegen sich ein 
+Gehäuse aus dem 3D-Drucker am besten eignet.
+
+\subsubsection{Umsetzung}
+Das 3D-Modelling des Gehäuses erfolgte mit dem Programm „Autodesk Fusion 360“/(Fußnote), mit welchem 3D-Modelle erstellt und konvertiert werden können, 
+damit man sie mit dem 3D-Drucker ausdrucken kann. In den folgenden Bildern sieht man die Renderansichten der einzelnen Teile.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{kennzeichenerkennung/Renderboden.pdf}
+    \caption{Boden des Gehäuses}
+\end{figure}
+
+Im ersten Bild sieht man die Renderansicht des Bodens. Auf diesen wird der Raspberry Pi gelegt und mit den 4 Löchern an den mittleren Teil geschraubt. 
+Dadurch ist der Raspberry Pi sicher befestigt und kann im Gehäuse nicht verrutschen.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{kennzeichenerkennung/Rendermittel.pdf}
+    \caption{Mittelteil des Gehäuses}
+\end{figure}
+
+Der mittlere Teil besitzt 4 Verstärkungen auf der inneren Seite, in welche man Gewinde einfügen kann. Dadurch können der Deckel und der Boden angeschraubt werden. 
+Zudem befinden sich auf zwei Seiten Ausschnitte durch welche die Stromversorgung, die HDMI-Ports, die USB-Ports und der Ethernet-Anschluss des Raspberry Pi 
+zugänglich sind. Dadurch kann der Raspberry Pi nahezu ohne Einschränkungen mit den wichtigsten Funktionen betrieben werden.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{kennzeichenerkennung/Renderdeckel.pdf}
+    \caption{Deckel des Gehäuses}
+\end{figure}
+
+Das letzte Einzelteil ist der Deckel, welcher wieder die gleichen 4 Löcher wie der Boden aufweist, um mit dem Mittelteil verschraubt zu werden. 
+Zusätzlich befinden sich im Deckel noch zwei Löcher, um die Kamera festzuschrauben und ein rechteckiges Loch, durch welches die Kamera gesteckt werden kann. 
+Außerdem befindet sich auf dem Deckel noch das eingravierte Logo von APM. In der nächsten Abbildung sieht man dann noch eine Gesamtansicht des Gehäuses.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{kennzeichenerkennung/Rendergesamt.pdf}
+    \caption{Gesamtesansicht des Gehäuses}
+\end{figure}
+
+Diese Einzelteile wurden dann mit einem 3D-Drucker gefertigt. In den nächsten Bildern sieht man die einzelnen gefertigten Teile und eine Gesamtansicht.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{kennzeichenerkennung/geinzel.pdf}
+    \caption{Gedruckte Einzelteile des Gehäuses}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{kennzeichenerkennung/gtogether.pdf}
+    \caption{Gesamtesansicht des gedruckten Gehäuses}
+\end{figure}
+
+Das fertige Gehäuse erfüllt alle zu Beginn definierten Anforderungen und ist somit bestens für diese Anwendung geeignet.
