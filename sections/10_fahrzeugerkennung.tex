@@ -1006,18 +1006,199 @@ Die Funktionen der Registerwerte wurden in den Code-Komentaren hinerlegt.
     \end{minted}
     \caption{UART Registereinstellungen}
 \end{listing}
-                             
+
 
 
 \paragraph{UART Betrieb}\mbox{} 
 
-\paragraph{Ausertung von Datenframes}\mbox{} 
+Daher der Atmega328PB nur ein UART-Buffergröße mir einer Größevon einem Byte besitzt. Muss
+zusätzlich per Software ein Ringbuffer mit Lesepointer pr und einem Schreibpointer pw erstellt
+werden. Die Struktur des Buffers sieht so wie folgend aus.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{fahrzeugerkennung/buffer.pdf}
+    \caption{Slave UART-Buffer Struktur}
+\end{figure}
+
+Wenn ein neues Byte auf den Bus geschreiben werden lesen alle Slaves diese mit dem UART-Empfangsinterrupt in den Buffer an der stelle des Schreibpointers. Dieser wird danach um eins
+erhöht.
+
+
+\begin{listing}[H]
+    \begin{minted}{C}
+    ISR(USART0_RX_vect)
+    {
+        rs485_buf[pw] = UDR0;
+        pw = (pw + 1) % BUF_SIZE;
+    }   
+    \end{minted}
+    \caption{Speichern eines Bytes auf den Buffer}
+\end{listing}
+
+\paragraph{Auswertung von Datenframes}\mbox{} 
+
+Um die erhaltenen Datenframes überhaupt auslesen zu könen müssen sie erst im Buffer gefunden
+werden. Die Bytes START, STOP und LF helfen dabei den Anfang und das Ende des Datenframes zu
+finden. Zudem ist bekannt das ein Datenframe genau 16 Byte groß ist. Wenn der Lesepointer Schritt
+für Schritt um 1 erhöht wird kann der Buffer solang durchgegangen werden bis ein Datenframe
+gefunden wird. Diese Logik wird im folgenden Flussdiagramm verdeutlicht.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\linewidth]{fahrzeugerkennung/buffer_read_flochart.pdf}
+    \caption{Flussdiagramm der Datenframeerkennung}
+\end{figure}
+
+Die ausgelesenen Daten werden in globale Variablen geschrieben zusammen mit einem Flag,
+dass bekannt gibt dass ein neuer Dateframe angekommen ist. In Folge wird in der Hauptschleife
+überprüft ob die Adresse mit der eigen übereinstimmt. Wenn dies der Fall ist wird der Steuerbefehl
+ausgeführt. Unten ist ein Beispielcode der bei der Änderung der eigenen Adresse ausgeführt wird.
+\begin{listing}[H]
+    \begin{minted}{C}
+    else if(ADR_LSB == LOCAL_ADR_LSB && ADR_MSB == LOCAL_ADR_MSB)
+    {
+        if(controll_byte == ADR)
+        {
+        if(argument_1 == GIVE)
+        {
+            LOCAL_ADR_MSB = DATA[0];
+            LOCAL_ADR_LSB = DATA[1];
+            unsigned char response[8] = {LOCAL_ADR_MSB, LOCAL_ADR_LSB, 0, 0, 0, 0, 0, 0};
+            rs485_write_frame(MASTER_MSB, MASTER_LSB, ADR, NONE, NONE,response);
+        }
+    }  
+    \end{minted}
+    \caption{ Auswertung der Daten eines Datenframes}
+\end{listing}
+
+
 
 \paragraph{Taktmessung}\mbox{} 
 
+Der Master gibt bei der Taktmessung die Größe des Messzeitraumes an in 10 ms Auflösung an.
+Die Aufgabe des Slaves ist es dann über diesen Zeitraum die Takte des Rechtecksignals vom
+Colpitts-Oszillator zu messen. Dafür werden sowohl Timer als auch Eingangsflankeninterrupts
+benötigt. Wenn der Slave die Anweisung zur Messung bekommt wird der folgenden Programmteil
+aktiv.
+\begin{listing}[H]
+    \begin{minted}{C}
+    else if(controll_byte == GET_FRQ)
+    {
+        measure_ms = argument_1;
+        count_ticks = 0;
+        count_ms_ticks = 0;
+        MEASURE_ON;
+        while(INT0_EN) {}
+    
+        unsigned char buf[] = "00000000";
+        sprintf(buf, "%08lx", (unsigned long) count_ticks);
+        rs485_write_frame(MASTER_MSB, MASTER_LSB, GET_FRQ, argument_1, NONE,buf);
+    } 
+    \end{minted}
+    \caption{ Slave C-Code zur Taktmessung}
+\end{listing}
+
+
+Zuerst werden alle globalen Zählvariablen auf 0 zurückgesetzt und die Timer und Flankeninterrupts
+eingeschalten. Das Programm wartet dann solange bis die Messung abgeschlossen ist und sendet
+die Anzahl der Takte in ASCII kodiert an den Master zurück. 
+\\ \\
+\begin{listing}[H]
+    \begin{minted}{C}
+    else if(controll_byte == GET_FRQ)
+    {
+        measure_ms = argument_1;
+        count_ticks = 0;
+        count_ms_ticks = 0;
+        MEASURE_ON;
+        while(INT0_EN) {}
+    
+        unsigned char buf[] = "00000000";
+        sprintf(buf, "%08lx", (unsigned long) count_ticks);
+        rs485_write_frame(MASTER_MSB, MASTER_LSB, GET_FRQ, argument_1, NONE,buf);
+    } 
+    \end{minted}
+    \caption{ Slave C-Code zur Taktmessung}
+\end{listing}
+Die Zählung der Takte Funktioniert wie folgt.
+\begin{listing}[H]
+    \begin{minted}{C}
+    ISR(INT0_vect)
+    {
+        count_ticks++;
+    }
+    \end{minted}
+    \caption{ Slave C-Code zur Taktmessung}
+\end{listing}
+
+
+In der Flankeninterrupt Routine werden die Takte gezählt und in eine globale Variable geschrieben.
+\begin{listing}[H]
+    \begin{minted}{C}
+    ISR(TIMER1_COMPA_vect)
+    {
+        count_ms_ticks++;
+        if(count_ms_ticks >= measure_ms)
+        {
+            MEASURE_OFF;
+            count_ms_ticks = 0;
+        }
+    }
+    \end{minted}
+    \caption{ Slave C-Code zur Taktmessung}
+\end{listing}
+
+
+In der Timerinterrupt Routine werden die Anzahl der Interrupts gezählt bis die gewünschte Messzeit
+abgelaufen ist. In Folge werden die entsprechenden Interrupts wieder ausgschalten.
 \subsubsection{Layout des Slave-Gerätes}
+
+Das Layout des Slaves wurde in Eagle \footnote{\url{https://www.autodesk.com/products/eagle/}} erstellt. Während der Entwicklungsphase gab es mehrere
+Versionen des Slaves. In der ersten war das PCB nicht sehr platzeffizient und benutzte für den
+Mikrocontroller keine SMD Variante. Unten ist ein Bild des ersten Prototyps mit bestückten Bauteilen
+und Gehäuse.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{fahrzeugerkennung/prototype1.pdf}
+    \caption{erster Slave Prototyp}
+\end{figure}
+
+Um einzelne Fehler auszubessern und um weitere Eigenschaften anzubringen wurde im späteren
+Verlauf eine weitere Version des Slaves erstellt. Diese Version ist im Vergleich zur letzten kleiner
+und verwendet durchgehend SMD Varianten der ICs. In der unteren Abbildung sehen wir rechts
+den alten Prototyp und links die neueste Version des Slaves.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{fahrzeugerkennung/both_slaves.pdf}
+    \caption{beide Slave Prototypen}
+\end{figure}
+
+
 \subsubsection{Gehäuse}
 
+Das Gehäuse wurde in Fusion360 16 erstellt und die dazu das Slave-Gerät besser vor Umwelteinflüssen zu schützen ohne dabei die Funktionalität des Gerätes einzuschränken. Es existieren insgesamt
+drei Teile, die zusammenverschraubt das Gehäuse bilden. Das Material, welches verwendet wurde
+ist ein 3D-druckbares PLA Polyester. Für die Gewinde wurden spezielle Gewindeeinsätze verwendet
+mit einem metrischen Nenndurchmesser von 3 mm. Die verwendeten Schrauben entsprechen der
+der DIN-Norm 965.
+
+\begin{figure}[!htb]
+    \minipage{0.32\textwidth}
+        \includegraphics[width=\linewidth]{fahrzeugerkennung/slave_boden.pdf}
+        \caption{: Boden des Slave Gehäuses}
+    \endminipage\hfill
+    \minipage{0.32\textwidth}
+        \includegraphics[width=\linewidth]{fahrzeugerkennung/slave_wände.pdf}
+        \caption{: Wände des Slave Gehäuses}
+    \endminipage\hfill
+    \minipage{0.32\textwidth}%
+        \includegraphics[width=\linewidth]{fahrzeugerkennung/slave_deckel.pdf}
+        \caption{: Deckel des Slave Gehäuses}
+    \endminipage
+    \end{figure}
 
 \subsection{USB-Master}
 \subsubsection{USB-Bussadapter Gerät}
