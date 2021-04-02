@@ -225,274 +225,6 @@ Ein Anfrage auf einer Webseite läuft in 6. Schritten ab:
   \caption{Laravel MVC Muster}
 \end{figure}
 
-\paragraph{Routing}\mbox{}\\
-In Laravel erfolgt das Routing durch ein Routefile unter \verb|routes/web.php|. API-Anfragen
-haben ein eigenes Routefile unter \verb|routes/api.php| und erhalten direkt einen
-\verb|/api| Prefix in der URL. Die Route Files werden automatisch durch einen
-Service Provider von Laravel beim Start der Anwendung geladen.\\
-
-Der Laravel Router erlaubt folgende HTTP-Anfragemethoden:
-\begin{itemize}
-  \item \textbf{GET} (Fordert Ressource an)\\
-  \mintinline{php}{  Route::get($uri, $callback);}
-  \item \textbf{POST} (Neue Ressource erstellen)\\
-  \mintinline{php}{  Route::post($uri, $callback););}
-  \item \textbf{PUT} (Ressource ersetzen oder erstellen)\\
-  \mintinline{php}{  Route::put($uri, $callback);}
-  \item \textbf{PATCH} (Ressource ändern)\\
-  \mintinline{php}{  Route::patch($uri, $callback);}
-  \item \textbf{DELETE} (Löscht Ressource)\\
-  \mintinline{php}{  Route::delete($uri, $callback);}
-  \item \textbf{OPTIONS} (Liste von unterstützen Methoden des Servers)\\
-  \mintinline{php}{  Route::options($uri, $callback);}
-\end{itemize}
-
-Im folgenden Code~\ref{lst:user_routes} wird ein Teil der Routen von der
-Benutzerverwaltung dargelegt. Dabei lässt sich erkennen, dass die Routen sich in
-einer Gruppe befinden, welche den Prefix \verb|/admin| und die Middleware
-\verb|verified| hat. Die Middleware verbietet es nicht eingeloggten Benutzern
-diese Routen aufzurufen. Dabei verweisen die Routen auf einzelne Methoden im
-UserController. Schlussendlich werden mit der \verb|name|-Methode die Routen benannt,
-damit sie später im Code einfach referenziert werden können.
-
-\begin{listing}[H]
-  \begin{minted}{php}
-    <?php
-    Route::group(['middleware' => 'verified', 'prefix' => 'admin'], 
-    function () {
-      Route::get('users', [UserController::class, 'index'])->name('users.index');
-      Route::get('users/create', [UserController::class, 'create'])->name('users.create');
-      Route::post('users', [UserController::class, 'store'])->name('users.store');
-    });
-  \end{minted}
-  \caption{web.php}
-  \label{lst:user_routes}
-\end{listing}
-
-\paragraph{Blade Templates}\mbox{}\\
-Blade ist eine Template Engine, die mit Laravel mitgeliefert wird. Blade
-erleichtert und vereinfacht das Verwenden von PHP Code in HTML, dabei wird der
-Blade Syntax in normalen PHP Code kompiliert. Blade Dateien werden mit der
-Extension \verb|.blade.php| erstellt. Damit der Inhalt der einzelnen Seiten
-dynamisch ist, müssen die Blade Dateien mit Inhalt bzw. mit Daten gefüllt werden, dies erfolgt über die Controller.\\
-
-Um nun übergebenen Inhalt eines Controllers innerhalb einer Blade Datei anzuzeigen, verwendet Blade doppelt
-geschweifte Klammern.
-
-\begin{listing}[H]
-  \begin{minted}{php}
-    Hallo, {{ $user->full_name }}.
-  \end{minted}
-  \caption{example.blade.php}
-  \label{lst:blade_example}
-\end{listing}
-
-Im Code~\ref{lst:blade_example} wird nun auf das übergebene Model \textit{User}
-zugegriffen und der Name ausgegeben.
-
-\paragraph{Controller}\mbox{}\\
-Es besteht theoretisch die Möglichkeit, die komplette Logik für die Bearbeitung
-von Anfragen direkt in den Route Files zu platzieren, dies ist jedoch sehr
-unübersichtlich und deshalb ist es sinnvoll, diese Logik in Controller Klassen
-auszulagern. Dabei werden ähnliche Anfragen zusammengeführt, beispielsweise werden
-alle Anfragen im Bezug auf die Benutzerverwaltung wie im Code~\ref{lst:user_routes} im gleichen Controller
-zusammengeführt.
-
-\begin{listing}[H]
-  \begin{minted}{php}
-    <?php
-    namespace App\Http\Controllers;
-
-    use Illuminate\Http\Request;
-    use App\Models\User;
-    use Illuminate\Support\Facades\Hash;
-    use App\Http\Requests\StoreUser;
-    use App\Http\Requests\UpdateUser;
-    use App\Models\Role;
-    use Image;
-
-    class UserController extends Controller
-    {
-        public function index()
-        {
-            $this->authorize('index', User::class);
-            $users = User::orderBy('id', 'asc')->paginate(25, ['*'], 'users');
-            return view('users.index')->with('users', $users);
-        }
-    ...
-  \end{minted}
-  \caption{UserController.php}
-\end{listing}
-
-\paragraph{Artisan CLI}\mbox{}\\
-Artisan ist ein Kommandozeilentool von Laravel und zentraler Bestandteil vom Framework. Die
-Artisan CLI
-stellt eine Fülle an sehr nützlichen Befehlen dem Entwickler zur Verfügung.
-Mithilfe von Artisan können neue Controller, Models, Migrations und viel mehr, sehr
-einfach erstellt werden. Da es sehr viele Befehle, gibt folgen hier nur die
-wichtigsten Befehle:
-
-\begin{itemize}
-  \item \textbf{php artisan list}\\
-  Zeigt eine Liste aller verfügbaren Befehle an
-  \item \textbf{php artisan serve}\\
-  Startet einen PHP Development Server unter dem Port 8000
-  \item \textbf{php artisan make:model <name>}\\
-  Erstellt ein neues Model
-  \item \textbf{php artisan make:migration <name>}\\
-  Erstellt eine neue Migration
-  \item \textbf{php artisan make:controller <name>}\\
-  Erstellt ein neuer Controller
-  \item \textbf{php artisan migrate}\\
-  Führt die Datenbank Migration Files aus
-\end{itemize}
-
-\paragraph{Migrations}\mbox{}\\
-Datenbank Migrations sind praktisch Vorlagen, wie einzelne Tabellen in der
-Datenbank auszusehen haben. Migrations erleichtern die Handhabung von SQL
-Datenbanken im Team, da nun die Möglichkeit besteht bis auf den Inhalt diese mit Git zu verwalten.
-
-\begin{listing}[H]
-  \begin{minted}{php}
-    <?php
-    class CreateUsersTable extends Migration
-    {
-        public function up()
-        {
-            Schema::create('users', function (Blueprint $table) {
-                $table->id();
-                $table->string('first_name');
-                $table->string('last_name');
-                $table->string('email')->unique();
-                $table->string('avatar')->default('default.png');
-                $table->timestamp('email_verified_at')->nullable();
-                $table->string('password');
-                $table->string('last_login_ip')->nullable();
-                $table->timestamp('last_login_at')->nullable();
-                $table->rememberToken();
-                $table->timestamps();
-            });
-        }
-    
-        public function down()
-        {
-            Schema::dropIfExists('users');
-        }
-    }
-  \end{minted}
-  \caption{create\_users\_table.php}
-  \label{lst:create_users_table}
-\end{listing}
-
-Im Code~\ref{lst:create_users_table} sind zwei Methoden zu erkennen, \verb|up|
-und \verb|down|, in der \verb|up| Methode werden neue Tabellen und Spalten in
-der Datenbank erstellt, bei der \verb|down| Methode wird alles von der \verb|up|
-Methode rückgängig gemacht, in diesem Fall wird die komplette Tabelle gelöscht.
-Um nun die Datenbank zu migrieren, muss in der Artisan \acs*{CLI} der Befehl
-\verb|php artisan migrate| ausgeführt werden, dabei werden alle Migrations im
-Verzeichnis \verb|database/migrations| ausgeführt.
-
-\paragraph{Eloquent ORM}\mbox{}\\
-Eloquent ist ein \ac*{ORM} d.h. um auf die \acs*{SQL} Datenbank zuzugreifen,
-müssen keine Raw \acs*{SQL} Queries ausgeführt werden. Im Code erscheint die
-Datenbank als objektorientierte Datenbank und erleichtert somit dem Umgang mit
-der Datenbank. Um nun mit der Datenbank zu interagieren, werden im Code Models
-verwendet, beispielsweise ein \textit{User Model}. In solch einem Model sind auch die
-Beziehungen zu anderen Models festgelegt (1:n, n:m usw.). Ist es nun gewünscht,
-auf die Daten in der Datenbank zuzugreifen, wird im Code mit dem passenden Model
-gearbeitet. Der große Vorteil, der beim Verwenden von Eloquent entsteht, ist der
-leicht lesbare Code, jedoch wird die Ausführungszeit leicht erhöht, was jedoch
-keine große Rolle bei kleinen- bis mittelgroßen Webseiten spielt.
-
-\begin{listing}[H]
-  \begin{minted}{php}
-    <?php
-    User::where('first_name', 'Philipp')->first();
-  \end{minted}
-  \caption{Eloquent Query}
-  \label{lst:eloquent_query}
-\end{listing}
-
-\begin{listing}[H]
-  \begin{minted}{sql}
-    SELECT * FROM `users` WHERE `first_name` = Philipp
-  \end{minted}
-  \caption{Raw SQL Query}
-  \label{lst:raw_sql_query}
-\end{listing}
-
-Beim Vergleich zwischen dem Code~\ref{lst:eloquent_query} und
-Code~\ref{lst:raw_sql_query} ist es erkenntlich, dass der Query mit Eloquent
-verständlicher ist. Besonders bei komplexeren Queries ist Eloquent den Raw
-\acs*{SQL} Queries im Bezug auf die Lesbarkeit stark überlegen.
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.6\linewidth]{webinterface/eloquent_workflow.pdf}
-  \caption{Eloquent ORM Workflow von \citeurl[]{eloquentworkflow}}
-\end{figure}
-
-\paragraph{Laravel Sanctum}\mbox{}\\
-Laravel Sanctum ist ein First-Party-Package von den Entwicklern von Laravel und
-ermöglicht eine einfache Authentifizierung mithilfe von API-Tokens. Dabei wird
-der vom Benutzer erstellte API-Token im HTTP Header \verb|Authorization|
-mitgeliefert und somit wird die Anfrage bei korrektem Token autorisiert. Da es sich hierbei um ein
-Sicherheitskritisches Modul handelt ist es besonders wichtig, dass dieser Code
-nahezu Fehlerfrei ist und dies wird durch kontinuierliche Updates und Patches
-von den Laravel Entwicklern gewährleistet.
- 
-\paragraph{Sessions}\mbox{}\\
-Das HTTP Netzwerkprotokoll ist ein zustandsloses Protokoll, da aber immer über
-einen Benutzer Informationen über mehrere Seiten beibehalten werden soll, wird
-ein System benötigt, um diese Informationen zu speichern. Sessions lösen dieses
-Problem und funktionieren wie folgt. Ein Benutzer besucht eine Seite und besitzt
-im lokalen Speicher (Cookie) eine Session ID vom Server. Wenn der Benutzer nun
-eine andere Seite der gleichen Webseite besucht, wird diese Session ID dem Server
-wieder gesendet und der Server kann den Benutzer passend zuordnen. Laravel verwendet als Backend
-für die Sessions Memcached oder Redis.
-
-\paragraph{Middleware}\mbox{}\\
-Eine Middleware erleichtert es HTTP Anfragen zu filtern bzw. zu begutachten.
-Beispielsweise wird im Webinterface eine Middleware für das passende, setzen der
-Sprache verwendet. Bei jedem Aufruf einer Seite überprüft die Middleware welcher
-Wert in der Session des Benutzers steht, um so die passende Sprache auszuwählen.
-
-\paragraph{Service Provider}\mbox{}\\
-Service Provider sind da, um bestimmte Funktionen in der Anwendung zu
-initialisieren. Beispielsweise wird im Webinterface ein
-\textit{SettingsServiceProvider} verwendet um die Einstellungen aus der Datenbank
-in das Laravel Einstellungssystem zu übernehmen.
-
-\paragraph{Form Validation}\mbox{}\\
-Für bestimmte Formulare ist es notwendig zu überprüfen, ob die Angaben korrekt
-sind, beispielsweise dass ein Passwort eine bestimmte Länge hat oder ob eine
-E-Mail ein @-Zeichen enthält. Um diese HTTP-Anfragen zu überprüfen, müssen bestimmte Regeln
-festgelegt werden, diese werden in Laravel in \textit{Request} Files festgelegt.
-
-\begin{listing}[H]
-  \begin{minted}{php}
-    <?php
-    public function rules()
-    {
-      return [
-        'first_name' => ['string', 'max:255'],
-        'last_name' => ['string', 'max:255'],
-        'email' => ['string', 'email', 'max:255'],
-        'password' => ['nullable', 'string', 'min:8', 'confirmed'],
-      ];
-    }
-  \end{minted}
-  \caption{UserUpdate Request}
-  \label{lst:userupdate_request}
-\end{listing}
-
-Im Code~\ref{lst:userupdate_request} werden Regeln für den Vornamen, Nachnamen,
-die E-Mail und für das Passwort festgelegt. Die verfügbaren Regeln sind durch
-Laravel definiert. Liefert eine Request Methode \textit{false} wird der
-Controller nicht weiter ausgeführt und die nicht korrekt ausgefüllten Felder
-werden in der Session gespeichert und können dem User als Fehlernachricht
-dargestellt werden.
-
 \subsection{Lokale Entwicklungsumgebung mit Laragon}
 Für die Programmierung des Webinterfaces müssen zuerst einige Vorkehrungen
 getroffen werden, dazu zählt zu einem die Installation von benötigter Software
@@ -1094,13 +826,286 @@ hinterlegt werden.
   \caption{Github Action Übersicht}
 \end{figure}
 
+\subsection{Aufbau Backend}
 
-\subsection{Grundlegender Aufbau Frontend}
+\subsubsection{Einleitung}
+% TODO
+
+\subsubsection{Routing}
+In Laravel erfolgt das Routing durch ein Routefile unter \verb|routes/web.php|. API-Anfragen
+haben ein eigenes Routefile unter \verb|routes/api.php| und erhalten direkt einen
+\verb|/api| Prefix in der URL. Die Route Files werden automatisch durch einen
+Service Provider von Laravel beim Start der Anwendung geladen.\\
+
+Der Laravel Router erlaubt folgende HTTP-Anfragemethoden:
+\begin{itemize}
+  \item \textbf{GET} (Fordert Ressource an)\\
+  \mintinline{php}{  Route::get($uri, $callback);}
+  \item \textbf{POST} (Neue Ressource erstellen)\\
+  \mintinline{php}{  Route::post($uri, $callback););}
+  \item \textbf{PUT} (Ressource ersetzen oder erstellen)\\
+  \mintinline{php}{  Route::put($uri, $callback);}
+  \item \textbf{PATCH} (Ressource ändern)\\
+  \mintinline{php}{  Route::patch($uri, $callback);}
+  \item \textbf{DELETE} (Löscht Ressource)\\
+  \mintinline{php}{  Route::delete($uri, $callback);}
+  \item \textbf{OPTIONS} (Liste von unterstützen Methoden des Servers)\\
+  \mintinline{php}{  Route::options($uri, $callback);}
+\end{itemize}
+
+Im folgenden Code~\ref{lst:user_routes} wird ein Teil der Routen von der
+Benutzerverwaltung dargelegt. Dabei lässt sich erkennen, dass die Routen sich in
+einer Gruppe befinden, welche den Prefix \verb|/admin| und die Middleware
+\verb|verified| hat. Die Middleware verbietet es nicht eingeloggten Benutzern
+diese Routen aufzurufen. Dabei verweisen die Routen auf einzelne Methoden im
+UserController. Schlussendlich werden mit der \verb|name|-Methode die Routen benannt,
+damit sie später im Code einfach referenziert werden können.
+
+\begin{listing}[H]
+  \begin{minted}{php}
+    <?php
+    Route::group(['middleware' => 'verified', 'prefix' => 'admin'], 
+    function () {
+      Route::get('users', [UserController::class, 'index'])->name('users.index');
+      Route::get('users/create', [UserController::class, 'create'])->name('users.create');
+      Route::post('users', [UserController::class, 'store'])->name('users.store');
+    });
+  \end{minted}
+  \caption{web.php}
+  \label{lst:user_routes}
+\end{listing}
+
+\subsubsection{Blade Templates}
+Blade ist eine Template Engine, die mit Laravel mitgeliefert wird. Blade
+erleichtert und vereinfacht das Verwenden von PHP Code in HTML, dabei wird der
+Blade Syntax in normalen PHP Code kompiliert. Blade Dateien werden mit der
+Extension \verb|.blade.php| erstellt. Damit der Inhalt der einzelnen Seiten
+dynamisch ist, müssen die Blade Dateien mit Inhalt bzw. mit Daten gefüllt werden, dies erfolgt über die Controller.\\
+
+Um nun übergebenen Inhalt eines Controllers innerhalb einer Blade Datei anzuzeigen, verwendet Blade doppelt
+geschweifte Klammern.
+
+\begin{listing}[H]
+  \begin{minted}{php}
+    Hallo, {{ $user->full_name }}.
+  \end{minted}
+  \caption{example.blade.php}
+  \label{lst:blade_example}
+\end{listing}
+
+Im Code~\ref{lst:blade_example} wird nun auf das übergebene Model \textit{User}
+zugegriffen und der Name ausgegeben.
+
+\subsubsection{Controller}
+Es besteht theoretisch die Möglichkeit, die komplette Logik für die Bearbeitung
+von Anfragen direkt in den Route Files zu platzieren, dies ist jedoch sehr
+unübersichtlich und deshalb ist es sinnvoll, diese Logik in Controller Klassen
+auszulagern. Dabei werden ähnliche Anfragen zusammengeführt, beispielsweise werden
+alle Anfragen im Bezug auf die Benutzerverwaltung wie im Code~\ref{lst:user_routes} im gleichen Controller
+zusammengeführt.
+
+\begin{listing}[H]
+  \begin{minted}{php}
+    <?php
+    namespace App\Http\Controllers;
+
+    use Illuminate\Http\Request;
+    use App\Models\User;
+    use Illuminate\Support\Facades\Hash;
+    use App\Http\Requests\StoreUser;
+    use App\Http\Requests\UpdateUser;
+    use App\Models\Role;
+    use Image;
+
+    class UserController extends Controller
+    {
+        public function index()
+        {
+            $this->authorize('index', User::class);
+            $users = User::orderBy('id', 'asc')->paginate(25, ['*'], 'users');
+            return view('users.index')->with('users', $users);
+        }
+    ...
+  \end{minted}
+  \caption{UserController.php}
+\end{listing}
+
+\subsubsection{Artisan CLI}
+Artisan ist ein Kommandozeilentool von Laravel und zentraler Bestandteil vom Framework. Die
+Artisan CLI
+stellt eine Fülle an sehr nützlichen Befehlen dem Entwickler zur Verfügung.
+Mithilfe von Artisan können neue Controller, Models, Migrations und viel mehr, sehr
+einfach erstellt werden. Da es sehr viele Befehle, gibt folgen hier nur die
+wichtigsten Befehle:
+
+\begin{itemize}
+  \item \textbf{php artisan list}\\
+  Zeigt eine Liste aller verfügbaren Befehle an
+  \item \textbf{php artisan serve}\\
+  Startet einen PHP Development Server unter dem Port 8000
+  \item \textbf{php artisan make:model <name>}\\
+  Erstellt ein neues Model
+  \item \textbf{php artisan make:migration <name>}\\
+  Erstellt eine neue Migration
+  \item \textbf{php artisan make:controller <name>}\\
+  Erstellt ein neuer Controller
+  \item \textbf{php artisan migrate}\\
+  Führt die Datenbank Migration Files aus
+\end{itemize}
+
+\subsubsection{Migrations}
+Datenbank Migrations sind praktisch Vorlagen, wie einzelne Tabellen in der
+Datenbank auszusehen haben. Migrations erleichtern die Handhabung von SQL
+Datenbanken im Team, da nun die Möglichkeit besteht bis auf den Inhalt diese mit Git zu verwalten.
+
+\begin{listing}[H]
+  \begin{minted}{php}
+    <?php
+    class CreateUsersTable extends Migration
+    {
+        public function up()
+        {
+            Schema::create('users', function (Blueprint $table) {
+                $table->id();
+                $table->string('first_name');
+                $table->string('last_name');
+                $table->string('email')->unique();
+                $table->string('avatar')->default('default.png');
+                $table->timestamp('email_verified_at')->nullable();
+                $table->string('password');
+                $table->string('last_login_ip')->nullable();
+                $table->timestamp('last_login_at')->nullable();
+                $table->rememberToken();
+                $table->timestamps();
+            });
+        }
+    
+        public function down()
+        {
+            Schema::dropIfExists('users');
+        }
+    }
+  \end{minted}
+  \caption{create\_users\_table.php}
+  \label{lst:create_users_table}
+\end{listing}
+
+Im Code~\ref{lst:create_users_table} sind zwei Methoden zu erkennen, \verb|up|
+und \verb|down|, in der \verb|up| Methode werden neue Tabellen und Spalten in
+der Datenbank erstellt, bei der \verb|down| Methode wird alles von der \verb|up|
+Methode rückgängig gemacht, in diesem Fall wird die komplette Tabelle gelöscht.
+Um nun die Datenbank zu migrieren, muss in der Artisan \acs*{CLI} der Befehl
+\verb|php artisan migrate| ausgeführt werden, dabei werden alle Migrations im
+Verzeichnis \verb|database/migrations| ausgeführt.
+
+\subsubsection{Eloquent ORM}
+Eloquent ist ein \ac*{ORM} d.h. um auf die \acs*{SQL} Datenbank zuzugreifen,
+müssen keine Raw \acs*{SQL} Queries ausgeführt werden. Im Code erscheint die
+Datenbank als objektorientierte Datenbank und erleichtert somit dem Umgang mit
+der Datenbank. Um nun mit der Datenbank zu interagieren, werden im Code Models
+verwendet, beispielsweise ein \textit{User Model}. In solch einem Model sind auch die
+Beziehungen zu anderen Models festgelegt (1:n, n:m usw.). Ist es nun gewünscht,
+auf die Daten in der Datenbank zuzugreifen, wird im Code mit dem passenden Model
+gearbeitet. Der große Vorteil, der beim Verwenden von Eloquent entsteht, ist der
+leicht lesbare Code, jedoch wird die Ausführungszeit leicht erhöht, was jedoch
+keine große Rolle bei kleinen- bis mittelgroßen Webseiten spielt.
+
+\begin{listing}[H]
+  \begin{minted}{php}
+    <?php
+    User::where('first_name', 'Philipp')->first();
+  \end{minted}
+  \caption{Eloquent Query}
+  \label{lst:eloquent_query}
+\end{listing}
+
+\begin{listing}[H]
+  \begin{minted}{sql}
+    SELECT * FROM `users` WHERE `first_name` = Philipp
+  \end{minted}
+  \caption{Raw SQL Query}
+  \label{lst:raw_sql_query}
+\end{listing}
+
+Beim Vergleich zwischen dem Code~\ref{lst:eloquent_query} und
+Code~\ref{lst:raw_sql_query} ist es erkenntlich, dass der Query mit Eloquent
+verständlicher ist. Besonders bei komplexeren Queries ist Eloquent den Raw
+\acs*{SQL} Queries im Bezug auf die Lesbarkeit stark überlegen.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.6\linewidth]{webinterface/eloquent_workflow.pdf}
+  \caption{Eloquent ORM Workflow von \citeurl[]{eloquentworkflow}}
+\end{figure}
+
+\subsubsection{Laravel Sanctum}
+Laravel Sanctum ist ein First-Party-Package von den Entwicklern von Laravel und
+ermöglicht eine einfache Authentifizierung mithilfe von API-Tokens. Dabei wird
+der vom Benutzer erstellte API-Token im HTTP Header \verb|Authorization|
+mitgeliefert und somit wird die Anfrage bei korrektem Token autorisiert. Da es sich hierbei um ein
+Sicherheitskritisches Modul handelt ist es besonders wichtig, dass dieser Code
+nahezu Fehlerfrei ist und dies wird durch kontinuierliche Updates und Patches
+von den Laravel Entwicklern gewährleistet.
+ 
+\subsubsection{Sessions}
+Das HTTP Netzwerkprotokoll ist ein zustandsloses Protokoll, da aber immer über
+einen Benutzer Informationen über mehrere Seiten beibehalten werden soll, wird
+ein System benötigt, um diese Informationen zu speichern. Sessions lösen dieses
+Problem und funktionieren wie folgt. Ein Benutzer besucht eine Seite und besitzt
+im lokalen Speicher (Cookie) eine Session ID vom Server. Wenn der Benutzer nun
+eine andere Seite der gleichen Webseite besucht, wird diese Session ID dem Server
+wieder gesendet und der Server kann den Benutzer passend zuordnen. Laravel verwendet als Backend
+für die Sessions Memcached oder Redis.
+
+\subsubsection{Middleware}\
+Eine Middleware erleichtert es HTTP Anfragen zu filtern bzw. zu begutachten.
+Beispielsweise wird im Webinterface eine Middleware für das passende, setzen der
+Sprache verwendet. Bei jedem Aufruf einer Seite überprüft die Middleware welcher
+Wert in der Session des Benutzers steht, um so die passende Sprache auszuwählen.
+
+\subsubsection{Service Provider}
+Service Provider sind da, um bestimmte Funktionen in der Anwendung zu
+initialisieren. Beispielsweise wird im Webinterface ein
+\textit{SettingsServiceProvider} verwendet um die Einstellungen aus der Datenbank
+in das Laravel Einstellungssystem zu übernehmen.
+
+\subsubsection{Form Validation}
+Für bestimmte Formulare ist es notwendig zu überprüfen, ob die Angaben korrekt
+sind, beispielsweise dass ein Passwort eine bestimmte Länge hat oder ob eine
+E-Mail ein @-Zeichen enthält. Um diese HTTP-Anfragen zu überprüfen, müssen bestimmte Regeln
+festgelegt werden, diese werden in Laravel in \textit{Request} Files festgelegt.
+
+\begin{listing}[H]
+  \begin{minted}{php}
+    <?php
+    public function rules()
+    {
+      return [
+        'first_name' => ['string', 'max:255'],
+        'last_name' => ['string', 'max:255'],
+        'email' => ['string', 'email', 'max:255'],
+        'password' => ['nullable', 'string', 'min:8', 'confirmed'],
+      ];
+    }
+  \end{minted}
+  \caption{UserUpdate Request}
+  \label{lst:userupdate_request}
+\end{listing}
+
+Im Code~\ref{lst:userupdate_request} werden Regeln für den Vornamen, Nachnamen,
+die E-Mail und für das Passwort festgelegt. Die verfügbaren Regeln sind durch
+Laravel definiert. Liefert eine Request Methode \textit{false} wird der
+Controller nicht weiter ausgeführt und die nicht korrekt ausgefüllten Felder
+werden in der Session gespeichert und können dem User als Fehlernachricht
+dargestellt werden.
+
+\subsection{Aufbau Frontend}
+
+\subsubsection{Einleitung}
 
 Da das Ziel ist, dass das Frontend des Webinterfaces möglichst modular aufgebaut ist
 und so wenig Code wie möglich wiederholt wird. Ermöglicht wird dies durch das
 Aufbauen der Seite mithilfe von Components.
-
 
 \subsubsection{Components}
 
