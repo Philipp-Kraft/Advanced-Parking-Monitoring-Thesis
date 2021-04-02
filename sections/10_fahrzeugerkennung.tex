@@ -588,9 +588,10 @@ Um eine Aktion auszuführen schreibt der Master auf den Bus ein Datenframe und w
 Die Art des Steuerbefehls wird durch das CTRL-Byte angegeben un definiert so die Inhalte der Bytes. Es muss aber zwischen einen Master Datenframe und einem Slave-Response Datenframe unterschieden werden. 
 In den nächsten Abbildung werden die möglichen Steuerbefehle für Master und Slave in Tabellenform angeführt.
 
-\begin{sidewaysfigure}
+\begin{sidewaysfigure} \label{fig:master_frame}
     \centering
     \includegraphics[width=1\linewidth]{fahrzeugerkennung/master_datenframe.pdf}
+    
     \caption{Master Datenframe}
 \end{sidewaysfigure}
 
@@ -1198,28 +1199,226 @@ der DIN-Norm 965.
         \includegraphics[width=\linewidth]{fahrzeugerkennung/slave_deckel.pdf}
         \caption{: Deckel des Slave Gehäuses}
     \endminipage
-    \end{figure}
+\end{figure}
 
 \subsection{USB-Master}
+Die Aufgabe des Masters ist es die Kommunikation am Bus zu steuern, ihn mit Spannung zu versorgen und die Daten an das Webinterface weiterzugeben. 
+In der folgenden Abbildung ist der logische Aufbau des Masters zu sehen.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{fahrzeugerkennung/master_overview.pdf}
+    \caption{Logischer Aufbau des Masters}
+\end{figure}
 \subsubsection{USB-Bussadapter Gerät}
-\paragraph{Überblick}
-\paragraph{FT232RL}
-\paragraph{USB-C Anschluss}
-\paragraph{Layout des Master-Geräts}
-\paragraph{Gehäuse}
+\paragraph{FT232RL}\mbox{} 
 
+Der FT232RL Ic ist ein USB auf UART Wandler IC, der keine programmieren des internen Speichers nötig hat. Er kann ohne weiteres über einen USB-Stecker an einen Computer angeschlossen werden. 
+Neben den für USB relevanten Anschlüssen besitzt der Chip zusätzliche Pins um mehrere Funktionen zu erfüllen. In seinem Datenblatt ist eine Beispielschaltung vorgegeben für die Verwendung eines RS485-Pegelwandlers.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{fahrzeugerkennung/ft232_rs485_datasheet.pdf}
+    \caption{Beispielschaltung eines FT232 mit einem RS485 Pegelwandlers}
+\end{figure}
+
+In der folgenden Abbildung ist der FT232 im Schaltplan des Busadapters dargestellt. Ist sei zu beachten, dass die LEDs falsch angeschlossen sind. Die Anschlüsse CBUS0 und CBUS1 funktionieren als Stromsenken. 
+Der Fehler wurde mittels Drahtbrücken und Umplatzierung der Bauteile korriegt.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{fahrzeugerkennung/ft232_schematic.pdf}
+    \caption{FT232RL im Schaltplan}
+\end{figure}
+
+\paragraph{USB-C Anschluss}\mbox{} 
+
+Als USB-Stecker ist der Typ C aufgrund seiner besonderen Eigenschaften ausgewählt worden. Er ist geometrisch sehr klein und er ist symmertrisch seiner Drehachse entlang des Kabels. Im Vergleich zum Typ A oder Typ B Stecker 
+kann man ihn nicht verkehrt einstecken. Augrund dieser Symmetrie besitzt er alle Anschlüsse doppelt. Die Anschlüsse im Schalplan sehen wie folgt aus.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{fahrzeugerkennung/usbc_schematic.pdf}
+    \caption{USB Typ C Stecker im Master Schaltplan}
+\end{figure}
+
+Es werden nur die normalen D+ und D- Pins verwendet. Damit das USB-Gerät am Anderen Ende weis, dass das Gerät für die serielle Kommunikation zur Verfügung steht sind zwei $\SI{5}{\kilo\ohm}$ an den Pins VCONN und CC nötig.
+
+\paragraph{Layout des Master-Geräts} \mbox{} 
+
+Genau gleich wie das Layout des Slaves wurde dieses in Eagle erstellt. Es gibt den zuvor erwähnten USB Typ C Stecker, einen RJ45 Anschluss für das Bussystem und einen Anschluss für eine Netzteil mit $\SI{9}{\volt}$ bis 
+$\SI{30}{\volt}$.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{fahrzeugerkennung/master_irl.pdf}
+    \caption{USB-Bussadapet mit Gehäuse}
+\end{figure}
+
+\paragraph{Gehäuse}\mbox{} 
+Das Gehäuse ist wie das Slave-Gehäuse in Fusion360 gezeichnet worden und mit einem 3D-Drucker ausgedruckt worden. Es existieren insgesamt 3 Teile, die zusammen das Gehaüse bilden.
+Die verwendeten Gewinde sind die gleichen Gewindeeinsätze wie bei Slave und es wurden die gleichen Schrauben nach DIN-Norm 965 verwendet.
+
+\begin{figure}[!htb]
+    \minipage{0.32\textwidth}
+        \includegraphics[width=\linewidth]{fahrzeugerkennung/master_boden.pdf}
+        \caption{: Boden des Master Gehäuses}
+    \endminipage\hfill
+    \minipage{0.32\textwidth}
+        \includegraphics[width=\linewidth]{fahrzeugerkennung/master_wände.pdf}
+        \caption{: Wände des Master Gehäuses}
+    \endminipage\hfill
+    \minipage{0.32\textwidth}%
+        \includegraphics[width=\linewidth]{fahrzeugerkennung/master_deckel.pdf}
+        \caption{: Deckel des Master Gehäuses}
+    \endminipage
+\end{figure}
 \subsubsection{Master Programm}
-\paragraph{Benötigte Software}
-\paragraph{Adressvergabe}
-\paragraph{Frequenzauslesung}
 
-\paragraph{Auswertung}
+\paragraph{Erkennung des USB-Geräts}\mbox{} 
+
+Um den Bus ansteuern zu können ist es zuerst nötig den Busadapter zu finden. Alle registierten Geräte die an einem COM-Anschluss hängen können eindeutig durch ihre VID und PID identifiziert werden. 
+Es ist jedoch auch möglich mithilfe des Herstellers des Gerätes den richtigen COM-Anschluss zu finden. Der untere Code geht im Master Programm alle verfügbaren Geräte durch bis es eines mit dem richtigen Hersteller findet.
+In folge wird dann der entsprechende COM-Anschluss zurückgegeben.
+
+\begin{listing}[H]
+    \begin{minted}{python}
+    def get_port_vidpid(vid_pid):
+    vp = vid_pid.split(':')
+    pid = vp[-1]
+    vid = vp[0]
+    for device in devices:
+        if device.vid != None or device.pid != None:
+            if format(device.vid,'x') == vid and format(device.pid, 'x') == pid:
+                return device.device
+                break
+    \end{minted}
+    \caption{Master Code zur Erkennung des USB-Bussadapters}
+\end{listing}
+
+
+\paragraph{Frequenzauslesung}\mbox{} 
+
+Für die Frequenzauslesung muss der Master die Form des entsprechenden Datenframes beachten (siehe Abbildung \ref{fig:master_frame}). Er muss zusätzlich noch eine MEsszeit für den Slave angeben. Der Slave gibt jedoc nicht die gemessene
+Frequenz zurück, sondern die Anzahl der Takte über dem vorgegebenen Zeitraum. Das folgende Unterprogramm gibt bei erfolgreicher Messung die gemessene Frequenz zurück und gibt bei einem Fehler einen Text in die Kommandozeile.
+
+
+\begin{listing}[H]
+    \begin{minted}{python}
+    def get_frequency(adress:int, measure_time):
+        temp = ser.timeout
+        ser.timeout = measure_time * (2 /10)
+        write_frame(adress = adress, controll = CTRL.GET_FRQ.value, argument_1 = measure_time)
+        (s, data, error_sent, error_received) = read_frame(True)
+        if error_received == ERROR.NONE:
+            ser.timeout = temp
+            try:
+                return int(data,16) / (measure_time / 10)
+            except:
+                print(s)
+
+        print(s)
+        return -1
+    \end{minted}
+    \caption{Frequenzsteuerbefehl des Masters}
+\end{listing}
+\paragraph{Auswertung}\mbox{} 
+
+Die Auswertung der Frequenz kann auf unterschiedliche Weise erfolgen. Die einfachste Variante ist es eine Detektion festzustellen, wenn die gemessene Frequenz von der eines leeeren Parkplatzes abweicht. Dies setzt vorraus, dass die Frequenz bei leerer 
+Parklücke bekannt ist. Der untere Code detektiert eine prozentuelle Frequenzänderung und gibt je nach dem eine Ausgabe an die Kommandozeile und einen Post an die API.
+
+\begin{listing}[H]
+    \begin{minted}{python}
+    def update():
+        global timer_iterations
+        print(timer_iterations)
+        for adress in f_dict:
+        frq = Serial.get_frequency(adress, 60)
+        print(frq)
+        if frq * df_relative > f_dict[adress]:
+            print(post(adress, 1))
+            print("detected\n")
+        else:
+            print(post(adress, 0))
+            print("not detected\n")
+        timer_iterations += 1
+        threading.Timer(1.0, update).start()
+    \end{minted}
+    \caption{Detektionscode des Masters}
+\end{listing}
+
+
 \paragraph{API-Post}
 
+Für den Post an die API ist ein API-Token nötig. Bei Detektion eines Fahrzeuges wird die Parklücke mit der entsprechenden Adresse als belegt gekennzeichnet. Der untere Code übernimmt die Adresse der Parklücke und den Detektionszustand und übergibt sie der API.
+Eine Verbindung zum Internet ist jedoch nötig.
+
+\begin{listing}[H]
+    \begin{minted}{python}
+    def post(adress: int, occupied: int) -> str:
+        url = "http://dev.philipp-kraft.com/api/v1/lots/3/spots"
+        payload = {'address': str(adress), 'occupied': str(occupied)}
+        files = []
+        headers = { 'Authorization': 'TOKEN' }
+        response = requests.request("POST", url, headers=headers, data=payload, files=files)
+        return response.text
+    \end{minted}
+    \caption{API Post Code des Masters}
+\end{listing}
+
+
 \subsubsection{RaspberryPi als Mastergerät}
-\paragraph{SSH Remote Zugriff}
-\paragraph{Code Deployment}
-\paragraph{Unittest}
+\paragraph{SSH Remote Zugriff} \mbox{} 
+
+Um den RaspberryPi besser zu Konfigurieren und verwalten zu können ist ein Zugriff aus der Ferne sehr praktisch. Eine Möglichkeit ist der Zugriff mit SSH über einen VPS. Dafür benötigen alle Geräte beteiligten Geräte Zugriff auf das Internet.
+Der RaspberryPi baut zuerst einen Reverse SSH Tunnel zum VPS auf, da man vom VPS auf den RaspberryPi zugreigen will. Ein externer Benutzer greift über den VPS mit einer SSH auf den RaspberryPi zu.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{fahrzeugerkennung/vps.pdf}
+    \caption{Zugriff über VPS}
+\end{figure}
+Für das erstellen das Reverstunnel muss folgender Befehl beim RaspberryPi ausgeführt werden. Dabei muss die IP-Adresse des VPS $VPSIP$ bekannt sei und es muss ein Umleitungsport $VPSPORT$ festgelegt werden.
+\begin{listing}[H]
+    \begin{minted}{shell}
+    ssh -R VPSPORT:localhost:22 Nutzer@VPSIP
+    \end{minted}
+    \caption{Öffnen des Reverse SSH Tunnels}
+\end{listing}
+
+Der externer Nutzer kann mit dem untenstehenden Befehl sich bei Benutzer 'pi' über SSH einloggen.
+
+\begin{listing}[H]
+    \begin{minted}{shell}
+        ssh -p VPSPORT pi@VPSIP -o StrictHostKeyChecking=no
+    \end{minted}
+    \caption{Zugriff uf den Raspberry über SSH}
+\end{listing}
+
+
+
+
+\paragraph{Code Deployment} \mbox{} 
+
+Für die Entwicklungsphase war es sehr angenehm den fertigen Code auf den RaspberryPi hinaufladen zu können. Github hat eine gewisse Funktionalität names Github Actions. Mit diesen kann bei einer bestimmten Aktion ein Linux-Server gestartet werden, der je nach
+Anwendung bestimmte Shell-Befehle durchführt. Mit diesem Linux-Server lässt sich auch über SSH auf unseren RaspberryPi zugreifen. Der untenstehende Befehl aktulisiert das lokale Repository des RaspberryPi über SSH. Github brauch dafür diverse Daten wie das Kennwort
+das Benutzers 'pi', die nicht in Klartext im Code stehen dürfen. Sie können als sogenannte Respository-Secrets deklariert werden. Aus diesen Grund steht im unteren Befehl nicht etwa die IP des VPS sondern secrets\_VPSHOST.  
+
+\begin{listing}[H]
+    \begin{minted}{shell}
+    sshpass -p ${{ secrets.USER_PASSWORD }} ssh -o StrictHostKeyChecking=no -p ${{ secrets.VPS_PORT }} ${{ secrets.USER }}@${{ secrets.VPS_HOST }} \
+        "cd /home/pi/Advanced_Parking_Monitoring_Raspberry_Master \
+        && sudo git checkout . \
+    \end{minted}
+    \caption{Zugriff uf den Raspberry über SSH}
+\end{listing}
+
+Bei erfolgreicher GithubAction sieht kann man folgendes in der Benutzeroberfläche von Github sehen.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{fahrzeugerkennung/github action.pdf}
+    \caption{Github Action im Github Master repository}
+\end{figure}
+
 
 \pagebreak
 
