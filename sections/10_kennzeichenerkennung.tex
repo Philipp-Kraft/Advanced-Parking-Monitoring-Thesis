@@ -1,21 +1,21 @@
 \def \sectionauthors {Samuel Bleiner}
 \subsection{Einleitung}
 Der Teil der Kennzeichenerkennung beschäftigt sich damit, aus aufgenommenen Fotos der einfahrenden und ausfahrenden Fahrzeuge, 
-das Kennzeichen auszulesen und dieses an die Datenbank zu senden. Dies wird benötigt um damit es möglich ist zu bestimmen welches 
+das Kennzeichen auszulesen und dieses an die Datenbank zu senden. Dies wird benötigt damit es möglich ist zu bestimmen welches 
 Fahrzeug sich im Moment auf dem Parkplatz befindet. Zudem kann dadurch jedes Fahrzeug eindeutig identifiziert werden, da das Kennzeichen 
 einzigartig sein muss.  In Zusammenhang mit der Datenbankverwaltung können so auch bestimmte Kennzeichen definiert werden, welche anders 
 behandelt werden als andere Kennzeichen. Ein Beispiel dafür wäre kostenloses Parken für den Parkplatzbesitzer oder auch gesperrte Kennzeichen, 
 bei welchen der Parkplatzbetreiber eine Benachrichtigung bekommt, wenn sich diese auf dem Parkplatz befinden. Die Verbindung zur Datenbank 
 erfolgt über eine eigene API, mit welcher die Daten schnell und einfach übertragen werden können. Um das Programm für die Kennzeichenerkennung 
-zu realisieren werden sowohl bewährte Bildverarbeitungsalgorithmen eingesetzt als auch Neuronale Netze, welche sich in den Bereich des 
-Maschinellen Lernens einordnen lassen, wodurch die Genauigkeit gesteigert werden kann. Zusätzlich wird für das komplette Modul ein Gehäuse 
+zu realisieren werden sowohl bewährte Bildverarbeitungsalgorithmen eingesetzt als auch neuronale Netze, welche sich in den Bereich des 
+maschinellen Lernens einordnen lassen, wodurch die Genauigkeit gesteigert werden kann. Zusätzlich wird für das komplette Modul ein Gehäuse 
 gefertigt in welchem die Elektronik fest verbaut werden kann und trotzdem die Möglichkeit zu weiteren Verbesserungen ermöglicht.
 
 \subsection{Anforderungen}
 Das Modul für die Kennzeichenerkennung muss einige Anforderungen erfüllen, um für seinen Einsatzzweck bestmöglich geeignet zu sein.\\
 
-Als erstes muss die Software einige Anforderungen erfüllen. Sie muss eine hohe Genauigkeit erreichen, um in möglichst jedem einzelnen Fall 
-ein korrektes Ergebnis zu liefern. Um diese Genauigkeit zu erreichen werden mehrere Modell für Maschinelles Lernen verwendet, mit welchen 
+Als Erstes muss die Software einige Anforderungen erfüllen. Sie muss eine hohe Genauigkeit erreichen, um in möglichst jedem einzelnen Fall 
+ein korrektes Ergebnis zu liefern. Um diese Genauigkeit zu erreichen werden mehrere Modelle für maschinelles Lernen verwendet, mit welchen 
 eine bessere Genauigkeit als mit anderen Methoden erreicht werden kann. Die Geschwindigkeit ist hingegen ein nicht ganz so wichtiger Punkt, 
 da Fahrzeuge für eine erfolgreiche Erkennung nicht zu schnell fahren dürfen, um eine passende Fotoaufnahme zu ermöglichen. Dadurch wird der 
 Zeitintervall zwischen den Fahrzeugen erhöht, weswegen der Fokus bei der Software nahezu vollständig auf die Genauigkeit gelegt werden kann 
@@ -23,15 +23,15 @@ und die Geschwindigkeit bis zu einem gewissen Punkt vernachlässigt werden kann.
 Sekunden benötigen darf, ohne dadurch auch nur annähernd die Anwendung zu behindern. Außerdem muss die Leistung eines Raspberry Pi 4 2GB für 
 die Software ausreichen, da dieser für das Modul verwendet wird.\\
 
-Als nächstes kommt der Auslöser für die Fotoaufnahme. Dieser muss so auslösen, dass das Fahrzeug sich in einer Position vor der Kamera befindet 
+Als Nächstes kommt der Auslöser für die Fotoaufnahme. Dieser muss so auslösen, dass das Fahrzeug sich in einer Position vor der Kamera befindet 
 und muss unabhängig von der Art des Fahrzeuges, also egal ob es ein kleines Auto oder ein großer SUV ist, ungefähr an der gleichen Position auslösen. 
-In dieser Applikation wird dafür ein manueller Button verwendet, aber in einer möglichen Verbesserung wäre es sinnvoll diesen durch eine Lichtschranke oder ähnliches zu ersetzen.\\
+In dieser Applikation wird dafür ein manueller Button verwendet, aber in einer möglichen Verbesserung wäre es sinnvoll, diesen durch eine Lichtschranke oder Ähnliches zu ersetzen.\\
 
 Der letzte Punkt ist dann noch das Gehäuse. Dieses muss stabil genug sein, um fest verbaut zu werden, Zugang zu den wichtigsten Anschlüssen 
-bieten und eine Halterung für die Kamera sollte auch integriert sein. Um für die Entwicklung ein geeignetes Gehäuse zu entwickeln wurde hier ein 
-Gehäuse mit einem 3D-Drucker erstellt. Das Gehäuse wird von oben und unten verschraubt und bietet die Möglichkeit die Kamera mit Schrauben zu sichern. 
-Die Anschlüsse für die Stromversorgung, die USB-Ports, die HDMI-Ports, den Ethernet-Anschluss und die GPIO-Pins sind zugänglich damit es auch weiterhin 
-möglich ist damit zu arbeiten, auch wenn kleine Änderungen durchgeführt werden. Zudem ist es dadurch auch möglich zu Test- und Entwicklungszwecken einen Bildschirm anzuschließen.
+bieten und eine Halterung für die Kamera sollte auch integriert sein. Um für die Entwicklung ein geeignetes Gehäuse zu entwickeln, wurde hier ein 
+Gehäuse mit einem 3D-Drucker erstellt. Das Gehäuse wird von oben und unten verschraubt und bietet die Möglichkeit, die Kamera mit Schrauben zu sichern. 
+Die Anschlüsse für die Stromversorgung, die USB-Ports, die HDMI-Ports, den Ethernet-Anschluss und die GPIO-Pins sind zugänglich, damit es auch weiterhin 
+möglich ist damit zu arbeiten, auch wenn kleine Änderungen durchgeführt werden. Zudem ist es dadurch auch möglich, zu Test- und Entwicklungszwecken einen Bildschirm anzuschließen.
 
 \subsection{Bildverarbeitung}
 
@@ -42,7 +42,7 @@ andere Algorithmen. Im Folgenden werden die verwendeten Bildverarbeitungsfunktio
 und deren Funktionsweise erläutert.
 
 \subsubsection{Bilaterale Filterung}
-Bilaterale Filterung ist eine Methode für eine kantenerhaltende Weichzeichnung eines Bildes.\\
+Bilaterale Filterung\footnote{\url{https://homepages.inf.ed.ac.uk/rbf/CVonline/LOCAL_COPIES/MANDUCHI1/Bilateral_Filtering.html}} ist eine Methode für eine kantenerhaltende Weichzeichnung eines Bildes.\\
 
 Bei der Berechnung für den Farbwert des Ausgabepixels werden die benachbarten Pixel nicht nur 
 mit ihrer Entfernung gewichtet, sondern auch mit ihrem eigenen Farbwert. Dadurch können einzelne 
@@ -68,9 +68,9 @@ unnötige Informationen entfernt werden.\\
     \end{minipage}
 \end{figure}
 
-In Abbildung \ref{vorBi} kann man ein Bild von verschieden Lebensmitteln sehen. Wenn man genau hinsieht 
+In Abbildung \ref{vorBi} kann man ein Bild von verschiedenen Lebensmitteln sehen. Wenn man genau hinsieht 
 erkennt man vor allem bei den Blättern im Hintergrund und beim Brot viele detailreiche Texturen. 
-Diese Texturen haben keine wichtige Texturen und sind deswegen unnötig. Um die Bildverarbeitung zu 
+Diese Texturen haben keine wichtige Informationen und sind deswegen unnötig. Um die Bildverarbeitung zu 
 vereinfachen wendet man deswegen die bilaterale Filterung auf dieses Bild an, um diese detailreichen 
 Texturen zu vereinfachen. In Abbildung \ref{nachBi} sieht man das Bild nach der bilateralen Filterung. 
 Wenn man hier dann wieder genauer auf die Blätter und das Brot sieht, erkennt man, dass die 
@@ -80,7 +80,7 @@ detailreichen Texturen weichgezeichnet wurden, aber die Kanten sind genauso gut 
 Das Thresholding oder auch Schwellenwertverfahren wird in der Bildverarbeitung verwendet, um Bilder zu segmentieren. 
 Aus einem Graubild kann dadurch ein Binäres Bild erzeugt werden.\\ 
 
-Bei diesem Verfahren wird ein bestimmter Schwellwert (En.: Threshold) definiert, welcher mit den Grauwerten der einzelnen 
+Bei diesem Verfahren wird ein bestimmter Schwellwert (engl.: Threshold) definiert, welcher mit den Grauwerten der einzelnen 
 Pixel des Bildes verglichen wird. Wenn der Grauwert den Schwellwert überschreitet, wird dieser durch einen weißen Pixel 
 ersetzt und wenn der Grauwert kleiner als der Schwellwert ist, wird dieser durch einen schwarzen Pixel ersetzt. 
 Dadurch erhält man ein Bild welches nur noch zwei Farben hat, Schwarz und Weiß. Dies wird deswegen eingesetzt, 
@@ -103,7 +103,7 @@ da dadurch viele Bildverarbeitungsalgorithmen schneller arbeiten und die Effizie
     \end{minipage}
 \end{figure}
 
-In Abbildung \ref{graypic} sieht man ein solches Graubild welches nur verschieden Graustufen aufweist. In Abbildung \ref{binarypic} sieht man das 
+In Abbildung \ref{graypic} sieht man ein solches Graubild, welches nur verschieden Graustufen aufweist. In Abbildung \ref{binarypic} sieht man das 
 Bild nach dem Thresholding. Hier kann man nur noch das Boot mit den Menschen erkennen. Dies ist nicht nur für schnellere 
 Bildverarbeitungsalgorithmen wichtig, sondern wird auch zur Objekterkennung in Bildern verwendet.\\
 
@@ -112,7 +112,7 @@ verwendet Methoden, welche den Schwellwert automatisch bestimmen. Eine der bekan
 ist die Methode von Otsu\footnote{Benannt nach Nobuyuki Otsu}, welche mit dem Schwellenwert die Pixel in Vordergrund und Hintergrund unterteilt.
 
 \subsubsection{Erosion}
-Erosion ist eine Funktion der Bildverarbeitung und ist in die morphologische Bildverarbeitung einzuordnen. Diese beschäftigt 
+Erosion\footnote{\url{https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_imgproc/py_morphological_ops/py_morphological_ops.html}} ist eine Funktion der Bildverarbeitung und ist in die morphologische\footnote{Zweig der Bildverarbeitung der sich mit binären Bildern beschäftigt} Bildverarbeitung einzuordnen. Diese beschäftigt 
 sich primär mit der Verarbeitung von binären Bildern, welche man nach Thresholding erhält.\\
 
 Erosion benötigt zwei Eingaben, das binäre Bild und einen Kernel. Der Kernel ist dabei die Angabe, nach welcher die Erosion 
@@ -165,7 +165,7 @@ Der BGR ist ein relativ unbekannter und wenig verwendeter Farbraum, da er sehr �
 Unterschied zwischen diesen beiden liegt in der Anordnung der Parameter. Bei BGR sind die Parameter spiegelverkehrt zu RGB, 
 das heißt es kommt zuerst der Blauanteil, dann der Grünanteil und zum Schluss der Rotanteil. Insgesamt ergibt dies für die 
 einzelnen Pixel zwar die gleichen Farben, aber die Funktionen der Bildverarbeitung müssen trotzdem das Bild im passenden 
-Farbraum erhalten. So verwendet zum Beispiel die Funktion „imread“ von OpenCV den BGR-Farbraum und die Funktion „im Show“ 
+Farbraum erhalten. So verwendet zum Beispiel die Funktion „imread“ von OpenCV den BGR-Farbraum und die Funktion „imShow“ 
 von Matplotlib verwendet den RGB-Farbraum. Wenn man diese Funktionen also nacheinander anwendet, muss dazwischen der Farbraum 
 umgewandelt werden.
 
@@ -188,49 +188,48 @@ liefert eine Liste mit allen Konturen. Die Konturen werden in der Liste als ein 
 \subsubsection{Einleitung}
 Die Software ist der wichtigste und größte Teil der Kennzeichenerkennung. Sie erhält ein Bild, in welchem ein Auto mit 
 einem Kennzeichen enthalten ist und liefert am Ende dieses Kennzeichen und sendet dieses dann automatisch an die Datenbank. 
-Die Software kann entweder über Bildverarbeitung oder mit Modellen für Maschinelles Lernen realisiert werden. Der erste Ansatz bei 
+Die Software kann entweder über Bildverarbeitung oder mit Modellen für maschinelles Lernen realisiert werden. Der erste Ansatz bei 
 dieser Anwendung war mit klassischer Bildverarbeitung, welche aber nicht die gewünschte Genauigkeit erreicht hat, weswegen 
-dann auf Maschinelles Lernen gewechselt wurde.
+dann auf maschinelles Lernen gewechselt wurde.
 
 \subsubsection{Programmiersprache}
-Die verwendete Programmiersprache für die Kennzeichenerkennung ist Python. Python ist eine höhere Programmiersprache, 
-welche übersichtlich und leicht lesbar ist. Sie ist vor allem für Bildverarbeitung und Anwendungen mit Maschinellem Lernen gut geeignet, 
+Die verwendete Programmiersprache für die Kennzeichenerkennung ist Python\footnote{\url{https://www.python.org/}}. Python ist eine höhere Programmiersprache, 
+welche übersichtlich und leicht lesbar ist. Sie ist vor allem für Bildverarbeitung und Anwendungen mit maschinellem Lernen gut geeignet, 
 da es dafür hoch optimierte und effiziente Bibliotheken gibt wie zum Beispiel OpenCV, Numpy und Tensorflow. Dadurch ist Python 
 für diese Anwendung besser geeignet als zum Beispiel C++. Dieses wäre zwar normalerweise effizienter, bietet aber weniger 
 optimierte Bibliotheken in diesem Bereich, wodurch es hier weniger gut geeignet ist.
 
 \subsubsection{Konzept}
 Das Programm für die Kennzeichenerkennung basiert auf fünf Stufen. Die erste Stufe ist die Bildaufnahme, die zweite ist die 
-Kennzeichenerfassung mittels Maschinellem Lernen, die dritte ist die Kennzeichensegmentierung mithilfe von Bildverarbeitung, 
-die vierte ist die Zeichenerkennung mittels Maschinellem Lernen und die fünfte ist die Anbindung an die Datenbank.
+Kennzeichenerfassung mittels maschinellem Lernen, die dritte ist die Kennzeichensegmentierung mithilfe von Bildverarbeitung, 
+die vierte ist die Zeichenerkennung mittels maschinellem Lernen und die fünfte ist die Anbindung an die Datenbank.
 
 \paragraph{Bildaufnahme}\mbox{}\\
-Um ein Bild verarbeiten zu können und aus diesem ein Kennzeichen auslesen zu können, muss zuerst ein Bild vorliegen. 
-Dieses wird über den RaspberryPi mit der RaspberryPi-Kamera aufgenommen. Um das Bild aufzunehmen, muss einfach ein Auslöser 
+Um ein Bild verarbeiten zu können und aus diesem ein Kennzeichen auszulesen, muss zuerst ein Bild vorliegen. 
+Dieses wird über den Raspberry Pi mit der Raspberry Pi-Kamera aufgenommen. Um das Bild aufzunehmen, muss einfach ein Auslöser 
 aktiviert werden und dann wird das Bild aufgenommen und im richtigen Ordner abgespeichert. Zuvor wird noch überprüft ob 
 sich in diesem Ordner bereits ein Bild befindet und falls eines vorhanden ist wird es gelöscht. Dadurch werden mögliche Fehler 
 durch mehrere Bilder verhindert.
 
 \paragraph{Kennzeichenerfassung}\mbox{}\\
-Die Kennzeichenerfassung hat die Aufgabe, das Kennzeichen im Eingabebild zu lokalisieren. Dies geschieht mittels Maschinellem Lernen 
-mit dem Modul WPOD-NET von Sérgio Montazolli Silva und Cláudio Rosita Jung\footnote{License Plate Detection and Recognition in Unconstrained Scenarios}. Dieses verwendet zuerst das Modul YOLOv2 welches zur 
+Die Kennzeichenerfassung hat die Aufgabe, das Kennzeichen im Eingabebild zu lokalisieren. Dies geschieht mittels maschinellem Lernen 
+mit dem Modul WPOD-NET von Sérgio Montazolli Silva und Cláudio Rosita Jung\footnote{\cite{wpodnet}}. Dieses verwendet zuerst das Modul YOLOv2 welches zur 
 Echtzeitobjekterkennung verwendet werden kann und in dieser Anwendung zur Erkennung von Fahrzeugen verwendet wird. Danach werden 
 die Koordinaten des Kennzeichens ermittelt und dieses aus dem Bild ausgeschnitten und abgespeichert.
 
 \paragraph{Kennzeichensegmentierung}\mbox{}\\
 Die Kennzeichensegmentierung hat das Ziel die einzelnen Zeichen im Kennzeichen zu separieren und so zu vorbereiten, dass die 
 darauffolgende Zeichenerkennung damit arbeiten kann. Dazu wird das Bild mit dem Kennzeichen zuerst in Graustufen konvertiert, 
-dann mit einem bilateralen Filter gefiltert, mit Thresholding in ein binäres Bild umgewandelt und anschließend mittels Erosion 
-besser erkennbar gemacht. Danach werden im verarbeiteten Bild die Konturen gesucht, sortiert und anhand dieser die einzelnen Zeichen herausgefiltert.
+dann mit einem bilateralen Filter gefiltert, mit Thresholding in ein binäres Bild umgewandelt und anschließend mittels Erosion verarbeitet, damit es besser erkennbar ist. Danach werden im verarbeiteten Bild die Konturen gesucht, sortiert und anhand dieser die einzelnen Zeichen herausgefiltert.
 
 \paragraph{Zeichenerkennung}\mbox{}\\
 Die letzte Stufe der Kennzeichenerkennung ist die Zeichenerkennung. In dieser werden die einzelnen Zeichen erkannt und als Text 
-abgespeichert. Dies funktioniert über eine eigenes Neuronales Netz basierend auf MobileNetV2\footnote{Neuronales Netz für Computer Vision}, welches mit einem Datensatz von 
+abgespeichert. Dies funktioniert über ein eigenes neuronales Netz basierend auf MobileNetV2\footnote{neuronales Netz für Computer Vision}, welches mit einem Datensatz von 
 über 35 000 Bildern auf die Erkennung von Zeichen aus Bildern trainiert wurde.
 
 \paragraph{Anbindung an Datenbank}\mbox{}\\
 Nachdem das Kennzeichen als Text abgespeichert wurde, muss diese Information in die Datenbank übergeben werden. Dazu wird die 
-eigene API angewandt, welcher man diese Informationen übergeben muss und als Rückgabe die Information bekommt, ob sich das 
+eigene API verwendet, welcher man diese Informationen übergeben muss und als Rückgabe die Information bekommt, ob sich das 
 Fahrzeug nun innerhalb oder außerhalb des Parkplatzes befindet.
 
 \subsubsection{Ablauf}
@@ -242,8 +241,8 @@ Fahrzeug nun innerhalb oder außerhalb des Parkplatzes befindet.
 \end{figure}
 
 Im oberen Diagramm ist der Ablauf des Programms angegeben. Zuerst wird mit einem Button der Auslöser betätigt und damit das 
-Foto aufgenommen. Dann wird das erste Modell für Maschinelles Lernen für die Kennzeichenerkennung „WPOD-NET“\footnote{Modell für Maschinelles Lernen für Kennzeichenerfassung} geladen. Bevor das 
-Bild diesem Modell übergeben werden kann, muss es noch angepasst werden damit das Modell damit arbeiten kann. Danach kann 
+Foto aufgenommen. Dann wird das erste Modell für maschinelles Lernen für die Kennzeichenerkennung „WPOD-NET“\footnote{Modell für maschinelles Lernen für Kennzeichenerfassung} geladen. Bevor das 
+Bild diesem Modell übergeben werden kann, muss es noch angepasst werden, damit das Modell damit arbeiten kann. Danach kann 
 damit das Kennzeichen im Bild lokalisiert werden. Im Anschluss wird dieses Kennzeichenbild mit mehreren Bildverarbeitungsalgorithmen 
 verarbeitet, um dann die einzelnen Zeichen zu segmentieren. Danach kann dann das Modell für die Zeichenerkennung geladen 
 werden und dieses dann auch angewendet werden, um das Ergebnis zu erhalten. Dieses Ergebnis wird dann noch mit einer API an die Datenbank übergeben.
@@ -255,43 +254,48 @@ Im Folgenden werden die verwendeten Versionen der benötigten Libraries aufgelis
 unterteilt in die Versionen, welche auf Windows 10 benötigt werden und jene auf Raspbian\footnote{Raspbian ist ein Unix-basiertes Betriebssystem für den Raspberry Pi}, da auf Raspbian manche Versionen noch 
 nicht verfügbar sind, neuere und verbesserte Versionen verfügbar sind oder manche Versionen nur auf komplizierten Umwegen installierbar sind.
 
-Windows:
-
-\begin{itemize}
-    \item h5py = 2.10.0
-    \item imutils = 0.5.3
-    \item Keras = 2.4.3
-    \item matplotlib = 3.3.2
-    \item notebook = 6.1.5
-    \item numpy = 1.18.5
-    \item opencv-python = 4.4.0.44
-    \item scikit-learn = 0.23.2
-    \item tensorflow = 2.3.1
-    \item requests = 2.24.0
-\end{itemize}
-
-Raspbian:
-
-\begin{itemize}
-    \item h5py = 2.10.0
-    \item imutils = 0.5.3
-    \item Keras = 2.4.3
-    \item matplotlib = 3.3.3
-    \item notebook = 6.1.5
-    \item numpy = 1.19.4
-    \item opencv-python = 4.4.0.46
-    \item scikit-learn = 0.24.0
-    \item tensorflow = 2.4.0
-    \item requests = 2.21.0
-\end{itemize}
+\begin{figure}[htbp]
+    \centering
+    \begin{minipage}[t]{0.45\linewidth}
+        Windows:
+        \begin{itemize}
+            \item h5py = 2.10.0
+            \item imutils = 0.5.3
+            \item Keras = 2.4.3
+            \item matplotlib = 3.3.2
+            \item notebook = 6.1.5
+            \item numpy = 1.18.5
+            \item opencv-python = 4.4.0.44
+            \item scikit-learn = 0.23.2
+            \item tensorflow = 2.3.1
+            \item requests = 2.24.0
+        \end{itemize}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.45\linewidth}
+        Raspbian:
+        \begin{itemize}
+            \item h5py = 2.10.0
+            \item imutils = 0.5.3
+            \item Keras = 2.4.3
+            \item matplotlib = 3.3.3
+            \item notebook = 6.1.5
+            \item numpy = 1.19.4
+            \item opencv-python = 4.4.0.46
+            \item scikit-learn = 0.24.0
+            \item tensorflow = 2.4.0
+            \item requests = 2.21.0
+        \end{itemize}
+    \end{minipage}
+\end{figure}
 
 \paragraph{Jupyter Notebook}\mbox{}\\
-Jupyter Notebook ist eine nützliche Erweiterung für Python, wenn es um den Bereich der Daten-Visualisierung und Maschinelles Lernen geht. 
+Jupyter Notebook\footnote{\url{https://jupyter.org/}} ist eine nützliche Erweiterung für Python, wenn es um den Bereich der Daten-Visualisierung und maschinelles Lernen geht. 
 Sie ist eine Unteranwendung des Open-Source Projektes „Project Jupyter“, welches von großen Partnern wie Microsoft und Google unterstützt 
 und verwendet wird. Mit Jupyter Notebook ist es möglich in einer Web-Anwendung ein Live-Script abzuarbeiten und in Kombination mit Matplotlib 
 die Daten visuell darzustellen, abzuspeichern und zu überwachen. Im Gegensatz zur direkten Darstellung in der Entwicklungsumgebung, wird 
-der letzte Durchgang des Scripts, inklusive aller Bilder und Grafiken gespeichert. Zudem ist es auch hervorragend für das Training und 
-die dazugehörende Überwachung von Modulen für Maschinelles Lernen geeignet. Außerdem bietet Jupyter Notebook noch die Möglichkeit mehrere Scripts 
+der letzte Durchgang des Scripts, inklusive aller Bilder und Grafiken, gespeichert. Zudem ist es auch hervorragend für das Training und 
+die dazugehörende Überwachung von Modulen für maschinelles Lernen geeignet. Außerdem bietet Jupyter Notebook noch die Möglichkeit mehrere Scripts 
 parallel abzuarbeiten und diese individuell zu überwachen. In dieser Applikation wird es für ein solches Training und für die anschauliche 
 Visualisierung von Daten genutzt.\\
 
@@ -305,18 +309,18 @@ Die Installation von Jupyter Notebook ist simpel, da man es einfach über pip\fo
 \end{listing}
 
 Um das Jupyter Notebook aufzurufen muss im Terminal „jupyter notebook“ eingegeben werden und dann öffnet sich automatisch die Web-Applikation. 
-Danach hat man Zugriff auf komplette Dateistruktur des eigenen Projektes und kann die einzelnen Python-Scripts starten. Dabei ist zu beachten, 
-dass man keine gewöhnliche .py-Datei benötigt, sondern eine .ipynb-Datei benötigt, wozu man einfach eine Kopie des normalen Scripts erstellt und die Dateiendung ändert.
+Danach hat man Zugriff auf die komplette Dateistruktur des eigenen Projektes und kann die einzelnen Python-Scripts starten. Dabei ist zu beachten, 
+dass man keine gewöhnliche \verb|.py|-Datei benötigt, sondern eine \verb|.ipynb|-Datei benötigt, wozu man einfach eine Kopie des normalen Scripts erstellt und die Dateiendung ändert.
 
 \paragraph{Numpy}\mbox{}\\
-Numpy ist eine weit verbreitete Library für Python, welche sich mit der Berechnung und Verarbeitung von mehrdimensionalen Arrays beschäftigt. 
+Numpy\footnote{\url{https://numpy.org/}} ist eine weit verbreitete Library für Python, welche sich mit der Berechnung und Verarbeitung von mehrdimensionalen Arrays beschäftigt. 
 Damit können komplexe Berechnungen und Algorithmen oft effizienter verarbeitet werden, wobei aber beachtet werden muss, dass der Code an die 
 mehrdimensionalen Arrays angepasst werden muss. Numpy selbst ist auch eine Voraussetzung für OpenCV, welches Numpy-Arrays verwendet, um Bilder zu verarbeiten. 
 Dazu werden 3-dimensionale Arrays verwendet, wodurch die Verarbeitung dieser Bilder und die Bildverarbeitungsalgorithmen schneller sind. In dieser 
 Applikation wird Numpy in Zusammenarbeit mit OpenCV verwendet und auch für die weitere Verarbeitung der Daten von OpenCV, um zum Beispiel die 
 Koordinaten des Kennzeichens zu speichern.\\
 
-Um Numpy zu installieren muss folgender Befehl in der Konsole eingegeben werden:
+Um Numpy zu installieren muss folgender Befehl in der Kommandozeile eingegeben werden:
 
 \begin{listing}[H]
     \begin{minted}{bash}
@@ -326,19 +330,19 @@ Um Numpy zu installieren muss folgender Befehl in der Konsole eingegeben werden:
 \end{listing}
 
 \paragraph{OpenCV}\mbox{}\\
-OpenCV ist die wichtigste und mächtigste Library die in dieser Applikation verwendet wird. Sie wurde ursprünglich in C++ geschrieben, 
+OpenCV\footnote{\url{https://opencv.org/}} ist die wichtigste und mächtigste Library die in dieser Applikation verwendet wird. Sie wurde ursprünglich in C++ geschrieben, 
 aber es gibt auch eine Version in Python, welche in dieser Applikation verwendet wird. OpenCV ist eine freie Library für Bildverarbeitung, 
-Computer Vision\footnote{Die Computergestütze Auswertung und Verarbeitung von Kamerabildern} und Maschinelles Lernen, welche von Intel gestartet wurde und mittlerweile die wichtigste und am weitesten verbreitete 
+Computer Vision\footnote{Die Computergestütze Auswertung und Verarbeitung von Kamerabildern} und maschinelles Lernen, welche von Intel gestartet wurde und mittlerweile die wichtigste und am weitesten verbreitete 
 Library in diesem Bereich ist. Sie verwendet Numpy-Arrays, um für eine effiziente Verarbeitung von Bildern zu sorgen. Einige der wichtigsten 
 Funktionen stellen die klassischen Bildverarbeitungsalgorithmen wie zum Beispiel Filterung und Farbraumanpassungen, die Verarbeitung und 
-Auswertung von Kamerabildern und auch die Kompatibilität mit Deep-Learning\footnote{Methode für Maschinelles Lernen welche Neuronale Netze nutzt} dar. In dieser Applikation wird OpenCV für diverse 
-Bildverarbeitungsalgorithmen, die Zusammenarbeit mit Modellen für Maschinelles Lernen, die Verarbeitung eines Kamerabildes und das allgemeine Arbeiten mit Bildern verwendet.\\
+Auswertung von Kamerabildern und auch die Kompatibilität mit Deep-Learning\footnote{Methode für maschinelles Lernen welche neuronale Netze nutzt} dar. In dieser Applikation wird OpenCV für diverse 
+Bildverarbeitungsalgorithmen, die Zusammenarbeit mit Modellen für maschinelles Lernen, die Verarbeitung eines Kamerabildes und das allgemeine Arbeiten mit Bildern verwendet.\\
 
-Die Installation von OpenCV ist dabei etwas komplizierter als bei anderen Librarys.\\
+Die Installation von OpenCV ist dabei etwas komplizierter als bei anderen Libraries.\\
 
 Windows:\\
 
-Unter Windows ist die Installation vergleichbar mit anderen Libraries, es muss einfach der folgende Befehl in der Konsole eingegeben werden:
+Unter Windows ist die Installation vergleichbar mit anderen Libraries, es muss einfach der folgende Befehl in der Kommandozeile eingegeben werden:
 
 \begin{listing}[H]
     \begin{minted}{bash}
@@ -349,7 +353,7 @@ Unter Windows ist die Installation vergleichbar mit anderen Libraries, es muss e
 
 Raspbian:\\
 
-Auf dem Raspberry Pi gestaltet sich die Installation von OpenCV um einiges schwieriger, da die Installation nicht über pip gemacht werden kann, 
+Auf dem Raspberry Pi gestaltet sich die Installation von OpenCV um einiges schwieriger, da die Installation nicht über pip ausgeführt werden kann, 
 sondern es manuell kompiliert werden muss.\\
 
 Als erstes werden alle Tools und Bibliotheken installiert, welche für OpenCV benötigt werden. Dazu verwendet man folgenden Befehl im Terminal:
@@ -399,7 +403,7 @@ Wenn das Kompilieren erfolgreich beendet wurde, kann OpenCV abschließend instal
 Danach sollte OpenCV fertig installiert und eingerichtet sein und es kann in einem Python Projekt verwendet werden.
 
 \paragraph{Matplotlib}\mbox{}\\
-Matplotlib ist eine Python-Library mit welcher Daten und Berechnungen visuell dargestellt werden können. Damit können 
+Matplotlib\footnote{\url{https://matplotlib.org/}} ist eine Python-Library mit welcher Daten und Berechnungen visuell dargestellt werden können. Damit können 
 statische, animierte und interaktive Diagramme erstellt werden, was die Datenauswertung um einiges erleichtert. 
 Die Syntax ähnelt sehr stark jener von MATLAB, wodurch die Bedienung sehr einfach ist, wenn man schon Erfahrung mit 
 MATLAB hat. Wie auch in MATLAB kann man die Diagramme beliebig anordnen und dadurch das Layout der Darstellung selbst 
@@ -416,7 +420,7 @@ um einige Bilder mit einem Titel anzuzeigen.
     \caption{Beispiel einer Anwendung von Matplotlib}
 \end{figure}
 
-Um Matplotlib zu installieren muss das Folgende in der Konsole eingegeben werden:
+Um Matplotlib zu installieren muss das Folgende in der Kommandozeile eingegeben werden:
 
 \begin{listing}[H]
     \begin{minted}{bash}
@@ -426,13 +430,13 @@ Um Matplotlib zu installieren muss das Folgende in der Konsole eingegeben werden
 \end{listing}
 
 \paragraph{Keras}\mbox{}\\
-Keras ist eine Deep-Learning Schnittstelle für diverse Machine Learning Frameworks wie zum Beispiel Tensorflow oder Theanos. 
-Damit wird die Bedienung und Anwendung dieser Frameworks vereinfacht und es bietet auch diverse Funktionen, um Inputs mit 
-den Modellen für Maschinelles Lernen kompatibel zu machen. Keras ist ein Teil von Tensorflow, wird aber eigenständig weiterentwickelt, 
+Keras\footnote{\url{https://keras.io/}} ist eine Deep-Learning Schnittstelle für diverse Machine Learning Frameworks wie zum Beispiel Tensorflow oder Theanos. 
+Damit wird die Bedienung und Anwendung dieser Frameworks vereinfacht und es bietet auch diverse Funktionen, um die Kompatibilität der Inputs mit 
+den Modellen für maschinelles Lernen zu ermöglichen. Keras ist ein Teil von Tensorflow, wird aber eigenständig weiterentwickelt, 
 um die Kompatibilität mit anderen Machine Learning Frameworks aufrechtzuerhalten. In dieser Applikation wird es in 
-Zusammenarbeit mit Tensorflow verwendet, um mit den verwendeten Modellen für Maschinelles Lernen zu arbeiten.\\
+Zusammenarbeit mit Tensorflow verwendet, um mit den verwendeten Modellen für maschinelles Lernen zu arbeiten.\\
 
-Um Keras zu installieren führt man folgenden Befehl in der Konsole aus:
+Um Keras zu installieren führt man folgenden Befehl in der Kommandozeile aus:
 
 \begin{listing}[H]
     \begin{minted}{bash}
@@ -442,10 +446,10 @@ Um Keras zu installieren führt man folgenden Befehl in der Konsole aus:
 \end{listing}
 
 \paragraph{Tensorflow}\mbox{}\\
-Tensorflow ist eines der weltweit beliebtesten Frameworks für Maschinelles Lernen und wird von weltweit erfolgreichen Firmen wie 
-zum Beispiel Google, AMD oder auch Intel verwendet. Es bietet eine umfassende Plattformen für jegliche Anwendugnen für Maschinelles Lernen 
+Tensorflow\footnote{\url{https://www.tensorflow.org/}} ist eines der weltweit beliebtesten Frameworks für maschinelles Lernen und wird von weltweit erfolgreichen Firmen wie 
+zum Beispiel Google, AMD oder auch Intel verwendet. Es bietet eine umfassende Plattform für jegliche Anwendungen für maschinelles Lernen 
 und ist in Zusammenarbeit mit APIs wie zum Beispiel Keras leicht zu verwenden. In dieser Applikation wird damit ein neuronales 
-Netz trainiert und mehrere Modelle für Maschinelles Lernen verwaltet und verwendet.\\
+Netz trainiert und mehrere Modelle für maschinelles Lernen verwaltet und verwendet.\\
 
 Bei der Installation von Tensorflow muss beachtet werden, dass sich diese von Windows zu Raspbian stark unterscheidet. 
 Raspbian unterstützt offiziell die benötigte Version von Tensorflow noch nicht und deswegen muss dieses über ein paar Umwege installiert werden.\\
@@ -464,7 +468,7 @@ Die Installation von Tensorflow unter Windows ist einfach, da man es wie andere 
 Raspbian:\\
 
 Bei Raspbian muss Tensorflow manuell kompiliert werden, da die aktuelle Version noch nicht offiziell unterstützt wird. Diese funktioniert 
-aber trotz dieses Umweges einwandfrei und wird mit den folgenden Befehlen in der Konsole installiert.\\
+aber trotz dieses Umweges einwandfrei und wird mit den folgenden Befehlen in der Kommandozeile installiert.\\
 
 Mit dem ersten Befehl werden die benötigten Tools installiert:
 
@@ -501,7 +505,7 @@ Im nächsten Schritt müssen noch zusätzlich erforderliche Libraries installier
     \begin{minted}{bash}
     $ ./tensorflow/lite/tools/make/download_dependencies.sh
     \end{minted}
-    \caption{Zusätzlich erforderliche Librarys}
+    \caption{Zusätzlich erforderliche Libraries}
 \end{listing}
 
 Danach kann die Installation kompiliert werden:
@@ -528,20 +532,19 @@ Danach muss man die Installation mit den folgenden Befehlen abschließen:
     \caption{Abschließen der Installation von Tensorflow}
 \end{listing}
 
-Nach diesem Schritt sollte Tensorflow Installation funktionieren und man kann es wie jede andere Library in Python einbinden.
+Nach diesem Schritt sollte die Tensorflow Installation funktionieren und man kann es wie jede andere Library in Python einbinden.
 
 \paragraph{local{\_}utils}\mbox{}\\
-local{\_}utils ist ein einfaches Python-Script, welches die Arbeit mit WPOD-NET im Bereich der Kennzeichenerkennung vereinfacht 
-und in dieser Applikation für die einfachere Nutzung von WPOD-NET verwendet wird. Es beinhaltet die Funktion „detect{\_}lp“ mit 
+local{\_}utils ist ein einfaches Python-Script, welches die Arbeit mit WPOD-NET im Bereich der Kennzeichenerkennung vereinfacht. Es beinhaltet die Funktion „detect{\_}lp“ mit 
 welcher ein Bild des Kennzeichens und die Koordinaten des Kennzeichens ermittelt werden können. Dieses Script kann über den 
 folgenden Link von GitHub heruntergeladen werden: \url{https://github.com/quangnhat185/Plate_detect_and_recognize/blob/master/local_utils.py} 
 
 \paragraph{Scikit-learn}\mbox{}\\
-Scikit-learn ist eine freie Library für Maschinelles Lernen und basiert auf Numpy und Matplotlib. Es wird vor allem verwendet, 
+Scikit-learn\footnote{\url{https://scikit-learn.org/stable/}} ist eine freie Library für maschinelles Lernen und basiert auf Numpy und Matplotlib. Es wird vor allem verwendet, 
 um mit großen visuellen Datensätzen neuronale Netze zu trainieren.  Es bietet Funktionen, um Modelle anzupassen, Daten vorzubereiten, 
-Modelle zu trainieren und ähnliches. In dieser Applikation wird es für die Normalisierung von Labels verwendet, um diese für Modelle für Maschinelles Lernen anzupassen und für das zufällige Aufteilen von Arrays in Test und Trainingsteile, welche für das Training eines Neuronalen Netzes benötigt werden.\\
+Modelle zu trainieren und ähnliches. In dieser Applikation wird es für die Normalisierung von Labels verwendet, um diese für Modelle für maschinelles Lernen anzupassen und für das zufällige Aufteilen von Arrays in Test und Trainingsteile, welche für das Training eines neuronalen Netzes benötigt werden.\\
 
-Für die Installation von Scikit-learn muss die folgende Zeile in der Konsole ausgeführt werden:
+Für die Installation von Scikit-learn muss die folgende Zeile in der Kommandozeile ausgeführt werden:
 
 \begin{listing}[H]
     \begin{minted}{bash}
@@ -552,13 +555,13 @@ Für die Installation von Scikit-learn muss die folgende Zeile in der Konsole au
 
 \paragraph{Requests}\mbox{}\\
 Requests ist eine Library mit welcher HTTP-Anfragen in Python vereinfacht werden. Sie wird häufig verwendet, um mit APIs zu kommunizieren 
-und ist eine der beliebtesten Python Librarys, da sie für API-Anwendungen so gut wie notwendig ist. In dieser Applikation wird sie für die 
+und ist eine der beliebtesten Python Libraries, da sie für API-Anwendungen so gut wie notwendig ist. In dieser Applikation wird sie für die 
 Kommunikation zu einer eigenen API für den Datenbankzugriff verwendet. Dadurch ist es ohne größere Schwierigkeiten möglich, das Bild des Kennzeichens, 
 die ID für den jeweiligen Parkplatz und das Resultat des Kennzeichens an die eigene Datenbank zu senden und auch eine Antwort zu erhalten, ob der 
 Zugriff erfolgreich war. Um die Daten mit dieser Library zu übertragen müssen diese einfach nur in einem Dictionary eingetragen werden und dann mit 
 dem korrekten Schlüsselwort über die API gesendet werden.\\
 
-Die Installation von Requests erfolgt mit folgendem Befehl in der Konsole:
+Die Installation von Requests erfolgt mit folgendem Befehl in der Kommandozeile:
 
 \begin{listing}[H]
     \begin{minted}{bash}
@@ -580,7 +583,7 @@ In der folgenden Abbildung sieht man ein Bild der GPIO-Pins des Raspberry Pi, we
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{kennzeichenerkennung/GPIO-Pinout-Diagramm-2.pdf}
-    \caption{GPIO-Pins des Raspberry Pi}
+    \caption{GPIO-Pins des Raspberry Pi \url{https://www.raspberrypi.org/documentation/usage/gpio/}}
 \end{figure}
 
 Diese Library kann nur auf dem Raspberry Pi installiert werden. Um die Library Gpiozero zu installieren kann pip verwendet werden:
@@ -594,13 +597,13 @@ Diese Library kann nur auf dem Raspberry Pi installiert werden. Um die Library G
 
 \paragraph{Picamera}\mbox{}\\
 Die Library picamera wird verwendet, um auf das Kameramodul des Raspberry Pi zuzugreifen. Die Library bietet etliche Funktionen an, 
-mit welchen die Kamera gesteuert werden kann, wie zum Beispiel Fotos aufzunehmen, Videoaufnahmen zu starten und zu beenden, Fotoeinstellungen 
+mit welchen die Kamera gesteuert werden kann, wie zum Beispiel Fotos aufnehmen, Videoaufnahmen zu starten und zu beenden, Fotoeinstellungen 
 zu ändern und ähnliches. Die Library ist notwendig, wenn man über Python das Kameramodul bedienen will. In dieser Applikation wird sie verwendet, 
 um ein Vorschaubild des aufgenommenen Bildes auf dem Bildschirm darzustellen, falls ein Bildschirm angeschlossen wird und um im 
 Anschluss das Bild aufzunehmen und korrekt zu skalieren.\\
 
 Die Installation von picamera ist nur auf dem Raspberry Pi möglich, da nur dieser damit arbeiten kann. 
-Für die Installation von picamera muss folgender Befehl in der Konsole eingegeben werden:
+Für die Installation von picamera muss folgender Befehl in der Kommandozeile eingegeben werden:
 
 \begin{listing}[H]
     \begin{minted}{bash}
@@ -632,15 +635,15 @@ Im folgenden Abschnitt werden die wichtigsten Teile des Kennzeichenerkennungspro
     \caption{WPOD-NET Modell laden}
 \end{listing}
 
-Für das Lokalisieren des Kennzeichens wird das Model für Maschinelles Lernen WPOD-NET verwendet. Dieses basiert auf YOLOv2, 
+Für das Lokalisieren des Kennzeichens wird das Model für maschinelles Lernen WPOD-NET verwendet. Dieses basiert auf YOLOv2, 
 mit welchem eine Echtzeitobjekterkennung möglich ist und wurde für diese Anwendung dazu angepasst, dass es möglich ist 
 Kennzeichen in einem Bild zu lokalisieren. WPOD-NET versucht zuerst auf Grundlage von YOLOv2 in dem übergebenen Bild 
 ein Fahrzeug zu erkennen, erstellt dann auf dieser Grundlage eine Region, in welcher sich mit hoher Wahrscheinlichkeit 
 das Kennzeichen befindet und liefert dann die Koordinaten des Kennzeichens im Bild. Im oberen Code sieht man die Funktion 
 „load{\_}model“ mit welcher das WPOD-Modell mit den gewichteten Werten geladen wird. Dazu muss dieser Funktion nur der 
 Pfad für das WPOD-NET File übergeben werden. Die Funktion versucht dann ein .json-File zu öffnen und erstellt aus 
-diesem mit der Funktion „model{\_}from{\_}json“ ein Model mit dem WPOD-NET arbeiten kann. Danach wird im selben Ordner 
-in dem auch das .json-File gefunden wurde nach einem .h5-File gesucht. Dieses enthält die gewichteten Werte für das 
+diesem mit der Funktion „model{\_}from{\_}json“ ein Model, mit dem WPOD-NET arbeiten kann. Danach wird im selben Ordner 
+in dem auch das .json-File gefunden wurde, nach einem .h5-File gesucht. Dieses enthält die gewichteten Werte für das 
 Modell und wird dann geladen. Wenn alles funktioniert hat, erhält man als Rückgabe das Modell mit den geladenen Werten. 
 Im unteren Code sieht man die Anwendung dieser Funktion. Zuerst wird dabei der Pfad für das WPOD-NET File definiert und 
 dieser Pfad wird dann der Funktion „load{\_}model“ übergeben und das Modell als Rückgabewert in der Variable „wpod{\_}net“ abgespeichert.
@@ -669,7 +672,7 @@ dieser Pfad wird dann der Funktion „load{\_}model“ übergeben und das Modell
 \end{listing}
 
 Um das Kennzeichen zu lokalisieren wird die Funktion „get{\_}plate“ angewendet. Dieser Funktion muss man den Pfad für das aufgenommene 
-Bild übergeben. Danach wird auf dieses Bild die Funktion „preprocess{\_}raw{\_}image“ angewandt, welches im folgenden Code ersichtlich ist:
+Bild übergeben. Danach wird auf dieses Bild die Funktion „preprocess{\_}raw{\_}image“ angewandt, welche im folgenden Code ersichtlich ist:
 
 \begin{listing}[H]
     \begin{minted}{python}
@@ -743,7 +746,7 @@ diesen Programmdurchlauf aufgenommen und im Zielordner abgespeichert. Danach wir
 \end{listing}
 
 Der nächste wichtige Abschnitt des Programmes beschäftigt sich damit, aus dem Kennzeichenbild die einzelnen Zeichen herauszusuchen und einzeln 
-darzustellen, damit diese dann von einem weiteren Modell für Maschinelles Lernen erkannt werden können. Dazu wird als erstes die Funktion „findContours“ 
+darzustellen, damit diese dann von einem weiteren Modell für maschinelles Lernen erkannt werden können. Dazu wird als erstes die Funktion „findContours“ 
 von OpenCV angewendet, welcher man ein binäres Bild des Kennzeichens übergeben muss und als Rückgabe ein Array von Koordinaten aller gefundenen Konturen ausgibt. 
 
 \begin{listing}[H]
@@ -780,7 +783,7 @@ des Kennzeichens die korrekte Reihenfolge ergibt.
 
 Im gesamten Programm wird ab und zu ein Bildverarbeitungsalgorithmus verwendet, aber zwischen der Kennzeichenlokalisierung und der Zeichenerfassung befindet 
 sich der Hauptteil davon. Um die einzelnen Zeichen zu lokalisieren müssen zuvor einige Bildverarbeitungsalgorithmen und Funktionen angewandt werden und 
-an anderen Stellen werden meistens die gleichen Funktionen angewandt wie dort. Im folgenden Code sieht man diese Bildverarbeitung:
+an anderen Stellen werden meistens die gleichen Funktionen angewendet wie dort. Im folgenden Code sieht man diese Bildverarbeitung:
 
 \begin{listing}[H]
     \begin{minted}{python}
@@ -804,7 +807,7 @@ Um die Qualität dieses binären Bildes noch etwas zu verbessern wird danach mit
 
 \paragraph{Visualisierung mittels Matplotlib}\mbox{}\\
 
-Um die einzelnen Bildverarbeitungsmechanismen zu überprüfen, die Werte anzupassen oder relevante Daten darzustellen, ist es hilfreich mit Hilfe der Library 
+Um die einzelnen Bildverarbeitungsmechanismen zu überprüfen, die Werte anzupassen oder relevante Daten darzustellen, ist es hilfreich mit der Library 
 Matplotlib eine Visualisierung durchzuführen. Zusätzlich wird auch noch Jupyter Notebook verwendet, wodurch die Visualisierung nur in der Web-Applikation 
 sichtbar ist, und damit werden nicht unzählige Tabs geöffnet. Im unteren Code sieht man eine solche Anwendung von Matplotlib.
 
@@ -831,7 +834,7 @@ Prinzipiell funktioniert die Library Matplotlib gleich wie eine figure in MATLAB
 dargestellt. Zuerst muss eine figure erstellt werden, in welcher die einzelnen Subplots platziert werden. Damit kann man die zusammengehörenden Visualisierungen 
 gruppieren. Danach muss für jedes Bild ein eigener Subplot erzeugt werden, welchen man mit den mitgegebenen Parametern in der figure platzieren kann. Danach 
 wird bei allen Bildern die Achsenbeschriftung deaktiviert, da diese hier nicht benötigt wird. Danach wird das gewünschte Bild ausgewählt und da alle Bilder in 
-Graustufen sind, wird diese angepasst und der Farbwertebereich auf 0 bis 255 gesetzt. Im unteren Bild sieht man die Ausgabe dieser Visualisierung.
+Graustufen gehalten sind, wird diese angepasst und der Farbwertebereich auf 0 bis 255 gesetzt. Im unteren Bild sieht man die Ausgabe dieser Visualisierung.
 
 \begin{figure}[H]
     \centering
@@ -841,7 +844,7 @@ Graustufen sind, wird diese angepasst und der Farbwertebereich auf 0 bis 255 ges
 
 \paragraph{Modell für Zeichenerkennung laden und anwenden}\mbox{}\\
 
-Für die Zeichenerkennung wird ein eigenes Neuronales Netz verwendet, welches auf MobileNetV2 basiert. Dafür wird primär die Funktion „predict{\_}from{\_}model“ 
+Für die Zeichenerkennung wird ein eigenes neuronales Netz verwendet, welches auf MobileNetV2 basiert. Dafür wird primär die Funktion „predict{\_}from{\_}model“ 
 verwendet, welche im unteren Code ersichtlich ist.
 
 \begin{listing}[H]
@@ -855,8 +858,8 @@ verwendet, welche im unteren Code ersichtlich ist.
     \caption{predict{\_}from{\_}model}
 \end{listing}
 
-Vor der Anwendung dieser Funktion muss wieder, wie beim ersten Modell für Maschinelles Lernen, das Modell zuerst geladen werden. Danach kann diese Funktion verwendet werden, 
-welcher man das Bild einer Zeichens und das Model übergeben muss. Die Funktion „predict{\_}from{\_}model“ wendet dann nur dieses Modell an und übergibt das 
+Vor der Anwendung dieser Funktion muss wieder, wie beim ersten Modell für maschinelles Lernen, das Modell zuerst geladen werden. Danach kann diese Funktion verwendet werden, 
+welcher man das Bild eines Zeichens und das Model übergeben muss. Die Funktion „predict{\_}from{\_}model“ wendet dann nur dieses Modell an und übergibt das 
 vermutete Ergebnis in ein Array.
 
 \begin{longlisting}
@@ -935,7 +938,7 @@ aufweisen, um für die Kennzeichenerkennung geeignet zu sein:
 \end{itemize}
 
 \subsubsection{Wahl des Raspberry Pi}
-In dieser Applikation wird ein RaspberryPi 4B 2GB verwendet, da er alle zuvor genannten Eigenschaften am besten erfüllt.\\
+In dieser Applikation wird ein Raspberry Pi 4B 2GB verwendet, da er alle zuvor genannten Eigenschaften am besten erfüllt.\\
 
 \begin{figure}[H]
     \centering
@@ -951,7 +954,7 @@ wodurch er sehr einfach mit dem Internet verbunden werden kann.
 
 \subsubsection{Kamera}
 Für den Raspberry Pi muss zudem noch die passende Kamera ausgewählt werden, um die Bilder von den Kennzeichen aufzunehmen. 
-Dafür gibt es Unmengen an kompatiblen Kameras, aber hier wird das Originalzubehör von RaspberryPi verwendet. Dies hat den Grund, 
+Dafür gibt es Unmengen an kompatiblen Kameras, aber hier wird das Originalzubehör von Raspberry Pi verwendet. Dies hat den Grund, 
 dass diese Kamera leicht zu verwenden, sehr klein, mit Schrauben einfach zu befestigen und günstig ist. Zudem liefert sie ein 
 qualitativ hochwertiges Bild, welches für die Software gut verarbeitbar ist.
 
@@ -969,32 +972,32 @@ Dabei ist nicht nur auf verschiedene Länderkennzeichen zu achten, welche sich s
 welche sich sogar auf nationaler Ebene von den normalen Kennzeichen unterscheiden. Zudem besteht noch die Problematik, dass sich die Kennzeichen 
 oft in unterschiedlichen Zuständen befinden, wie zum Beispiel mit Dreck beschmutzt oder ähnliches. Das bedeutet, dass eine in der Praxis 
 anwendbare Kennzeichenerkennung mit all diesen Gegebenheiten zurechtkommen muss, damit das Kennzeichen in nahezu jeder möglichen Situation 
-erkannt werden kann. Um dies zu erreichen wird das Programm für die Kennzeichenerkennung in drei größere Teile aufgeteilt. Die Kennzeichenlokalisierung, 
+erkannt wird. Um dies zu erreichen wird das Programm für die Kennzeichenerkennung in drei größere Teile aufgeteilt. Die Kennzeichenlokalisierung, 
 die Zeichenerfassung und die Zeichenerkennung. Die Zeichenerfassung gestaltet sich relativ einfach, da diese bereits ein Bild des Kennzeichens erhält, 
 in dem ansonsten keine größeren Störfaktoren beinhaltet sind. Diese muss also nur die Konturen innerhalb dieses Bildes finden und diese so sortieren, 
 dass nur noch die einzelnen Zeichen übrig bleiben. Bei der Kennzeichenlokalisierung und der Zeichenerfassung gestaltet sich die Lage schon etwas schwieriger. 
 Die Kennzeichenlokalisierung steht vor dem Problem, dass wenn man klassisch mit der Bildverarbeitung nach einer passenden Kontur für das Kennzeichen sucht, 
 kann dieser Algorithmus durch Störfaktoren wie ein zufällig ähnlich großes Orts- oder Straßenschild getäuscht werden, wodurch es zu einem Fehler kommt. 
-Auch Fenster oder ähnlich proportionierte Gegenstände können zu solch einem Fehler führen. Die Lösung dafür befindet sich im Bereich des Maschinellen Lernens. 
+Auch Fenster oder ähnlich proportionierte Gegenstände können zu solch einem Fehler führen. Die Lösung dafür befindet sich im Bereich des maschinellen Lernens. 
 Anstatt nur nach einer Kontur zu suchen, wird mit solch einem Modell gezielt nach einem Kennzeichen gesucht. Dies ist möglich, da so ein Modell mit vielen 
 möglichen Eingaben und den passenden Ausgaben dazu trainiert wird ein Muster zwischen den Ein- und Ausgaben zu finden, mit welchem es dann ähnliche Probleme 
 selbstständig lösen kann. Auch bei der Zeichenerkennung bietet sich solch ein Modell an, da es darauf trainiert werden kann, einzelne Zeichen mit einer 
-hohen Genauigkeit zu erkennen. Hier wäre es zwar ohne Maschinelles Lernen auch möglich ein relativ gutes Ergebnis zu erzielen, indem man mittels Korrelation 
-von Vergleichsbildern das Zeichen findet, welches am wahrscheinlichsten passen würde, aber in dieser Applikation wird auch hierfür ein Modell für Maschinelles Lernen verwendet.
+hohen Genauigkeit zu erkennen. Hier wäre es zwar ohne maschinelles Lernen auch möglich ein relativ gutes Ergebnis zu erzielen, indem man mittels Korrelation 
+von Vergleichsbildern das Zeichen findet, welches am wahrscheinlichsten passen würde, aber in dieser Applikation wird auch hierfür ein Modell für maschinelles Lernen verwendet.
 
 \subsubsection{Definition}
 Maschinelles Lernen beschreibt ein Modell, welches zuerst in einer Trainingsphase trainiert werden muss, um danach ähnliche Probleme näherungsweise lösen zu können. 
 Dazu wird in der Trainingsphase ein Datensatz bereitgestellt welcher mögliche Eingaben und meistens auch die passenden Ausgaben enthält. Durch die vielen verschiedenen 
 Eingaben und Ausgaben ist es für das Modell möglich ein Muster zwischen diesen zu erkennen, welches durch dieses Training verbessert werden kann. Es gilt dabei, je 
-länger die Trainingsphase dauert desto genauer wird das Modell. Der Aufwand besteht dabei darin, die gigantischen Datensätze zur Verfügung zu stellen, da diese oft 
+länger die Trainingsphase dauert, desto genauer wird das Modell. Der Aufwand besteht dabei darin, die gigantischen Datensätze zur Verfügung zu stellen, da diese oft 
 zuvor erstellt werden müssen. Zudem ist das Training ein sehr rechenintensiver Vorgang, welcher für ein gutes Ergebnis oft mehrere Stunden benötigt. In den letzten 
 Jahren hat sich im Bereich des Modell Trainings eine neue Entwicklung namens „Deep Learning“ verbreitet, mit welcher eine höhere Genauigkeit als mit bisherigen Modellen 
-erreicht werden kann. Dabei werden künstliche Neuronale Netze erstellt, welche der Vernetzung von Neuronen in Lebewesen nachempfunden sind. Diese künstlichen Neuronen 
+erreicht werden kann. Dabei werden künstliche neuronale Netze erstellt, welche der Vernetzung von Neuronen in Lebewesen nachempfunden sind. Diese künstlichen Neuronen 
 sind Verknüpfungspunkte zwischen Eingang und Ausgang des Modells und sind je nach Komplexität in verschiedene Schichten aufgeteilt. Um diese künstlichen Neuronen zu 
 trainieren, werden deren Gewichtungswerte angepasst. Deswegen muss bei solchen Modellen auch oft eine Datei mit den gewichteten Werten eingebunden werden.
 
-\subsubsection{Vergleich Maschinelles Lernen / Bildverarbeitung}
-Zum Beginn dieser Applikation wurde ein Ansatz ohne den Einsatz von Maschinellem Lernen verfolgt. Dazu wurde ein Testprogramm geschrieben, welches das Kennzeichen 
+\subsubsection{Vergleich maschinelles Lernen / Bildverarbeitung}
+Zum Beginn dieser Applikation wurde ein Ansatz ohne den Einsatz von maschinellem Lernen verfolgt. Dazu wurde ein Testprogramm geschrieben, welches das Kennzeichen 
 über eine Konturerkennung lokalisieren sollte. Dies führte aber zu häufig auftretenden Fehlern. Einer dieser Fehler ist in der unteren Abbildung ersichtlich.
 
 \begin{figure}[H]
@@ -1004,11 +1007,11 @@ Zum Beginn dieser Applikation wurde ein Ansatz ohne den Einsatz von Maschinellem
 \end{figure}
 
 Wie in der oberen Abbildung erkennbar ist, hat das Programm nicht das Kennzeichen erkannt, sondern ein Fenster im Hintergrund, welches eine ähnliche Kontur 
-wie das Fenster aufweist. Dies ist deswegen aufgetreten, da das Kennzeichen über seine Kontur gefunden werden sollte und dazu alle Konturen im Bild aufgelistet 
+wie das Kennzeichen aufweist. Dies ist deswegen aufgetreten, da das Kennzeichen über seine Kontur gefunden werden sollte und dazu alle Konturen im Bild aufgelistet 
 werden und aus dieser Liste dann das Kennzeichen herausgesucht werden sollte. Dies führte in dieser Testversion aber nahezu nie zu einem Ergebnis, welches in 
 der Praxis anwendbar gewesen wäre. Durch eine Anpassung der Software wäre es zwar möglich gewesen die Genauigkeit zu verbessern und dafür zu sorgen, dass mit 
 einer größeren Wahrscheinlichkeit die richtige Kontur ausgewählt wird, aber bei einer Kontur mit den gleichen Proportionen wie ein Kennzeichen, wäre die Konturerkennung 
-wieder schnell an ihre Grenzen gestoßen. Deswegen wurde der Ansatz komplett verändert und für die Kennzeichenlokalisierung ein Modell für Maschinelles Lernen 
+wieder schnell an ihre Grenzen gestoßen. Deswegen wurde der Ansatz komplett verändert und für die Kennzeichenlokalisierung ein Modell für maschinelles Lernen 
 verwendet, welches auf deutlich elegantere und effizientere Weise ein besseres Resultat erzielen kann.
 
 \begin{figure}[H]
@@ -1017,19 +1020,19 @@ verwendet, welches auf deutlich elegantere und effizientere Weise ein besseres R
     \caption{Resultat mit maschinellem Lernen}
 \end{figure}
 
-Zum Vergleich mit dem Testprogramm sieht man im oberen Bild das Ergebnis der Variante mit Maschinellem Lernen mit demselben Eingangsbild. Dabei wurde ohne 
+Zum Vergleich mit dem Testprogramm sieht man im oberen Bild das Ergebnis der Variante mit maschinellem Lernen mit demselben Eingangsbild. Dabei wurde ohne 
 Probleme das Kennzeichen perfekt erkannt und im weiteren Programmablauf aus dem Eingangsbild ausgeschnitten.
 
-\subsubsection{Verwendete Modelle für Maschinelles Lernen}
+\subsubsection{Verwendete Modelle für maschinelles Lernen}
 
 \paragraph{WPOD-NET}\mbox{}\\
-Das „Warped Planar Object Detection Network“ (WPOD-NET) ist ein künstliches Neuronales Netz, welches von Sérgio Montazolli Silva und 
+Das „Warped Planar Object Detection Network“ (WPOD-NET) ist ein künstliches neuronales Netz, welches von Sérgio Montazolli Silva und 
 Cláudio Rosita Jung\footnote{\cite{wpodnet}}
 entwickelt wurde. Es wurde entwickelt, um aus Bildern die Kennzeichen von Fahrzeugen herauszusuchen und bietet im Gegensatz zu anderen Modellen den entscheidenden 
 Vorteil, dass es bei diesem Modell irrelevant ist aus welchem Winkel das Bild vom Kennzeichen aufgenommen wird. Andere Modelle funktionieren oft nur wenn das Foto 
 vom Kennzeichen direkt von vorne aufgenommen wurde, da ansonsten das Bild verzerrt wird und dadurch das Kennzeichen nicht mehr ausgelesen werden kann. Dieses Modell 
-schafft es auch aus einem von der Seite aufgenommen Bild das Kennzeichen in den meisten Fällen gut genug herauszulesen, dass dieses Bild danach weiterverarbeitet 
-werden kann. Dies bietet den Vorteil, dass die Kamera für das Gerät nicht in fix verbaut werden muss, sondern theoretisch auch in einem mobilen Gerät installiert werden kann.\\
+schafft es auch aus einem von der Seite aufgenommen Bild, das Kennzeichen in den meisten Fällen gut genug herauszulesen, dass dieses Bild danach weiterverarbeitet 
+werden kann. Dies bietet den Vorteil, dass die Kamera für das Gerät nicht fix verbaut werden muss, sondern theoretisch auch in einem mobilen Gerät installiert werden kann.\\
 
 Die Kennzeichenerkennung dieses Modells basiert auf zwei Schritten. Zuerst wird im Bild nach einem Fahrzeug gesucht und dieses ausgeschnitten, um danach mit 
 WPOD-NET das Kennzeichen aus diesem Bild herauszusuchen. Die Fahrzeugerkennung basiert dabei auf dem 
@@ -1039,7 +1042,7 @@ welches für Echtzeitobjekterkennung verwendet wird und neben vielen anderen Geg
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{kennzeichenerkennung/wpodnet.pdf}
-    \caption{Ablauf von WPOD-NET}
+    \caption{Ablauf von WPOD-NET, \cite{wpodnet}}
 \end{figure}
 
 Im oberen Bild ist der prinzipielle Ablauf der Kennzeichenerkennung ersichtlich. Zu Beginn wird das Bild mit dem Kennzeichen in das WPOD-NET eingegeben 
@@ -1050,9 +1053,9 @@ befindet. Dadurch hat man dann diejenige Region gefunden, in der sich das Kennze
 ausgerichtet Rechteck umwandeln. Dadurch erhält man dann ein Bild des Kennzeichens.
 
 \paragraph{MobileNetV2}\mbox{}\\
-MobileNetV2\footnote{\cite{MobileNet}} ist die Grundlage für das eigene trainierte Neuronale Netz. MobileNetV2 ist eine Grundlage für diverse Neuronale Netze und speziell für Anwendungen im Bereich der Computer Vision 
+MobileNetV2\footnote{\cite{MobileNet}} ist die Grundlage für das eigene trainierte neuronale Netz. MobileNetV2 ist eine Grundlage für diverse neuronale Netze und speziell für Anwendungen im Bereich der Computer Vision 
 geeignet. Einige Beispiel dafür sind die Erkennung von Gesichtsmerkmalen, Echtzeitobjekterkennung, Unterscheidung diverser Hunderassen oder ähnliches. Dabei ist das Modell je nach Bedürfnissen 
-einstellbar, womit für eine schnellere und bessere Leistung weniger Schichten für das Neuronale Netz verwendet werden, oder aber für eine sehr genaue und präzise Funktion mehr Schichten verwendet werden. 
+einstellbar, womit für eine schnellere und bessere Leistung weniger Schichten für das neuronale Netz verwendet werden, oder aber für eine sehr genaue und präzise Funktion mehr Schichten verwendet werden. 
 Dies ist dadurch möglich, dass das Netzwerk auf einer variablen Schichtanzahl aufgebaut ist. In dieser Applikation wird es deswegen verwendet, da damit in diesem Bereich eine hohe Präzision erzielbar ist, 
 welche für die Kennzeichenerkennung benötigt wird.
 
@@ -1144,12 +1147,11 @@ nahezu 100\% gesteigert werden, aber dazu benötigt es einen stärkeren Computer
 
 \subsubsection{Anforderungen}
 Die Anforderungen an das Gehäuse sind recht simpel. Es soll das Modul vor äußeren Einwirkungen schützen, eine Möglichkeit bieten, 
-um die Kamera des Raspberry Pi zu befestigen und für weitere Test- und Entwicklungszwecke soll es die wichtigsten Anschlüsse des Raspberry Pi 
-zugänglich machen, damit diese verwendet werden können. Zudem sollen die Entwicklungs- und Produktionskosten eher gering sein, weswegen sich ein 
+um die Kamera des Raspberry Pi zu befestigen und für weitere Test- und Entwicklungszwecke soll der Zugang zu den wichtigsten Anschlüssen des Raspberry Pi ermöglicht werden, damit diese verwendet werden können. Zudem sollen die Entwicklungs- und Produktionskosten eher gering sein, weswegen sich ein 
 Gehäuse aus dem 3D-Drucker am besten eignet.
 
 \subsubsection{Umsetzung}
-Das 3D-Modelling des Gehäuses erfolgte mit dem Programm „Autodesk Fusion 360“/(Fußnote), mit welchem 3D-Modelle erstellt und konvertiert werden können, 
+Das 3D-Modelling des Gehäuses erfolgte mit dem Programm „Autodesk Fusion 360“\footnote{\url{https://www.autodesk.de/products/fusion-360/overview}}, mit welchem 3D-Modelle erstellt und konvertiert werden können, 
 damit man sie mit dem 3D-Drucker ausdrucken kann. In den folgenden Bildern sieht man die Renderansichten der einzelnen Teile.
 
 \begin{figure}[H]
@@ -1158,7 +1160,7 @@ damit man sie mit dem 3D-Drucker ausdrucken kann. In den folgenden Bildern sieht
     \caption{Boden des Gehäuses}
 \end{figure}
 
-Im ersten Bild sieht man die Renderansicht des Bodens. Auf diesen wird der Raspberry Pi gelegt und mit den 4 Löchern an den mittleren Teil geschraubt. 
+Im ersten Bild sieht man die Renderansicht des Bodens. Auf diesen wird der Raspberry Pi gelegt und mit den 4 Bohrungen an den mittleren Teil geschraubt. 
 Dadurch ist der Raspberry Pi sicher befestigt und kann im Gehäuse nicht verrutschen.
 
 \begin{figure}[H]
@@ -1177,8 +1179,8 @@ zugänglich sind. Dadurch kann der Raspberry Pi nahezu ohne Einschränkungen mit
     \caption{Deckel des Gehäuses}
 \end{figure}
 
-Das letzte Einzelteil ist der Deckel, welcher wieder die gleichen 4 Löcher wie der Boden aufweist, um mit dem Mittelteil verschraubt zu werden. 
-Zusätzlich befinden sich im Deckel noch zwei Löcher, um die Kamera festzuschrauben und ein rechteckiges Loch, durch welches die Kamera gesteckt werden kann. 
+Das letzte Einzelteil ist der Deckel, welcher wieder die gleichen 4 Bohrungen wie der Boden aufweist, um mit dem Mittelteil verschraubt zu werden. 
+Zusätzlich befinden sich im Deckel noch zwei Bohrungen, um die Kamera festzuschrauben und eine rechteckiges Aussparung, durch welches die Kamera gesteckt werden kann. 
 Außerdem befindet sich auf dem Deckel noch das eingravierte Logo von APM. In der nächsten Abbildung sieht man dann noch eine Gesamtansicht des Gehäuses.
 
 \begin{figure}[H]
@@ -1207,7 +1209,7 @@ Das fertige Gehäuse erfüllt alle zu Beginn definierten Anforderungen und ist s
 
 \subsubsection{Einleitung}
 Um die Kennzeichenerkennung zu testen und herauszufinden wie genau sie in der Praxis ist, wurden mehrere Tests durchgeführt, welche aufschlussreiche Ergebnisse geliefert haben.
-Für den Test wird als Stromversorgung eine Powebank verwendet und ein Laptop wird mit dem Raspberry Pi über VNC\footnote{Virtual Network Computing} verbunden um die Ergebnisse auszuwerten.
+Für den Test wird als Stromversorgung eine Powerbank verwendet und ein Laptop wird mit dem Raspberry Pi über VNC\footnote{Virtual Network Computing} verbunden um die Ergebnisse auszuwerten.
 
 \begin{figure}[H]
     \centering
@@ -1217,7 +1219,7 @@ Für den Test wird als Stromversorgung eine Powebank verwendet und ein Laptop wi
 
 \subsubsection{Erster Test}
 Im ersten Test wurde die Kennzeichenerkennung zum ersten Mal in der Praxis ausprobiert. Dies geschah in einer sehr schwierigen Umgebung mit schlechter Beleuchtung 
-und vielen Lichtreflexionen durch Schnee. Im nachfolgenden Bild sieht man ein Bild dieses Tests.
+und vielen Lichtreflexionen durch Schnee. In der nachfolgenden Abbildung sieht man ein Bild dieses Tests.
 
 \begin{figure}[H]
     \centering
@@ -1226,8 +1228,8 @@ und vielen Lichtreflexionen durch Schnee. Im nachfolgenden Bild sieht man ein Bi
 \end{figure}
 
 Dieses Bild war eines der wenigen Bilder welches nicht durch Lichtreflexionen überbelichtet wurde, daran konnte man bemerken, dass die Kamera des Raspberry Pi eindeutig 
-nicht für solche Verhältnisse gemacht wurde, aber trotzdem keine allzu schlechten Ergebnisse liefert. Die Kennzeichenerkennung lieferte für dieses Bild das Ergebnis „82538BB“. 
-Dies war für kein schlechter Erster Test, aber er zeigte, dass die Kennzeichenerkennung noch Schwierigkeiten mit der Unterscheidung von ähnlichen Zeichen wie zum Beispiel 
+nicht für solche Verhältnisse geschaffen wurde, aber trotzdem keine allzu schlechten Ergebnisse liefert. Die Kennzeichenerkennung lieferte für dieses Bild das Ergebnis „82538BB“. 
+Dies war kein schlechter erster Test, aber er zeigte, dass die Kennzeichenerkennung noch Schwierigkeiten mit der Unterscheidung von ähnlichen Zeichen wie zum Beispiel 
 „8“ und „B“ oder auch „2“ und „Z“ hatte. Um dieses Problem zu lösen, wurde das Modell Training noch einmal überarbeitet, um die Genauigkeit der Zeichenerkennung zu verbessern. 
 Dies führte zu einer signifikanten Verbesserung, welche im zweiten Test deutlich zu erkennen ist.
 
@@ -1276,7 +1278,7 @@ In diesem Bild wurde das Kennzeichen ohne jeglichen Fehler ausgelesen und die Ke
 
 \textbf{Resultat:} FK0K\\
 
-Dieses Bild lieferte ein sehr interessantes Resultat. Wie im Bild eindeutig erkennbar ist, hat die Kamera das komplette Bild massiv überbelichtet , 
+Dieses Bild lieferte ein sehr interessantes Resultat. Wie im Bild eindeutig erkennbar ist, hat die Kamera das komplette Bild massiv überbelichtet, 
 wodurch einiges sehr schlecht erkennbar ist. Trotz dieser erschwerten Bedingungen hat es die Kennzeichenerkennung aber geschafft einige der Zeichen 
 korrekt auszulesen. Die anderen Zeichen wurden gar nicht erst erkannt, was auf die Zeichensegmentierung zurückzuführen ist.
 
@@ -1291,7 +1293,7 @@ korrekt auszulesen. Die anderen Zeichen wurden gar nicht erst erkannt, was auf d
 Auch in diesem Bild wurde das Kennzeichen ohne jeglichen Fehler ausgelesen.
 
 \subsubsection{Fazit}
-In den Tests ist klar erkennbar, dass die Kennzeichenerkennung selbst gute Resultate liefert. Vor allem die Steigerung der Genauigkeit vom ersten zum zweiten 
+In den Tests ist klar erkennbar, dass die Kennzeichenerkennung gute Resultate liefert. Vor allem die Steigerung der Genauigkeit vom ersten zum zweiten 
 Test ist dabei hervorzuheben. Die berechnete Genauigkeit von etwa 87\% für eine fehlerfreie Kennzeichenerkennung konnte mit dem zweiten Test durchaus bestätigt werden. 
 Die größte Schwachstelle der Kennzeichenerkennung ist jedoch die Kamera, welche sehr sensibel auf die unterschiedlichen Lichtverhältnisse reagiert. 
 Ansonsten hat die Kennzeichenerkennung nahezu alle Kennzeichen fehlerfrei ausgelesen und nur ein einziges Kennzeichen wurde nicht erkannt. 
