@@ -1,14 +1,14 @@
 \def \sectionauthors {Dennis Köb}
 \subsection{Anforderungen}
-Das Ziel der Fahrzeugerkennung ist es Fahrzeuge auf mehrere Parklücken eines Parkplatzes zu erkennen. Die daraus 
-gewonnen Zustände sollen an das Webinterface übermittelt und an den jeweilige Parklücken über LEDs ausgegeben werden. 
-\subsection{Vorstudie}
+Das Ziel der Fahrzeugerkennung ist es Fahrzeuge auf mehreren Parklücken eines Parkplatzes zu erkennen. Die daraus 
+gewonnenen Zustände sollen an das Webinterface übermittelt werden und an den jeweilige Parklücken über LEDs ausgegeben werden. 
+
 
 \subsection{Erkennung von Metallen über Spulen}
 Grundsätzlich werden in der Realität häufig Spulen verwendet, welche unter dem Asphalt verbaut sind, um darüberliegende
 Fahrzeuge zu detektieren. Als Messprinzip wird die Änderung des magnetischen Widerstands $R_{m}$ bei konstanter magnetischer Spannung $U_{m}$ und
-daraus resultierende magnetischen Fluss $\phi$
-Es gelten für diese Größen der folgende Zusammenhänge:
+daraus der daraus resultierende magnetischen Fluss $\Phi$ betrachtet.
+Es gelten für diese Größen der folgende Zusammenhang:
 
 \begin{equation} \label{eq:phi}
     \Phi = \frac{U_{m}}{R_{m}}
@@ -38,7 +38,7 @@ $\mu_{0}$ = \SI[per-mode = symbol]{1.2566e-6}{\newton\per\ampere\squared} = magn
 $\mu_{r}$ = relative Permeabilität  \\
 $A$ = Fläche der Spule
 
-Bis auf die relative Permeabilität sind alle alle anderen Variablen konstant. Daraus lässt sich schlussfolgern, dass der magnetische
+Bis auf die relative Permeabilität sind alle anderen Variablen konstant. Daraus lässt sich schlussfolgern, dass der magnetische
 Fluss $\Phi$ anhand der Gleichung \ref{eq:phi} und \ref{eq:Rm} proportional zur relativen Permeabilität ist. 
 
 \begin{equation} \label{iq:phi}
@@ -53,7 +53,7 @@ beeinflussen kann.
     \includegraphics[width=1\linewidth]{fahrzeugerkennung/Spuleninstallation.pdf}
     \caption{Installation der Spule}
   \end{figure}
-Um diese Größen auslesbar zu machen, müssen diese magnetischen bei einer direkten Messung in elektrische Größen umgewandelt
+Um diese Größen auslesbar zu machen, müssen diese magnetischen Größen bei einer direkten Messung in elektrische Größen umgewandelt
 werden.
 Hierfür gelten folgende Zusammenhänge:
 
@@ -77,7 +77,7 @@ $i(t)$ = Strom der durch die Spule fließt zum Zeitpunkt t \\
 $u(t)$ = Spannung die an der Spule anliegt zum Zeitpunkt t \\
 $t$ = Zeit in s \\
 So lässt sich bei Bekanntheit von Strom und Spannung auf die Induktivität und mit der Gleichung \ref{eq:L_phi} 
-und mit den Zusammenhang \ref{iq:phi} auf die magnetischen Eigenschaften des Materials rückschließen. 
+und mit dem Zusammenhang \ref{iq:phi} auf die magnetischen Eigenschaften des Materials rückschließen. 
 Diese Art der Detektion bietet viele praktische Vorteile.
 
 \begin{itemize}
@@ -94,28 +94,27 @@ Diese Art der Detektion bietet viele praktische Vorteile.
     
 \end{itemize}
 \subsubsection{Messung ferromagnetischer Metalle}
-Um diese Dtektionsverfahren zu verstehen muss zuerst der Zusammenhang zwischen Induktivität und relativer Permeabilität verstanden werden.
+Um dieses Detektionsverfahren zu verstehen muss zuerst der Zusammenhang zwischen Induktivität und relativer Permeabilität verstanden werden.
 Aus den Gleichungen \ref{eq:Rm}, \ref{eq:phi} und \ref{eq:L_phi} kann die folgende Proportionalität ermittelt werden:
 \begin{equation} \label{iq:L_mu}
     L \propto \mu_{r}
 \end{equation}
 Bei ferromagnetischen Stoffen wie Eisen ist die relative Permeabilität sehr viel größer als 1. Wenn nun ein Auto oder 
-eine anderes Vehikel sehr viel Eisen beinhaltet wirkt sich die dies steigernd auf die Induktivität der Spule aus. Die folgenden
-Verfahren nutzen dieses Prinzip um die Belegung einer Parklücke zu bestimmen.
+ein anderes Fahrzeug sehr viel Eisen beinhaltet wirkt sich dies steigernd auf die Induktivität der Spule aus. Die folgenden
+Verfahren nutzen dieses Prinzip, um die Belegung einer Parklücke zu bestimmen.
 
 \paragraph{RL-Oszillator mit Timer Baustein}\mbox{}
 
 Bei diesem Messverfahren wird die Änderung der Induktivität $L$ über die Änderung einer Stromladekurve über einen Widerstand
-$R$ ermittelt. Eine Simulation in LTSPice mit folgendem Schaltbild kann die Auswirkung auf eine Ladekurve bei gleicher Spannung
+$R$ ermittelt. Eine Simulation in LTSpice mit folgendem Schaltbild kann die Auswirkung auf eine Ladekurve bei gleicher Spannung
 und gleichem Widerstand gut darstellen.
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{fahrzeugerkennung/Ladekurven.pdf}
-    \caption{LTSPice Blockbild zweier RL-Glieder}
+    \caption{LTSpice Blockbild zweier RL-Glieder}
 \end{figure}
 \pagebreak
-Die daraus Resultierende Simulation im Zeitbereich ergibt folgendes Ergebnis:
-hmm
+Die daraus resultierende Simulation im Zeitbereich ergibt folgendes Ergebnis:
 
 \begin{figure}[H]
     \centering
@@ -142,14 +141,14 @@ $U_0$ = Spannung die nach dem einschalten anliegt in V\\
 $t$ = Zeit in s \\
 $\tau$ = Zeitkonstante in $\frac{1}{s}$\\
 
-Timer Bausteine wie der NE555 nutzen diese solche Verlaufskurven wenn sie als astabile Kippstufe konfiguriert sind.
-Es gibt einen Eingang dieses Baustein meist CV für Control Voltage der die Spannung überwacht. Überschreitet diese Spannung zweit drittel
+Timer Bausteine wie der NE555 nutzen solche Verlaufskurven wenn sie als astabile Kippstufe konfiguriert sind.
+Es gibt einen Eingang dieses Baustein meist CV für Control Voltage der die Spannung überwacht. Überschreitet diese Spannung zwei Drittel
 der Betriebsspannung schaltet er einen weiteren Pin, meist DIS für Discharge, auf 0V beziehungsweise auf Masse. Unterschreitet jedoch 
-die Spannung am CV Pin ein drittel der Betriebsspannung so wird der DIS Pin auf Betriebsspannung geschalten. Diese beiden Pins 
+die Spannung am CV Pin ein Drittel der Betriebsspannung so wird der DIS Pin auf Betriebsspannung geschalten. Diese beiden Pins 
 sind über RC- oder RL- Glieder verbunden. Es entsteht somit ein Oszillator, welcher die Spannung am DIS Pin anhebt und absenkt.
 Der NE555 kann dieses Signal über einen internen Komparator in ein Rechtecksignal umwandeln, welches besser von Mikrocontrollern ausgelesen
-werden kann. Der Mikrocontroller kann so die Anzahl der ein einkommenden Takte über einen gewissen Zeitraum zählen und daraus eine Oszillatorfrequenz errechnen.
-Die Zeitsignale lassen sich in LTSPice mit dem NE555 als Timer-Baustein simulieren.
+werden kann. Der Mikrocontroller kann so die Anzahl der einkommenden Takte über einen gewissen Zeitraum zählen und daraus eine Oszillatorfrequenz errechnen.
+Die Zeitsignale lassen sich in LTSpice mit dem NE555 als Timer-Baustein simulieren.
 
 \begin{figure}[H]
     \centering
@@ -163,15 +162,15 @@ Die Zeitsignale lassen sich in LTSPice mit dem NE555 als Timer-Baustein simulier
     \caption{RL-Oszillator mit NE555 Zeitsignale}
 \end{figure}
 
-Im oberen Diagramm ist der Verlauf des Stromes durch die Spule zu erkennen der wie erwartet zu- und abnimmt. Im unteren Diagramm ist in 
-schwarz die Betriebsspannung als Referenz in rot der CV Pin und in blau der DIS Pin des NE555. Das rote Signal wechselt zwischen zwei drittel der Betriebsspannung 
-und einem drittel der Betriebsspannung mit einer Frequenz von $f = \SI{438}{\kilo\hertz}$ bei einer Induktivität von $L = \SI{300}{\micro\henry}$, einem Widerstand $R4 = 100\Omega$ und einem
-Widerstand $R5 = 300\Omega$. Die Simulation entspricht hier der Theorie, jedoch bricht das blaue Signal am PIN DIS in der Einschaltphase ein.
-Der grund dafür ist der interne Widerstand des NE555, der ab einem gewissen Stromverbrauch für einen Spannungsabfall sorgt. Da es meist besser ist mit
-niedrigen Frequenzen zu arbeiten ist es nach den Gleichungen \ref{eq:i_L} und \ref{eq:tau_RL} entweder nötig die Induktivität zu erhöhen oder die Widerstände zu verkleinern.
-Die Induktivität lässt sich aber entweder durch erhöhen der Windungen oder durch Vergrößerung der Spule erreichen, was in vielen Fällen nicht möglich ist oder zunehmends kostspielig ist.
+Im oberen Diagramm ist der Verlauf des Stromes durch die Spule zu erkennen, der wie erwartet zu- und abnimmt. Im unteren Diagramm ist in 
+schwarz die Betriebsspannung als Referenz, in Rot der CV Pin und in Blau der DIS Pin des NE555. Das rote Signal wechselt zwischen zwei Drittel der Betriebsspannung 
+und einem Drittel der Betriebsspannung mit einer Frequenz von $f = \SI{438}{\kilo\hertz}$ bei einer Induktivität von $L = \SI{300}{\micro\henry}$, einem Widerstand $R4 = 100\Omega$ und einem
+Widerstand $R5 = 300\Omega$. Die Simulation entspricht hier der Theorie, jedoch bricht das blaue Signal am Pin DIS in der Einschaltphase ein.
+Der Grund dafür ist der interne Widerstand des NE555, der ab einem gewissen Stromverbrauch für einen Spannungsabfall sorgt. Da es meist besser ist mit
+niedrigen Frequenzen zu arbeiten, ist es nach den Gleichungen \ref{eq:i_L} und \ref{eq:tau_RL} entweder nötig die Induktivität zu erhöhen oder die Widerstände zu verkleinern.
+Die Induktivität lässt sich entweder durch Erhöhen der Windungen oder durch Vergrößerung der Spule erreichen steigern, was in vielen Fällen nicht möglich ist oder kostspielig wird.
 Die Reduktion der Widerstände führt zu einer Zunahme des Stromes und der Verlustleistung, was auch unerwünscht ist.
-Aus diesen Gründen ist der RL-Oszillator nur für hohe Frequenzen geeignet. In der nächsten Abbildung sieht man die Schaltung bei verschiedene Induktivität
+Aus diesen Gründen ist der RL-Oszillator nur für hohe Frequenzen geeignet. In der nächsten Abbildung sieht man die Zeitsignale bei verschiedenen Induktivitäten
 nämlich bei $L2 = \SI{100}{\micro\henry}$ und bei $L2 = \SI{1}{\milli\henry}$
 
 \begin{figure}[H]
@@ -188,10 +187,10 @@ Eine Verzehnfachung der Induktivität führt zu einer Reduktion der Oszillatorfr
 
 \pagebreak
 \subsubsection{Messung paramagnetischer Metalle}
-Da nicht alle Metalle ferromagnetische Eigenschaften haben werden viele Stoffe wie Aluminium. Kupfer oder diverse Legierungen
-von einer niederfrequenten Messung der Induktivität nicht wahrgenommen. Ein Effekt, welcher bei elektrischen Leitern abhilfe schaffen kann, sind 
-die Eddy Currents. Wenn in einem Leiter ein magnetischen Feld einwirkt erzeugt dieses im Objekt Ströme, die wiederum ihr eigenes magnetische Feld erzeugen.
-Die fließenden Ströme erzeugen im Objekt Ohmsche Verluste, welche normalerweise unerwünscht sind. Sie wirken auch einer Änderung der magnetischen Feldes entgegen,
+Da nicht alle Metalle ferromagnetische Eigenschaften haben werden viele Stoffe wie Aluminium, Kupfer oder diverse Legierungen
+von einer niederfrequenten Messung der Induktivität nicht wahrgenommen. Ein Effekt, welcher bei elektrischen Leitern Abhilfe schaffen kann, sind 
+die Eddy Currents. Wenn in einem Leiter ein magnetisches Feld einwirkt, erzeugt dieses im Objekt Ströme, die wiederum ihr eigenes magnetische Feld erzeugen.
+Die fließenden Ströme erzeugen im Objekt Ohmsche Verluste, welche normalerweise unerwünscht sind. Sie wirken auch einer Änderung des magnetischen Feldes entgegen,
 da sie selbst Energie brauchen um ihre Richtung zu ändern. Je größer die Frequenz der eingespeisten Felddichte $B$ desto stärker wirkt die 
 Flussdichte $B_{eddy}$ senkend auf die Gesamtflussdichte und so auf den magnetischen Fluss $\Phi$. 
 Nach der Gleichung \ref{eq:L_phi} reduziert sich die Induktivität mit zunehmender Frequenz.
@@ -209,11 +208,11 @@ Fahrzeugerkennung liegen.
 
 \paragraph{LC Oszillatoren}\mbox{}
 
-Im Vergleich zum RL-Oszillator, der über eine astabile Kippstufe lauft, kann ein LC Oszillator seine Resonanzfrequenz nur durch das verstellen der Induktivität und der Kapazität 
-eines Kondensators verändern. Zudem gibt es in der Theorie keine Wirkverluste, da die Energie abwechselnd zwischen magnetischer und elektroscher Energie umgewandelt wird. In der Realität gibt es jedoch
+Im Vergleich zum RL-Oszillator, der über eine astabile Kippstufe lauft, kann ein LC Oszillator seine Resonanzfrequenz nur durch das Verstellen der Induktivität und der Kapazität 
+eines Kondensators verändern. Zudem gibt es in der Theorie keine Wirkverluste, da die Energie abwechselnd zwischen magnetischer und elektrischer Energie umgewandelt wird. In der Realität gibt es jedoch
 ohmsche Verluste, die zu einem Abklingen der Schwingung führen. Es braucht daher ein aktives Glied wie ein Transistor oder ein Operationsverstärker, der den Oszillator mit Energie versorgt.
 \\
-Der zeitliche Verlauf einer ungedämpften Schwingung kann in LTSPice simuliert werden indem wir eine Sprungfunktion auf ein LC Glied geben und einen Widerstand in Serie zum Kondensator oder zur
+Der zeitliche Verlauf einer ungedämpften Schwingung kann in LTSpice simuliert werden indem wir eine Sprungfunktion auf ein LC Glied geben und einen Widerstand in Serie zum Kondensator oder zur
 Spule geben.
 
 \begin{figure}[H]
@@ -228,7 +227,7 @@ Spule geben.
     \caption{Gedämpfte Schwingung}
 \end{figure}
 
-Aus der Simulation ergibt sich über eine Cursormessung für die angegebenen Werte $L = \SI{100}{\milli\henry}$ und $C = \SI{100}{\milli\farad}$ eine Resonanzfrequenz einen Wert von $f = 15.85Hz$. Die Resonanzfrequenz für einfache LC-Schwingkreise lässt sich mit der
+Aus der Simulation ergibt sich über eine Cursormessung für die angegebenen Werte $L = \SI{100}{\milli\henry}$ und $C = \SI{100}{\milli\farad}$ eine Resonanzfrequenz von $f = \SI{15,85}{\hertz}$. Die Resonanzfrequenz für einfache LC-Schwingkreise lässt sich mit der
 Thomsonschen Schwingungsgleichung errechnen:
 
 \begin{equation} \label{eq:thomson}
@@ -240,7 +239,7 @@ $f$ = Resonanzfrequenz des LC-Gliedes\\
 $L$ = Induktivität der Spule\\
 $C$ = Kapazität des Kondensators\\
 
-Wenn man die Werte $L = \SI{100}{\milli\henry}$ und $C = \SI{100}{\milli\farad}$ ind die Gleichung \ref{eq:thomson} einsetzt erhält man eine Resonanzfrequenz von $f = 15.915Hz$.
+Wenn man die Werte $L = \SI{100}{\milli\henry}$ und $C = \SI{100}{\milli\farad}$ in die Gleichung \ref{eq:thomson} einsetzt erhält man eine Resonanzfrequenz von $f = 15.915Hz$.
 Allgemein tritt in LC-Glieder bei einer Phasenlage von $\varphi_{LC} = 180^{\circ}$ und bei der Frequenz nach der Thomsonschen Gleichung \ref{eq:thomson}  Resonanz auf. 
 
 \paragraph{Einfluss von Induktivitätsänderungen auf LC-Oszillatoren}\mbox{}
@@ -283,10 +282,10 @@ Kapazität von $C = \SI{1}{\micro\farad}$ erhält man folgenden Graphen:
     \end{tikzpicture}
 \end{center}
 
-Mit dieser Näherung kann man mit des Differentials der Thomsonschen Gleichung \ref{eq:thomson} die Änderung des Funktionswertes $f(L \pm \Delta L) = \Delta f \approx df$ 
+Mit dieser Näherung kann man mit Hilfe des Differentials der Thomsonschen Gleichung \ref{eq:thomson} die Änderung des Funktionswertes $f(L \pm \Delta L) = \Delta f \approx df$ bestimmt werden.
 \begin{align*} \label{eq:df_L}
     df = \frac{\partial f}{\partial L}\bigg|_{L_{0}} \cdot dL \\ 
-    df = \frac{\partial}{\partial L}  \left (  \frac{1}{2 \pi \sqrt{L_{0}C}} \right ) \Delta dL \\
+    df = \frac{\partial}{\partial L}  \left (  \frac{1}{2 \pi \sqrt{L_{0}C}} \right ) \Delta L \\
     df = - \frac{1}{4 \pi} (L_{0}C)^{-\frac{3}{2}} \cdot \Delta L
 \end{align*}
 
@@ -316,7 +315,7 @@ $C_{1}$ und $C_{2}$ in Serie. Es ergibt sich daher eine Gesamtkapazität von $C_
 \begin{equation} \label{eq:c_gescolpitts}
     C_{ges} = \frac{C_{1} \cdot C_{2}}{C_{1} + C_{2}}
 \end{equation}
-Durch einsetzen in die Thomsonsche Gleichung erhält man für die Resonanzfrequenz eines Colpitts-Oszillator:
+Durch Einsetzen in die Thomsonsche Gleichung erhält man für die Resonanzfrequenz eines Colpitts-Oszillator:
 \begin{equation} \label{eq:colpitts}
     f = \frac{1}{2 \cdot \pi \sqrt{L \cdot \left( \frac{C_{1} \cdot C_{2}}{C_{1} + C_{2}} \right) }}
 \end{equation}
@@ -328,10 +327,10 @@ $C_{1}$ = Kapazität des Kondensators $C_{1}$\\
 $C_{2}$ = Kapazität des Kondensators $C_{2}$\\
 
 \pagebreak
-Das aktive Element wird an die Anschlüsse der Spule angeschlossen muss selbst eine Phasendrehung von 180° liefern. Zusätzlich muss die Verstärkung des Gliedes größer als 1 damit eine dauerhafte 
-Schwingung entstehen kann. Mit einem Operationsverstärker muss der nicht invertierende Eingang auf eine Bezugsspannung gelegt werden. Diese Bezugsspannung wird of in die Mitte des Versorgungsspannungsbereich
+Das aktive Element wird an die Anschlüsse der Spule angeschlossen und muss selbst eine Phasendrehung von 180° liefern. Zusätzlich muss die Verstärkung des Gliedes größer als 1 sein damit eine dauerhafte 
+Schwingung entstehen kann. Mit einem Operationsverstärker muss der nicht invertierende Eingang auf eine Bezugsspannung gelegt werden. Diese Bezugsspannung wird oft in die Mitte des Versorgungsspannungsbereich
 gelegt. Bei einem Spannungsbereich von $\SI{0}{\volt}$ bis $\SI{5}{\volt}$ ist eine Bezugsspannung von $\SI{2,5}{\volt}$ sinnvoll. Der invertierende Eingang wird an das Colpitts LC-Glied angeschlossen. Der Ausgang des Operationsverstärker wird über
-einen Widerstand an das LC-Glied geschalten, damit das Rückkoppelglied besser vor übersteuerungen am Ausgang des Operationsverstärkers geschütz ist. 
+einen Widerstand an das LC-Glied geschalten, damit das Rückkoppelglied besser vor Übersteuerungen am Ausgang des Operationsverstärkers geschützt ist. 
 
 \begin{figure}[H]
     \centering
@@ -339,7 +338,7 @@ einen Widerstand an das LC-Glied geschalten, damit das Rückkoppelglied besser v
     \caption{Aktiver Colpitts-Oszillator}
 \end{figure}
 
-Wenn man nun verschiedene Werte für Induktivität einsetzt ergibt sich durch die Simulation dieses Schaltbildes folgende Zeitsignale für den Ausgang des Operationsverstärker OUT und der Spannung SINE:
+Wenn man nun verschiedene Werte für die Induktivität einsetzt ergeben sich durch die Simulation dieses Schaltbildes folgende Zeitsignale für den Ausgang des Operationsverstärker OUT und der Spannung SINE:
 
 \begin{figure}[H]
     \centering
@@ -347,17 +346,17 @@ Wenn man nun verschiedene Werte für Induktivität einsetzt ergibt sich durch di
     \caption{Zeitsignale Colpitts-Oszillator}
 \end{figure}
 
-Es ist ersichtlich, dass dass eine Zunahme der Induktivität zu einer Abnahme in der Frequenz der beiden Signale führt.
+Es ist ersichtlich, dass eine Zunahme der Induktivität zu einer Abnahme in der Frequenz der beiden Signale führt.
 \pagebreak
 \subsection{RS485 Bussystem}
 \subsubsection{Benutzte Standards}
 \paragraph{ASCII}\mbox{}
 
-ASCII ist eine amerkanischer Standard zur Kodierung einer 7 Bit langen folge. Dieser Standard ermöglicht es Zeichen wie 'A' oder 'b' sowie auch Zahlen und gewissen Sonderzeichen in Bits umzusetzen. 
+ASCII ist eine amerkanischer Standard zur Kodierung einer 7 Bit langen Zeichenfolge. Dieser Standard ermöglicht es Zeichen wie 'A' oder 'b' sowie auch Zahlen und gewissen Sonderzeichen in Bits umzusetzen. 
 \paragraph{USB}\mbox{}
 
-Unter USB versteht man eine serielles Bussystem, welches dazu dient Peripherie Geräte an einen Computer zu verbinden. USB ermöglicht es Geräte während der Laufzeit des Betriebsssystems anzustecken und wieder zu entfernen.
-Je nach Version des USB Standards ist es möglich unterschiedliche Datenraten und Leistungen zu verwenden, wobei neuere Standards Rückkompatibel zu alten Versionen sind. Für die Ansteeurng des Bussystems ist es notwendig einen Comupter anzuschließen. 
+Unter USB versteht man eine serielles Bussystem, welches dazu dient Peripherie Geräte mit einem Computer zu verbinden. USB ermöglicht es Geräte während der Laufzeit des Betriebsssystems anzustecken und wieder zu entfernen.
+Je nach Version des USB Standards ist es möglich unterschiedliche Datenraten und Leistungen zu verwenden, wobei neuere Standards rückkompatibel zu alten Versionen sind. Für die Ansteuerung des Bussystems ist es notwendig einen Comupter anzuschließen. 
 Der USB Standard bietet sich hier an, da er weit verbreitet ist und daher mit vielen Computern kompatibel ist.
 
 
@@ -366,11 +365,11 @@ Der USB Standard bietet sich hier an, da er weit verbreitet ist und daher mit vi
 
 Unter UART versteht man eine eine asynchrone serielle Schnittstelle. Die elektrische Schnittstelle braucht daher auch keine Taktleitung die dem Empfänger der Daten mitteilt wann er zu lesen hat. Stattdessen gibt es zwei Datenleitungen nämlich eine 
 für das Senden TX und eine für das Lesen RX. Auf diesen Datenleitungen befinden sich nur die Bitströme des Empfängers und des Senders. Sie besitzen einen Ruhepegel von logisch 1.
-UART synchronisiert sich idem es beim Start der Daten ein Startbit schickt, welche Sender und Empfänger synchronisiert. 
-Diese beiden Geräte brauchen daher auch genaue interne Uhren um sich über den Zeitraum des Datenaustausches synchron zu halten.
+UART synchronisiert sich indem es beim Start der Daten ein Startbit schickt, welche Sender und Empfänger synchronisiert. 
+Diese beiden Geräte brauchen daher auch genaue interne Uhren, um sich über den Zeitraum des Datenaustausches synchron zu halten.
 Die Dauer diese Datenaustausches hängt vor allem von der Bitrate auch genannt Baudrate ab aber auch die Konfiguration der Anzahl von Datenbits und Paritätsbits haben Einfluss auf diese Größe. 
 \\
-In der folgenden Abbildung ist zeitliche Verlauf einer Datenleitung dargestellt es wird das Zeichen 'A' in ASCII codiert übertragen bei einer Baudrate von 57600 Zeichen pro Sekunde.
+In der folgenden Abbildung ist der zeitliche Verlauf einer Datenleitung dargestellt es wird das Zeichen 'A' in ASCII codiert übertragen bei einer Baudrate von 57600 Zeichen pro Sekunde.
 
 \begin{figure}[H]
     \centering
@@ -380,7 +379,7 @@ In der folgenden Abbildung ist zeitliche Verlauf einer Datenleitung dargestellt 
 
 \paragraph{RS485}\label{sec:RS485}\mbox{}
 
-RS485 ist ein Standard für eine physikalische Schnittstelle für Datenübertragung von UART Daten. Er besitzt zwei symmetrische Leitung oft mit A und B bezeichnet, dessen Differenzspannung für die Auswertung
+RS485 ist ein Standard für eine physikalische Schnittstelle für Datenübertragung von UART Daten. Er besitzt zwei symmetrische Leitungen oft mit A und B bezeichnet, dessen Differenzspannung für die Auswertung
 des Datenstromes herangezogen wird. Er ist dafür ausgelegt mehrere Geräte an die gleiche Leitungen anzuschließen. Die maximale Anzahl an Geräten ist mit 32 fix vorgegeben. Es ist zusätzlich notwendig die Spannungen 
 $U_{A}$ und $U_{B}$ im Ruhezustand über einen IC oder einen Spannungsteiler auf fixe Potentiale zu legen. Der Spannungsteiler muss wie folgt aussehen um dem Standard zu entsprechen.
 
@@ -391,21 +390,21 @@ $U_{A}$ und $U_{B}$ im Ruhezustand über einen IC oder einen Spannungsteiler auf
     \label{fig:rs485_bias}
 \end{figure}
 
-Um diese physikalische Umwandlung zu ermöglichen ist eine Umwandlungs IC erforderlich. In dieser Arbeit wurde ausschließlich der MAX485CSA für Wandlung zwischen den Standardpegeln der UART
+Um diese physikalische Umwandlung zu ermöglichen ist ein Umwandlungs-IC erforderlich. In dieser Arbeit wurde ausschließlich der MAX485CSA für Wandlungen zwischen den Standardpegeln der UART
 und die der RS485 Schnittstelle verwendet.
 
-Dieser IC ist Bussfähig und kann daher seine Ausgänge hochohmig machen. Er besitzt folgende Eingänge und Ausgänge:
+Dieser IC ist busfähig und kann daher seine Ausgänge hochohmig schalten. Er besitzt folgende Eingänge und Ausgänge:
 \begin{itemize}
     \item \textbf{!RE: Read enable} \\
-    Wenn dieser Eingang auf logisch 0 gesetzt ist wertet der IC des Differenzsignal $U_{AB}$ aus und liefert des Ergebnis an den Ausgang RO.
+    Wenn dieser Eingang auf logisch 0 gesetzt ist wertet der IC das Differenzsignal $U_{AB}$ aus und liefert das Ergebnis an den Ausgang RO.
     Ansonsten setzt er den Ausgang RO in den Tristate beziehungsweise auf hochohmig.
     \item \textbf{DE: Data enable} \\
     Wenn dieser Eingang auf logisch 1 gesetzt ist wird die Spannung am Eingang DI in die zugehörigen Pegel $U_{A}$ und $U_{B}$ umgewandelt.
     Ansonsten setzt er den Eingang DI in den Tristate beziehungsweise auf hochohmig.
     \item \textbf{RO: Read out} \\
-    Ist die eingelesene Spannung die sich logisch aus der Differenzspannung $U_{AB}$ ergibt wenn !RE auf logisch 0 ist.
+    Ist die eingelesene Spannung, die sich logisch aus der Differenzspannung $U_{AB}$ ergibt wenn !RE auf logisch 0 ist.
     \item \textbf{DI: Data In} \\
-    Ist die eingehende Spannung die auf die RS485 Schnittstelle geschrieben werden soll, wenn der Eingang DE auf logisch 1 ist.
+    Ist die eingehende Spannung, die auf die RS485 Schnittstelle geschrieben werden soll, wenn der Eingang DE auf logisch 1 ist.
 \end{itemize}
 
 Die Auswertung der Differenzspannung $U_{AB}$ kann auch in der folgenden Tabelle aus dem Datenblatt des MAX485CSA entnommen werden. 
@@ -416,8 +415,8 @@ Die Auswertung der Differenzspannung $U_{AB}$ kann auch in der folgenden Tabelle
     \caption{Logische Tabelle für $U_{AB}$}
 \end{figure}
 
-In der folgenden Abbildung wird wieder an 'A' ASCII kodiert versendet nur dieses mal wird eine RS485 Schnittstelle mit den entsprechenden Pegeln verwendet verwendet.
-In blau ist die Spannung $U_{A}$ und in orange die Spannung $U_{B}$ zu sehen. Darunter befindet sich das logische UART Signal am Ausgang RO. 
+In der folgenden Abbildung wird wieder das Zeichen 'A' ASCII kodiert versendet nur dieses mal wird eine RS485 Schnittstelle mit den entsprechenden Pegeln verwendet.
+In Blau ist die Spannung $U_{A}$ und in Orange die Spannung $U_{B}$ zu sehen. Darunter befindet sich das logische UART Signal am Ausgang RO. 
 
 \begin{figure}[H]
     \centering
@@ -429,7 +428,7 @@ In blau ist die Spannung $U_{A}$ und in orange die Spannung $U_{B}$ zu sehen. Da
 
 Um die Anzahl der Kabel zu minimieren und um das Anschließen von Geräten an den Bus einfach zu halten ist ein
 mehradriger Stecker mit zugehörigem Kabel nötig.\\
-Der RJ-45 Stecker ist eine genormter Stecker und besitzt insgesamt 8 Adern und ist für Kommunikationsanschlüsse gedacht. Er kann daher größere Datenraten zulassen und viele auf dem
+Der 45 Stecker ist ein genormter Stecker und besitzt insgesamt 8 Adern und ist für Kommunikationsanschlüsse gedacht. Er kann daher größere Datenraten zulassen und viele auf dem
 Markt vorhandene Kabel haben zusätzliche Abschirmungen, die die Datenleitungen vor elektrischen Störungen schützen. 
 
 \begin{figure}[H]
@@ -442,7 +441,7 @@ Markt vorhandene Kabel haben zusätzliche Abschirmungen, die die Datenleitungen 
 
 \subsubsection{Aufbau}
 
-Das Bussystem wir über eine Master Slave Struktur verwaltet was heißt das nur das ein einzelnes Master-Gerät als erstes andere Teilnehmer am Bus ansprechen kann.
+Das Bussystem wird über eine Master Slave Struktur verwaltet, was heißt, das nur ein einzelnes Master-Gerät andere Teilnehmer am Bus ansprechen kann.
 Slave-Geräte können nur nach Anfrage des Masters auf den Bus schreiben. Neben der Steuerung der Kommunikation sollte das Master-Gerät aus praktischen Gründen ebenfalls die Slave-Geräte
 mit Energie versorgen und ihnen eindeutige Adressen zuweisen können. \\
 
@@ -461,8 +460,8 @@ Auf die einzelnen Funktionen diverser Leitungen wird in den folgenden Paragraphe
     \caption{Physische Übersicht des Bussystems}
     \label{fig:bus_physical_overview}
 \end{figure}
-Ganze rechts oben in schwarz ist der RaspberryPi der hier als Computer dient es kann aber auch ein anderer Computer verwendet werden. Unterhalb des RaspberryPi ist der USB-RS485 Wandler der mit einem USB-Kabel
-am RaspberryPi angeschlossen ist und von an einer Versorgungsspannung hängt. Der USB-Rs485 Wandler ist wiederrum mit einem RJ45-Kabel an einen Slave verbunden. In diesem Bild sind zwei Slaves an das Bussystem geschlossen worden.
+Ganz rechts oben in Schwarz ist der Raspberry Pi der hier als Computer dient es kann aber auch ein anderer Computer verwendet werden. Unterhalb des Raspberry Pi ist der USB-RS485 Wandler der mit einem USB-Kabel
+am Raspberry Pi angeschlossen ist und an einer Versorgungsspannung hängt. Der USB-RS485 Wandler ist wiederum mit einem RJ45-Kabel an einen Slave verbunden. In diesem Bild sind zwei Slaves an das Bussystem angeschlossen worden.
 Es können aber bis zu 31 sein. Ganz rechts ist der Leitungsabschluss der in Abbildung \ref{fig:rs485_bias} zu sehen ist.
 \\ \\
 Die elektrische Belegung der Leitungen ist wie in der folgenden Tabelle festgelegt worden. Mit dieser Belegung ist es möglich die Slave-Geräte an den RS485 Datenbus zu legen,
@@ -487,7 +486,7 @@ sie mit Spannung zu versorgen und die Adressvergabe mit einer zusätzlichen Logi
 
 \paragraph{Funktion der Adresslogikleitung}\label{sec:func_adress_wire}\mbox{}
 
-Da alle Teilnehmer des RS485-Busses parallel an den Datenleitung A und B liegen kann der Master sie voneinander nicht unterscheiden. Dieses Probleme beseitigt die Adressleitung, welche
+Da alle Teilnehmer des RS485-Busses parallel an den Datenleitungen A und B liegen kann der Master sie voneinander nicht unterscheiden. Dieses Probleme beseitigt die Adressleitung, welche
 die einzelnen Geräte logisch aneinanderreiht.
 
 \begin{figure}[H]
@@ -500,9 +499,9 @@ Jedes Slave-Gerät setzt seine Adresslogikleitung über einen Pullup-Widerstand 
 Als erstes in der Reihe ist der Master, der seine Adresslogikleitung auf logisch 0 setzt und so dem ersten Gerät in der Kette bekannt gibt, dass es eine Adresse zugewiesen bekommt. Wenn es
 diese Adresse bekommen hat legt das Slave-Gerät seine ausgehende Adresslogikleitung ADRO auf logisch 0. So kann das nächste Gerät in der Kette erkennen, dass es eine Adresse zugewiesen kriegt, 
 indem es auf die eingehende Adressleitung ADRI achtet.\\
-In den folgenden Abbildungwn sieht man wie die Geräte über den RJ45 Stecker elektrisch am Bus hängen. Der Master hat nur einen Stecker und hat seine Adresslogikleitung fix auf logisch 0 gelegt.
+In den folgenden Abbildungen sieht man wie die Geräte über den RJ45 Stecker elektrisch am Bus hängen. Der Master hat nur einen Stecker und hat seine Adresslogikleitung fix auf logisch 0 gelegt.
 Die Slaves hingegen brauchen zwei Stecker um die Adresskette zu bilden und unterscheiden zwischen eingehender Adresslogikleitung ADRI und ausgehender Adresslogikleitung ADRO. \\
-Wenn jedoch die Slaves falsche herum angeschlossen werden und ADRI und ADRO vertauscht sind kann dieser Fehler vom Mikrocontroller erkannt und behoben werden. Die genauen Details dieser Funktion 
+Wenn jedoch die Slaves falsch herum angeschlossen werden und ADRI und ADRO vertauscht sind, kann dieser Fehler vom Mikrocontroller erkannt und behoben werden. Die genauen Details dieser Funktion 
 werden in späteren Abschnitten erklärt. 
 
 \begin{figure}[H]
@@ -519,9 +518,9 @@ werden in späteren Abschnitten erklärt.
 
 \paragraph{Versorgungsleitungen VCC und GND}\mbox{}
 
-Da es für jeden Parkplatz ein Slave-Gerät gibt ist die Länge der Busleitung nicht unbeträchtlich. Es kann so entlang der Leitung zu abfällen in der Versorgungsspannung aufgrund des Widerstands der langen Leitung.
-Um dem entgegenzuwirken muss die Versorgungsspannung VCC bezogen auf Masse größer als die benötigte Spannung an den Geräten sein. Die Slave-Geräte besitzen alle einen Linearregler der für einen konstante Spannung von 5V sorgt.
-Die Eingangsspannung des Spannungsreglers muss je nach Ausführung um eine gewisse Differenzspannung größer sein als die am Ausgang benötigte Spannung sein. Dieser Wert wird als \textit{Dropout Voltage} bezeichnet. 
+Da es für jeden Parkplatz ein Slave-Gerät gibt ist die Länge der Busleitung nicht unbeträchtlich. Es kann so entlang der Leitung zu abfallen in der Versorgungsspannung aufgrund des Widerstands der langen Leitungen.
+Um dem entgegenzuwirken muss die Versorgungsspannung VCC bezogen auf Masse größer als die benötigte Spannung an den Geräten sein. Die Slave-Geräte besitzen alle einen Linearregler der für eine konstante Spannung von $\SI{5}{\volt}$ sorgt.
+Die Eingangsspannung des Spannungsreglers muss je nach Ausführung um eine gewisse Differenzspannung größer sein als die am Ausgang benötigte Spannung. Dieser Wert wird als \textit{Dropout Voltage} bezeichnet. 
 Für den IC L78L05ACD lässt sich aus dem Datenblatt folgende Spannung nachlesen: $\SI{2}{\volt}$
 
 \begin{figure}[H]
@@ -535,13 +534,14 @@ einen Maximalwert von $\SI{30}{\volt}$ beschränkt. Es ist zu beachten, dass ein
 
 \subsubsection{Implementation eines eigenen Protokolls}
 
-RS485 spezifiziert keine Protokoll unter welchem Busteilnehmer untereinander kommunizieren. Es gibt bereits viele fertige Lösung wie zum Beispiel Modbus, welches auf einer Master/Slave-Architektur basiert. Es ist aber auch möglich ein eigenes Protokoll zu erstellen.
+RS485 spezifiziert kein Protokoll unter welchem Busteilnehmer untereinander kommunizieren. Es gibt bereits viele fertige Lösung wie zum Beispiel Modbus\footnote{\url{https://www.kunbus.de/modbus.html}}, 
+welches auf einer Master/Slave-Architektur basiert. Es ist aber auch möglich ein eigenes Protokoll zu erstellen.
 In den folgenden Absätzen wird der Aufbau und die Funktion eines eigen implementierten Protokoll, für die Fahrzeugerkennung, erklärt.
 \pagebreak
 \paragraph{Aufbau von Datenframes}\mbox{}
 
 Mit UART ist es möglich, unter der Konfiguration von 8 Datenbits, eine Byte pro Datenaustausch zu senden. Diese Bytes bilden die Grundbausteine unseres sogenannten Datenframes, welcher eine Aneinanderreihung von Bytes ist. Jedes Byte
-kann eine unterschiedliche Funktion haben. Es kann zu einem einfache Daten beinhalten oder dem anderen Teilnehmer bestimmte Steueranfragen mitteilen. Die Datenframes sind in folgende Grundstruktur aufgeteilt.
+kann eine unterschiedliche Funktion haben. Es kann zum einen einfache Daten beinhalten oder dem anderen Teilnehmer bestimmte Steueranfragen mitteilen. Die Datenframes sind in folgende Grundstruktur aufgeteilt.
 
 \begin{table}[h]
     \centering
@@ -557,22 +557,22 @@ kann eine unterschiedliche Funktion haben. Es kann zu einem einfache Daten beinh
 
 \begin{itemize}
     \item \textbf{START, STOP und LF} \\
-    Diese Bytes helfen den Geräte den Anfang und des Ende eines Frames zu erkennen. Das START-Byte signalisiert den Anfang des Datenframes und hat einen fixen von \texttt{0x02} während das Byte STOP mit dem 
+    Diese Bytes helfen den Geräten den Anfang und das Ende eines Frames zu erkennen. Das START-Byte signalisiert den Anfang des Datenframes und hat einen fixen Wert von \texttt{0x02} während das Byte STOP mit dem 
     fixen Hexwert von \texttt{0x03} das Ende das Ende signalisiert. Zusätzlich kommt am Ende noch das LF-Byte mit einem Hexwert von \texttt{0x11}. In ASCII kodiert ist das das Zeichen einer neue Zeile in einem Text und ist vorallem nützlich, da
     viele Bibliotheken dieses Zeichen als Endzeichen zu Datenauslesung aus einem seriellen Buffer verwenden.
     \item \textbf{ADR} \\
     Jedes Gerät am Bus ist unter seiner eigenen Adresse erreichbar welche aus zwei Bytes besteht. Die Adressen werden über den Master verteilt, der eine fixe Adresse von \texttt{0x01} besitzt. 
-    Zusätzlich sind alle Slaves unter einer Broadcastadresse von \texttt{0x00} erreichbar. Es ergibt sich mit zwei Bytes eine Adressraum der Größe $2^{16} = 65536$ inklusive Master und Broadcast.
+    Zusätzlich sind alle Slaves unter einer Broadcastadresse von \texttt{0x00} erreichbar. Es ergibt sich mit zwei Bytes einen Adressraum der Größe $2^{16} = 65536$ inklusive Master und Broadcast.
     \item \textbf{CTRL} \\
-    Das Kontrollbyte CTRL signalisiert einen bestimmten Steuerbefehl. Mit ihm kann man eine Frequenzmessung der Spule an einem Slave auslösen oder einezelne LEDs ein- und ausschalten.
+    Das Kontrollbyte CTRL signalisiert einen bestimmten Steuerbefehl. Mit ihm kann man eine Frequenzmessung der Spule an einem Slave auslösen oder einzelne LEDs ein- und ausschalten.
     
     \item \textbf{ARG} \\
     Die Argumentbytes ARG1 und ARG2 geben dem Steuerbefehl zusätzliche Daten mit. 
     So kann man zum Beispiel zwischen LED1 und LED0 und einschalten und ausschalten unterscheiden. 
     
     \item \textbf{DATA} \\
-    Hier versteht man 8 Datenbytes, die für den Austausch von größeren Werten, wie einer Frequenz von nutzen sind. Diese Datenbytes sind in ASCII kodiert um Konflikte mit den START, STOP und LF Bytes zu vermeiden. Jedes Datenbyte kann daher einen Hexwert von \texttt{0x0} bis 
-    \texttt{0xF}. Der größtmögliche Wert, der sich verschicken lässt ist daher \texttt{0xFFFFFFFF} was in Dezimal einem Wert von $2^{32} - 1 = 4 294 967 294$ entspricht.
+    Das Segment DATA besteht aus 8 Datenbytes, die für den Austausch von größeren Werten, wie einer Frequenz von nutzen sind. Diese Datenbytes sind in ASCII kodiert um Konflikte mit den START, STOP und LF Bytes zu vermeiden. Jedes Datenbyte kann daher einen Hexwert von \texttt{0x0} bis 
+    \texttt{0xF} haben. Der größtmögliche Wert, der sich verschicken lässt ist daher \texttt{0xFFFFFFFF} was in Dezimal einem Wert von $2^{32} - 1 = 4 294 967 294$ entspricht.
 \end{itemize}
 
 \paragraph{Steuerabläufe}\mbox{}
@@ -601,7 +601,7 @@ In den nächsten Abbildung werden die möglichen Steuerbefehle für Master und S
     \caption{Slave Response Datenframe}
 \end{sidewaysfigure}
 \pagebreak
-Um den Ablauf einer deutlicher darzustellen wird der Steuerbefehl IO1 mit Datenframe Antwort des Slaves gemessen. 
+Um einen Datenframe beispielhaft darzustellen wird die Anteort des Slaves auf den Befehl IO1 aufgenommen.
 Wir erhalten folgendes Bild am Oszilloskop.
 
 \begin{figure}[H]
@@ -623,14 +623,14 @@ Wir erhalten folgendes Bild am Oszilloskop.
     \caption{ausgelesene Bytes aus einem gemessenen Datenframe}
 \end{table}
 
-Wir sehen dass die Bytes START, ETX und LF die dix zugewiesenen Werte \texttt{0x02, 0x03} und \texttt{0x11} haben. Die ADR Bytes haben ASCII dekodiert die Zeichen '0' und '1' welche zusammengezählt die Adresse 1 ergeben. 
+Wir sehen dass die Bytes START, STOP und LF die fix zugewiesenen Werte \texttt{0x02, 0x03} und \texttt{0x11} haben. Die ADR Bytes haben ASCII dekodiert die Zeichen '0' und '1' welche zusammengezählt die Adresse 1 ergeben. 
 Dies ist die fixe Adresse des Masters und stimmt auch mit unserem Master/Slave System überein, wo die Slaves Datenframes nur an den Master zurück schicken. Das Kontrollbyte CTRL hat den Hexadezimalwert \texttt{0x31} 
 und entspricht ASCII dekodiert dem Zeichen '1'. Sieht man nun in der Tabelle mit den Slave-Response Datenframes nach erhalten wir den Befehl IO1. Mit diesem Befehl wird ein digitaler Ein- und Ausgang des Mikrocontroller gesteuert.
 Das erste Argumentbyte ergibt ASCII dekodiert das Zeichen 'I' was laut gleicher Tabelle SET bedeutet. Das zweite Argumentbyte hat den Hexadezimalwert \texttt{0x30} welches dekodiert das ASCII Zeichen '0' ist. Dieses Zeichen gibt an,
-dass der Ausgang IO0 auf logisch 0 zu schalten ist. Die Datenbytes für die den Befehl IO1 sind bis auf das erste alle von sich aus leer. Das erste Datenbyte soll bestätigen dass der Ausgang auf logisch 0 geschalten worden ist und tatsächlich steht 
+dass der Ausgang IO1 auf logisch 0 zu schalten ist. Die Datenbytes für den Befehl IO1 sind bis auf das erste Byte alle von sich aus leer. Das erste Datenbyte soll bestätigen dass der Ausgang auf logisch 0 geschalten worden ist und tatsächlich steht 
 diesem Byte das Zeichen '0'.  
 \\ \\
-Der interne C-Code des Slave generiert für den IO1 Befehl dia Antwort auf folgende weise.
+Der interne C-Code des Slave generiert für den IO1 Befehl die Antwort auf folgende Weise.
 \begin{listing}[H]
     \begin{minted}{c}
     unsigned char response[8] = {0, 0, 0, 0, 0, 0, 0, 0};
@@ -681,21 +681,22 @@ In der folgenden Abbildung sind alle wichtigen ICs, Ein- und Ausgänge und deren
     \item \textbf{Atmega328PB} \\
     Ist der Mikrocontroller des Slave-Geräts. Er liest die Frequenz des Oszillator, kontrolliert die Ein- und Ausgänge IO0 und IO1 und ist für die serielle Kommunikation mit dem Bus verantwortlich.
     \item \textbf{L78L05ACD} \\
-    Ist ein Spannugsregler, der die erhöhte Spannung aus dem Bussystem absenkt und dem Slave zur Verfügung stellt.
+    Ist ein Spannungsregler, der die erhöhte Spannung aus dem Bussystem absenkt und dem Slave zur Verfügung stellt.
     \item \textbf{MAX485} \\
     Ist ein RS485 Pegelwandler, der die UART Signale des Mikrocontroller in die entsprechenden Pegel umwandelt
     \item \textbf{Oszillator} \\
-    An ihn wird die Spule angeschlossen. Er erzeugt mit einer Colpitts-Schaltung eine Resonanzfrequenz mit die vom Mikrocontroller ausgelesen wird.
+    An ihn wird die Spule angeschlossen. Er erzeugt mit einer Colpitts-Schaltung eine Resonanzfrequenz die vom Mikrocontroller ausgelesen wird.
     
     \item \textbf{IO0 und IO1} \\
-    Es handelt sich um digitale Eingänge und Ausgänge des Mikrocontroller, welche je nach Anwendung unterschiedliche Funktionen haben können. An ihnen hängen zwei LEDs nämlich LED0 und LED1.
+    Es handelt sich um digitale Eingänge und Ausgänge des Mikrocontroller, welche je nach Anwendung unterschiedliche Funktionen haben können. 
+    An ihnen hängen zwei LEDs nämlich LED0 und LED1.
 \end{itemize}
 
 In den folgenden Absätzen wird genauer auf diese angeführten Blöcke eingegangen.
 
 \subsubsection{Mikrocontroller}
 
-Mikrocontroller (auch µC) sind Halbleiterchips die einen integrierten Prozessor, einen Arbeitsspeicher, einen Programmspeicher und eine Peripheriefunktionalität aufweisen. Viele dieser Mikrocontroller besitzen Schnittstellen wie SPI, IIC oder UART
+Mikrocontroller\footnote{\url{https://www.mikrocontroller.net/articles/Mikrocontroller}} (auch µC) sind Halbleiterchips die einen integrierten Prozessor, einen Arbeitsspeicher, einen Programmspeicher und eine Peripheriefunktionalität aufweisen. Viele dieser Mikrocontroller besitzen Schnittstellen wie SPI, IIC oder UART
 und können analoge Spannung einlesen sowie PWM Signale erzeugen. Ihre vielfältigen Eigenschaften machen diese ICs vielseitig einsetzbar. Sie werden oft in einfachen elektronischen Alltagsgegenständen wie Digitaluhren, Fernbedienungen oder Tastaturen gefunden. 
 
 \begin{figure}[H]
@@ -709,18 +710,18 @@ digitale Eingänge und Ausgänge aufweisen können. Auch Interrupts sind vorhand
 
 
 
-Der Atmega328PB ist ein Mikrocontroller der Microchip AVR Familie \footnote{\url{https://www.microchip.com/en-us/products/microcontrollers-and-microprocessors/8-bit-mcus/avr-mcus}} und besitzt eine Maximale Taktfrequenz von $\SI{20}{\mega\hertz}$ und kann mit einer Betriebsspannung von $\SI{5}{\volt}$ arbeiten.
+Der Atmega328PB ist ein Mikrocontroller der Microchip AVR Familie\footnote{\url{https://www.microchip.com/en-us/products/microcontrollers-and-microprocessors/8-bit-mcus/avr-mcus}} und besitzt eine maximale Taktfrequenz von $\SI{20}{\mega\hertz}$ und kann mit einer Betriebsspannung von $\SI{5}{\volt}$ arbeiten.
 Sein interner programmierbarer Flash-Speicher ist ist \texttt{32KB} groß, was für diese Anwendung genügend ist.
 
 \subsubsection{Lineare Spannungsregler}
 
 Spannungsregler haben die Aufgabe eine Gleichspannung abzusenken und zu stabilisieren. Sie werden oft bei Schaltungen eingesetzt, bei denen entweder kleine Ströme fließen oder die Effizienz der Schaltung nicht im Vordergrund steht.
-Lineare Spannungsregler verwenden Leistungstransitoren um die Spannung abzusenken, was zu Verlustleistungen führt. Die Größe der Ausgangsspannung kann entweder über externe Beschaltung vorgegeben werden oder ist fix vom Hersteller vorgegeben. Spannungsregler stellen 
-immer automatisch die richtige Ausgangsspannung ein selbst wenn die Eingangsspannung in einem vorgegebenen Bereich variiert. 
+Lineare Spannungsregler verwenden Leistungstransistoren um die Spannung abzusenken, was zu Verlustleistungen führt. Die Größe der Ausgangsspannung kann entweder über externe Beschaltung vorgegeben werden oder ist fix vom Hersteller eingestellt. Spannungsregler stellen 
+immer automatisch die richtige Ausgangsspannung ein, selbst wenn die Eingangsspannung in einem vorgegebenen Bereich variiert. 
 \\ \\
 
-Daher der Mikrocontroller eine Betriebsspannung von $\SI{5}{\volt}$ benötigt ist ein Spannungsregler mit dieser Ausgangsspannung erforderlich. Der L78L05ACD erfüllt diese Eigenschaften und kann 
-eine Ausgangsspannung von $\SI{5}{\volt}$ bei einer Eingangsspannung von $\SI{7}{\volt}$ bis $\SI{7}{\volt}$, bei einem maximalen Strom von $\SI{100}{\milli\ampere}$.
+Weil der Mikrocontroller eine Betriebsspannung von $\SI{5}{\volt}$ benötigt ist ein Spannungsregler mit dieser Ausgangsspannung erforderlich. Der L78L05ACD erfüllt diese Eigenschaften und kann 
+eine Ausgangsspannung von $\SI{5}{\volt}$ bei einer Eingangsspannung von $\SI{7}{\volt}$ bis $\SI{30}{\volt}$ erzeugen. Der maximalen Strom beträgt $\SI{100}{\milli\ampere}$.
 
 \begin{figure}[H]
     \centering
@@ -731,14 +732,15 @@ eine Ausgangsspannung von $\SI{5}{\volt}$ bei einer Eingangsspannung von $\SI{7}
 \subsubsection{RS485 Pegelwandler}
 
 Die Aufgabe des RS485-Pegelwandlers ist die Umsetzung der UART-Spannungspegel in RS485-Spannungspegel. Die Einzelheiten dieses Standards und die wichtigen Funktionen des MAX485CSA 
-wurden im Absatz \ref{sec:RS485} beschrieben.
+sind im Absatz \ref{sec:RS485} beschrieben.
 
 \subsubsection{Oszillator mit LM393D Komparator}
 
 Der Oszillator dient dazu die Induktivität der Spule in eine Frequenz umzusetzen (Vergleiche Absatz \ref{sec:colpitts}). Dafür ist ein aktives Element nötig, das für eine Phasendrehung von $\SI{180}{\degree}$ sorgen kann.
 Es kann dabei ein Operationsverstäker in Frage kommen aber auch ein einfacher Komparator ist hier ausreichend. Um das Sinussignal des Oszillator in ein Rechtecksignal für den Mikrocontroller umzuwandeln ist ein zusätzlicher Schmitttrigger nötig.
 Der Grund dafür ist eine Funktionalität des Mikrocontrollers. Er besitzt nämlich eine Interrupt Funktionalität, die auf Flanken von Rechtecksignalen reagiert. Über die Zählung der Flanken über einen Zeitraum lässt sich die Frequenz ermitteln.
-Das Schmitttrigger ist deshalb ausgwählt worden, weil das Eingangssignal einen gewissen Betrag überschreiten beziehungsweise unterschreiten muss bevor das Ausgangssignal sich ändert. Diesen Schwellwert ist bei einer Betriebsspannung von $\SI{5}{\volt}$
+Das Schmitttrigger ist deshalb ausgewählt worden, weil das Eingangssignal einen gewissen Betrag überschreiten, beziehungsweise unterschreiten muss bevor das Ausgangssignal sich ändert. 
+Dieser Schwellwert ist bei einer Betriebsspannung von $\SI{5}{\volt}$
 auf $\SI{250}{\milli\volt}$ festgelegt. Mit der folgenden Formel für den Schwellwert des Schmitttrigger lässt sich das Widerstandsverhältnis $\frac{1}{10}$ errechnen.
 
 \begin{equation} \label{eq:schmitt}
@@ -747,10 +749,10 @@ auf $\SI{250}{\milli\volt}$ festgelegt. Mit der folgenden Formel für den Schwel
 Wobei \\
 $U_{Schmitt}$ = Schwellwert des Schmitttriggers\\
 $I_{B}$ = Betriebsspannungsbereich\\
-$R_{1}$ = Widerstand vom Eingang zum nicht invertierenden Eingang\\
+$R_{1}$ = Widerstand vom Eingang der Schaltung zum nicht invertierenden Eingang\\
 $R_{2}$ = Widerstand im Rückkoppelzweig\\
 
-Es wurden die Widerstandswerte $R_{1} = 10k\Omega$ und $R_{2} = 100k\Omega$ ausgewählt. Für einen allgemeinen Oszillator gilt folgendes Schaltbild wobei $R_{2}$ der Widerstand vom Eingang zum nicht invertierenden Eingang und
+Es wurden die Widerstandswerte $R_{1} = 10k\Omega$ und $R_{2} = 100k\Omega$ ausgewählt. Für einen allgemeinen Oszillator gilt folgendes Schaltbild, wobei $R_{2}$ der Widerstand vom Eingang der Schaltung zum nicht invertierenden Eingang des Operationsverstärkers und
 $R_{3}$ der Widerstand im Rückkoppelzweig ist.
 
 \begin{figure}[H]
@@ -759,7 +761,7 @@ $R_{3}$ der Widerstand im Rückkoppelzweig ist.
     \caption{Colpitts Oszillator mit Schmitttrigger}
 \end{figure}
 
-Als Komparator haben wir den LM393D IC ausgewählt, da er sehr günstig ist und weil er in SMD Form zwei Komparatoren in einem Package hat. Er ist jedoch ein sogenannter Open-Collector IC. Das heißt er kann seinen Ausgang nur auf Masse ziehen und er braucht daher 
+Als Komparator haben wir den LM393D IC ausgewählt, da er sehr günstig ist und weil er in SMD Form zwei Komparatoren in einem Package hat. Er ist jedoch ein sogenannter Open-Collector IC. Das heißt er kann seinen Ausgang nur auf Masse schalten und er braucht daher 
 einen Pullup-Widerstand auf eine positive Spannung um das gewünschte Rechtecksignal zu erzeugen. Diese Widerstände sind in der folgenden Abbildung mit $RCP1$ und $RCP2$ gekennzeichnet
 
 \begin{figure}[H]
@@ -777,19 +779,19 @@ Für eine Spule mit einer Induktivität von $\SI{50}{\micro\henry}$ würde sich 
     \caption{Colpitts Kondensatoren im Slave Schaltplan}
 \end{figure}
 
-Die Spule wird an den Änschluss der mit 'L' beschriftet ist angeschlossen (Siehe Abbildung \ref{fig:slave_front})
+Die Spule wird an den mit 'L' beschrifteten Anschlussist angeschlossen (Siehe Abbildung \ref{fig:slave_front})
 
 \subsubsection{Digitale Ein- und Ausgänge IO0 /IO1}
 
 Sie haben generell verschiedene Anwendungsmöglichkeiten und sind daher je nach Kundenwunsch anpassbar. Derzeit werden sie als visuelle Indikatoren verwendet um direkt am Parkplatz anzuzeigen, ob er besetzt ist. 
-Auf der Platine sind zwei LEDs verbaut, die immer den Zustand des IO-Pins anzeigen. Für den Parkplatz ist jedoch nötig die LEDs nach außen zu leiten. Dafür gibt es die Anschlüsse '0' und '1' die für IO0 und IO1 stehen sowie die Anschlüsse
-'+' und '-' die für $\SI{5}{\volt}$ und Masse stehen (Siehe Abbildung \ref{fig:slave_front}). Die Spannungsausgänge sind auch nützlich für externe Sensoren un Aktoren die nicht mehr wie $\SI{100}{\milli\ampere}$ brauchen.
+Auf der Platine sind zwei LEDs verbaut, die immer den Zustand der IO-Pins anzeigen. Für den Parkplatz ist jedoch nötig die LEDs nach außen zu leiten. Dafür gibt es die Anschlüsse '0' und '1' die für IO0 und IO1 stehen, sowie die Anschlüsse
+'+' und '-' die für $\SI{5}{\volt}$ und Masse stehen (Siehe Abbildung \ref{fig:slave_front}). Die Spannungsausgänge sind auch nützlich für externe Sensoren und Aktoren die nicht mehr wie $\SI{100}{\milli\ampere}$ brauchen.
 
-\subsubsection{weitere Anschlüsse}
+\subsubsection{Weitere Anschlüsse}
 \paragraph{Separater VCC Eingang}\mbox{} 
 
 In der Entwicklungsphase hat es sich praktisch erwiesen einen eigenen Spannungsanschluss am Gerät anzubringen. Dieser ist an den Spannungsregler angeschlossen und muss mit $\SI{9}{\volt}$ bis $\SI{30}{\volt}$ vorsorgt werden.
-Für den normalen Betrieb ist jedoch keinen direkte Versorgung des Slaves mit Spannung nötig, da er seine Spannung über den RJ45 Stecker bezieht.
+Für den normalen Betrieb ist jedoch keine direkte Versorgung des Slaves mit Spannung nötig, da er seine Spannung über den RJ45 Stecker bezieht.
 
 \begin{figure}[H]
     \centering
@@ -804,7 +806,7 @@ Wie im Absatz \ref{sec:func_adress_wire} erklärt müssen die Slaves in einer Ke
 
 \paragraph{SPI Programmieranschluss}\mbox{} 
 
-Um den Mikrocontroller zu Programmieren braucht es einen Anschluss für einen externnen Programmer, der den Maschinencode auf den hochlädt. Der Atmega328PB lässt eben über seine SPI Anschlüsse programmieren welche im folgenden Bild
+Um den Mikrocontroller zu Programmieren braucht es einen Anschluss für einen externen Programmer, der den Maschinencode auf den hochlädt. Der Atmega328PB lässt eben über seine SPI Anschlüsse programmieren welche im folgenden Bild
 an den in rot gekennzeichneten Stecker geführt werden. 
 
 \begin{figure}[H]
@@ -839,7 +841,7 @@ In gleicher Orientation wie in Abbildung \ref{fig:slave_left} gilt die folgende 
 \paragraph{Fuse-Bits und Quartz}\mbox{} 
 
 Unter Fuse-Bits versteht man Bits die nicht durch die Software des Mikrocontroller verändert werden können und zur Konfiguration des Mikrocontrollers dienen. Sie können nur durch einen externen Programmer verändert werden, 
-wenn sie nicht schon vom Hersteller gesperrt worden sind. Es gibt insgesamt drei Fuse-Bytes, die für die Einstellungen des Atmega328PB zuständig sind. Sie regeln den internen Taktvorteiler, geben die Größe des Bootsektors und
+wenn sie nicht schon vom Hersteller gesperrt worden sind. Es gibt insgesamt drei Fuse-Bytes, die für die Einstellungen des Atmega328PB zuständig sind. Sie regeln den internen Taktvorteiler, geben die Größe des Bootsektors an und
 regeln neben anderen Sachen die Programmierung über SPI.
 
 \begin{table}[H]
@@ -860,7 +862,7 @@ regeln neben anderen Sachen die Programmierung über SPI.
     \caption{Low Fuse-Byte}
 \end{figure}
 
-Für das Low-Byte gibt die Takteinstellungén vor. Der Slave ist auf einen externen $\SI{16}{\mega\hertz}$ Quartz angewiesen und er soll auch mit dieser Frequenz arbeiten. 
+Das Low-Byte gibt die Takteinstellungen vor. Der Slave ist auf einen externen $\SI{16}{\mega\hertz}$ Quartz angewiesen und er soll auch mit dieser Frequenz arbeiten. 
 Der Taktteiler ist daher 1 welcher mit den Bit CKDIV = 1 eingestellt wurde. Die Taktquelle ist mit den Bits CKSEL0-3 auf einen externen Quartz umgestellt worden.
 
 \begin{figure}[H]
@@ -869,7 +871,7 @@ Der Taktteiler ist daher 1 welcher mit den Bit CKDIV = 1 eingestellt wurde. Die 
     \caption{Einstelleoptionen für den internen Takt des Atmega328PB}
 \end{figure}
 
-Wenn man weiter im Datenblatt liest erhält man die Werte für die Trimmkondensatoren nämlich jeweils $\SI{22}{\nano\farad}$.
+Wenn man weiter im Datenblatt liest erhält man die Werte für die Trimmkondensatoren, nämlich jeweils $\SI{22}{\nano\farad}$.
 
 \begin{figure}[H]
     \centering
@@ -885,7 +887,7 @@ Wenn man weiter im Datenblatt liest erhält man die Werte für die Trimmkondensa
     \caption{High Fuse-Byte}
 \end{figure}
 
-Hier ist zu beachten, dass das Bit SPIEN auf 0 gesetz sein muss damit ein externer SPI-Programmer verwendet werden kann. Wird dieses Bit auf 1 gesetzt kann das nur schwer rückgängig gemacht werden.
+Hier ist zu beachten, dass das Bit SPIEN auf 0 gesetzt sein muss, damit ein externer SPI-Programmer verwendet werden kann. Wird dieses Bit auf 1 gesetzt kann das nur schwer rückgängig gemacht werden.
 
 \begin{figure}[H]
     \centering
@@ -893,18 +895,18 @@ Hier ist zu beachten, dass das Bit SPIEN auf 0 gesetz sein muss damit ein extern
     \caption{Extended Fuse-Byte}
 \end{figure}
 
-Mit diesem Byte wird der Brownout Reset Spannungspegel festgelegt. Wenn die Versorgungsspannung des Atmega328PB unter diesen Wert fällt bricht der Mikrocontroller seinen Operation aus und setzt sich zurück.
+Mit diesem Byte wird der Brownout Reset Spannungspegel festgelegt. Wenn die Versorgungsspannung des Atmega328PB unter diesen Wert fällt bricht der Mikrocontroller seine Operation ab und setzt sich zurück.
 
 
 \paragraph{SPI-Programmierung}\mbox{} 
 
-Es gibt viele Möglichkeiten den einen Mikrocontroller mit unterschiedlichen Werkzeugen zu programmieren. Einen Variante ist die mit den unten Verwendeten Werkzeugen.
+Es gibt viele Möglichkeiten einen Mikrocontroller mit unterschiedlichen Werkzeugen zu programmieren. Eine Variante ist die mit den unten verwendeten Werkzeugen.
 
 \begin{itemize}
     \item \textbf{AVRDUDE} \\
-    AVRDUDE\footnote{\url{https://www.mikrocontroller.net/articles/AVRDUDE}} ist eine Programmiersoftware für Mikrocontroller aus der Microchip-AVR Familie. Sie hat keine Benutzeroberfläche sondern hat nur eine Terminalausgabe.
+    AVRDUDE\footnote{\url{https://www.mikrocontroller.net/articles/AVRDUDE}} ist eine Programmiersoftware für Mikrocontroller aus der Microchip-AVR Familie. Sie hat keine Benutzeroberfläche, sondern nur eine Terminalausgabe.
     \item \textbf{PlatformIO} \\
-    PlatformIO ist Erweiterung für Visual Studio Code, die es ermöglicht Mikrokontroller Projekte zu entwickeln. Sie bietet auch die Möglichkeit an bereits existierende Compiler oder Programmiersoftware wie AVRDUDE zu verwenden.
+    PlatformIO ist Erweiterung für Visual Studio Code, die es ermöglicht Mikrokontroller Projekte zu entwickeln. Sie bietet auch die Möglichkeit an, bereits existierende Compiler oder Programmiersoftware wie AVRDUDE zu verwenden.
     \item \textbf{Arduino UNO als Programmer} \\
     Der Arduino Uno ist ein Mikrocontroller basiertes Board, welches weit verbreitet ist und für das es große Softwareunterstützung gibt. Eine mögliche Anwendung dieses Boards ist die eines SPI-Programmer. 
     Dazu muss aber zuerst die richtige Software auf den Arduino hochgeladen werden. Dafür braucht man die zum Arduino zugehörige Arduino Entwicklungsumgebung.
@@ -930,7 +932,7 @@ Wenn der Arduino als SPI-Programmer kann er wir im unteren Bild an den Slave ang
     \caption{Anschluss eines externen SPI Programmer}
 \end{figure}
 
-Um die Fuse-Bits zu setzen ist es nötig AVRDUDE einmal mit den folgenden Parametern zu starten. Es muss wieder der zuerst der COM-Anschluss des Arduino am Computer ermittelt werden.
+Um die Fuse-Bits zu setzen ist es nötig AVRDUDE einmal mit den folgenden Parametern zu starten. Es muss zuerst wieder der COM-Anschluss des Arduino am Computer ermittelt werden.
 
 \begin{listing}[H]
     \begin{minted}{shell}
@@ -965,7 +967,7 @@ Damit man  in Visual Studio Code über PlatformIO kompilieren und hochladen kann
 \subsubsection{Software des Slaves}
 \paragraph{Konfiguration der Register}\mbox{} 
 
-Die Funktionen der Registerwerte wurden in den Code-Komentaren hinerlegt.
+Die Funktionen der Registerwerte wurden in den Code-Komentaren hinterlegt.
 \begin{listing}[H]
     \begin{minted}{C}
     void init()
@@ -1012,7 +1014,7 @@ Die Funktionen der Registerwerte wurden in den Code-Komentaren hinerlegt.
 
 \paragraph{UART Betrieb}\mbox{} 
 
-Daher der Atmega328PB nur ein UART-Buffergröße mir einer Größevon einem Byte besitzt. Muss
+Der Atmega328PB besitzt nur ein UART-Buffer mit einer Größe von einem Byte. Muss
 zusätzlich per Software ein Ringbuffer mit Lesepointer pr und einem Schreibpointer pw erstellt
 werden. Die Struktur des Buffers sieht so wie folgend aus.
 
@@ -1022,7 +1024,7 @@ werden. Die Struktur des Buffers sieht so wie folgend aus.
     \caption{Slave UART-Buffer Struktur}
 \end{figure}
 
-Wenn ein neues Byte auf den Bus geschreiben werden lesen alle Slaves diese mit dem UART-Empfangsinterrupt in den Buffer an der stelle des Schreibpointers. Dieser wird danach um eins
+Wenn ein neues Byte auf den Bus geschrieben wird lesen alle Slaves dieses Byte, mit dem UART-Empfangsinterrupt, in den Buffer an der Stelle des Schreibpointers. Dieser wird danach um eins
 erhöht.
 
 
@@ -1051,9 +1053,9 @@ gefunden wird. Diese Logik wird im folgenden Flussdiagramm verdeutlicht.
     \caption{Flussdiagramm der Datenframeerkennung}
 \end{figure}
 
-Die ausgelesenen Daten werden in globale Variablen geschrieben zusammen mit einem Flag,
-dass bekannt gibt dass ein neuer Dateframe angekommen ist. In Folge wird in der Hauptschleife
-überprüft ob die Adresse mit der eigen übereinstimmt. Wenn dies der Fall ist wird der Steuerbefehl
+Die ausgelesenen Daten werden in globale Variablen geschrieben, zusammen mit einem Flag
+das bekannt gibt, dass ein neuer Dateframe angekommen ist. Infolge wird in der Hauptschleife
+überprüft ob die Adresse mit der eigenen übereinstimmt. Wenn dies der Fall ist wird der Steuerbefehl
 ausgeführt. Unten ist ein Beispielcode der bei der Änderung der eigenen Adresse ausgeführt wird.
 \begin{listing}[H]
     \begin{minted}{C}
@@ -1077,9 +1079,9 @@ ausgeführt. Unten ist ein Beispielcode der bei der Änderung der eigenen Adress
 
 \paragraph{Taktmessung}\mbox{} 
 
-Der Master gibt bei der Taktmessung die Größe des Messzeitraumes an in 10 ms Auflösung an.
-Die Aufgabe des Slaves ist es dann über diesen Zeitraum die Takte des Rechtecksignals vom
-Colpitts-Oszillator zu messen. Dafür werden sowohl Timer als auch Eingangsflankeninterrupts
+Der Master gibt bei der Taktmessung die Größe des Messzeitraumes in 10 ms Auflösung an.
+Die Aufgabe des Slaves ist es dann, über diesen Zeitraum die Takte des Rechtecksignals vom
+Colpitts-Oszillator zu zählen. Dafür werden sowohl Timer als auch Eingangsflankeninterrupts
 benötigt. Wenn der Slave die Anweisung zur Messung bekommt wird der folgenden Programmteil
 aktiv.
 \begin{listing}[H]
@@ -1122,7 +1124,7 @@ die Anzahl der Takte in ASCII kodiert an den Master zurück.
     \end{minted}
     \caption{ Slave C-Code zur Taktmessung}
 \end{listing}
-Die Zählung der Takte Funktioniert wie folgt.
+Die Zählung der Takte funktioniert wie folgt.
 \begin{listing}[H]
     \begin{minted}{C}
     ISR(INT0_vect)
@@ -1152,10 +1154,10 @@ In der Flankeninterrupt Routine werden die Takte gezählt und in eine globale Va
 
 
 In der Timerinterrupt Routine werden die Anzahl der Interrupts gezählt bis die gewünschte Messzeit
-abgelaufen ist. In Folge werden die entsprechenden Interrupts wieder ausgschalten.
+abgelaufen ist. Infolge werden die entsprechenden Interrupts wieder ausgeschalten.
 \subsubsection{Layout des Slave-Gerätes}
 
-Das Layout des Slaves wurde in Eagle \footnote{\url{https://www.autodesk.com/products/eagle/}} erstellt. Während der Entwicklungsphase gab es mehrere
+Das Layout des Slaves wurde in Eagle\footnote{\url{https://www.autodesk.com/products/eagle/}} erstellt. Während der Entwicklungsphase gab es mehrere
 Versionen des Slaves. In der ersten war das PCB nicht sehr platzeffizient und benutzte für den
 Mikrocontroller keine SMD Variante. Unten ist ein Bild des ersten Prototyps mit bestückten Bauteilen
 und Gehäuse.
@@ -1180,10 +1182,10 @@ den alten Prototyp und links die neueste Version des Slaves.
 
 \subsubsection{Gehäuse}\mbox{} 
 
-Das Gehäuse wurde in Fusion360 16 erstellt und die dazu das Slave-Gerät besser vor Umwelteinflüssen zu schützen ohne dabei die Funktionalität des Gerätes einzuschränken. Es existieren insgesamt
+Das Gehäuse wurde in Fusion360\footnote{\url{https://www.autodesk.de/products/fusion-360/overview}} erstellt um das Slave-Gerät besser vor Umwelteinflüssen zu schützen ohne dabei die Funktionalität des Gerätes einzuschränken. Es existieren insgesamt
 drei Teile, die zusammenverschraubt das Gehäuse bilden. Das Material, welches verwendet wurde
 ist ein 3D-druckbares PLA Polyester. Für die Gewinde wurden spezielle Gewindeeinsätze verwendet
-mit einem metrischen Nenndurchmesser von 3 mm. Die verwendeten Schrauben entsprechen der
+mit einem metrischen Nenndurchmesser von 3 mm. Die verwendeten Schrauben entsprechen
 der DIN-Norm 965.
 
 \begin{figure}[!htb]
@@ -1213,16 +1215,17 @@ In der folgenden Abbildung ist der logische Aufbau des Masters zu sehen.
 \subsubsection{USB-Bussadapter Gerät}
 \paragraph{FT232RL}\mbox{} 
 
-Der FT232RL Ic ist ein USB auf UART Wandler IC, der keine programmieren des internen Speichers nötig hat. Er kann ohne weiteres über einen USB-Stecker an einen Computer angeschlossen werden. 
+Der FT232RL IC ist ein USB auf UART Wandler IC, der kein programmieren des internen Speichers nötig hat. Er kann ohne weiteres über einen USB-Stecker an einen Computer angeschlossen werden. 
 Neben den für USB relevanten Anschlüssen besitzt der Chip zusätzliche Pins um mehrere Funktionen zu erfüllen. In seinem Datenblatt ist eine Beispielschaltung vorgegeben für die Verwendung eines RS485-Pegelwandlers.
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{fahrzeugerkennung/ft232_rs485_datasheet.pdf}
     \caption{Beispielschaltung eines FT232 mit einem RS485 Pegelwandlers}
+    \citeurl{ft232r_rs485}
 \end{figure}
 
-In der folgenden Abbildung ist der FT232 im Schaltplan des Busadapters dargestellt. Ist sei zu beachten, dass die LEDs falsch angeschlossen sind. Die Anschlüsse CBUS0 und CBUS1 funktionieren als Stromsenken. 
-Der Fehler wurde mittels Drahtbrücken und Umplatzierung der Bauteile korriegt.
+In der folgenden Abbildung ist der FT232 im Schaltplan des Busadapters dargestellt. Es sei zu beachten, dass die LEDs falsch angeschlossen sind. Die Anschlüsse CBUS0 und CBUS1 funktionieren als Stromsenken. 
+Der Fehler wurde mittels Drahtbrücken und Umplatzierung der Bauteile korrigiert.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{fahrzeugerkennung/ft232_schematic.pdf}
@@ -1231,8 +1234,8 @@ Der Fehler wurde mittels Drahtbrücken und Umplatzierung der Bauteile korriegt.
 
 \paragraph{USB-C Anschluss}\mbox{} 
 
-Als USB-Stecker ist der Typ C aufgrund seiner besonderen Eigenschaften ausgewählt worden. Er ist geometrisch sehr klein und er ist symmertrisch seiner Drehachse entlang des Kabels. Im Vergleich zum Typ A oder Typ B Stecker 
-kann man ihn nicht verkehrt einstecken. Augrund dieser Symmetrie besitzt er alle Anschlüsse doppelt. Die Anschlüsse im Schalplan sehen wie folgt aus.
+Als USB-Stecker ist der Typ C aufgrund seiner besonderen Eigenschaften ausgewählt worden. Er ist geometrisch sehr klein und symmertrisch seiner Drehachse entlang des Kabels. Im Vergleich zum Typ A oder Typ B Stecker 
+kann man ihn nicht verkehrt einstecken. Aufgrund dieser Symmetrie besitzt er alle Anschlüsse doppelt. Die Anschlüsse im Schaltplan sehen wie folgt aus.
 
 \begin{figure}[H]
     \centering
@@ -1240,7 +1243,7 @@ kann man ihn nicht verkehrt einstecken. Augrund dieser Symmetrie besitzt er alle
     \caption{USB Typ C Stecker im Master Schaltplan}
 \end{figure}
 
-Es werden nur die normalen D+ und D- Pins verwendet. Damit das USB-Gerät am Anderen Ende weis, dass das Gerät für die serielle Kommunikation zur Verfügung steht sind zwei $\SI{5}{\kilo\ohm}$ an den Pins VCONN und CC nötig.
+Es werden nur die normalen D+ und D- Pins verwendet. Damit das USB-Gerät am anderen Ende weis, dass das Gerät für die serielle Kommunikation zur Verfügung steht sind zwei $\SI{5}{\kilo\ohm}$ an den Pins VCONN und CC nötig.
 
 \paragraph{Layout des Master-Geräts} \mbox{} 
 
@@ -1254,6 +1257,7 @@ $\SI{30}{\volt}$.
 \end{figure}
 
 \paragraph{Gehäuse}\mbox{} 
+
 Das Gehäuse ist wie das Slave-Gehäuse in Fusion360 gezeichnet worden und mit einem 3D-Drucker ausgedruckt worden. Es existieren insgesamt 3 Teile, die zusammen das Gehaüse bilden.
 Die verwendeten Gewinde sind die gleichen Gewindeeinsätze wie bei Slave und es wurden die gleichen Schrauben nach DIN-Norm 965 verwendet.
 
@@ -1277,7 +1281,7 @@ Die verwendeten Gewinde sind die gleichen Gewindeeinsätze wie bei Slave und es 
 
 Um den Bus ansteuern zu können ist es zuerst nötig den Busadapter zu finden. Alle registierten Geräte die an einem COM-Anschluss hängen können eindeutig durch ihre VID und PID identifiziert werden. 
 Es ist jedoch auch möglich mithilfe des Herstellers des Gerätes den richtigen COM-Anschluss zu finden. Der untere Code geht im Master Programm alle verfügbaren Geräte durch bis es eines mit dem richtigen Hersteller findet.
-In folge wird dann der entsprechende COM-Anschluss zurückgegeben.
+Infolge wird dann der entsprechende COM-Anschluss zurückgegeben.
 
 \begin{listing}[H]
     \begin{minted}{python}
@@ -1323,7 +1327,7 @@ Frequenz zurück, sondern die Anzahl der Takte über dem vorgegebenen Zeitraum. 
 \paragraph{Auswertung}\mbox{} 
 
 Die Auswertung der Frequenz kann auf unterschiedliche Weise erfolgen. Die einfachste Variante ist es eine Detektion festzustellen, wenn die gemessene Frequenz von der eines leeeren Parkplatzes abweicht. Dies setzt vorraus, dass die Frequenz bei leerer 
-Parklücke bekannt ist. Der untere Code detektiert eine prozentuelle Frequenzänderung und gibt je nach dem eine Ausgabe an die Kommandozeile und einen Post an die API.
+Parklücke bekannt ist. Der untere Code detektiert eine prozentuelle Frequenzänderung und gibt je nach dem eine Ausgabe an die Kommandozeile und eine POST-Anfrage an das API.
 
 \begin{listing}[H]
     \begin{minted}{python}
@@ -1348,7 +1352,7 @@ Parklücke bekannt ist. Der untere Code detektiert eine prozentuelle Frequenzän
 
 \paragraph{API-Post}\mbox{}
 
-Für den Post an die API ist ein API-Token nötig. Bei Detektion eines Fahrzeuges wird die Parklücke mit der entsprechenden Adresse als belegt gekennzeichnet. Der untere Code übernimmt die Adresse der Parklücke und den Detektionszustand und übergibt sie der API.
+Für den Post an das API ist ein API-Token nötig. Bei Detektion eines Fahrzeuges wird die Parklücke mit der entsprechenden Adresse als belegt gekennzeichnet. Der untere Code übernimmt die Adresse der Parklücke und den Detektionszustand und übergibt sie der API.
 Eine Verbindung zum Internet ist jedoch nötig.
 
 \begin{listing}[H]
@@ -1365,18 +1369,18 @@ Eine Verbindung zum Internet ist jedoch nötig.
 \end{listing}
 
 
-\subsubsection{RaspberryPi als Mastergerät}
+\subsubsection{Raspberry Pi als Mastergerät}
 \paragraph{SSH Remote Zugriff} \mbox{} 
 
-Um den RaspberryPi besser zu Konfigurieren und verwalten zu können ist ein Zugriff aus der Ferne sehr praktisch. Eine Möglichkeit ist der Zugriff mit SSH über einen VPS. Dafür benötigen alle Geräte beteiligten Geräte Zugriff auf das Internet.
-Der RaspberryPi baut zuerst einen Reverse SSH Tunnel zum VPS auf, da man vom VPS auf den RaspberryPi zugreigen will. Ein externer Benutzer greift über den VPS mit einer SSH auf den RaspberryPi zu.
+Um den Raspberry Pi besser zu Konfigurieren und verwalten zu können ist ein Zugriff aus der Ferne sehr praktisch. Eine Möglichkeit ist der Zugriff mit SSH über einen VPS. Dafür benötigen alle beteiligten Geräte Zugriff auf das Internet.
+Der Raspberry Pi baut zuerst einen Reverse SSH Tunnel zum VPS auf, da man vom VPS auf den Raspberry Pi zugreigen will. Ein externer Benutzer greift über den VPS mit einer SSH auf den Raspberry Pi zu.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{fahrzeugerkennung/vps.pdf}
     \caption{Zugriff über VPS}
 \end{figure}
-Für das erstellen das Reverstunnel muss folgender Befehl beim RaspberryPi ausgeführt werden. Dabei muss die IP-Adresse des VPS $VPSIP$ bekannt sei und es muss ein Umleitungsport $VPSPORT$ festgelegt werden.
+Für das Erstellen das Reverstunnel muss folgender Befehl beim Raspberry Pi ausgeführt werden. Dabei muss die IP-Adresse des VPS \textit{VPSIP} bekannt sei und es muss ein Umleitungsport \textit{VPSPORT} festgelegt werden.
 \begin{listing}[H]
     \begin{minted}{shell}
     ssh -R VPSPORT:localhost:22 Nutzer@VPSIP
@@ -1384,7 +1388,7 @@ Für das erstellen das Reverstunnel muss folgender Befehl beim RaspberryPi ausge
     \caption{Öffnen des Reverse SSH Tunnels}
 \end{listing}
 
-Der externer Nutzer kann mit dem untenstehenden Befehl sich bei Benutzer 'pi' über SSH einloggen.
+Der externe Nutzer kann mit dem untenstehenden Befehl sich beim Benutzer \textit{pi} über SSH einloggen.
 
 \begin{listing}[H]
     \begin{minted}{shell}
@@ -1398,8 +1402,8 @@ Der externer Nutzer kann mit dem untenstehenden Befehl sich bei Benutzer 'pi' ü
 
 \paragraph{Code Deployment} \mbox{} 
 
-Für die Entwicklungsphase war es sehr angenehm den fertigen Code auf den RaspberryPi hinaufladen zu können. Github hat eine gewisse Funktionalität names Github Actions. Mit diesen kann bei einer bestimmten Aktion ein Linux-Server gestartet werden, der je nach
-Anwendung bestimmte Shell-Befehle durchführt. Mit diesem Linux-Server lässt sich auch über SSH auf unseren RaspberryPi zugreifen. Der untenstehende Befehl aktulisiert das lokale Repository des RaspberryPi über SSH. Github brauch dafür diverse Daten wie das Kennwort
+Für die Entwicklungsphase ist es sehr angenehm den fertigen Code auf den Raspberry Pi hinaufladen zu können. Github hat eine gewisse Funktionalität names Github Actions. Mit diesen kann bei einer bestimmten Aktion ein Linux-Server gestartet werden, der je nach
+Anwendung bestimmte Shell-Befehle durchführt. Mit diesem Linux-Server lässt sich auch über SSH auf unseren Raspberry Pi zugreifen. Der untenstehende Befehl aktulisiert das lokale Repository des Raspberry Pi über SSH. Github brauch dafür diverse Daten wie das Kennwort
 das Benutzers 'pi', die nicht in Klartext im Code stehen dürfen. Sie können als sogenannte Respository-Secrets deklariert werden. Aus diesen Grund steht im unteren Befehl nicht etwa die IP des VPS sondern secrets\_VPSHOST.  
 
 \begin{listing}[H]
@@ -1411,12 +1415,12 @@ das Benutzers 'pi', die nicht in Klartext im Code stehen dürfen. Sie können al
     \caption{Zugriff uf den Raspberry über SSH}
 \end{listing}
 
-Bei erfolgreicher GithubAction sieht kann man folgendes in der Benutzeroberfläche von Github sehen.
+Bei erfolgreicher Github Action sieht kann man folgendes in der Benutzeroberfläche von Github sehen.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{fahrzeugerkennung/github action.pdf}
-    \caption{Github Action im Github Master repository}
+    \caption{Github Action im Github Master Repository}
 \end{figure}
 
 
