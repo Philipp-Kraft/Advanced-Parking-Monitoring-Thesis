@@ -11,35 +11,81 @@ daraus der daraus resultierende magnetischen Fluss $\Phi$ betrachtet.
 Es gelten für diese Größen der folgende Zusammenhang:
 
 \begin{equation} \label{eq:phi}
-    \Phi = \frac{U_{m}}{R_{m}}
+    \Phi = \frac{H}{R_{m}}
 \end{equation}
 
 Wobei \\
 $\Phi$ = magnetischer Fluss \\
 $R_{m}$ = magnetischer Widerstand \\
-$U_{m}$ = magnetische Spannung
+$H$ = magnetische Feldstärke
 \pagebreak
 
-Der magnetische Widerstand lässt sich wiederum durch die Eigneschaften der Spule bestimmen. Die Formel hierfür lautet:
+Der magnetische Widerstand lässt sich wiederum durch die Eigneschaften der Spule ohne Fahrzeug bestimmen. Die Formel hierfür lautet:
 
-\begin{equation} \label{eq:Rm}
-    R_{m} = \frac{N \cdot (2a + 2b)}{\mu_{0} \cdot \mu_{r} \cdot A} 
-\end{equation}
-
-
+\begin{align} \label{eq:Rm}
+    R_{m} = \frac{l}{\mu_{0} \cdot \mu_{r} \cdot A} &&  \text{magnetischer Widerstand einer bei einem gleichmäßigen Fluss\footnotemark}
+\end{align}
+\footnotetext{\url{https://physik.cosmos-indirekt.de/Physik-Schule/Magnetischer_Widerstand}}
 Wobei \\
-\begin{equation} \label{eq:A}
-    A = a \cdot b
-\end{equation}
-$N$ = Anzahl der Windungen der Spule \\
-$a$ = Breite der Spule in m \\
-$b$ = Länge der Spule in m\\
+
+$l$ = Länge des magnetischen Kreises in \si{\metre} \\
 $\mu_{0}$ = \SI[per-mode = symbol]{1.2566e-6}{\newton\per\ampere\squared} = magnetische Feldkonstante \\
 $\mu_{r}$ = relative Permeabilität  \\
 $A$ = Fläche der Spule
 
+Stellt sich nun ein Fahrzeug auf die Parklücke setzt sich der magnetische Widerstand aus einem Luftteil und einem Metall zusammen.
+
+\begin{equation} \label{eq:rm_ges}
+    R_{m} = R_{m-Luft} + R_{m-Fahrzeug}
+\end{equation}
+
+Der gesamte magnetische Widerstand verkleinert sich in Summe wenn ein Teil der Luftstrecke durch einen magnetisch niederohmige Strecke ersetzt wird.
+So wird der magnetische Fluss $\Phi$, nach der Gleichung \ref{eq:phi}, zusammen mit der Induktivität laut der Gleichung \ref{eq:L_phi} größer.
+Die vergrößerte Induktivität $L$ bedeutet eine verringerte Stromaufnahme bei einer Versorgung über eine Konstantspannung
+beziehungsweise eine veränderte Resonanzfrequenz. Dieser Effekt kommt vor allem bei niedrigeren Frequenzen und bei ferromagnetischen Werktstoffen zum Tragen.
+\\
+Bei höheren Frequenzen und insbesondere beim Eindringen von nicht ferromagnetischen aber leitenden Werkstoffen spürt der Sensorkreis die auftretenden Wirbelströme.
+Sie stellen eine Belastung des primärseitigen Kreises dar, ganz ähnlich wie ein belasteter Transformator. 
+Die Ströme welche primärseitig das magnetische Feld erzeugen steigen beim Eindringen des leitenden Materials.
+Der zunehmende Strom bei konstanter Spannung hebt den im ersten Teil genannten Effekt teilweise auf. Es empfiehlt sich die Messung bei höheren Frequenzen. 
+Man stützt sich in diesem Fall mehr auf den Effekt der Wirbelströme. 
+Damit können zumindest theoretisch beliebige leitende Materialien erkannt werden.
+\begin{comment}
+
+
+    Bei gleich bleibendem Feld nimmt die Stromaufnahme durch die kleinere Induktivität ab. Dies ist vor allem bei ferromagnetischen Materialien der Fall.
+
+Umgekehrt wirkt sich ein magnetisch hochohmiger Widerstand steigernd auf den Strom und senkend auf die Induktivität aus. Ein Effekt der
+ den magnetischen Widerstand erhöht ist das Auftreten von Wirbelströmen in Leitern.
+
+
+\end{comment}
+
+\begin{equation} \label{eq:L_phi}
+    L = \frac{N \cdot \Phi}{I} = \frac{\Psi}{I} = \frac{N^{2}}{R_{m}}
+\end{equation}
+Wobei \\
+$L$ = Induktivität der Spule \\
+$I$ = Strom der durch die Spule fließt \\
+$N$ = Anzahl der Windungen der Spule \\
+$R_{m}$ = magnetischer Widerstand \\
+$\Psi$ = Verkettete Fluss
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{fahrzeugerkennung/Spuleninstallation.pdf}
+    \caption{Installation der Spule}
+  \end{figure}
+  Dieses Messkonzept zusammen mit der Installation der Spule im Boden bietet folgende Vorteile.
+
+\begin{comment}
+
 Bis auf die relative Permeabilität sind alle anderen Variablen konstant. Daraus lässt sich schlussfolgern, dass der magnetische
 Fluss $\Phi$ anhand der Gleichung \ref{eq:phi} und \ref{eq:Rm} proportional zur relativen Permeabilität ist. 
+
+
+
 
 \begin{equation} \label{iq:phi}
     \Phi \propto \mu_{r}
@@ -79,7 +125,7 @@ $t$ = Zeit in s \\
 So lässt sich bei Bekanntheit von Strom und Spannung auf die Induktivität und mit der Gleichung \ref{eq:L_phi} 
 und mit dem Zusammenhang \ref{iq:phi} auf die magnetischen Eigenschaften des Materials rückschließen. 
 Diese Art der Detektion bietet viele praktische Vorteile.
-
+\end{comment}
 \begin{itemize}
     \item \textbf{Größerer Messbereich} \\
     Im Vergleich zu anderen Detektionsmethoden wie einer Leichtschranke kann man einen größeren Bereich durch die Wirkfläche
@@ -90,7 +136,8 @@ Diese Art der Detektion bietet viele praktische Vorteile.
     Spule und somit auf die daraus resultierenden Messergebnisse.
     \item \textbf{Ausschließung von Materialien} \\
     Alle nicht metallische Stoffe werden von diesem Messprinzip nicht wahrgenommen. So können Verschmutzungen wie Blätter und Staub, welche
-    visuelle Sensoren stören können, die Detektion nicht behindern.
+    visuelle Sensoren stören können, die Detektion nicht behindern. Es können sich jedoch Effekte, die den magnetischen Widerstand anheben und senken, 
+    einander aufheben. 
     
 \end{itemize}
 \subsubsection{Messung ferromagnetischer Metalle}
@@ -180,6 +227,8 @@ nämlich bei $L2 = \SI{100}{\micro\henry}$ und bei $L2 = \SI{1}{\milli\henry}$
 \end{figure}
 
 Eine Verzehnfachung der Induktivität führt zu einer Reduktion der Oszillatorfrequenz um den Faktor 10.
+So kann eine Änderung des magnetischen Widerstands über die Induktivität auf eine Frequenz umgewandelt werden. Diese Frequenz kann dann sehr genau von einem
+Mikrocontroller bestimmt werden. 
 
 \begin{equation} \label{iq:f_NE555}
     f \propto \frac{1}{L}
@@ -189,11 +238,18 @@ Eine Verzehnfachung der Induktivität führt zu einer Reduktion der Oszillatorfr
 \subsubsection{Messung paramagnetischer Metalle}
 Da nicht alle Metalle ferromagnetische Eigenschaften haben werden viele Stoffe wie Aluminium, Kupfer oder diverse Legierungen
 von einer niederfrequenten Messung der Induktivität nicht wahrgenommen. Ein Effekt, welcher bei elektrischen Leitern Abhilfe schaffen kann, sind 
-die Eddy Currents. Wenn in einem Leiter ein magnetisches Feld einwirkt, erzeugt dieses im Objekt Ströme, die wiederum ihr eigenes magnetische Feld erzeugen.
-Die fließenden Ströme erzeugen im Objekt Ohmsche Verluste, welche normalerweise unerwünscht sind. Sie wirken auch einer Änderung des magnetischen Feldes entgegen,
+die Eddy Currents. Wenn in einem Leiter ein magnetisches Feld einwirkt, induziert dieses im Objekt Ströme, die wiederum ihr eigenes magnetische Feld erzeugen.
+Die fließenden Ströme erzeugen im Objekt Ohmsche Verluste und das System wirkt wie ein belasteter Transformator. Die Stromaufnahme der Spule steigt also durch die Anwesenheit
+des Leiters auf der Parklücke und wirkt somit den Effekten eines ferromagnetischen Materials entgegen.
+
+\begin{comment}
+    welche normalerweise unerwünscht sind. Sie wirken auch einer Änderung des magnetischen Feldes entgegen,
 da sie selbst Energie brauchen um ihre Richtung zu ändern. Je größer die Frequenz der eingespeisten Felddichte $B$ desto stärker wirkt die 
 Flussdichte $B_{eddy}$ senkend auf die Gesamtflussdichte und so auf den magnetischen Fluss $\Phi$. 
 Nach der Gleichung \ref{eq:L_phi} reduziert sich die Induktivität mit zunehmender Frequenz.
+\end{comment}
+
+
 
 
 \begin{figure}[H]
@@ -380,7 +436,8 @@ In der folgenden Abbildung ist der zeitliche Verlauf einer Datenleitung dargeste
 \paragraph{RS485}\label{sec:RS485}\mbox{}
 
 RS485 ist ein Standard für eine physikalische Schnittstelle für Datenübertragung von UART Daten. Er besitzt zwei symmetrische Leitungen oft mit A und B bezeichnet, dessen Differenzspannung für die Auswertung
-des Datenstromes herangezogen wird. Er ist dafür ausgelegt mehrere Geräte an die gleiche Leitungen anzuschließen. Die maximale Anzahl an Geräten ist mit 32 fix vorgegeben. Es ist zusätzlich notwendig die Spannungen 
+des Datenstromes herangezogen wird. Die Verwendung dieser Differenzsignale macht die Schnittstelle sehr robust und industrietauglich.
+Er ist dafür ausgelegt mehrere Geräte an die gleiche Leitungen anzuschließen. Die maximale Anzahl an Geräten ist mit 32 fix vorgegeben. Es ist zusätzlich notwendig die Spannungen 
 $U_{A}$ und $U_{B}$ im Ruhezustand über einen IC oder einen Spannungsteiler auf fixe Potentiale zu legen. Der Spannungsteiler muss wie folgt aussehen um dem Standard zu entsprechen.
 
 \begin{figure}[H]
@@ -588,11 +645,11 @@ Um eine Aktion auszuführen schreibt der Master auf den Bus ein Datenframe und w
 Die Art des Steuerbefehls wird durch das CTRL-Byte angegeben un definiert so die Inhalte der Bytes. Es muss aber zwischen einen Master Datenframe und einem Slave-Response Datenframe unterschieden werden. 
 In den nächsten Abbildung werden die möglichen Steuerbefehle für Master und Slave in Tabellenform angeführt.
 
-\begin{sidewaysfigure} \label{fig:master_frame}
+\begin{sidewaysfigure} 
     \centering
     \includegraphics[width=1\linewidth]{fahrzeugerkennung/master_datenframe.pdf}
-    
     \caption{Master Datenframe}
+    \label{fig:master_frame}
 \end{sidewaysfigure}
 
 \begin{sidewaysfigure}
@@ -806,7 +863,7 @@ Wie im Absatz \ref{sec:func_adress_wire} erklärt müssen die Slaves in einer Ke
 
 \paragraph{SPI Programmieranschluss}\mbox{} 
 
-Um den Mikrocontroller zu Programmieren braucht es einen Anschluss für einen externen Programmer, der den Maschinencode auf den hochlädt. Der Atmega328PB lässt eben über seine SPI Anschlüsse programmieren welche im folgenden Bild
+Um den Mikrocontroller zu programmieren braucht es einen Anschluss für einen externen Programmer, der den Maschinencode auf den hochlädt. Der Atmega328PB lässt eben über seine SPI Anschlüsse programmieren welche im folgenden Bild
 an den in rot gekennzeichneten Stecker geführt werden. 
 
 \begin{figure}[H]
@@ -1079,7 +1136,7 @@ ausgeführt. Unten ist ein Beispielcode der bei der Änderung der eigenen Adress
 
 \paragraph{Taktmessung}\mbox{} 
 
-Der Master gibt bei der Taktmessung die Größe des Messzeitraumes in 10 ms Auflösung an.
+Der Master gibt bei der Taktmessung die Größe des Messzeitraumes in 10 \si{\milli\second} Auflösung an.
 Die Aufgabe des Slaves ist es dann, über diesen Zeitraum die Takte des Rechtecksignals vom
 Colpitts-Oszillator zu zählen. Dafür werden sowohl Timer als auch Eingangsflankeninterrupts
 benötigt. Wenn der Slave die Anweisung zur Messung bekommt wird der folgenden Programmteil
@@ -1215,7 +1272,7 @@ In der folgenden Abbildung ist der logische Aufbau des Masters zu sehen.
 \subsubsection{USB-Bussadapter Gerät}
 \paragraph{FT232RL}\mbox{} 
 
-Der FT232RL IC ist ein USB auf UART Wandler IC, der kein programmieren des internen Speichers nötig hat. Er kann ohne weiteres über einen USB-Stecker an einen Computer angeschlossen werden. 
+Der FT232RL IC ist ein USB auf UART Wandler IC, der kein Programmieren des internen Speichers nötig hat. Er kann ohne weiteres über einen USB-Stecker an einen Computer angeschlossen werden. 
 Neben den für USB relevanten Anschlüssen besitzt der Chip zusätzliche Pins um mehrere Funktionen zu erfüllen. In seinem Datenblatt ist eine Beispielschaltung vorgegeben für die Verwendung eines RS485-Pegelwandlers.
 \begin{figure}[H]
     \centering
