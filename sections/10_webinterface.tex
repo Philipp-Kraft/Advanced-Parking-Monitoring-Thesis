@@ -87,7 +87,8 @@ noch andere Daten gesetzt bzw. eingebunden werden:
 \begin{figure}[H]
   \centering
   \frame{\includegraphics[width=1\linewidth]{webinterface/simple_html_site.pdf}}
-  \caption{Einfache HTML Seite von \citeurl[]{html5logo}}
+  \caption{Einfache HTML Seite}
+  \label{fig:simple_html_page}
 \end{figure}
 
 \subsubsection{CSS}
@@ -129,7 +130,7 @@ Nun muss dieses Stylesheet nur noch im \verb|<head>| Tag mit\\
   \caption{Einfache HTML Seite mit CSS}
 \end{figure}
 
-Es lässt sich nun erkennen, dass sich die Webseite deutlich verändert hat. Dabei
+Es lässt sich nun erkennen, dass sich die Webseite deutlich verändert hat (vgl. Abbildung~\ref{fig:simple_html_page}). Dabei
 bieten HTML und CSS noch viel mehr Funktionen, eine ausführliche
 Dokumentation der Funktionen sind auf der Website
 w3schools\footnote{\url{https://www.w3schools.com/html} und
@@ -141,7 +142,7 @@ Webentwicklung und die meist verwendete Programmiersprache überhaupt laut der
 Stack Overflow Developer Survey
 2020\footnote{\url{https://insights.stackoverflow.com/survey/2020}}. \ac*{JS}
 ermöglicht es dynamische Webseiten zu erstellen, dabei wird der Code direkt
-lokal im Browser ausgeführt. Jedoch ist JavaScript nicht mehr nur auf das
+lokal im Browser ausgeführt. JavaScript ist nicht mehr nur auf das
 Frontend\footnote{Präsentationsebene in Form der grafischen Benutzeroberfläche}
 beschränkt, es ist möglich mit Frameworks wie \textit{Node.js} auch
 Backend\footnote{Verarbeitung von Daten auf beispielsweise einem Server}
@@ -153,10 +154,10 @@ Ecma International\footnote{\url{https://www.ecma-international.org}}
 veröffentlicht und die aktuellste Version ist ECMA-262.
 
 \subsubsection{PHP}
-\ac*{PHP} ist eine serverseitige Skriptsprache, um dynamische Webseiten zu realisieren, jedoch
+\ac*{PHP} ist eine serverseitige Skriptsprache, um dynamische Webseiten zu realisieren, dabei
 wird nicht wie bei \acl*{JS} der Code auf dem Client ausgeführt, sondern auf dem
 Server, dort wird die HTML-Ausgabe generiert und dem Client zugesendet. Darum
-ist es nicht möglich, den Code als Benutzer zu betrachten. Der Syntax von PHP
+ist es nicht möglich, den Code als Benutzer zu betrachten, er bleibt verborgen. Der Syntax von PHP
 erinnert an C und Java und ermöglicht es schnell und einfache dynamische
 Webseiten zu programmieren. Die aktuellste Version ist
 \acs*{PHP} 8\footnote{\url{https://www.php.net/docs.php}}.
@@ -174,7 +175,7 @@ relevanten Frameworks.
 \end{itemize}
 
 Viele von diesen CSS-Frameworks verwenden vorgefertigte Komponenten, welche direkt
-verwendet werden können, dies führt dazu, dass die Entwicklung sehr rasch ist.
+verwendet werden können, dies führt dazu, dass die Entwicklung sehr effizient ist.
 Dort unterscheidet sich TailwindCSS von den anderen CSS-Frameworks, dort
 existieren sogenannte Utility-Classes, diese können direkt im \acs*{HTML} auf
 die einzelnen Elemente angewendet werden und ermöglichen somit eine bessere Anpassbarkeit.
@@ -343,8 +344,7 @@ spürbar für den Anwender.
 Zuerst müssen einige Einstellungen in Windows getroffen werden, damit später eine
 Linux-Distribution heruntergeladen werden kann. Die folgenden Befehle müssen über eine
 Kommandozeile mit Administrativen Rechten ausgeführt werden.
-
-
+\\
 \paragraph{1. Schritt: WSL aktivieren}\mbox{}\\
 \begin{listing}[H]
   \begin{minted}{bash}
@@ -444,7 +444,7 @@ für die Software \textbf{L}inux, \textbf{A}pache, \textbf{M}ySQL und \textbf{P}
 
 \begin{itemize}
   \item \textbf{Apache Web Server} (\url{https://httpd.apache.org}) \\ HTTP Server
-  \item \textbf{MariaDB} (\url{https://mariadb.org}) \\ Fork von MySQL
+  \item \textbf{MariaDB} (\url{https://mariadb.org}) \\ Fork\footnote{Kopie eines Repositorys} von MySQL
   \item \textbf{PHP} (\url{https://www.php.net}) \\ \ac*{PHP}
   \item \textbf{phpMyAdmin} (\url{https://www.phpmyadmin.net}) \\ Webinterface
         für MySQL
@@ -476,8 +476,7 @@ Nun kann der Apache Web Server installiert werden.
 \end{listing}
 
 Die Installation kann nun leicht überprüft werden, indem man im Browser die IP
-bzw. die dazugehörige Domain aufruft, in diesem Fall:
-(\url{http://dev.philipp-kraft.com}).
+bzw. die dazugehörige Domain aufruft, in diesem Fall (\url{http://dev.philipp-kraft.com}).
 
 \begin{figure}[H]
   \centering
@@ -672,7 +671,7 @@ Verzeichnis
 \verb|/var/www/apm/public|. Zusätzlich werden noch Directives
 gesetzt, damit das Standard \verb|.htaccess| File von Laravel richtig
 funktionieren kann.
-
+\\
 \paragraph{Installation von Composer}\mbox{}\\
 
 Die Installation von Composer gestaltet sich relativ einfach.
@@ -697,7 +696,7 @@ verfügbar ist, wird Composer in den Pfad \verb|/usr/local/bin| verschoben.
 \subsubsection{Deployment mit Github Actions}
 Unter Deployment versteht man die automatische Installation von Software, in
 diesem Fall auf einem Linux Server. Erreicht wird das durch zwei Bash Scripts
-und mit Github Actions (\url{https://github.com/features/actions}).
+und mit Github Actions\footnote{\url{https://github.com/features/actions}}.
 
 \paragraph{Git Setup}\mbox{}\\
 
@@ -865,7 +864,7 @@ hinterlegt werden.
 \subsubsection{Einleitung}
 Als Backend bezeichnet man Systeme, die sich mit der Datenverarbeitung im
 Hintergrund beschäftigen. Für das Webinterface wurde als Backend PHP in
-Verbindung mit Laravel gewählt. PHP und Larvel in Kombination wurden aus
+Verbindung mit Laravel\footnote{\url{https://laravel.com}} gewählt. PHP und Laravel in Kombination wurden aus
 folgenden Gründen gewählt:
 
 \begin{itemize}
@@ -927,7 +926,7 @@ Insgesamt besitzt das Webinterface \textbf{52} verschieden Routen. Die Middlewar
 überprüft hierbei ob ein Benutzer eingeloggt ist, die Option \textit{prefix}
 sorgt dafür, dass \textit{admin} vor allen Routen in der URL angeführt wird.\\
 
-Es gibt für folgende Seiten Routen, wobei Routen mit verschachtelungen nur einmalig genannt
+Es gibt für folgende Seiten Routen, wobei Routen mit Verschachtelungen nur einmalig genannt
 werden:
 
 \begin{multicols}{2}
@@ -962,7 +961,7 @@ sind alle Routen der Benutzerverwaltung dargelegt.
 
 \subsubsection{Controller}
 Es besteht theoretisch die Möglichkeit, die komplette Logik für die Bearbeitung
-von Anfragen direkt in den Route Files zu platzieren, dies ist jedoch sehr
+von Anfragen direkt in den Route Files zu platzieren, dies ist aber sehr
 unübersichtlich und deshalb ist es sinnvoll, diese Logik in Controller Klassen
 auszulagern. Dabei werden ähnliche Anfragen zusammengeführt, beispielsweise werden
 alle Anfragen im Bezug auf die Benutzerverwaltung wie im Code~\ref{lst:user_routes} im gleichen Controller
@@ -1002,7 +1001,7 @@ Code~\ref{lst:usercontroller} zu erkennen.
 \end{listing}
 
 \subsubsection{Artisan CLI}
-Artisan ist ein Kommandozeilentool von Laravel und zentraler Bestandteil vom Framework. Die
+Artisan\footnote{\url{https://laravel.com/docs/8.x/artisan}} ist ein Kommandozeilentool von Laravel und zentraler Bestandteil vom Framework. Die
 Artisan CLI
 stellt eine Fülle an sehr nützlichen Befehlen dem Entwickler zur Verfügung.
 Mithilfe von Artisan können neue Controller, Models, Migrations und viel mehr, sehr
@@ -1121,7 +1120,7 @@ Das Webinterface besitzt folgende Migration Files:
 \end{multicols}
 
 \subsubsection{Eloquent ORM}
-Eloquent ist ein \ac*{ORM} Tool d.h. um auf die \acs*{SQL} Datenbank zuzugreifen,
+Eloquent\footnote{\url{https://laravel.com/docs/8.x/eloquent}} ist ein \ac*{ORM} Tool d.h. um auf die \acs*{SQL} Datenbank zuzugreifen,
 müssen keine Raw \acs*{SQL} Queries ausgeführt werden. Im Code erscheint die
 Datenbank als objektorientierte Datenbank und erleichtert somit dem Umgang mit
 der Datenbank. Um nun mit der Datenbank zu interagieren, werden im Code Models
@@ -1129,7 +1128,7 @@ verwendet, beispielsweise ein \textit{User Model}. In solch einem Model sind auc
 Beziehungen zu anderen Models festgelegt (1:n, n:m usw.). Ist es nun gewünscht,
 auf die Daten in der Datenbank zuzugreifen, wird im Code mit dem passenden Model
 gearbeitet. Der große Vorteil, der beim Verwenden von Eloquent entsteht, ist der
-leicht lesbare Code, jedoch wird die Ausführungszeit leicht erhöht, was jedoch
+leicht lesbare Code, jedoch wird die Ausführungszeit leicht erhöht, wobei dies
 keine große Rolle bei kleinen- bis mittelgroßen Webseiten spielt.
 
 \begin{listing}[H]
