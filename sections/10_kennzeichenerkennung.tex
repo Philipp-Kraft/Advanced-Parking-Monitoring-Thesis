@@ -1068,7 +1068,7 @@ ausgerichtet Rechteck umwandeln. Dadurch erhält man dann ein Bild des Kennzeich
 MobileNetV2\footnote{\cite{MobileNet}} ist die Grundlage für das eigene trainierte neuronale Netz. MobileNetV2 ist eine Grundlage für diverse neuronale Netze und speziell für Anwendungen im Bereich der Computer Vision 
 geeignet. Einige Beispiel dafür sind die Erkennung von Gesichtsmerkmalen, Echtzeitobjekterkennung, Unterscheidung diverser Hunderassen oder ähnliches. Dabei ist das Modell je nach Bedürfnissen 
 einstellbar, womit für eine schnellere und bessere Leistung weniger Schichten für das neuronale Netz verwendet werden, oder aber für eine sehr genaue und präzise Funktion mehr Schichten verwendet werden. 
-Dies ist dadurch möglich, dass das Netzwerk auf einer variablen Schichtanzahl aufgebaut ist. In dieser Applikation wird es deswegen verwendet, da damit in diesem Bereich eine hohe Präzision erzielbar ist, 
+Dies ist dadurch möglich, dass das Netzwerk auf einer variablen Schichtanzahl, in dieser Applikation sind es insgesamt 160, aufgebaut ist. In dieser Applikation wird es deswegen verwendet, da damit in diesem Bereich eine hohe Präzision erzielbar ist, 
 welche für die Kennzeichenerkennung benötigt wird.
 
 \subsection{Modell Training}
@@ -1153,7 +1153,7 @@ Im nächsten Bild sieht man den Trainingsverlauf des Modells über 30 Epochen.
 Im oberen Bild kann man erkennen, dass die Genauigkeit des Modells bereits nach wenigen Epochen einen Wert von über 90\% erreicht hat und 
 nach den 30 Epochen auf einen Endwert von 98,02\% erreicht hat. Das bedeutet, dass bei einem Kennzeichen mit durchschnittlich 7 Zeichen 
 eine insgesamte Genauigkeit von 86,93\% erreicht wird. Diese Genauigkeit könnte mit einem längeren Training theoretisch auf einen Wert von 
-nahezu 100\% gesteigert werden, aber dazu benötigt es einen stärkeren Computer, welcher zudem noch eine ganze Weile nicht benutzt werden kann.
+nahezu 100\% gesteigert werden, aber dazu benötigt es einen stärkeren Computer, welcher zudem während dieses Vorganges so gut wie nicht benutzbar ist, da die Hardware komplett ausgelastet ist.
 
 \subsection{Gehäuse}
 
